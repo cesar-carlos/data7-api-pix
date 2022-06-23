@@ -2,15 +2,15 @@ import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
 
 export default class FirebaseCobrancaRepository {
-  private readonly sicret = require('../../key/secret.json');
-  private readonly collection = 'cobrancas';
-  private db: any;
+  readonly sicret = require('../../key/secret.json');
+  readonly collection = 'cobrancas';
+  db: any;
 
   constructor() {
     this.initialize();
   }
 
-  private initialize(): void {
+  initialize(): void {
     initializeApp({ credential: cert(this.sicret) });
     this.db = getFirestore();
   }
@@ -24,10 +24,7 @@ export default class FirebaseCobrancaRepository {
   async getTest(): Promise<any> {
     const snapshot: any[] = await this.db.collection(this.collection).get();
     snapshot.forEach((doc) => {
-      console.log(doc.data())
-    })
+      console.log(doc.data());
+    });
   }
-
-
-
 }
