@@ -6,10 +6,11 @@ import {
   QuerySnapshot,
 } from 'firebase-admin/firestore';
 import Cobranca from '../model/cobranca';
-import IBaseRepository from './IBase.repository';
+
+import ContractBaseRepository from './contract.cobranca.repository';
 
 export default class FirebaseCobrancaRepository
-  implements IBaseRepository<Cobranca>
+  implements ContractBaseRepository<Cobranca>
 {
   readonly sicret = require('../key/secret.json');
   readonly doc = 'cobrancas';

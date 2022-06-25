@@ -9,10 +9,10 @@ export default class WatchPatch {
       if (!this.patch || !filename.endsWith('.json')) return undefined;
 
       try {
+        const cobrancas: Cobranca[] = [];
         const data = this.readFile(filename);
         const jsonArray = this.convertToJson(data)['Data'];
 
-        const cobrancas: Cobranca[] = [];
         jsonArray.forEach((json: any) => {
           cobrancas.push(Cobranca.fromJson(json));
         });

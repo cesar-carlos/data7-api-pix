@@ -1,7 +1,9 @@
 import Cobranca from '../model/cobranca';
-import IBaseRepository from './IBase.repository';
+import ContractBaseRepository from './contract.cobranca.repository';
 
-export default class FakeRepository implements IBaseRepository<Cobranca> {
+export default class FakeRepository
+  implements ContractBaseRepository<Cobranca>
+{
   db: Cobranca[] = [];
 
   constructor() {
@@ -19,6 +21,7 @@ export default class FakeRepository implements IBaseRepository<Cobranca> {
     });
   }
 
+  //methods
   async getAll(cnpj: string): Promise<Cobranca[] | undefined> {
     const _cobrancas = this.db.filter(
       (cobranca: Cobranca) => cobranca.filial.cnpj === cnpj,
