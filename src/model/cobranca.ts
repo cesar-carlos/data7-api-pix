@@ -14,6 +14,7 @@ export default class Cobranca {
 
   //create method from json
   static fromJson(json: any): Cobranca {
+    console.log(json);
     return new Cobranca(
       json.Id,
       Usuario.fromJson(json.Usuario),

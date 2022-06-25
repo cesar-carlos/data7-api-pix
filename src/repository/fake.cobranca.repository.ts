@@ -41,7 +41,7 @@ export default class FakeRepository implements IBaseRepository<Cobranca> {
     return _cobranca;
   }
 
-  //todo: implementar
+  //todo: implement
   async getByIdDate(
     cnpj: string,
     date: string,
