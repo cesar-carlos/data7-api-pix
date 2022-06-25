@@ -11,8 +11,8 @@ export default class Cliente {
     readonly bairro: string,
     readonly cep: string,
     readonly codigoIBGE: string,
-    readonly omeMunicipio: string,
-    readonly uf: string
+    readonly nomeMunicipio: string,
+    readonly uf: string,
   ) {}
 
   //create method from json
@@ -20,7 +20,7 @@ export default class Cliente {
     return new Cliente(
       json.CodCliente,
       json.NomeCliente,
-      json.CNPJCPF,
+      json.CNPJ_CPF,
       json.Telefone,
       json.EMail,
       json.Endereco,
@@ -29,8 +29,27 @@ export default class Cliente {
       json.Bairro,
       json.CEP,
       json.CodigoIBGE,
-      json.OmeMunicipio,
-      json.UF
+      json.NomeMunicipio,
+      json.UF,
     );
+  }
+
+  //create method to json
+  toJson(): any {
+    return {
+      CodCliente: this.codCliente,
+      NomeCliente: this.nomeCliente,
+      CNPJ_CPF: this.cnpjCpf,
+      Telefone: this.telefone,
+      EMail: this.eMail,
+      Endereco: this.endereco,
+      Numero: this.numero,
+      Complemento: this.complemento,
+      Bairro: this.bairro,
+      CEP: this.cep,
+      CodigoIBGE: this.codigoIBGE,
+      NomeMunicipio: this.nomeMunicipio,
+      UF: this.uf,
+    };
   }
 }

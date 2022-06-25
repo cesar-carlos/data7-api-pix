@@ -10,7 +10,7 @@ export default class Parcela {
     readonly valorBruto: number,
     readonly valorLiquido: number,
     readonly valorParcela: number,
-    readonly observacao: string
+    readonly observacao: string,
   ) {}
 
   //create method from json
@@ -26,7 +26,24 @@ export default class Parcela {
       json.ValorBruto,
       json.ValorLiquido,
       json.ValorParcela,
-      json.Observacao
+      json.Observacao,
     );
+  }
+
+  //create method to json
+  toJson(): any {
+    return {
+      Origem: this.origem,
+      CodOrigem: this.codOrigem,
+      NumeroParcela: this.numeroParcela,
+      CodFormaPagamento: this.codFormaPagamento,
+      DataEmissao: this.dataEmissao,
+      DataVenda: this.dataVenda,
+      DataVencimento: this.dataVencimento,
+      ValorBruto: this.valorBruto,
+      ValorLiquido: this.valorLiquido,
+      ValorParcela: this.valorParcela,
+      Observacao: this.observacao,
+    };
   }
 }

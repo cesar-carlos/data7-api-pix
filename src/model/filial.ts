@@ -3,11 +3,21 @@ export default class Filial {
     readonly codEmpresa: number,
     readonly codFilial: number,
     readonly nome: string,
-    readonly cnpj: string
+    readonly cnpj: string,
   ) {}
 
   //create method from json
   static fromJson(json: any): Filial {
     return new Filial(json.CodEmpresa, json.CodFilial, json.Nome, json.CNPJ);
+  }
+
+  //create method to json
+  toJson(): any {
+    return {
+      CodEmpresa: this.codEmpresa,
+      CodFilial: this.codFilial,
+      Nome: this.nome,
+      CNPJ: this.cnpj,
+    };
   }
 }
