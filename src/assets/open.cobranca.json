@@ -6,7 +6,7 @@
         "CodEmpresa": 1,
         "CodFilial": 1,
         "Nome": "SABRINA DE ARAUJO OLIVEIRA FABIANO EIRELI",
-        "CNPJ": "27740308000120"
+        "CNPJ": "00000000000000"
       },
       "Usuario": {
         "CodUsuario": 1,
@@ -15,8 +15,8 @@
       },
       "Cliente": {
         "CodCliente": 8,
-        "NomeCliente": "BRINK S SEGURANCA E TRANSPORTE DE VALORES LTDA",
-        "CNPJ_CPF": "60860087015716",
+        "NomeCliente": "TEDY C. DE SOUZA",
+        "CNPJ_CPF": "03523257123",
         "Telefone": "66 32112116",
         "EMail": "VIVIANE.SILVA@BRINKS.COM.BR",
         "Endereco": " RUA COLONIZADOR ENIO PIPINO,",
@@ -37,9 +37,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 4580.0,
-          "ValorLiquido": 4580.0,
-          "ValorParcela": 1526.67,
+          "ValorBruto": 0.01,
+          "ValorLiquido": 0.01,
+          "ValorParcela": 0.01,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]
@@ -50,7 +50,7 @@
         "CodEmpresa": 1,
         "CodFilial": 1,
         "Nome": "SABRINA DE ARAUJO OLIVEIRA FABIANO EIRELI",
-        "CNPJ": "27740308000120"
+        "CNPJ": "00000000000000"
       },
       "Usuario": {
         "CodUsuario": 1,
@@ -59,8 +59,8 @@
       },
       "Cliente": {
         "CodCliente": 8,
-        "NomeCliente": "BRINK S SEGURANCA E TRANSPORTE DE VALORES LTDA",
-        "CNPJ_CPF": "60860087015716",
+        "NomeCliente": "TEDY C. DE SOUZA",
+        "CNPJ_CPF": "03523257123",
         "Telefone": "66 32112116",
         "EMail": "VIVIANE.SILVA@BRINKS.COM.BR",
         "Endereco": " RUA COLONIZADOR ENIO PIPINO,",
@@ -81,9 +81,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 4580.0,
-          "ValorLiquido": 4580.0,
-          "ValorParcela": 1526.67,
+          "ValorBruto": 0.01,
+          "ValorLiquido": 0.01,
+          "ValorParcela": 0.01,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]
@@ -94,7 +94,7 @@
         "CodEmpresa": 1,
         "CodFilial": 1,
         "Nome": "SABRINA DE ARAUJO OLIVEIRA FABIANO EIRELI",
-        "CNPJ": "27740308000120"
+        "CNPJ": "00000000000000"
       },
       "Usuario": {
         "CodUsuario": 1,
@@ -103,7 +103,7 @@
       },
       "Cliente": {
         "CodCliente": 8,
-        "NomeCliente": "BRINK S SEGURANCA E TRANSPORTE DE VALORES LTDA",
+        "NomeCliente": "TEDY C. DE SOUZA",
         "CNPJ_CPF": "60860087015716",
         "Telefone": "66 32112116",
         "EMail": "VIVIANE.SILVA@BRINKS.COM.BR",
@@ -125,9 +125,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 4580.0,
-          "ValorLiquido": 4580.0,
-          "ValorParcela": 1526.67,
+          "ValorBruto": 0.01,
+          "ValorLiquido": 0.01,
+          "ValorParcela": 0.01,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]

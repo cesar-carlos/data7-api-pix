@@ -1,12 +1,12 @@
-import fs, { readFile } from 'fs';
-import Cobranca from './model/cobranca';
+import fs from 'fs';
+import Cobranca from '../model/cobranca';
 
 export default class WatchPatch {
   constructor(readonly patch: string) {}
 
-  public watch(): Cobranca[] | void {
+  public listenCall(callBack: (cobrancas: Cobranca[]) => void): void {
     fs.watch(this.patch, (eventType, filename) => {
-      if (!this.patch || !filename.endsWith('.json')) return undefined;
+      if (!this.patch || !filename.endsWith('.json')) return;
 
       try {
         const cobrancas: Cobranca[] = [];
@@ -17,7 +17,7 @@ export default class WatchPatch {
           cobrancas.push(Cobranca.fromJson(json));
         });
 
-        return cobrancas;
+        callBack(cobrancas);
       } catch (error) {
         //todo: imprement log error
       }

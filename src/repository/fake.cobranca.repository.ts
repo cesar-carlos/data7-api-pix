@@ -1,8 +1,8 @@
 import Cobranca from '../model/cobranca';
-import ContractBaseRepository from './contract.cobranca.repository';
+import ContractCobrancaRepository from '../contracts/contract.cobranca.repository';
 
 export default class FakeRepository
-  implements ContractBaseRepository<Cobranca>
+  implements ContractCobrancaRepository<Cobranca>
 {
   db: Cobranca[] = [];
 

@@ -1,6 +1,6 @@
 import Cliente from './cliente';
 import Filial from './filial';
-import Parcela from './parcela';
+import Parcela from './cobranca.parcela';
 import Usuario from './usuario';
 
 export default class Cobranca {
@@ -14,7 +14,6 @@ export default class Cobranca {
 
   //create method from json
   static fromJson(json: any): Cobranca {
-    console.log(json);
     return new Cobranca(
       json.Id,
       Usuario.fromJson(json.Usuario),

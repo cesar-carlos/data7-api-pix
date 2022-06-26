@@ -7,12 +7,12 @@ import {
 } from 'firebase-admin/firestore';
 import Cobranca from '../model/cobranca';
 
-import ContractBaseRepository from './contract.cobranca.repository';
+import ContractCobrancaRepository from '../contracts/contract.cobranca.repository';
 
 export default class FirebaseCobrancaRepository
-  implements ContractBaseRepository<Cobranca>
+  implements ContractCobrancaRepository<Cobranca>
 {
-  readonly sicret = require('../key/secret.json');
+  readonly sicret = require('../certificates/secret_firebase.json');
   readonly doc = 'cobrancas';
 
   constructor() {

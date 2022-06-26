@@ -1,4 +1,4 @@
-export default interface ContractBaseRepository<T> {
+export default interface ContractCobrancaRepository<T> {
   getAll(cnpj: string): Promise<T[] | undefined>;
   getById(cnpj: string, id: string): Promise<T | undefined>;
   getByIdDate(cnpj: string, date: string, id: string): Promise<T | undefined>;

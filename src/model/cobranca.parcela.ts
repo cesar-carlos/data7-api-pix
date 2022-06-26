@@ -1,4 +1,4 @@
-export default class Parcela {
+export default class CobrancaParcela {
   constructor(
     readonly origem: string,
     readonly codOrigem: string,
@@ -14,8 +14,8 @@ export default class Parcela {
   ) {}
 
   //create method from json
-  static fromJson(json: any): Parcela {
-    return new Parcela(
+  static fromJson(json: any): CobrancaParcela {
+    return new CobrancaParcela(
       json.Origem,
       json.CodOrigem,
       json.NumeroParcela,
