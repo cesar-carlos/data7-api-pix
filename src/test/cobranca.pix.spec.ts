@@ -29,9 +29,12 @@ export default class CobrancaPIX {
       const gerencianetCobranca = new GerencianetCobranca(config, fakeCobranca);
 
       //test methods
-      //gerencianetCobranca.getChave();
-      //gerencianetCobranca.createCobrancaPIX();
-      //gerencianetCobranca.listKeys();
+      //const chave = await gerencianetCobranca.getChave();
+      //const chaves = await gerencianetCobranca.listChave();
+      //const pagamento = await gerencianetCobranca.createCobrancaPIX();
+      //const qrCode = await gerencianetCobranca.createQrCodePIX(pagamento?.loc);
+
+      //console.log(qrCode);
     }
   }
 }

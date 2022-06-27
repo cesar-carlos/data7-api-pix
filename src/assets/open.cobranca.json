@@ -37,9 +37,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 0.01,
-          "ValorLiquido": 0.01,
-          "ValorParcela": 0.01,
+          "ValorBruto": 1.00,
+          "ValorLiquido": 1.00,
+          "ValorParcela": 1.00,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]
@@ -81,9 +81,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 0.01,
-          "ValorLiquido": 0.01,
-          "ValorParcela": 0.01,
+          "ValorBruto": 1.00,
+          "ValorLiquido": 1.00,
+          "ValorParcela": 1.00,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]
@@ -125,9 +125,9 @@
           "DataEmissao": "2022/06/22",
           "DataVenda": "2022/06/22",
           "DataVencimento": "2022/07/22",
-          "ValorBruto": 0.01,
-          "ValorLiquido": 0.01,
-          "ValorParcela": 0.01,
+          "ValorBruto": 1.00,
+          "ValorLiquido": 1.00,
+          "ValorParcela": 1.00,
           "Observacao": " (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) "
         }
       ]

@@ -1,7 +1,7 @@
 import Cliente from './cliente';
 import PagamentoAdicionais from './pagamento.adicionais';
 import PagamentoLoc from './pagamento.loc';
-import PagamentoQrCode from './pagamento.qrcode';
+import PagamentoQrCode from './pagamento.pix';
 
 export default class Pagamento {
   //create constructor initialize properties
@@ -9,7 +9,6 @@ export default class Pagamento {
     readonly id: string,
     readonly txid: string,
     readonly chave: string,
-    readonly cliente: Cliente,
     readonly status: string,
     readonly criacao: Date,
     readonly expiracao: Date,
@@ -17,8 +16,25 @@ export default class Pagamento {
     readonly solicitacaoPagador: string,
     readonly adicionais: PagamentoAdicionais[],
     readonly loc: PagamentoLoc,
-    readonly qrcode?: PagamentoQrCode,
   ) {}
+
+  //create method from object
+  static fromObject(obj: any): Pagamento {
+    return new Pagamento(
+      obj.id,
+      obj.txid,
+      obj.chave,
+      obj.status,
+      obj.criacao,
+      obj.expiracao,
+      obj.valor,
+      obj.solicitacaoPagador,
+      obj.adicionais.map((adicional: any) =>
+        PagamentoAdicionais.fromObject(adicional),
+      ),
+      PagamentoLoc.fromObject(obj.loc),
+    );
+  }
 
   //create method from json
   static fromJson(json: any): Pagamento {
@@ -26,7 +42,6 @@ export default class Pagamento {
       json.Id,
       json.Txid,
       json.Chave,
-      Cliente.fromJson(json.Cliente),
       json.Status,
       json.Criacao,
       json.Expiracao,
@@ -36,7 +51,6 @@ export default class Pagamento {
         PagamentoAdicionais.fromJson(adicional),
       ),
       PagamentoLoc.fromJson(json.Loc),
-      json.Qrcode ? PagamentoQrCode.fromJson(json.Qrcode) : undefined,
     );
   }
 
@@ -46,7 +60,6 @@ export default class Pagamento {
       Id: this.id,
       Txid: this.txid,
       Chave: this.chave,
-      Cliente: this.cliente.toJson(),
       Status: this.status,
       Criacao: this.criacao,
       Expiracao: this.expiracao,
@@ -56,7 +69,6 @@ export default class Pagamento {
         adicional.toJson(),
       ),
       Loc: this.loc.toJson(),
-      Qrcode: this.qrcode ? this.qrcode.toJson() : undefined,
     };
   }
 }
