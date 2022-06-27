@@ -4,7 +4,7 @@ import Cobranca from '../model/cobranca';
 export default class WatchPatch {
   constructor(readonly patch: string) {}
 
-  public listenCall(callBack: (cobrancas: Cobranca[]) => void): void {
+  public listen(callBack: (cobrancas: Cobranca[], filename: string) => void): void {
     fs.watch(this.patch, (eventType, filename) => {
       if (!this.patch || !filename.endsWith('.json')) return;
 
@@ -17,7 +17,7 @@ export default class WatchPatch {
           cobrancas.push(Cobranca.fromJson(json));
         });
 
-        callBack(cobrancas);
+        callBack(cobrancas, filename);
       } catch (error) {
         //todo: imprement log error
       }

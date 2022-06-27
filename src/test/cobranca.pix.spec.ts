@@ -4,7 +4,7 @@ import ContractCredentialPIX from '../contracts/contract.credential.pix';
 import PagamentoLoc from '../model/pagamento.loc';
 
 //todo: create test jest
-export default class CobrancaPIX {
+export default class CobrancaPIXTest {
   private fakeRepository = new FakeRepository();
 
   private docsIdFake = [
