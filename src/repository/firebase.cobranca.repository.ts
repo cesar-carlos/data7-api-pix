@@ -1,17 +1,10 @@
 import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
-import {
-  getFirestore,
-  Timestamp,
-  FieldValue,
-  QuerySnapshot,
-} from 'firebase-admin/firestore';
+import { getFirestore, Timestamp, FieldValue, QuerySnapshot } from 'firebase-admin/firestore';
 import Cobranca from '../model/cobranca';
 
 import ContractCobrancaRepository from '../contracts/contract.cobranca.repository';
 
-export default class FirebaseCobrancaRepository
-  implements ContractCobrancaRepository<Cobranca>
-{
+export default class FirebaseCobrancaRepository implements ContractCobrancaRepository<Cobranca> {
   readonly sicret = require('../certificates/secret_firebase.json');
   readonly doc = 'cobrancas';
 
@@ -25,10 +18,7 @@ export default class FirebaseCobrancaRepository
 
   async getAll(cnpj: string): Promise<Cobranca[] | undefined> {
     const db = getFirestore();
-    const firebaseCollections = await db
-      .collection(cnpj)
-      .doc(this.doc)
-      .listCollections();
+    const firebaseCollections = await db.collection(cnpj).doc(this.doc).listCollections();
 
     const collections: string[] = [];
     firebaseCollections.forEach((collection) => {
@@ -37,11 +27,7 @@ export default class FirebaseCobrancaRepository
 
     const cobrancas: Cobranca[] = [];
     for (const collection of collections) {
-      const cobrancasCollection = await db
-        .collection(cnpj)
-        .doc(this.doc)
-        .collection(collection)
-        .get();
+      const cobrancasCollection = await db.collection(cnpj).doc(this.doc).collection(collection).get();
 
       cobrancasCollection.forEach((doc) => {
         const cobranca = doc.data() as Cobranca;
@@ -58,18 +44,9 @@ export default class FirebaseCobrancaRepository
   }
 
   //create method getByIdThisdate
-  async getByIdDate(
-    cnpj: string,
-    date: string,
-    id: string,
-  ): Promise<Cobranca | undefined> {
+  async getByIdDate(cnpj: string, date: string, id: string): Promise<Cobranca | undefined> {
     const db = getFirestore();
-    const firebaseCollections = await db
-      .collection(cnpj)
-      .doc(this.doc)
-      .collection(date)
-      .doc(id)
-      .get();
+    const firebaseCollections = await db.collection(cnpj).doc(this.doc).collection(date).doc(id).get();
 
     const cobranca = firebaseCollections.data() as Cobranca;
     return cobranca;
@@ -82,19 +59,9 @@ export default class FirebaseCobrancaRepository
     const data = entity.toJson();
     const cnpj = entity.filial.cnpj;
     const id = entity.id;
-    const date =
-      new Date().getFullYear() +
-      '-' +
-      (new Date().getMonth() + 1) +
-      '-' +
-      new Date().getDate();
+    const date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
 
-    const result = await db
-      .collection(cnpj)
-      .doc(this.doc)
-      .collection(date)
-      .doc(id)
-      .set(data);
+    const result = await db.collection(cnpj).doc(this.doc).collection(date).doc(id).set(data);
   }
 
   //todo: implementar

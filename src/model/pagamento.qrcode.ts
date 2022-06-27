@@ -1,14 +1,14 @@
-export default class PagamentoPIX {
+export default class PagamentoQrCode {
   constructor(readonly qrcode: string, readonly imagemQrcode: string) {}
 
   //create method from object
-  static fromObject(obj: any): PagamentoPIX {
-    return new PagamentoPIX(obj.qrcode, obj.imagemQrcode);
+  static fromObject(obj: any): PagamentoQrCode {
+    return new PagamentoQrCode(obj.qrcode, obj.imagemQrcode);
   }
 
   //create method from json
-  static fromJson(json: any): PagamentoPIX {
-    return new PagamentoPIX(json.qrcode, json.imagemQrcode);
+  static fromJson(json: any): PagamentoQrCode {
+    return new PagamentoQrCode(json.qrcode, json.imagemQrcode);
   }
 
   //create method to json

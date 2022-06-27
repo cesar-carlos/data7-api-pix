@@ -1,9 +1,5 @@
 export default class Usuario {
-  constructor(
-    readonly codUsuario: number,
-    readonly nomeUsuario: string,
-    readonly estacaoTrabalho: string,
-  ) {}
+  constructor(readonly codUsuario: number, readonly nomeUsuario: string, readonly estacaoTrabalho: string) {}
 
   //create method from json
   static fromJson(json: any): Usuario {

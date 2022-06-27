@@ -1,9 +1,5 @@
 export default class Chave {
-  constructor(
-    readonly status: string,
-    readonly dataCriacao: Date,
-    readonly chave: string,
-  ) {}
+  constructor(readonly status: string, readonly dataCriacao: Date, readonly chave: string) {}
 
   //create method from json
   static fromJson(json: any): Chave {

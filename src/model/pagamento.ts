@@ -1,7 +1,5 @@
-import Cliente from './cliente';
 import PagamentoAdicionais from './pagamento.adicionais';
 import PagamentoLoc from './pagamento.loc';
-import PagamentoQrCode from './pagamento.pix';
 
 export default class Pagamento {
   //create constructor initialize properties
@@ -29,9 +27,7 @@ export default class Pagamento {
       obj.expiracao,
       obj.valor,
       obj.solicitacaoPagador,
-      obj.adicionais.map((adicional: any) =>
-        PagamentoAdicionais.fromObject(adicional),
-      ),
+      obj.adicionais.map((adicional: any) => PagamentoAdicionais.fromObject(adicional)),
       PagamentoLoc.fromObject(obj.loc),
     );
   }
@@ -47,9 +43,7 @@ export default class Pagamento {
       json.Expiracao,
       json.Valor,
       json.SolicitacaoPagador,
-      json.Adicionais.map((adicional: any) =>
-        PagamentoAdicionais.fromJson(adicional),
-      ),
+      json.Adicionais.map((adicional: any) => PagamentoAdicionais.fromJson(adicional)),
       PagamentoLoc.fromJson(json.Loc),
     );
   }
@@ -65,9 +59,7 @@ export default class Pagamento {
       Expiracao: this.expiracao,
       Valor: this.valor,
       SolicitacaoPagador: this.solicitacaoPagador,
-      Adicionais: this.adicionais.map((adicional: PagamentoAdicionais) =>
-        adicional.toJson(),
-      ),
+      Adicionais: this.adicionais.map((adicional: PagamentoAdicionais) => adicional.toJson()),
       Loc: this.loc.toJson(),
     };
   }

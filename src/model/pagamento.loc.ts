@@ -1,10 +1,5 @@
 export default class PagamentoLoc {
-  constructor(
-    readonly id: number,
-    readonly location: string,
-    readonly tipoCob?: string,
-    readonly criacao?: Date,
-  ) {}
+  constructor(readonly id: number, readonly location: string, readonly tipoCob?: string, readonly criacao?: Date) {}
 
   //create method from object
   static fromObject(obj: any): PagamentoLoc {

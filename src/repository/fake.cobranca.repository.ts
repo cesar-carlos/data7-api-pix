@@ -1,9 +1,7 @@
 import Cobranca from '../model/cobranca';
 import ContractCobrancaRepository from '../contracts/contract.cobranca.repository';
 
-export default class FakeRepository
-  implements ContractCobrancaRepository<Cobranca>
-{
+export default class FakeRepository implements ContractCobrancaRepository<Cobranca> {
   db: Cobranca[] = [];
 
   constructor() {
@@ -23,9 +21,7 @@ export default class FakeRepository
 
   //methods
   async getAll(cnpj: string): Promise<Cobranca[] | undefined> {
-    const _cobrancas = this.db.filter(
-      (cobranca: Cobranca) => cobranca.filial.cnpj === cnpj,
-    );
+    const _cobrancas = this.db.filter((cobranca: Cobranca) => cobranca.filial.cnpj === cnpj);
 
     return _cobrancas;
   }
@@ -33,23 +29,15 @@ export default class FakeRepository
   async getById(cnpj: string, id: string): Promise<Cobranca | undefined> {
     if (!cnpj || !id) throw new Error('CNPJ OR ID IS NULL');
 
-    const _cobrancas = this.db.filter(
-      (cobranca: Cobranca) => cobranca.filial.cnpj === cnpj,
-    );
+    const _cobrancas = this.db.filter((cobranca: Cobranca) => cobranca.filial.cnpj === cnpj);
 
-    const _cobranca = _cobrancas.find(
-      (cobranca: Cobranca) => cobranca.id === id,
-    );
+    const _cobranca = _cobrancas.find((cobranca: Cobranca) => cobranca.id === id);
 
     return _cobranca;
   }
 
   //todo: implement
-  async getByIdDate(
-    cnpj: string,
-    date: string,
-    id: string,
-  ): Promise<Cobranca | undefined> {
+  async getByIdDate(cnpj: string, date: string, id: string): Promise<Cobranca | undefined> {
     throw new Error('Method not implemented.');
   }
 
@@ -58,9 +46,7 @@ export default class FakeRepository
   }
 
   async update(entity: Cobranca): Promise<void> {
-    const index = this.db.findIndex(
-      (cobranca: Cobranca) => cobranca.id === entity.id,
-    );
+    const index = this.db.findIndex((cobranca: Cobranca) => cobranca.id === entity.id);
 
     if (index !== -1) this.db[index] = entity;
     if (index === -1) throw new Error('COBRANCA NOT FOUND');
