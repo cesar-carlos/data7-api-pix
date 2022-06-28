@@ -1,6 +1,6 @@
-import Pagamento from '../model/pagamento';
-import PagamentoAdicionais from '../model/pagamento.adicionais';
-import PagamentoLoc from '../model/pagamento.loc';
+import Pagamento from '../entities/pagamento';
+import PagamentoAdicionais from '../entities/pagamento.adicionais';
+import PagamentoLoc from '../entities/pagamento.loc';
 import FirebasePagamentoRepository from '../repository/firebase.pagamento.repository';
 
 export default class PagamentoPIXTest {
@@ -15,7 +15,7 @@ export default class PagamentoPIXTest {
 
     const repository = new FirebasePagamentoRepository();
 
-    //test methods
+    //test methods / remenber inicializeAPP
     // const pagamento = this.pagamentoFromResponse(fakePagamentos[0]);
     // repository.insert(pagamento);
 

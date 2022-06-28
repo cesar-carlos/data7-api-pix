@@ -1,20 +1,18 @@
-import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
-import { getFirestore, Timestamp, FieldValue, QuerySnapshot } from 'firebase-admin/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 
 import ContractBaseRepository from '../contracts/contract.base.repository';
-import Pagamento from '../model/pagamento';
+import Pagamento from '../entities/pagamento';
+import PagamentoAdicionais from '../entities/pagamento.adicionais';
+import PagamentoLoc from '../entities/pagamento.loc';
 
 export default class FirebasePagamentoRepository implements ContractBaseRepository<Pagamento> {
-  readonly sicret = require('../certificates/secret_firebase.json');
   readonly doc = 'pagamento';
 
   constructor() {
     this.initialize();
   }
 
-  private initialize(): void {
-    initializeApp({ credential: cert(this.sicret) });
-  }
+  private initialize(): void {}
 
   async getAll(cnpj: string): Promise<Pagamento[]> {
     const db = getFirestore();
@@ -29,7 +27,8 @@ export default class FirebasePagamentoRepository implements ContractBaseReposito
 
     docs.forEach((snapshot) => {
       snapshot.forEach((doc) => {
-        const pagamento = doc.data() as Pagamento;
+        const responseData = doc.data();
+        const pagamento = this.pagamentoFromResponse(responseData);
         pagamentos.push(pagamento);
       });
     });
@@ -41,11 +40,13 @@ export default class FirebasePagamentoRepository implements ContractBaseReposito
     const db = getFirestore();
     const snapshot = await db.collection(cnpj).doc(this.doc).collection(id).get();
     const pagamentos = snapshot.docs.map((doc) => {
-      const pagamento = doc.data() as Pagamento;
+      const responseData = doc.data();
+      const pagamento = this.pagamentoFromResponse(responseData);
       return pagamento;
     });
 
-    return pagamentos?.shift();
+    const _pagamento = pagamentos?.shift();
+    return _pagamento;
   }
 
   async insert(pagamento: Pagamento): Promise<void> {
@@ -68,5 +69,30 @@ export default class FirebasePagamentoRepository implements ContractBaseReposito
     if (docId) {
       await db.collection(cnpj).doc(this.doc).collection(pagamento.id).doc(docId).update(pagamento.toJson());
     }
+  }
+
+  private pagamentoFromResponse(response: any): Pagamento {
+    const result = {
+      id: response.Id,
+      txid: response.Txid,
+      chave: response.Chave,
+      status: response.Status,
+      criacao: new Date(response.Criacao),
+      expiracao: new Date(response.Expiracao),
+      valor: response.Valor,
+      solicitacaoPagador: response.SolicitacaoPagador,
+      adicionais: response?.Adicionais?.map((adicional: any) => {
+        return new PagamentoAdicionais(adicional.Nome, adicional.Valor);
+      }),
+      loc: new PagamentoLoc(
+        response.Loc.Id,
+        response.Loc.Location,
+        response.Loc.TipoCob,
+        new Date(response.Loc.Criacao),
+      ),
+    };
+
+    const _pagamento = Pagamento.fromObject(result);
+    return _pagamento;
   }
 }

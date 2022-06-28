@@ -1,4 +1,4 @@
-import WatchPatch from '../services/watch.patch';
+import WatchPatch from '../controllers/watch.patch';
 
 //todo: create test jest
 export default class WatchPatchTest {

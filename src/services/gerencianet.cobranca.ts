@@ -1,16 +1,17 @@
 import Gerencianet from 'gn-api-sdk-typescript';
 import { LocalStorage } from 'node-localstorage';
 
-import Cobranca from '../model/cobranca';
+import Cobranca from '../entities/cobranca';
 import ContractCredential from '../contracts/contract.credential';
 import ContractCredentialPIX from '../contracts/contract.credential.pix';
-import Pagamento from '../model/pagamento';
-import PagamentoLoc from '../model/pagamento.loc';
-import PagamentoQrCode from '../model/pagamento.qrcode';
-import Chave from '../model/chave';
-import PagamentoAdicionais from '../model/pagamento.adicionais';
-import PagamentoPIX from '../model/pagamentoPIX';
-import PagamentoSituacao from '../model/pagamento.situacao';
+import Pagamento from '../entities/pagamento';
+import PagamentoLoc from '../entities/pagamento.loc';
+import PagamentoQrCode from '../entities/pagamento.qrcode';
+import Chave from '../entities/chave';
+import PagamentoAdicionais from '../entities/pagamento.adicionais';
+import PagamentoPIX from '../entities/pagamentoPIX';
+import PagamentoSituacao from '../entities/pagamento.situacao';
+import AppError from '../entities/app.error';
 
 export default class GerencianetCobranca {
   private gerencianet: any;
@@ -24,7 +25,14 @@ export default class GerencianetCobranca {
   }
 
   public async createChargePIX(cobranca: Cobranca): Promise<Pagamento | void> {
-    if (!this.validCPF(cobranca.cliente.cnpjCpf)) throw new Error('CPF inválido');
+    if (!this.validCPF(cobranca.cliente.cnpjCpf))
+      throw new AppError(
+        cobranca.id,
+        'createChargePIX',
+        'CPF INVALIDO',
+        'CPF INFORMADO NAO CORRESPODE A UM CPF VALIDO',
+        cobranca.cliente.cnpjCpf,
+      );
 
     try {
       const params = { txid: this.createTxId() };
@@ -36,8 +44,7 @@ export default class GerencianetCobranca {
         const pagamento = this.mountPagamentoFromResposase(respose, cobranca);
         return pagamento;
       }
-    } catch (error) {
-      //todo: implementar log error
+    } catch (error: any) {
       console.log(error);
     }
   }
@@ -54,11 +61,11 @@ export default class GerencianetCobranca {
         respose.status,
         respose.chave,
         { ...respose.devedor },
+        new Date(respose.loc?.criacao),
       );
 
       return _situacao;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -71,7 +78,6 @@ export default class GerencianetCobranca {
       const respose = await this.gerencianet.pixListReceived(params);
       return respose;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -84,19 +90,17 @@ export default class GerencianetCobranca {
       const respose = await this.gerencianet.pixListLocation(params);
       return respose;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
 
-  public async createQrCodePIX(locid: number): Promise<PagamentoQrCode | undefined> {
+  public async createQrCodePIX(pagId: string, locid: number): Promise<PagamentoQrCode | undefined> {
     try {
       const params = { id: locid };
       const request = await this.gerencianet.pixGenerateQRCode(params);
-      const _pagamentoQrCode = PagamentoQrCode.fromJson(request);
-      return _pagamentoQrCode;
+      const qrCode = new PagamentoQrCode(pagId, locid, request.qrcode, request.imagemQrcode);
+      return qrCode;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -111,10 +115,7 @@ export default class GerencianetCobranca {
       });
 
       return chaves;
-    } catch (error) {
-      //todo: implementar log error
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   public async getChave(): Promise<Chave | undefined> {
@@ -129,7 +130,6 @@ export default class GerencianetCobranca {
 
       return local.shift();
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -141,7 +141,6 @@ export default class GerencianetCobranca {
       const pix = PagamentoPIX.fromObject(respose);
       return pix;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -190,7 +189,6 @@ export default class GerencianetCobranca {
 
       return chave;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -208,7 +206,6 @@ export default class GerencianetCobranca {
       const keys = keysJson.chaves.map((key: any) => Chave.fromJson(key));
       return keys;
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }
@@ -220,7 +217,6 @@ export default class GerencianetCobranca {
       const storege = new LocalStorage(dirPath);
       const result = storege.setItem('keys.json', JSON.stringify({ chaves }));
     } catch (error) {
-      //todo: implementar log error
       console.log(error);
     }
   }

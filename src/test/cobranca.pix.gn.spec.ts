@@ -1,6 +1,6 @@
 import GerencianetCobranca from '../services/gerencianet.cobranca';
 import ContractCredentialPIX from '../contracts/contract.credential.pix';
-import PagamentoLoc from '../model/pagamento.loc';
+import PagamentoLoc from '../entities/pagamento.loc';
 import FakeCobrancaRepository from '../repository/fake.cobranca.repository';
 
 //todo: create test jest

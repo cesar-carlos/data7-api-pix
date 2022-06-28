@@ -1,20 +1,16 @@
-import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
-import { getFirestore, Timestamp, FieldValue, QuerySnapshot } from 'firebase-admin/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 
 import ContractBaseRepository from '../contracts/contract.base.repository';
-import Cobranca from '../model/cobranca';
+import Cobranca from '../entities/cobranca';
 
 export default class FirebaseCobrancaRepository implements ContractBaseRepository<Cobranca> {
-  readonly sicret = require('../certificates/secret_firebase.json');
   readonly doc = 'cobranca';
 
   constructor() {
     this.initialize();
   }
 
-  private initialize(): void {
-    initializeApp({ credential: cert(this.sicret) });
-  }
+  private initialize(): void {}
 
   async getAll(cnpj: string): Promise<Cobranca[]> {
     const db = getFirestore();
@@ -51,7 +47,6 @@ export default class FirebaseCobrancaRepository implements ContractBaseRepositor
   async insert(cobranca: Cobranca): Promise<void> {
     const db = getFirestore();
     const cnpj = cobranca.id.split('.')[2];
-    console.log(cobranca);
     await db.collection(cnpj).doc(this.doc).collection(cobranca.id).add(cobranca.toJson());
   }
 

@@ -1,5 +1,5 @@
 import ContractBaseRepository from '../contracts/contract.base.repository';
-import Cobranca from '../model/cobranca';
+import Cobranca from '../entities/cobranca';
 
 export default class FakeCobrancaRepository implements ContractBaseRepository<Cobranca> {
   getAll(cnpj: string): Promise<Cobranca[] | undefined> {

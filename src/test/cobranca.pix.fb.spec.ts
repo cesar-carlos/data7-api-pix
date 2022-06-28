@@ -1,8 +1,8 @@
 import FirebaseCobrancaRepository from '../repository/firebase.cobranca.repository';
 
-import Usuario from '../model/usuario';
-import Cobranca from '../model/cobranca';
-import CobrancaParcela from '../model/cobranca.parcela';
+import Usuario from '../entities/usuario';
+import Cobranca from '../entities/cobranca';
+import CobrancaParcela from '../entities/cobranca.parcela';
 
 export default class CobrancaPIXTest {
   constructor() {
@@ -15,7 +15,7 @@ export default class CobrancaPIXTest {
     const repository = new FirebaseCobrancaRepository();
     const fakeCobrancas = require('../assets/cobranca.json');
 
-    //test methods
+    //test methods / remenber inicializeAPP
     // const cobranca = this.cobrancaFromResponse(fakeCobrancas[0]);
     // repository.insert(cobranca);
 
