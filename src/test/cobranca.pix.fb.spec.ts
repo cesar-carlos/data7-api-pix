@@ -1,6 +1,7 @@
-import Cobranca from '../model/cobranca';
 import FirebaseCobrancaRepository from '../repository/firebase.cobranca.repository';
+
 import Usuario from '../model/usuario';
+import Cobranca from '../model/cobranca';
 import CobrancaParcela from '../model/cobranca.parcela';
 
 export default class CobrancaPIXTest {

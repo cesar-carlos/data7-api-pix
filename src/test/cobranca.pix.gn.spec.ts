@@ -1,7 +1,7 @@
 import GerencianetCobranca from '../services/gerencianet.cobranca';
-import FakeCobrancaRepository from '../repository/fake.cobranca.repository';
 import ContractCredentialPIX from '../contracts/contract.credential.pix';
 import PagamentoLoc from '../model/pagamento.loc';
+import FakeCobrancaRepository from '../repository/fake.cobranca.repository';
 
 //todo: create test jest
 export default class CobrancaPIXTest {
