@@ -15,4 +15,9 @@ export default class Filial {
       CNPJ: this.cnpj,
     };
   }
+
+  //create method from object
+  static fromObject(obj: any): Filial {
+    return new Filial(obj.codEmpresa, obj.codFilial, obj.nome, obj.cnpj);
+  }
 }

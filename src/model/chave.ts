@@ -14,4 +14,9 @@ export default class Chave {
       chave: this.chave,
     };
   }
+
+  //create method from object
+  static fromObject(obj: any): Chave {
+    return new Chave(obj.status, obj.dataCriacao, obj.chave);
+  }
 }

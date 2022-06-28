@@ -2,11 +2,11 @@ import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp, FieldValue, QuerySnapshot } from 'firebase-admin/firestore';
 
 import ContractBaseRepository from '../contracts/contract.base.repository';
-import Cobranca from '../model/cobranca';
+import Pagamento from '../model/pagamento';
 
-export default class FirebaseCobrancaRepository implements ContractBaseRepository<Cobranca> {
+export default class FirebasePagamentoRepository implements ContractBaseRepository<Pagamento> {
   readonly sicret = require('../certificates/secret_firebase.json');
-  readonly doc = 'cobranca';
+  readonly doc = 'pagamento';
 
   constructor() {
     this.initialize();
@@ -16,10 +16,10 @@ export default class FirebaseCobrancaRepository implements ContractBaseRepositor
     initializeApp({ credential: cert(this.sicret) });
   }
 
-  async getAll(cnpj: string): Promise<Cobranca[]> {
+  async getAll(cnpj: string): Promise<Pagamento[]> {
     const db = getFirestore();
     const respose = await db.collection(cnpj).doc(this.doc).listCollections();
-    const cobrancas: Cobranca[] = [];
+    const pagamentos: Pagamento[] = [];
 
     const collections = respose?.map(async (collection) => {
       return collection.get();
@@ -29,36 +29,35 @@ export default class FirebaseCobrancaRepository implements ContractBaseRepositor
 
     docs.forEach((snapshot) => {
       snapshot.forEach((doc) => {
-        const cobranca = doc.data() as Cobranca;
-        cobrancas.push(cobranca);
+        const pagamento = doc.data() as Pagamento;
+        pagamentos.push(pagamento);
       });
     });
 
-    return cobrancas;
+    return pagamentos;
   }
 
-  async getById(cnpj: string, id: string): Promise<Cobranca | undefined> {
+  async getById(cnpj: string, id: string): Promise<Pagamento | undefined> {
     const db = getFirestore();
     const snapshot = await db.collection(cnpj).doc(this.doc).collection(id).get();
-    const cobrancas = snapshot.docs.map((doc) => {
-      const cobranca = doc.data() as Cobranca;
-      return cobranca;
+    const pagamentos = snapshot.docs.map((doc) => {
+      const pagamento = doc.data() as Pagamento;
+      return pagamento;
     });
 
-    return cobrancas?.shift();
+    return pagamentos?.shift();
   }
 
-  async insert(cobranca: Cobranca): Promise<void> {
+  async insert(pagamento: Pagamento): Promise<void> {
     const db = getFirestore();
-    const cnpj = cobranca.id.split('.')[2];
-    console.log(cobranca);
-    await db.collection(cnpj).doc(this.doc).collection(cobranca.id).add(cobranca.toJson());
+    const cnpj = pagamento.id.split('.')[2];
+    await db.collection(cnpj).doc(this.doc).collection(pagamento.id).add(pagamento.toJson());
   }
 
-  async update(cobranca: Cobranca): Promise<void> {
+  async update(pagamento: Pagamento): Promise<void> {
     const db = getFirestore();
-    const cnpj = cobranca.id.split('.')[2];
-    const snapshot = await db.collection(cnpj).doc(this.doc).collection(cobranca.id).get();
+    const cnpj = pagamento.id.split('.')[2];
+    const snapshot = await db.collection(cnpj).doc(this.doc).collection(pagamento.id).get();
 
     const docId = snapshot.docs
       .map((doc) => {
@@ -67,7 +66,7 @@ export default class FirebaseCobrancaRepository implements ContractBaseRepositor
       ?.shift();
 
     if (docId) {
-      await db.collection(cnpj).doc(this.doc).collection(cobranca.id).doc(docId).update(cobranca.toJson());
+      await db.collection(cnpj).doc(this.doc).collection(pagamento.id).doc(docId).update(pagamento.toJson());
     }
   }
 }

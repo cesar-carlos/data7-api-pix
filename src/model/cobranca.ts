@@ -33,4 +33,15 @@ export default class Cobranca {
       Parcelas: this.parcelas.map((parcela: Parcela) => parcela.toJson()),
     };
   }
+
+  //create method from object
+  static fromObject(obj: any): Cobranca {
+    return new Cobranca(
+      obj.id,
+      Usuario.fromObject(obj.usuario),
+      Filial.fromObject(obj.filial),
+      Cliente.fromObject(obj.cliente),
+      obj.parcelas.map((parcela: any) => Parcela.fromObject(parcela)),
+    );
+  }
 }

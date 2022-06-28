@@ -1,11 +1,6 @@
 export default class PagamentoLoc {
   constructor(readonly id: number, readonly location: string, readonly tipoCob?: string, readonly criacao?: Date) {}
 
-  //create method from object
-  static fromObject(obj: any): PagamentoLoc {
-    return new PagamentoLoc(obj.id, obj.location, obj.tipoCob, obj.criacao);
-  }
-
   //create method from json
   static fromJson(json: any): PagamentoLoc {
     return new PagamentoLoc(json.Id, json.Location, json.TipoCob, json.Criacao);
@@ -19,5 +14,10 @@ export default class PagamentoLoc {
       TipoCob: this.tipoCob,
       Criacao: this.criacao,
     };
+  }
+
+  //create method from object
+  static fromObject(obj: any): PagamentoLoc {
+    return new PagamentoLoc(obj.id, obj.location, obj.tipoCob, obj.criacao);
   }
 }

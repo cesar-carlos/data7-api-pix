@@ -12,25 +12,9 @@ export default class Pagamento {
     readonly expiracao: Date,
     readonly valor: number,
     readonly solicitacaoPagador: string,
-    readonly adicionais: PagamentoAdicionais[],
     readonly loc: PagamentoLoc,
+    readonly adicionais?: PagamentoAdicionais[],
   ) {}
-
-  //create method from object
-  static fromObject(obj: any): Pagamento {
-    return new Pagamento(
-      obj.id,
-      obj.txid,
-      obj.chave,
-      obj.status,
-      obj.criacao,
-      obj.expiracao,
-      obj.valor,
-      obj.solicitacaoPagador,
-      obj.adicionais.map((adicional: any) => PagamentoAdicionais.fromObject(adicional)),
-      PagamentoLoc.fromObject(obj.loc),
-    );
-  }
 
   //create method from json
   static fromJson(json: any): Pagamento {
@@ -43,8 +27,8 @@ export default class Pagamento {
       json.Expiracao,
       json.Valor,
       json.SolicitacaoPagador,
-      json.Adicionais.map((adicional: any) => PagamentoAdicionais.fromJson(adicional)),
       PagamentoLoc.fromJson(json.Loc),
+      json.Adicionais.map((adicional: any) => PagamentoAdicionais.fromJson(adicional)),
     );
   }
 
@@ -59,8 +43,24 @@ export default class Pagamento {
       Expiracao: this.expiracao,
       Valor: this.valor,
       SolicitacaoPagador: this.solicitacaoPagador,
-      Adicionais: this.adicionais.map((adicional: PagamentoAdicionais) => adicional.toJson()),
       Loc: this.loc.toJson(),
+      Adicionais: this.adicionais?.map((adicional: any) => adicional.toJson()),
     };
+  }
+
+  //create method from object
+  static fromObject(obj: any): Pagamento {
+    return new Pagamento(
+      obj.id,
+      obj.txid,
+      obj.chave,
+      obj.status,
+      obj.criacao,
+      obj.expiracao,
+      obj.valor,
+      obj.solicitacaoPagador,
+      PagamentoLoc.fromObject(obj.loc),
+      obj.adicionais.map((adicional: any) => PagamentoAdicionais.fromObject(adicional)),
+    );
   }
 }

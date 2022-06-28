@@ -23,7 +23,7 @@ export default class GerencianetCobranca {
     this.gerencianet = Gerencianet(config as any);
   }
 
-  public async createCobrancaPIX(cobranca: Cobranca): Promise<Pagamento | void> {
+  public async createChargePIX(cobranca: Cobranca): Promise<Pagamento | void> {
     if (!this.validCPF(cobranca.cliente.cnpjCpf)) throw new Error('CPF inválido');
 
     try {

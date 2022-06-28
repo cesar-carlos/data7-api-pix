@@ -24,8 +24,8 @@ export default class PagamentoPIX {
     };
   }
 
-  //create method to mount PagamentoPIX from object
+  //create method from object
   static fromObject(obj: any): PagamentoPIX {
-    return new PagamentoPIX(obj.txid, obj.endToEndId, obj.valor, obj.chave, obj.horario);
+    return new PagamentoPIX(obj.txid, obj.endToEndId, obj.valor, obj.chave, new Date(obj.horario));
   }
 }

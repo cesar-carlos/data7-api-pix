@@ -30,7 +30,7 @@ export default class PagamentoSituacao {
     };
   }
 
-  //create method to mount PagamentoPIX from object
+  //create method from object
   static fromObject(obj: any): PagamentoSituacao {
     return new PagamentoSituacao(obj.txId, obj.locId, obj.sysId, obj.status, obj.chave, obj.devedor);
   }

@@ -1,7 +1,6 @@
 import FakeRepository from '../repository/fake.cobranca.repository';
 import FirebaseCobrancaRepository from '../repository/firebase.cobranca.repository';
 
-//todo: create test jest
 export default class SeedFirabase {
   private firebaseRepository = new FirebaseCobrancaRepository();
   private fakeRepository = new FakeRepository();
@@ -22,10 +21,9 @@ export default class SeedFirabase {
     const cnpj = '00000000000000';
     const fakeCobrancas = await this.fakeRepository.getAll(cnpj);
 
-    //fill firebase inicialy seed
     if (fakeCobrancas) {
       fakeCobrancas.forEach((fakeCobranca) => {
-        this.firebaseRepository.create(fakeCobranca);
+        this.firebaseRepository.insert(fakeCobranca);
       });
     }
   }

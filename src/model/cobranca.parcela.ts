@@ -46,4 +46,38 @@ export default class CobrancaParcela {
       Observacao: this.observacao,
     };
   }
+
+  //create method from object
+  static fromObject(obj: any): CobrancaParcela {
+    return new CobrancaParcela(
+      obj.Origem,
+      obj.CodOrigem,
+      obj.NumeroParcela,
+      obj.CodFormaPagamento,
+      obj.DataEmissao,
+      obj.DataVenda,
+      obj.DataVencimento,
+      obj.ValorBruto,
+      obj.ValorLiquido,
+      obj.ValorParcela,
+      obj.Observacao,
+    );
+  }
+
+  //create method to object
+  toObject(): any {
+    return {
+      Origem: this.origem,
+      CodOrigem: this.codOrigem,
+      NumeroParcela: this.numeroParcela,
+      CodFormaPagamento: this.codFormaPagamento,
+      DataEmissao: this.dataEmissao,
+      DataVenda: this.dataVenda,
+      DataVencimento: this.dataVencimento,
+      ValorBruto: this.valorBruto,
+      ValorLiquido: this.valorLiquido,
+      ValorParcela: this.valorParcela,
+      Observacao: this.observacao,
+    };
+  }
 }

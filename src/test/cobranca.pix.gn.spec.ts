@@ -1,11 +1,11 @@
 import GerencianetCobranca from '../services/gerencianet.cobranca';
-import FakeRepository from '../repository/fake.cobranca.repository';
+import FakeCobrancaRepository from '../repository/fake.cobranca.repository';
 import ContractCredentialPIX from '../contracts/contract.credential.pix';
 import PagamentoLoc from '../model/pagamento.loc';
 
 //todo: create test jest
 export default class CobrancaPIXTest {
-  private fakeRepository = new FakeRepository();
+  private fakeCobrancaRepository = new FakeCobrancaRepository();
 
   private docsIdFake = [
     '3831849.11.27740308000120.20220622181050-OB.21.001',
@@ -24,7 +24,7 @@ export default class CobrancaPIXTest {
     const docId: string = this.docsIdFake[0];
     const config: ContractCredentialPIX = require('../assets/config.pix.ts');
 
-    const fakeCobranca = await this.fakeRepository.getById(cnpj, docId);
+    const fakeCobranca = await this.fakeCobrancaRepository.getById(cnpj, docId);
 
     if (fakeCobranca && config) {
       const gerencianetCobranca = new GerencianetCobranca(config);
@@ -36,10 +36,11 @@ export default class CobrancaPIXTest {
       // const chaves = await gerencianetCobranca.listChave();
       // console.log(chaves);
 
-      // const pagamento = await gerencianetCobranca.createCobrancaPIX(fakeCobranca);
-      // console.log(pagamento);
+      // const pagamento = await gerencianetCobranca.createChargePIX(fakeCobranca);
+      // console.log(pagamento)
 
-      // const qrCode = await gerencianetCobranca.createQrCodePIX(13);
+      // const locid = 13;
+      // const qrCode = await gerencianetCobranca.createQrCodePIX(locid);
       // console.log(qrCode);
 
       // const dataInicia = new Date('2022-06-01T20:24:24.846Z');

@@ -14,4 +14,9 @@ export default class Usuario {
       EstacaoTrabalho: this.estacaoTrabalho,
     };
   }
+
+  //create method from object
+  static fromObject(obj: any): Usuario {
+    return new Usuario(obj.codUsuario, obj.nomeUsuario, obj.estacaoTrabalho);
+  }
 }
