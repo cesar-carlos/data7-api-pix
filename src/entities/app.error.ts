@@ -11,7 +11,13 @@ export default class AppError extends Error {
 
   //create method from json
   static fromJson(json: any): AppError {
-    return new AppError(json.id, json.operaction, json.message, json.details, json.value);
+    return new AppError(
+      json.id || json.Id,
+      json.operaction || json.Operaction,
+      json.message || json.Message,
+      json.details || json.Details,
+      json.value || json.Value,
+    );
   }
 
   //create method to json
