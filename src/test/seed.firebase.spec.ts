@@ -1,7 +1,7 @@
 import FakeRepository from '../repository/fake.cobranca.repository';
 import FirebaseCobrancaRepository from '../repository/firebase.cobranca.repository';
 
-export default class SeedFirabase {
+export default class SeedFirebaseSpec {
   private firebaseRepository = new FirebaseCobrancaRepository();
   private fakeRepository = new FakeRepository();
 

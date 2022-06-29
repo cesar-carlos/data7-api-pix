@@ -3,7 +3,7 @@ import PagamentoAdicionais from '../entities/pagamento.adicionais';
 import PagamentoLoc from '../entities/pagamento.loc';
 import FirebasePagamentoRepository from '../repository/firebase.pagamento.repository';
 
-export default class PagamentoPIXTest {
+export default class PagamentoPixFbSpec {
   constructor() {
     this.initialize();
   }

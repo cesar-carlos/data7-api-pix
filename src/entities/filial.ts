@@ -3,7 +3,12 @@ export default class Filial {
 
   //create method from json
   static fromJson(json: any): Filial {
-    return new Filial(json.CodEmpresa, json.CodFilial, json.Nome, json.CNPJ);
+    return new Filial(
+      json.codEmpresa || json.CodEmpresa,
+      json.codFilial || json.CodFilial,
+      json.nome || json.Nome,
+      json.cnpj || json.CNPJ,
+    );
   }
 
   //create method to json
@@ -18,6 +23,11 @@ export default class Filial {
 
   //create method from object
   static fromObject(obj: any): Filial {
-    return new Filial(obj.codEmpresa, obj.codFilial, obj.nome, obj.cnpj);
+    return new Filial(
+      obj.codEmpresa || obj.CodEmpresa,
+      obj.codFilial || obj.CodFilial,
+      obj.nome || obj.Nome,
+      obj.cnpj || obj.CNPJ,
+    );
   }
 }

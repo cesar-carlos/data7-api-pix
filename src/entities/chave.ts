@@ -3,7 +3,7 @@ export default class Chave {
 
   //create method from json
   static fromJson(json: any): Chave {
-    return new Chave(json.status, json.dataCriacao, json.chave);
+    return new Chave(json.status || json.Status, json.dataCriacao || json.DataCriacao, json.chave || json.chave);
   }
 
   //create method to json
@@ -17,6 +17,6 @@ export default class Chave {
 
   //create method from object
   static fromObject(obj: any): Chave {
-    return new Chave(obj.status, obj.dataCriacao, obj.chave);
+    return new Chave(obj.status || obj.Status, obj.dataCriacao || obj.DataCriacao, obj.chave || obj.Chave);
   }
 }

@@ -3,7 +3,7 @@ export default class PagamentoAdicionais {
 
   //create method from json
   static fromJson(json: any): PagamentoAdicionais {
-    return new PagamentoAdicionais(json.Nome, json.Valor);
+    return new PagamentoAdicionais(json.nome || json.Nome, json.valor || json.Valor);
   }
 
   //create method to json
@@ -16,6 +16,6 @@ export default class PagamentoAdicionais {
 
   //create method from object
   static fromObject(obj: any): PagamentoAdicionais {
-    return new PagamentoAdicionais(obj.nome, obj.valor);
+    return new PagamentoAdicionais(obj.nome || obj.Nome, obj.valor || obj.Valor);
   }
 }

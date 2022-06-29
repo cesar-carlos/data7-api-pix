@@ -3,7 +3,12 @@ export default class PagamentoLoc {
 
   //create method from json
   static fromJson(json: any): PagamentoLoc {
-    return new PagamentoLoc(json.Id, json.Location, json.TipoCob, json.Criacao);
+    return new PagamentoLoc(
+      json.id || json.Id,
+      json.location || json.Location,
+      json.tipoCob || json.TipoCob,
+      json.criacao || json.Criacao,
+    );
   }
 
   //create method to json
@@ -18,6 +23,11 @@ export default class PagamentoLoc {
 
   //create method from object
   static fromObject(obj: any): PagamentoLoc {
-    return new PagamentoLoc(obj.id, obj.location, obj.tipoCob, obj.criacao);
+    return new PagamentoLoc(
+      obj.id || obj.Id,
+      obj.location || obj.Location,
+      obj.tipoCob || obj.TipoCob,
+      obj.criacao || obj.Criacao,
+    );
   }
 }

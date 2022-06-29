@@ -3,7 +3,11 @@ export default class Usuario {
 
   //create method from json
   static fromJson(json: any): Usuario {
-    return new Usuario(json.CodUsuario, json.NomeUsuario, json.EstacaoTrabalho);
+    return new Usuario(
+      json.codUsuario || json.CodUsuario,
+      json.nomeUsuario || json.NomeUsuario,
+      json.estacaoTrabalho || json.EstacaoTrabalho,
+    );
   }
 
   //create method to json
@@ -17,6 +21,10 @@ export default class Usuario {
 
   //create method from object
   static fromObject(obj: any): Usuario {
-    return new Usuario(obj.codUsuario, obj.nomeUsuario, obj.estacaoTrabalho);
+    return new Usuario(
+      obj.codUsuario || obj.CodUsuario,
+      obj.nomeUsuario || obj.NomeUsuario,
+      obj.estacaoTrabalho || obj.EstacaoTrabalho,
+    );
   }
 }

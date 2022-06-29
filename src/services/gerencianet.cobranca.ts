@@ -1,17 +1,20 @@
 import Gerencianet from 'gn-api-sdk-typescript';
 import { LocalStorage } from 'node-localstorage';
 
-import Cobranca from '../entities/cobranca';
 import ContractCredential from '../contracts/contract.credential';
 import ContractCredentialPIX from '../contracts/contract.credential.pix';
+
+import AppError from '../entities/app.error';
+import Cobranca from '../entities/cobranca';
+
 import Pagamento from '../entities/pagamento';
 import PagamentoLoc from '../entities/pagamento.loc';
 import PagamentoQrCode from '../entities/pagamento.qrcode';
-import Chave from '../entities/chave';
 import PagamentoAdicionais from '../entities/pagamento.adicionais';
-import PagamentoPIX from '../entities/pagamentoPIX';
 import PagamentoSituacao from '../entities/pagamento.situacao';
-import AppError from '../entities/app.error';
+
+import Chave from '../entities/chave';
+import Pix from '../entities/pix';
 
 export default class GerencianetCobranca {
   private gerencianet: any;
@@ -54,14 +57,20 @@ export default class GerencianetCobranca {
       const params = { txid };
       const respose = await this.gerencianet.pixDetailCharge(params);
 
+      const infoAdicionais = respose.infoAdicionais ? respose?.infoAdicionais[0]?.valor : null;
+      const pixEndToEndId = respose.pix ? respose?.pix[0]?.endToEndId : null;
+      const pixHorario = respose.pix ? new Date(respose?.pix[0]?.horario) : null;
+
       const _situacao = new PagamentoSituacao(
         respose.txid,
-        respose.loc.id,
-        respose?.infoAdicionais[0]?.valor,
+        respose?.loc?.id,
+        infoAdicionais,
+        pixEndToEndId,
         respose.status,
         respose.chave,
         { ...respose.devedor },
-        new Date(respose.loc?.criacao),
+        new Date(respose?.loc?.criacao),
+        pixHorario,
       );
 
       return _situacao;
@@ -82,7 +91,7 @@ export default class GerencianetCobranca {
     }
   }
 
-  public async listLOC(startDate: Date, endDate: Date): Promise<any> {
+  public async listLoc(startDate: Date, endDate: Date): Promise<any> {
     try {
       const dataInicio = startDate.toISOString();
       const dataFim = endDate.toISOString();
@@ -94,11 +103,11 @@ export default class GerencianetCobranca {
     }
   }
 
-  public async createQrCodePIX(pagId: string, locid: number): Promise<PagamentoQrCode | undefined> {
+  public async createQrCodePIX(sysId: string, locid: number): Promise<PagamentoQrCode | undefined> {
     try {
       const params = { id: locid };
       const request = await this.gerencianet.pixGenerateQRCode(params);
-      const qrCode = new PagamentoQrCode(pagId, locid, request.qrcode, request.imagemQrcode);
+      const qrCode = new PagamentoQrCode(sysId, locid, request.qrcode, request.imagemQrcode);
       return qrCode;
     } catch (error) {
       console.log(error);
@@ -134,11 +143,11 @@ export default class GerencianetCobranca {
     }
   }
 
-  public async PIX(endToEndId: string): Promise<PagamentoPIX | undefined> {
+  public async PIX(endToEndId: string): Promise<Pix | undefined> {
     try {
       const params = { e2eId: endToEndId };
       const respose = await this.gerencianet.pixDetail(params);
-      const pix = PagamentoPIX.fromObject(respose);
+      const pix = Pix.fromObject(respose);
       return pix;
     } catch (error) {
       console.log(error);
@@ -221,12 +230,12 @@ export default class GerencianetCobranca {
     }
   }
 
-  private validCPF(cpf: string): boolean {
+  public validCPF(cpf: string): boolean {
     const regExp = new RegExp('^[0-9]{11}$');
     return regExp.test(cpf);
   }
 
-  private validTxId(txId: string): boolean {
+  public validTxId(txId: string): boolean {
     const regExp = new RegExp('^[a-zA-Z0-9]{26,35}$');
     return regExp.test(txId);
   }

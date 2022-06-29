@@ -4,7 +4,7 @@ import Usuario from '../entities/usuario';
 import Cobranca from '../entities/cobranca';
 import CobrancaParcela from '../entities/cobranca.parcela';
 
-export default class CobrancaPIXTest {
+export default class CobrancaPixFbSpec {
   constructor() {
     this.initialize();
   }
@@ -16,6 +16,7 @@ export default class CobrancaPIXTest {
     const fakeCobrancas = require('../assets/cobranca.json');
 
     //test methods / remenber inicializeAPP
+    //
     // const cobranca = this.cobrancaFromResponse(fakeCobrancas[0]);
     // repository.insert(cobranca);
 
