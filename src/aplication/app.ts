@@ -16,13 +16,7 @@ export default class App {
   }
 
   public excute() {
-    // const pathc = '/Users/cesar-carlos/temp';
-    // const listenCreatePIX = new ListenCreatePIX();
-    // listenCreatePIX.exec(pathc);
-
     const api = new Api();
     api.execute();
-
-    console.log('server is running ...');
   }
 }
