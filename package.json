@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cls && ts-node-dev --respawn --transpile-only ./src/server.ts",
     "dev:nodemon": "cls && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/server.ts' -e ts",
-    "format": "npx prettier '**/*.ts' '**/*.js' --write",
+    "format": "npx prettier './src/**/*.ts' './src/**/*.js' --write",
     "build": "tsc",
     "start": "node ./dist/server.js"
   },

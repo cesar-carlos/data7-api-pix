@@ -21,7 +21,7 @@ export default class Api {
 
   public execute() {
     this.app.listen(this.port, () => {
-      console.log('server started http://localhost:' + this.port);
+      console.log(`server started http://localhost:'${this.port}`);
     });
   }
 }
