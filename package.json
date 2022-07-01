@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "clear && ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "dev:nodemon": "clear && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/server.ts' -e ts",
+    "dev": "cls && ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "dev:nodemon": "cls && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/server.ts' -e ts",
     "format": "npx prettier '**/*.ts' '**/*.js' --write",
     "build": "tsc",
     "start": "node ./dist/server.js"

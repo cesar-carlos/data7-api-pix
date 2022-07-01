@@ -5,6 +5,7 @@ import ApiRoute from '../route/api.router';
 
 export default class Api {
   private app = express();
+  private publicPath = '../../public';
 
   constructor(private readonly port: number = 3000) {
     this.initialize();
@@ -13,7 +14,7 @@ export default class Api {
   private async initialize() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static('../public'));
+    this.app.use(express.static(this.publicPath));
     this.app.use(cors());
     this.app.use(ApiRoute.router);
   }
