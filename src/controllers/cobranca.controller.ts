@@ -4,14 +4,20 @@ export default class CobrancaController {
   constructor() {}
 
   public static async get(req: Request, res: Response) {
+    console.log('CHAMADO GET');
+
     res.send('Cobranca get');
   }
 
   public static async post(req: Request, res: Response) {
-    res.send('Cobranca post');
+    console.log('CHAMADO POST');
+
+    console.log({ ...req.body });
+    res.send();
   }
 
-  static put(req: Request, res: Response) {
+  public static put(req: Request, res: Response) {
+    console.log('CHAMADO PUT');
     res.send('Cobranca put');
   }
 }
