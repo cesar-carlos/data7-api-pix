@@ -31,11 +31,13 @@ export default class ApiRoute {
     this._router.get('/cobranca', CobrancaController.get);
     this._router.post('/cobranca', CobrancaController.post);
     this._router.put('/cobranca', CobrancaController.put);
+    this._router.delete('/cobranca', CobrancaController.delete);
   }
 
   private pagamento() {
     this._router.get('/pagamento', PagamentoController.get);
     this._router.post('/pagamento', PagamentoController.post);
     this._router.put('/pagamento', PagamentoController.put);
+    this._router.delete('/pagamento', PagamentoController.delete);
   }
 }

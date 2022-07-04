@@ -11,7 +11,11 @@ export default class PagamentoController {
     res.send('Pagamento post');
   }
 
-  static put(req: Request, res: Response) {
+  public static put(req: Request, res: Response) {
     res.send('Pagamento put');
+  }
+
+  public static delete(req: Request, res: Response) {
+    res.send('Pagamento delete');
   }
 }

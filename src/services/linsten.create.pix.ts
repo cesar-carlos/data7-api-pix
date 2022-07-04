@@ -11,7 +11,7 @@ import FirebaseAppErrorRepository from '../repository/farebase.app.error.reposit
 import FarebaseQrcodeRepository from '../repository/farebase.qrcode.repository';
 import FerebasePagamentoSituacaoRepository from '../repository/ferebase.pagamento.situacao.repository';
 import LinstenPeymentPIX from './linsten.peyment.pix';
-import Pagamento from '../entities/pagamento';
+import Pagamento from '../entities/pagamento.pendente';
 
 export default class ListenCreatePIX {
   private config = require('../assets/config.pix.ts');

@@ -7,7 +7,7 @@ import ContractCredentialPIX from '../contracts/contract.credential.pix';
 import AppError from '../entities/app.error';
 import Cobranca from '../entities/cobranca';
 
-import Pagamento from '../entities/pagamento';
+import Pagamento from '../entities/pagamento.pendente';
 import PagamentoLoc from '../entities/pagamento.loc';
 import PagamentoQrCode from '../entities/pagamento.qrcode';
 import PagamentoAdicionais from '../entities/pagamento.adicionais';

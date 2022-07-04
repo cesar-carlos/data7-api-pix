@@ -1,7 +1,7 @@
 import PagamentoAdicionais from './pagamento.adicionais';
 import PagamentoLoc from './pagamento.loc';
 
-export default class Pagamento {
+export default class PagamentoPendente {
   //create constructor initialize properties
   constructor(
     readonly id: string,
@@ -17,8 +17,8 @@ export default class Pagamento {
   ) {}
 
   //create method from json
-  static fromJson(json: any): Pagamento {
-    return new Pagamento(
+  static fromJson(json: any): PagamentoPendente {
+    return new PagamentoPendente(
       json.Id,
       json.Txid,
       json.Chave,
@@ -49,8 +49,8 @@ export default class Pagamento {
   }
 
   //create method from object
-  static fromObject(obj: any): Pagamento {
-    return new Pagamento(
+  static fromObject(obj: any): PagamentoPendente {
+    return new PagamentoPendente(
       obj.id,
       obj.txid,
       obj.chave,

@@ -1,4 +1,4 @@
-import Pagamento from '../entities/pagamento';
+import Pagamento from '../entities/pagamento.pendente';
 import PagamentoAdicionais from '../entities/pagamento.adicionais';
 import PagamentoLoc from '../entities/pagamento.loc';
 import FirebasePagamentoRepository from '../repository/firebase.pagamento.repository';
