@@ -21,9 +21,7 @@ export default function ControlWindow(win: any, tray: any) {
     const winBounds = win.getBounds();
     const trayBounds = tray.getBounds();
 
-    const x = Math.round(
-      trayBounds.x + trayBounds.width / 2 - winBounds.width / 2
-    );
+    const x = Math.round(trayBounds.x + trayBounds.width / 2 - winBounds.width / 2);
     const y = Math.round(trayBounds.y + trayBounds.height - 500);
 
     return { x, y };
@@ -31,6 +29,6 @@ export default function ControlWindow(win: any, tray: any) {
 
   return {
     toggle,
+    show,
   };
 }
-

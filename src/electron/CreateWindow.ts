@@ -1,21 +1,20 @@
-import { BrowserWindow } from "electron"
-import { resolve } from "path"
+import { BrowserWindow } from 'electron';
+import { resolve } from 'path';
 
 export default function CreateWindow() {
   const win = new BrowserWindow({
-    width: 250,
-    height: 310,
+    width: 350,
+    height: 410,
     show: false,
     frame: false,
-    resizable: true,
+    resizable: false,
     fullscreenable: false,
     webPreferences: {
-      preload: resolve(__dirname, "preload.js"),
+      preload: resolve(__dirname, 'preload.js'),
     },
-  })
+  });
 
-  win.loadFile(resolve(__dirname, '../', '../', 'public', 'index.html'))
-  win.webContents.openDevTools()
-  return win
+  win.loadFile(resolve(__dirname, '../', '../', 'public', 'index.html'));
+  //win.webContents.openDevTools();
+  return win;
 }
-

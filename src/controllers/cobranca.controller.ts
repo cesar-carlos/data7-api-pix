@@ -1,7 +1,8 @@
+import { exec } from 'child_process';
 import { Request, Response } from 'express';
-
+import { CloseQrCode, EnumDevices, OpenQrCode } from '../electron/EventEmitter';
 export default class CobrancaController {
-  constructor() { }
+  constructor() {}
 
   public static async get(req: Request, res: Response) {
     console.log('CHAMADO GET');
@@ -10,6 +11,20 @@ export default class CobrancaController {
 
   public static async post(req: Request, res: Response) {
     console.log('CHAMADO POST');
+    // res.redirect('electron-fiddle://open');
+    const qrcode = req.body.qrcode;
+
+    if (req.body.action === 'open')
+      OpenQrCode({
+        base64_qrcode: qrcode,
+        link_copy_paste: '',
+        devices: [EnumDevices.desktop],
+        cb: (ret) => {
+          console.log(ret);
+        },
+      });
+    if (req.body.action === 'close') CloseQrCode({ cb: (ret) => console.log(ret) });
+
     res.send('Cobranca post');
   }
 

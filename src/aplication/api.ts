@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import http from 'http'
+import http from 'http';
 
 import ApiRoute from '../route/api.router';
 
 export default class Api {
   private app = express();
-  private server = http.createServer(this.app)
+  private server = http.createServer(this.app);
   private publicPath = '../../public';
 
   constructor(private readonly port: number = 3000) {
@@ -19,6 +19,7 @@ export default class Api {
     this.app.use(express.static(this.publicPath));
     this.app.use(cors());
     this.app.use(ApiRoute.router);
+    this.app.set('view engine', 'ejs');
   }
 
   public execute(cb: Function) {

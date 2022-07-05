@@ -1,70 +1,87 @@
-import { app, BrowserWindow, dialog, ipcMain, protocol } from "electron";
-import * as path from "path";
-import ControlWindow from "./ControlWindow";
-import CreateWindow from "./CreateWindow";
-import CreateTray from "./CreateTray"
-import App from "../aplication/app";
-import Api from "../aplication/api";
+import { app, dialog, ipcMain } from 'electron';
+import * as path from 'path';
+import ControlWindow from './ControlWindow';
+import CreateWindow from './CreateWindow';
+import CreateTray from './CreateTray';
+import App from '../aplication/app';
+import Api from '../aplication/api';
 
+let Window: any;
+let Tray: any;
 
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('electron-fiddle', process.execPath, [path.resolve(process.argv[1])]);
+  }
+} else {
+  app.setAsDefaultProtocolClient('electron-fiddle');
+}
 
 function StartElectron() {
-  const ServerApi = new Api()
-  const Server = new App(ServerApi)
+  const ServerApi = new Api();
+  const Server = new App(ServerApi);
 
-  const Window = CreateWindow()
-  const Tray = CreateTray(Server)
+  Window = CreateWindow();
+  Tray = CreateTray(Server);
 
   const { toggle } = ControlWindow(Window, Tray);
-  Tray.on("click", toggle);
+  Tray.on('click', toggle);
 }
 
-function createWindow() {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
-    width: 800,
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (Window) {
+      const { show } = ControlWindow(Window, Tray);
+      const deeplinkingUrl = commandLine.find((arg) => arg.startsWith('electron-fiddle://'));
+
+      if (deeplinkingUrl?.includes('electron-fiddle://open/?qrcode=')) {
+        console.log('opening');
+        Window.webContents.send('new-qrcode', deeplinkingUrl.split('open/?qrcode=')[1]);
+        show();
+      }
+      if (deeplinkingUrl?.includes('electron-fiddle://close')) {
+        console.log('Closing');
+        Window.webContents.send('clean-qrcode', '');
+        Window.hide();
+      }
+    }
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.whenReady().then(() => {
+    StartElectron();
+  });
 
-  // Open the DevTools.
-  //  mainWindow.webContents.openDevTools();
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
+
+  // Handle the protocol. In this case, we choose to show an Error Box.
+  app.on('open-url', (event, url) => {
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
+  });
 }
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-  //createWindow();
-  StartElectron()
-
-  // app.on("activate", function () {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  //   if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  // });
-});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
-
 
 ipcMain.on('open-qrcode', async (event, params) => {
-  console.log('open-qrcode', params)
-  return true
-})
+  console.log('open-qrcode', params);
+  return true;
+});
 ipcMain.on('close-qrcode', async (event, params) => {
-  console.log('close-qrcode', params)
-  return true
-})
+  console.log('close-qrcode', params);
+  return true;
+});
+
+// app.setAsDefaultProtocolClient(customScheme);
