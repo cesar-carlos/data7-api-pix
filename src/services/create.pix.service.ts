@@ -1,11 +1,12 @@
+import AppError from '../entities/app.error';
 import Cobranca from '../entities/cobranca';
 import PagamentoQrCode from '../entities/pagamento.qrcode';
+import FirebaseAppErrorRepository from '../repository/farebase.app.error.repository';
 import FarebaseQrcodeRepository from '../repository/farebase.qrcode.repository';
 import FerebasePagamentoSituacaoRepository from '../repository/ferebase.pagamento.situacao.repository';
 import FirebaseCobrancaRepository from '../repository/firebase.cobranca.repository';
 import FirebasePagamentoRepository from '../repository/firebase.pagamento.repository';
 import GerencianetCobranca from './gerencianet.cobranca';
-import LinstenPeymentPIX from './linsten.peyment.pix';
 
 export default class CreatePixService {
   private config = require('../assets/config.pix.ts');
@@ -14,7 +15,6 @@ export default class CreatePixService {
   private repositoryPagamento = new FirebasePagamentoRepository();
   private repositoryQrcode = new FarebaseQrcodeRepository();
   private repositorySituacao = new FerebasePagamentoSituacaoRepository();
-  private linstenPeymentPIX = new LinstenPeymentPIX();
 
   constructor(private cobranca: Cobranca) {
     this.initialize();
@@ -22,12 +22,14 @@ export default class CreatePixService {
 
   private async initialize() {}
 
-  public async execute(): Promise<void> {}
+  public async execute(): Promise<PagamentoQrCode | undefined> {
+    const qRcode = await this.newChargePIX(this.cobranca);
+    return qRcode;
+  }
 
   private async newChargePIX(cobranca: Cobranca): Promise<PagamentoQrCode | undefined> {
     try {
       const sysId = cobranca.id;
-      const cnpj = cobranca.id.split('.')[2];
 
       //inser new charge dababe and initialize paymant
       await this.repositoryCobranca.insert(cobranca);
@@ -46,8 +48,10 @@ export default class CreatePixService {
 
         return pagamentoQrCode;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      const appError = new AppError('', 'newChargePIX', error.message, '', '');
+      await new FirebaseAppErrorRepository().insert(appError);
     }
   }
 }
