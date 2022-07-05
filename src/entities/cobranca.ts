@@ -1,7 +1,7 @@
-import Cliente from './cliente';
 import Filial from './filial';
-import Parcela from './cobranca.parcela';
 import Usuario from './usuario';
+import Cliente from './cliente';
+import Parcela from './cobranca.parcela';
 
 export default class Cobranca {
   constructor(
@@ -15,7 +15,7 @@ export default class Cobranca {
   //create method from json
   static fromJson(json: any): Cobranca {
     return new Cobranca(
-      json.Id,
+      json.id || json.Id,
       Usuario.fromJson(json.Usuario),
       Filial.fromJson(json.Filial),
       Cliente.fromJson(json.Cliente),
@@ -37,7 +37,7 @@ export default class Cobranca {
   //create method from object
   static fromObject(obj: any): Cobranca {
     return new Cobranca(
-      obj.id,
+      obj.id || obj.Id,
       Usuario.fromObject(obj.usuario),
       Filial.fromObject(obj.filial),
       Cliente.fromObject(obj.cliente),

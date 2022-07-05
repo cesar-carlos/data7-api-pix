@@ -3,7 +3,12 @@ export default class PagamentoQrCode {
 
   //create method from json
   static fromJson(json: any): PagamentoQrCode {
-    return new PagamentoQrCode(json.id, json.idloc, json.qrcode, json.imagemQrcode);
+    return new PagamentoQrCode(
+      json.id || json.Id,
+      json.idloc || json.Idloc,
+      json.qrcode || json.Qrcode,
+      json.imagemQrcode || json.ImagemQrcode,
+    );
   }
 
   //create method to json
@@ -18,6 +23,11 @@ export default class PagamentoQrCode {
 
   //create method from object
   static fromObject(obj: any): PagamentoQrCode {
-    return new PagamentoQrCode(obj.id, obj.idloc, obj.qrcode, obj.imagemQrcode);
+    return new PagamentoQrCode(
+      obj.id || obj.Id,
+      obj.idloc || obj.Idloc,
+      obj.qrcode || obj.Qrcode,
+      obj.imagemQrcode || obj.ImagemQrcode,
+    );
   }
 }

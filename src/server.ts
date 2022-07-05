@@ -1,4 +1,4 @@
 import App from './aplication/app';
 
 const app = new App();
-app.excute();
+app.execute();

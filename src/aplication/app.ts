@@ -1,8 +1,6 @@
 import { cert, initializeApp } from 'firebase-admin/app';
 
 import Api from './api';
-import ListenCreatePIX from '../services/linsten.create.pix';
-import LinstenPeymentPIX from '../services/linsten.peyment.pix';
 
 export default class App {
   constructor() {
@@ -15,7 +13,7 @@ export default class App {
     require('dotenv').config();
   }
 
-  public excute() {
+  public execute() {
     const api = new Api();
     api.execute();
   }

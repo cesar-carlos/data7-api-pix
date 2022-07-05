@@ -1,20 +1,16 @@
 import { Request, Response } from 'express';
+import Filial from '../entities/filial';
 
 export default class CobrancaController {
   constructor() {}
 
   public static async get(req: Request, res: Response) {
     console.log('CHAMADO POST');
-
-    console.log(req.params);
-    console.log(req.query);
     res.send('Cobranca post');
   }
 
   public static async post(req: Request, res: Response) {
-    console.log('CHAMADO POST');
-
-    console.log(req.body);
+    console.log(req.body.Data[0].Filial);
     res.send('Cobranca post');
   }
 

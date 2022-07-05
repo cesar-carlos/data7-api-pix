@@ -13,7 +13,7 @@ export default class CobrancaPixFbSpec {
 
   async exec() {
     const repository = new FirebaseCobrancaRepository();
-    const fakeCobrancas = require('../assets/cobranca.json');
+    const fakeCobrancas = require('../assets/cobranca.request.json');
 
     //test methods / remenber inicializeAPP
     //
