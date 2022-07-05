@@ -1,20 +1,15 @@
 import { Request, Response } from 'express';
 
 export default class CobrancaController {
-  constructor() {}
+  constructor() { }
 
   public static async get(req: Request, res: Response) {
-    console.log('CHAMADO POST');
-
-    console.log(req.params);
-    console.log(req.query);
-    res.send('Cobranca post');
+    console.log('CHAMADO GET');
+    res.send('Cobranca get');
   }
 
   public static async post(req: Request, res: Response) {
     console.log('CHAMADO POST');
-
-    console.log(req.body);
     res.send('Cobranca post');
   }
 

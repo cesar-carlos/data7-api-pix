@@ -1,10 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import http from 'http'
 
 import ApiRoute from '../route/api.router';
 
 export default class Api {
   private app = express();
+  private server = http.createServer(this.app)
   private publicPath = '../../public';
 
   constructor(private readonly port: number = 3000) {
@@ -19,9 +21,10 @@ export default class Api {
     this.app.use(ApiRoute.router);
   }
 
-  public execute() {
-    this.app.listen(this.port, () => {
-      console.log(`server started http://localhost:${this.port}`);
-    });
+  public execute(cb: Function) {
+    this.server.listen(this.port, '0.0.0.0', () => cb());
+  }
+  public stop(cb: Function) {
+    this.server.close((e) => cb(e));
   }
 }

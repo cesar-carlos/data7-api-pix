@@ -8,20 +8,25 @@
     "dev:nodemon": "cls && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/server.ts' -e ts",
     "format": "npx prettier './src/**/*.ts' './src/**/*.js' --write",
     "build": "tsc",
-    "start": "node ./dist/server.js"
+    "build:electron": "npx tsc -w",
+    "start": "node ./dist/server.js",
+    "start:electron": "electron ./dist/electron/main.js"
   },
   "keywords": [],
   "author": "cesar carlos",
   "license": "MIT",
   "dependencies": {
+    "@types/qrcode": "^1.4.2",
     "cors": "^2.8.5",
     "currency-formatter": "^1.5.9",
     "dotenv": "^16.0.1",
+    "electron": "^19.0.7",
     "express": "^4.18.1",
     "firebase-admin": "^11.0.0",
     "gn-api-sdk-typescript": "^1.0.7",
     "moment": "^2.29.3",
-    "node-localstorage": "^2.2.1"
+    "node-localstorage": "^2.2.1",
+    "qrcode": "^1.5.0"
   },
   "devDependencies": {
     "@firebase/firestore-types": "^2.5.0",
