@@ -1,5 +1,7 @@
 export default class CobrancaParcela {
   constructor(
+    readonly id: string,
+    readonly IdCobranca: string,
     readonly origem: string,
     readonly codOrigem: string,
     readonly numeroParcela: string,
@@ -16,23 +18,27 @@ export default class CobrancaParcela {
   //create method from json
   static fromJson(json: any): CobrancaParcela {
     return new CobrancaParcela(
-      json.Origem,
-      json.CodOrigem,
-      json.NumeroParcela,
-      json.CodFormaPagamento,
-      json.DataEmissao,
-      json.DataVenda,
-      json.DataVencimento,
-      json.ValorBruto,
-      json.ValorLiquido,
-      json.ValorParcela,
-      json.Observacao,
+      json.id || json.Id,
+      json.idCobranca || json.IdCobranca,
+      json.origem || json.Origem,
+      json.codOrigem || json.CodOrigem,
+      json.numeroParcela || json.NumeroParcela,
+      json.codFormaPagamento || json.CodFormaPagamento,
+      json.dataEmissao || json.DataEmissao,
+      json.dataVenda || json.DataVenda,
+      json.dataVencimento || json.DataVencimento,
+      json.valorBruto || json.ValorBruto,
+      json.valorLiquido || json.ValorLiquido,
+      json.valorParcela || json.ValorParcela,
+      json.observacao || json.Observacao,
     );
   }
 
   //create method to json
   toJson(): any {
     return {
+      id: this.id,
+      IdCobranca: this.IdCobranca,
       Origem: this.origem,
       CodOrigem: this.codOrigem,
       NumeroParcela: this.numeroParcela,
@@ -50,34 +56,19 @@ export default class CobrancaParcela {
   //create method from object
   static fromObject(obj: any): CobrancaParcela {
     return new CobrancaParcela(
-      obj.Origem,
-      obj.CodOrigem,
-      obj.NumeroParcela,
-      obj.CodFormaPagamento,
-      obj.DataEmissao,
-      obj.DataVenda,
-      obj.DataVencimento,
-      obj.ValorBruto,
-      obj.ValorLiquido,
-      obj.ValorParcela,
-      obj.Observacao,
+      obj.id || obj.Id,
+      obj.idCobranca || obj.IdCobranca,
+      obj.origem || obj.Origem,
+      obj.codOrigem || obj.CodOrigem,
+      obj.numeroParcela || obj.NumeroParcela,
+      obj.codFormaPagamento || obj.CodFormaPagamento,
+      obj.dataEmissao || obj.DataEmissao,
+      obj.dataVenda || obj.DataVenda,
+      obj.dataVencimento || obj.DataVencimento,
+      obj.valorBruto || obj.ValorBruto,
+      obj.valorLiquido || obj.ValorLiquido,
+      obj.valorParcela || obj.ValorParcela,
+      obj.observacao || obj.Observacao,
     );
-  }
-
-  //create method to object
-  toObject(): any {
-    return {
-      Origem: this.origem,
-      CodOrigem: this.codOrigem,
-      NumeroParcela: this.numeroParcela,
-      CodFormaPagamento: this.codFormaPagamento,
-      DataEmissao: this.dataEmissao,
-      DataVenda: this.dataVenda,
-      DataVencimento: this.dataVencimento,
-      ValorBruto: this.valorBruto,
-      ValorLiquido: this.valorLiquido,
-      ValorParcela: this.valorParcela,
-      Observacao: this.observacao,
-    };
   }
 }

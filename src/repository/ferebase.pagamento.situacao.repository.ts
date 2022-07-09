@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
 
-import ContractBaseRepository from '../contracts/contract.base.repository';
+import ContractBaseRepository from '../contracts/base.repository.contract';
 import PagamentoSituacao from '../entities/pagamento.situacao';
 
 export default class FerebasePagamentoSituacaoRepository implements ContractBaseRepository<PagamentoSituacao> {

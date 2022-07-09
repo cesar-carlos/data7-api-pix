@@ -5,6 +5,7 @@ export default class PagamentoPendente {
   //create constructor initialize properties
   constructor(
     readonly id: string,
+    readonly IdParcela: string,
     readonly txid: string,
     readonly chave: string,
     readonly status: string,
@@ -20,6 +21,7 @@ export default class PagamentoPendente {
   static fromJson(json: any): PagamentoPendente {
     return new PagamentoPendente(
       json.Id,
+      json.IdParcela,
       json.Txid,
       json.Chave,
       json.Status,
@@ -36,6 +38,7 @@ export default class PagamentoPendente {
   toJson(): any {
     return {
       Id: this.id,
+      IdParcela: this.IdParcela,
       Txid: this.txid,
       Chave: this.chave,
       Status: this.status,
@@ -52,6 +55,7 @@ export default class PagamentoPendente {
   static fromObject(obj: any): PagamentoPendente {
     return new PagamentoPendente(
       obj.id,
+      obj.IdParcela,
       obj.txid,
       obj.chave,
       obj.status,

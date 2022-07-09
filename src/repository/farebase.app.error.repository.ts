@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
 
-import ContractBaseRepository from '../contracts/contract.base.repository';
+import ContractBaseRepository from '../contracts/base.repository.contract';
 import AppError from '../entities/app.error';
 
 export default class FirebaseAppErrorRepository implements ContractBaseRepository<AppError> {

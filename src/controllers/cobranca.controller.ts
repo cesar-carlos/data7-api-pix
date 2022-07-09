@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Filial from '../entities/filial';
+import Usuario from '../entities/usuario';
 
 export default class CobrancaController {
   constructor() {}
@@ -10,7 +11,7 @@ export default class CobrancaController {
   }
 
   public static async post(req: Request, res: Response) {
-    console.log(req.body.Data[0].Filial);
+    console.log(req.body.Data[0].Usuario);
     res.send('Cobranca post');
   }
 

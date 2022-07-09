@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
 
-import ContractBaseRepository from '../contracts/contract.base.repository';
+import ContractBaseRepository from '../contracts/base.repository.contract';
 import Pagamento from '../entities/pagamento.pendente';
 import PagamentoAdicionais from '../entities/pagamento.adicionais';
 import PagamentoLoc from '../entities/pagamento.loc';

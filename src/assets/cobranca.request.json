@@ -11,7 +11,8 @@
 			"Usuario": {
 				"CodUsuario": 1,
 				"NomeUsuario": "Administrador",
-				"EstacaoTrabalho": "CESAR-CARLOS"
+				"EstacaoTrabalho": "CESAR-CARLOS",
+        "IP": "127.0.0.1"
 			},
 			"Cliente": {
 				"CodCliente": 8,

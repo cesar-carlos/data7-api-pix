@@ -1,4 +1,9 @@
 import { cert, initializeApp } from 'firebase-admin/app';
+import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
+import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
+import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
+import LocalLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
+import CobrancaPixGnSpec from '../test/cobranca.pix.gn.spec';
 
 import Api from './api';
 
@@ -14,7 +19,10 @@ export default class App {
   }
 
   public execute() {
-    const api = new Api();
-    api.execute();
+    const _localSqlServerLiberacaoBloqueioRepository = new LocalSqlServerItemLiberacaoBloqueioRepository();
+    _localSqlServerLiberacaoBloqueioRepository.selectWhere([{ key: 'CodLiberacaoBloqueio', value: 2638 }]);
+
+    // const api = new Api();
+    // api.execute();
   }
 }

@@ -1,5 +1,5 @@
-import GerencianetCobranca from '../services/gerencianet.cobranca';
-import ContractCredentialPIX from '../contracts/contract.credential.pix';
+import GerencianetCobranca from '../adapter/gerencianet.cobranca.adapter';
+import ContractCredentialPIX from '../contracts/credential.pix.contract';
 import PagamentoLoc from '../entities/pagamento.loc';
 import FakeCobrancaRepository from '../repository/fake.cobranca.repository';
 
@@ -19,10 +19,10 @@ export default class CobrancaPixGnSpec {
 
   private async initialize() {}
 
-  async exec() {
+  async execute() {
     const cnpj = '00000000000000';
     const docId: string = this.docsIdFake[0];
-    const config: ContractCredentialPIX = require('../assets/config.pix.ts');
+    const config: ContractCredentialPIX = require('../assets/config.pix');
     const gerencianetCobranca = new GerencianetCobranca(config);
 
     // test methods / endpoints
@@ -59,7 +59,7 @@ export default class CobrancaPixGnSpec {
     // const listLoc = await gerencianetCobranca.listLoc(LocDataInicial, LocDataInicial);
     // console.log(listLoc);
 
-    // const endToEndId = 'E18236120202206201518s15b18235b9';
+    // const endToEndId = 'E18236120202206270109s15a4aeaf84';
     // const pix = await gerencianetCobranca.PIX(endToEndId);
     // console.log(pix);
 

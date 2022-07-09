@@ -1,5 +1,10 @@
 export default class Usuario {
-  constructor(readonly codUsuario: number, readonly nomeUsuario: string, readonly estacaoTrabalho: string) {}
+  constructor(
+    readonly codUsuario: number,
+    readonly nomeUsuario: string,
+    readonly estacaoTrabalho: string,
+    readonly ip: string,
+  ) {}
 
   //create method from json
   static fromJson(json: any): Usuario {
@@ -7,6 +12,7 @@ export default class Usuario {
       json.codUsuario || json.CodUsuario,
       json.nomeUsuario || json.NomeUsuario,
       json.estacaoTrabalho || json.EstacaoTrabalho,
+      json.ip || json.IP,
     );
   }
 
@@ -16,6 +22,7 @@ export default class Usuario {
       CodUsuario: this.codUsuario,
       NomeUsuario: this.nomeUsuario,
       EstacaoTrabalho: this.estacaoTrabalho,
+      ip: this.ip,
     };
   }
 
@@ -25,6 +32,7 @@ export default class Usuario {
       obj.codUsuario || obj.CodUsuario,
       obj.nomeUsuario || obj.NomeUsuario,
       obj.estacaoTrabalho || obj.EstacaoTrabalho,
+      obj.ip || obj.IP,
     );
   }
 }

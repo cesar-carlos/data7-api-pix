@@ -1,8 +1,8 @@
 import Gerencianet from 'gn-api-sdk-typescript';
 import { LocalStorage } from 'node-localstorage';
 
-import ContractCredential from '../contracts/contract.credential';
-import ContractCredentialPIX from '../contracts/contract.credential.pix';
+import ContractCredential from '../contracts/credential.contract';
+import ContractCredentialPIX from '../contracts/credential.pix.contract';
 
 import AppError from '../entities/app.error';
 import Cobranca from '../entities/cobranca';
@@ -14,9 +14,9 @@ import PagamentoAdicionais from '../entities/pagamento.adicionais';
 import PagamentoSituacao from '../entities/pagamento.situacao';
 
 import Chave from '../entities/chave';
-import Pix from '../entities/pix';
+import PagamentoPix from '../entities/pagamento.pix';
 
-export default class GerencianetCobranca {
+export default class GerencianetCobrancaAdapter {
   private gerencianet: any;
 
   constructor(private readonly config: ContractCredential | ContractCredentialPIX) {
@@ -143,12 +143,21 @@ export default class GerencianetCobranca {
     }
   }
 
-  public async PIX(endToEndId: string): Promise<Pix | undefined> {
+  public async PIX(endToEndId: string): Promise<PagamentoPix | undefined> {
     try {
       const params = { e2eId: endToEndId };
       const respose = await this.gerencianet.pixDetail(params);
-      const pix = Pix.fromObject(respose);
-      return pix;
+      if (!respose) return undefined;
+
+      const pagamentoPix = new PagamentoPix(
+        respose.txid,
+        respose.endToEndId,
+        respose.valor,
+        respose.chave,
+        respose.horario,
+      );
+
+      return pagamentoPix;
     } catch (error) {
       console.log(error);
     }

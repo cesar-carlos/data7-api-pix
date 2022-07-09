@@ -1,6 +1,6 @@
 import WatchPatch from '../controllers/watch.patch';
 
-import GerencianetCobranca from './gerencianet.cobranca';
+import GerencianetCobranca from '../adapter/gerencianet.cobranca.adapter';
 import Cobranca from '../entities/cobranca';
 
 import AppError from '../entities/app.error';
@@ -53,7 +53,8 @@ export default class ListenCreatePIX {
         const secondsInteval = 5;
         const maxRequest = 10;
         if (pgamentoPendente) {
-          this.linstenPeymentPIX.open(pgamentoPendente.txid, secondsInteval, maxRequest);
+          //todo: open listen payment pix
+          //this.linstenPeymentPIX.open(pgamentoPendente.txid, secondsInteval, maxRequest);
         }
       } catch (error: any) {
         const appError = new AppError(sysId, 'linstenPeymentPIX.open', error.message, '', '');
