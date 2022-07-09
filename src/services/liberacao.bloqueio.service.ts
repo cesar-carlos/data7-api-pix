@@ -1,7 +1,14 @@
 import LiberacaoBloqueio from '../entities/liberacao.bloqueio';
+
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
+import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
+import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository/local.sql.server.item.liberacao.bloqueio.situacao.repository';
 
 export default class LiberacaoBloqueioService {
+  private sqlServerLiberacaoBloqueioRep = new LocalSqlServerLiberacaoBloqueioRepository();
+  private sqlServerItemLiberacaoBloqueioRep = new LocalSqlServerItemLiberacaoBloqueioRepository();
+  private sqlServerItemLiberacaoBloqueioSituacaoRepo = new LocalSqlServerItemLiberacaoBloqueioSituacaoRepository();
+
   constructor() {}
 
   public async getLiberacaoBloqueio(
@@ -15,11 +22,9 @@ export default class LiberacaoBloqueioService {
       { key: 'CodLiberacaoBloqueio', value: codLiberacaoBloqueio },
     ];
 
-    const _sqlServerLiberacaoBloqueioRepository = new LocalSqlServerLiberacaoBloqueioRepository();
-    const liberacoesDto = await _sqlServerLiberacaoBloqueioRepository.selectWhere(params);
+    const liberacoesDto = await this.sqlServerLiberacaoBloqueioRep.selectWhere(params);
     if (liberacoesDto === undefined) return undefined;
 
-    const liberacaoDto = liberacoesDto.shift();
     return undefined;
   }
 }

@@ -3,6 +3,7 @@ import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
 import LocalLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
+import LiberacaoBloqueioService from '../services/liberacao.bloqueio.service';
 import CobrancaPixGnSpec from '../test/cobranca.pix.gn.spec';
 
 import Api from './api';
@@ -19,8 +20,8 @@ export default class App {
   }
 
   public execute() {
-    const _localSqlServerLiberacaoBloqueioRepository = new LocalSqlServerItemLiberacaoBloqueioRepository();
-    _localSqlServerLiberacaoBloqueioRepository.selectWhere([{ key: 'CodLiberacaoBloqueio', value: 2638 }]);
+    const _liberacaoBloqueioService = new LiberacaoBloqueioService();
+    _liberacaoBloqueioService.getLiberacaoBloqueio(1, 1, 2638);
 
     // const api = new Api();
     // api.execute();
