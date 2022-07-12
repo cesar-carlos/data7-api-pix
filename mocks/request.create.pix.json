@@ -1,0 +1,15 @@
+
+
+ {
+  "sysId": "123456789",
+  "params": { "txid": "f4ad595f7666343731b2e4664c85cd07f6f" },
+  "calendario": { "expiracao": 1600 },
+  "devedor": { "cpf": "03523257123",  "nome": "Se7e Sistemas Sinop" },
+  "valor": { "original": "1.50" },
+  "chave": "a8c3515f-ac16-4851-ae22-b84dede3e311",
+  "solicitacaoPagador": "PIX DEMO SE7E SISTEMAS SINOP",
+  "infoAdicionais": [
+    { "nome": "sysId", "valor": "123456789" },
+    { "nome": "Livre", "valor": "Obs" }
+  ]
+}

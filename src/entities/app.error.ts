@@ -30,15 +30,4 @@ export default class AppError extends Error {
       value: this.value,
     };
   }
-
-  //create method from object
-  static fromObject(obj: any): AppError {
-    return new AppError(
-      obj.id || obj.Id,
-      obj.operaction || obj.Operaction,
-      obj.message || obj.Message,
-      obj.details || obj.Details,
-      obj.value || obj.Value,
-    );
-  }
 }

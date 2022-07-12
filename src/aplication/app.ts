@@ -1,9 +1,5 @@
+import path from 'path';
 import { cert, initializeApp } from 'firebase-admin/app';
-import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
-import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
-import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
-import LocalLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
-import LiberacaoBloqueioService from '../services/liberacao.bloqueio.service';
 
 import Api from './api';
 
@@ -13,13 +9,16 @@ export default class App {
   }
 
   private async initialize() {
-    const sicret = require('../certificates/secret_firebase.json');
-    initializeApp({ credential: cert(sicret), storageBucket: 'gs://data7-api-pix' });
+    const bucket = 'gs://data7-api-pix';
+    const sicret = require(path.resolve(__dirname, '..', 'certificates', 'secret_firebase.json'));
+    initializeApp({ credential: cert(sicret), storageBucket: bucket });
     require('dotenv').config();
   }
 
-  public execute() {
+  public async execute() {
     const api = new Api();
     api.execute();
+
+    const config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
   }
 }
