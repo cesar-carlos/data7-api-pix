@@ -56,19 +56,19 @@ export default class Cliente {
   //create method from object
   static fromObject(obj: any): Cliente {
     return new Cliente(
-      obj.codCliente,
-      obj.nomeCliente,
-      obj.cnpjCpf || null,
-      obj.telefone || null,
-      obj.eMail || null,
-      obj.endereco || null,
-      obj.numero || null,
-      obj.complemento || null,
-      obj.bairro || null,
-      obj.cep || null,
-      obj.codigoIBGE || null,
-      obj.nomeMunicipio,
-      obj.uf,
+      obj.codCliente || obj.CodCliente,
+      obj.nomeCliente || obj.NomeCliente,
+      obj.cnpjCpf || obj.CNPJ_CPF,
+      obj.telefone || obj.Telefone,
+      obj.eMail || obj.EMail,
+      obj.endereco || obj.Endereco,
+      obj.numero || obj.Numero,
+      obj.complemento || obj.Complemento,
+      obj.bairro || obj.Bairro,
+      obj.cep || obj.CEP,
+      obj.codigoIBGE || obj.CodigoIBGE,
+      obj.nomeMunicipio || obj.NomeMunicipio,
+      obj.uf || obj.UF,
     );
   }
 }

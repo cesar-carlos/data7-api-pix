@@ -1,7 +1,3 @@
-export type responseListPixDto = {
-  endToEndId: string;
-  txid: string;
-  valor: number;
-  chave: string;
-  horario: Date;
-};
+import { ResponsePixDto } from './response.pix.dto';
+
+export type responseListPixDto = ResponsePixDto;

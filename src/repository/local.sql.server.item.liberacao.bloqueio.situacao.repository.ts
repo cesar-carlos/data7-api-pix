@@ -33,13 +33,14 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.situacao.select.sql');
     const select = fs.readFileSync(patch).toString();
 
-    const param = params
-      .map((param: params) => {
-        return `${param.key} = '${param.value}'`;
+    const _params = params
+      .map((item: any) => {
+        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+        return `${item.key} = ${_value}`;
       })
       .join(' AND ');
 
-    const sql = `${select} WHERE ${param}`;
+    const sql = `${select} WHERE ${_params}`;
     const result = await pool.request().query(sql);
     pool.close();
 
@@ -93,10 +94,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
         .input('CodLiberacaoBloqueio', sql.Int, entity.codLiberacaoBloqueio)
         .input('Item', sql.VarChar(3), entity.item)
         .input('Status', sql.VarChar(3), entity.status)
-        .input('RotinaLiberacao', sql.VarChar(20), entity.rotinaLiberacao)
+        .input('RotinaLiberacao', sql.VarChar(20), entity.rotinaLiberacao.substring(0, 20))
         .input('DataHoraLiberacao', sql.DateTime, entity.dataHoraLiberacao)
         .input('CodUsuarioLiberacao', sql.Int, entity.codUsuarioLiberacao)
-        .input('EstacaoTrabalhoLiberacao', sql.VarChar(20), entity.estacaoTrabalhoLiberacao)
+        .input('EstacaoTrabalhoLiberacao', sql.VarChar(20), entity.estacaoTrabalhoLiberacao.substring(0, 20))
         .input('ObservacaoLiberacao', sql.VarChar(2000), entity.observacaoLiberacao)
         .input('MotivoRejeicaoLiberacaoBloqueio', sql.VarChar(2000), entity.motivoRejeicaoLiberacaoBloqueio)
         .input('Complemento', sql.VarChar(2000), entity.complemento)

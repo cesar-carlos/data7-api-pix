@@ -1,7 +1,7 @@
 export default class CobrancaParcela {
   constructor(
-    readonly id: string,
-    readonly IdCobranca: string,
+    //readonly id: string,
+    //readonly IdCobranca: string,
     readonly origem: string,
     readonly codOrigem: string,
     readonly numeroParcela: string,
@@ -18,8 +18,8 @@ export default class CobrancaParcela {
   //create method from json
   static fromJson(json: any): CobrancaParcela {
     return new CobrancaParcela(
-      json.id || json.Id,
-      json.idCobranca || json.IdCobranca,
+      // json.id || json.Id,
+      // json.idCobranca || json.IdCobranca,
       json.origem || json.Origem,
       json.codOrigem || json.CodOrigem,
       json.numeroParcela || json.NumeroParcela,
@@ -37,8 +37,8 @@ export default class CobrancaParcela {
   //create method to json
   toJson(): any {
     return {
-      id: this.id,
-      IdCobranca: this.IdCobranca,
+      // id: this.id,
+      // IdCobranca: this.IdCobranca,
       Origem: this.origem,
       CodOrigem: this.codOrigem,
       NumeroParcela: this.numeroParcela,
@@ -56,8 +56,8 @@ export default class CobrancaParcela {
   //create method from object
   static fromObject(obj: any): CobrancaParcela {
     return new CobrancaParcela(
-      obj.id || obj.Id,
-      obj.idCobranca || obj.IdCobranca,
+      // obj.id || obj.Id,
+      // obj.idCobranca || obj.IdCobranca,
       obj.origem || obj.Origem,
       obj.codOrigem || obj.CodOrigem,
       obj.numeroParcela || obj.NumeroParcela,

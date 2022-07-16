@@ -18,7 +18,5 @@ export default class App {
   public async execute() {
     const api = new Api();
     api.execute();
-
-    const config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
   }
 }

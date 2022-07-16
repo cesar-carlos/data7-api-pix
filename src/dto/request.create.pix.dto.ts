@@ -1,17 +1,17 @@
-type params = {
+export type params = {
   txid: string;
 };
 
-type devedor = {
+export type devedor = {
   cpf: string;
   nome: string;
 };
 
-type valor = {
+export type valor = {
   original: string;
 };
 
-type infoAdicionais = {
+export type infoAdicionais = {
   nome: string;
   valor: string;
 };
@@ -24,5 +24,5 @@ export type requestCreatePixDto = {
   valor: valor;
   chave: string;
   solicitacaoPagador: string;
-  infoAdicionais: [infoAdicionais];
+  infoAdicionais: infoAdicionais[];
 };

@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
+import LocalBaseRepositoryContract, { params, param } from '../contracts/local.base.repository.contract';
 import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
 import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 
@@ -33,13 +33,14 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
     const select = fs.readFileSync(patch).toString();
 
-    const param = params
-      .map((param: params) => {
-        return `${param.key} = '${param.value}'`;
+    const _params = params
+      .map((item: any) => {
+        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+        return `${item.key} = ${_value}`;
       })
       .join(' AND ');
 
-    const sql = `${select} WHERE ${param}`;
+    const sql = `${select} WHERE ${_params}`;
     const result = await pool.request().query(sql);
     pool.close();
 

@@ -5,23 +5,23 @@ export enum STATUS {
   REMOVIDA_PELO_PSP = 'REMOVIDA_PELO_PSP',
 }
 
-type loc = {
+export type loc = {
   id: number;
   location: string;
   tipoCob: string;
   criacao: Date;
 };
 
-type devedor = {
+export type devedor = {
   cpf: string;
   nome: string;
 };
 
-type valor = {
+export type valor = {
   original: string;
 };
 
-type infoAdicionais = {
+export type infoAdicionais = {
   nome: string;
   valor: string;
 };

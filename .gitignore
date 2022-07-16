@@ -6,6 +6,8 @@ config.ts
 config.pix.ts
 LocalStorage
 certificates
+local.storage
+public
 
 
 ### Node ###

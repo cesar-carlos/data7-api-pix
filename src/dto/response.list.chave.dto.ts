@@ -1,5 +1,3 @@
-export type responseListChaveDto = {
-  status: string;
-  dataCriacao: Date;
-  chave: string;
-}[];
+import { ResponseChaveDto } from './response.chave.dto';
+
+export type responseListChaveDto = ResponseChaveDto[];

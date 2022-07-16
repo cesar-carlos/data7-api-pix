@@ -11,6 +11,6 @@ UPDATE ItemLiberacaoBloqueio SET
 	NomeUsuarioSolicitacao = @NomeUsuarioSolicitacao,
 	EstacaoTrabalhoSolicitacao = @EstacaoTrabalhoSolicitacao,
 	ObservacaoLiberacaoBloqueio = @ObservacaoLiberacaoBloqueio,
-	MotivoRejeicaoLiberacaoBloquei = @MotivoRejeicaoLiberacaoBloqueio
- WHERE 	CodLiberacaoBloqueio = @CodLiberacaoBloqueio,
+	MotivoRejeicaoLiberacaoBloqueio = @MotivoRejeicaoLiberacaoBloqueio
+ WHERE 	CodLiberacaoBloqueio = @CodLiberacaoBloqueio
 	AND Item = 	@Item

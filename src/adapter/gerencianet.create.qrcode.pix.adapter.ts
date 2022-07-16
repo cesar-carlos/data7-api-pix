@@ -1,5 +1,5 @@
 import ContractCredentialPIX from '../contracts/credential.pix.contract';
-import { responseCreateQrcodePix } from '../dto/response.create.qrcode.pix';
+import { responseCreateQrcodePixDto } from '../dto/response.create.qrcode.pix.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreateQrcodePixAdapter extends GerencianetBase {
@@ -7,11 +7,11 @@ export default class GerencianetCreateQrcodePixAdapter extends GerencianetBase {
     super(config);
   }
 
-  async execute(locid: number): Promise<responseCreateQrcodePix> {
+  async execute(locid: number): Promise<responseCreateQrcodePixDto> {
     try {
       const params = { id: locid };
       const request = await this.gerencianet.pixGenerateQRCode(params);
-      const result: responseCreateQrcodePix = {
+      const result: responseCreateQrcodePixDto = {
         qrcode: request.qrcode,
         imagemQrcode: request.imagemQrcode,
       };

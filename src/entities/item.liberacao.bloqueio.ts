@@ -1,19 +1,19 @@
 export default class ItemLiberacaoBloqueio {
   constructor(
-    private codLiberacaoBloqueio: number,
-    private item: string,
-    private status: string,
-    private codRegra: number,
-    private regra: string,
-    private mensagemBloqueio: string,
-    private descricaoBloqueio: string,
-    private observacaoBloqueio: string,
-    private dataHoraSolicitacao: Date,
-    private codUsuarioSolicitacao: number,
-    private nomeUsuarioSolicitacao: string,
-    private estacaoTrabalhoSolicitacao: string,
-    private observacaoLiberacaoBloqueio: string,
-    private motivoRejeicaoLiberacaoBloqueio: string,
+    readonly codLiberacaoBloqueio: number,
+    readonly item: string,
+    readonly status: string,
+    readonly codRegra: number,
+    readonly regra: string,
+    readonly mensagemBloqueio: string,
+    readonly descricaoBloqueio: string,
+    readonly observacaoBloqueio: string,
+    readonly dataHoraSolicitacao: Date,
+    readonly codUsuarioSolicitacao: number,
+    readonly nomeUsuarioSolicitacao: string,
+    readonly estacaoTrabalhoSolicitacao: string,
+    readonly observacaoLiberacaoBloqueio: string,
+    readonly motivoRejeicaoLiberacaoBloqueio: string,
   ) {}
 
   //create method from json

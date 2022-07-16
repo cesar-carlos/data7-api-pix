@@ -7,7 +7,7 @@ UPDATE ItemLiberacaoBloqueio SET
 	EstacaoTrabalhoLiberacao = @EstacaoTrabalhoLiberacao,
 	ObservacaoLiberacao = @ObservacaoLiberacao,
 	MotivoRejeicaoLiberacaoBloqueio = @MotivoRejeicaoLiberacaoBloqueio,
-	Complement = @Complemento
+	Complemento = @Complemento
 WHERE CodLiberacaoBloqueio = @CodLiberacaoBloqueio
 	AND Item = @Item
 

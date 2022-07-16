@@ -21,16 +21,13 @@ export default class GerencianetCreatePixAdapter extends GerencianetBase {
   }
 
   private body(request: requestCreatePixDto) {
-    const formatter = require('currency-formatter');
-    const valueFormated: string = formatter.format(request.valor.original, { code: 'USD', symbol: '' });
-
     const body = {
-      calendario: { expiracao: 1600 },
+      calendario: { expiracao: request.calendario.expiracao },
       devedor: { cpf: request.devedor.cpf, nome: request.devedor.nome },
-      valor: { original: valueFormated },
+      valor: { original: request.valor.original },
       chave: request.chave,
       solicitacaoPagador: request.solicitacaoPagador,
-      infoAdicionais: [{ nome: 'Id do Pedido', valor: request.sysId }],
+      infoAdicionais: request.infoAdicionais,
     };
 
     return body;

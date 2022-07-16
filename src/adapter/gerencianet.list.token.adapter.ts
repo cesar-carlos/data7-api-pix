@@ -7,10 +7,10 @@ export default class GerencianetListTokenAdapter extends GerencianetBase {
     super(config);
   }
 
-  public async execute(): Promise<responseListChaveDto[]> {
+  public async execute(): Promise<responseListChaveDto> {
     try {
       const response = await this.gerencianet.gnListEvp();
-      const tokens = response?.chaves.map((key: any) => {
+      const tokens: responseListChaveDto = response?.chaves.map((key: any) => {
         return {
           status: 'Ativo',
           dataCriacao: new Date(),

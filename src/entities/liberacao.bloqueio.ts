@@ -12,8 +12,8 @@ export default class LiberacaoBloqueio {
     readonly CodUsuarioBloqueio: number,
     readonly nomeUsuarioBloqueio: string,
     readonly estacaoTrabalhoBloqueio: string,
-    readonly itemLiberacaoBloqueio: ItemLiberacaoBloqueio,
-    readonly itemLiberacaoBloqueioSituacao?: ItemLiberacaoBloqueioSituacao,
+    readonly itemLiberacaoBloqueio: ItemLiberacaoBloqueio[],
+    public itemLiberacaoBloqueioSituacao?: ItemLiberacaoBloqueioSituacao[],
   ) {}
 
   //create method from json
@@ -28,8 +28,8 @@ export default class LiberacaoBloqueio {
       json.CodUsuarioBloqueio || json.CodUsuarioBloqueio,
       json.nomeUsuarioBloqueio || json.NomeUsuarioBloqueio,
       json.estacaoTrabalhoBloqueio || json.EstacaoTrabalhoBloqueio,
-      ItemLiberacaoBloqueio.fromJson(json.itemLiberacaoBloqueio || json.ItemLiberacaoBloqueio),
-      ItemLiberacaoBloqueioSituacao.fromJson(json.itemLiberacaoBloqueioSituacao || json.ItemLiberacaoBloqueioSituacao),
+      json.itemLiberacaoBloqueio || json.ItemLiberacaoBloqueio,
+      json.itemLiberacaoBloqueioSituacao || json.ItemLiberacaoBloqueioSituacao,
     );
   }
 
@@ -45,8 +45,8 @@ export default class LiberacaoBloqueio {
       CodUsuarioBloqueio: this.CodUsuarioBloqueio,
       NomeUsuarioBloqueio: this.nomeUsuarioBloqueio,
       EstacaoTrabalhoBloqueio: this.estacaoTrabalhoBloqueio,
-      ItemLiberacaoBloqueio: this.itemLiberacaoBloqueio.toJson(),
-      ItemLiberacaoBloqueioSituacao: this.itemLiberacaoBloqueioSituacao?.toJson(),
+      ItemLiberacaoBloqueio: this.itemLiberacaoBloqueio,
+      ItemLiberacaoBloqueioSituacao: this.itemLiberacaoBloqueioSituacao,
     };
   }
 
@@ -62,10 +62,8 @@ export default class LiberacaoBloqueio {
       object.CodUsuarioBloqueio || object.CodUsuarioBloqueio,
       object.nomeUsuarioBloqueio || object.NomeUsuarioBloqueio,
       object.estacaoTrabalhoBloqueio || object.EstacaoTrabalhoBloqueio,
-      ItemLiberacaoBloqueio.fromObject(object.itemLiberacaoBloqueio || object.ItemLiberacaoBloqueio),
-      ItemLiberacaoBloqueioSituacao.fromObject(
-        object.itemLiberacaoBloqueioSituacao || object.ItemLiberacaoBloqueioSituacao,
-      ),
+      object.itemLiberacaoBloqueio || object.ItemLiberacaoBloqueio,
+      object.itemLiberacaoBloqueioSituacao || object.ItemLiberacaoBloqueioSituacao,
     );
   }
 }

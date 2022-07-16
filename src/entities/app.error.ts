@@ -9,18 +9,10 @@ export default class AppError extends Error {
     super(message);
   }
 
-  //create method from json
   static fromJson(json: any): AppError {
-    return new AppError(
-      json.id || json.Id,
-      json.operaction || json.Operaction,
-      json.message || json.Message,
-      json.details || json.Details,
-      json.value || json.Value,
-    );
+    return new AppError(json.id, json.operaction, json.message, json.details, json.value);
   }
 
-  //create method to json
   toJson(): any {
     return {
       id: this.id,

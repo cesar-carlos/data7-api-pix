@@ -1,7 +1,3 @@
-export type responseListLocDto = {
-  id: number;
-  location: string;
-  tipoCob: string;
-  criacao: Date;
-  txid: string;
-}[];
+import { ResponseLocDto } from './response.loc.dto';
+
+export type responseListLocDto = ResponseLocDto[];

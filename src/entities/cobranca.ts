@@ -3,6 +3,9 @@ import Usuario from './usuario';
 import Cliente from './cliente';
 import Parcela from './cobranca.parcela';
 
+import { requestCobrancaSe7eDto } from '../dto/request.cobranca.se7e.dto';
+import Chave from './chave';
+
 export default class Cobranca {
   constructor(
     readonly id: string,
@@ -43,5 +46,17 @@ export default class Cobranca {
       Cliente.fromObject(obj.cliente),
       obj.parcelas.map((parcela: any) => Parcela.fromObject(parcela)),
     );
+  }
+
+  //create method from requestCobrancaSe7eDto
+  static fromRequestCobrancaSe7eDto(cobrancaSe7eDto: requestCobrancaSe7eDto): Cobranca {
+    const _usuario: Usuario = Usuario.fromObject(cobrancaSe7eDto.Usuario);
+    const _filial: Filial = Filial.fromObject(cobrancaSe7eDto.Filial);
+    const _cliente: Cliente = Cliente.fromObject(cobrancaSe7eDto.Cliente);
+    const _parcelas: Parcela[] = cobrancaSe7eDto.Parcelas.map((parcela: any) => {
+      return Parcela.fromObject(parcela);
+    });
+
+    return new Cobranca(cobrancaSe7eDto.Id, _usuario, _filial, _cliente, _parcelas);
   }
 }
