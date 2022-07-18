@@ -14,7 +14,7 @@ import LocalStorageChaveRepository from '../repository/local.storage.chave.repos
 import ChavesGnCobrancaServices from './chaves.gn.cobranca.services';
 import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
-import LinstenPeymentPix from './linsten.peyment.pix';
+import LinstenPeymentPix from './linsten.gn.peyment.pix';
 import RegraBloqueioService from './regra.bloqueio.service';
 
 export default class CobrancaGnPixService {

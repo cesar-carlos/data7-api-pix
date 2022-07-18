@@ -4,7 +4,7 @@ import { STATUS } from '../dto/response.create.pix.dto';
 import GerencianetPixDetail from '../adapter/gerencianet.pix.detail';
 import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
 
-export default class LinstenPeymentPix {
+export default class LinstenGnPeymentPix {
   //todo: config Gn - remove
   private config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
 
