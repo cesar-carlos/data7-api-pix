@@ -11,10 +11,10 @@ import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
 import LocalStorageChaveRepository from '../repository/local.storage.chave.repository';
 
-import ChavesGnCobrancaServices from './chaves.gn.cobranca.services';
+import ChavesGnCobrancaServices from './chaves.gn.cobranca.service';
 import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
-import LinstenPeymentPix from './linsten.gn.peyment.pix';
+import LinstenPeymentPix from './linsten.gn.peyment.pix.service';
 import RegraBloqueioService from './regra.bloqueio.service';
 
 export default class CobrancaGnPixService {

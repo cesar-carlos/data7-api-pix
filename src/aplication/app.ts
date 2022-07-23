@@ -2,6 +2,7 @@ import path from 'path';
 import { cert, initializeApp } from 'firebase-admin/app';
 
 import Api from './api';
+import WebhookGnConfigService from '../services/webhook.gn.config.service';
 
 export default class App {
   constructor() {
@@ -16,7 +17,10 @@ export default class App {
   }
 
   public async execute() {
-    const api = new Api();
-    api.execute();
+    // const api = new Api();
+    // api.execute();
+
+    const _webhookGnConfigService = new WebhookGnConfigService();
+    _webhookGnConfigService.execute();
   }
 }

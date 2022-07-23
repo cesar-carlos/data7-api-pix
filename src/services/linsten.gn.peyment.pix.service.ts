@@ -2,7 +2,7 @@ import { STATUS } from '../dto/response.create.pix.dto';
 import GerencianetPixDetail from '../adapter/gerencianet.pix.detail';
 import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
 
-export default class LinstenGnPeymentPix {
+export default class LinstenGnPeymentPixService {
   private _gerencianetPixDetail = new GerencianetPixDetail();
   constructor() {}
 

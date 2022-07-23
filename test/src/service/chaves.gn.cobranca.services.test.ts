@@ -1,6 +1,6 @@
 import Chave from '../../../src/entities/chave';
 import LocalStorageChaveRepository from '../../../src/repository/local.storage.chave.repository';
-import ChavesGnCobrancaServices from '../../../src/services/chaves.gn.cobranca.services';
+import ChavesGnCobrancaServices from '../../../src/services/chaves.gn.cobranca.service';
 
 test(`deve retornar uma instacia de Chave`, async () => {
   const _localStorageChaveRepository = new LocalStorageChaveRepository();
