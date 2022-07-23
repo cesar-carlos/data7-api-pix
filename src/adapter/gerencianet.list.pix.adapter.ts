@@ -1,12 +1,7 @@
-import ContractCredentialPIX from '../contracts/credential.pix.contract';
 import { responseListPixDto } from '../dto/response.list.pix.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListPixAdapter extends GerencianetBase {
-  constructor(config: ContractCredentialPIX) {
-    super(config);
-  }
-
   async execute(startDate: Date, endDate: Date, page: number = 1): Promise<responseListPixDto> {
     try {
       const dataInicio = startDate.toISOString();

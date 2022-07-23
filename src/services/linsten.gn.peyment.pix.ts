@@ -1,14 +1,9 @@
-import path from 'path';
-
 import { STATUS } from '../dto/response.create.pix.dto';
 import GerencianetPixDetail from '../adapter/gerencianet.pix.detail';
 import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
 
 export default class LinstenGnPeymentPix {
-  //todo: config Gn - remove
-  private config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
-
-  private _gerencianetPixDetail = new GerencianetPixDetail(this.config);
+  private _gerencianetPixDetail = new GerencianetPixDetail();
   constructor() {}
 
   public async open(txid: string, callBack: (pixDetailDto: responsePixDetailDto) => void): Promise<void> {

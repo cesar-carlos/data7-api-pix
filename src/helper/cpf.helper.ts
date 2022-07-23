@@ -34,9 +34,7 @@ export default function cpf(value: string): boolean {
     rev = 0;
   }
 
-  if (rev !== parseInt(value.charAt(9), 10)) {
-    return false;
-  }
+  if (rev !== parseInt(value.charAt(9), 10)) return false;
 
   add = 0;
   for (let i = 0; i < 10; i++) {
@@ -48,9 +46,7 @@ export default function cpf(value: string): boolean {
     rev = 0;
   }
 
-  if (rev !== parseInt(value.charAt(10), 10)) {
-    return false;
-  }
+  if (rev !== parseInt(value.charAt(10), 10)) return false;
 
   return true;
 }

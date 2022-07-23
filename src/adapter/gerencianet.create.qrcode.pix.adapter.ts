@@ -1,12 +1,7 @@
-import ContractCredentialPIX from '../contracts/credential.pix.contract';
 import { responseCreateQrcodePixDto } from '../dto/response.create.qrcode.pix.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreateQrcodePixAdapter extends GerencianetBase {
-  constructor(config: ContractCredentialPIX) {
-    super(config);
-  }
-
   async execute(locid: number): Promise<responseCreateQrcodePixDto> {
     try {
       const params = { id: locid };

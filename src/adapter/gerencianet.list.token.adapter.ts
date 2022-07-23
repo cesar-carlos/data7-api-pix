@@ -1,12 +1,7 @@
-import ContractCredentialPIX from '../contracts/credential.pix.contract';
 import { responseListChaveDto } from '../dto/response.list.chave.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListTokenAdapter extends GerencianetBase {
-  constructor(config: ContractCredentialPIX) {
-    super(config);
-  }
-
   public async execute(): Promise<responseListChaveDto> {
     try {
       const response = await this.gerencianet.gnListEvp();

@@ -1,4 +1,3 @@
-import path from 'path';
 import formatter from 'currency-formatter';
 
 import cpf from '../helper/cpf.helper';
@@ -10,9 +9,6 @@ import Cobranca from '../entities/cobranca';
 import ProcessInfo from '../entities/process.info';
 
 export default class CreateGnPixService {
-  //todo: config Gn - remove
-  private config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
-
   constructor(private chave: string, private cobranca: Cobranca) {}
   public async execute(): Promise<responseCreatePixDto | ProcessInfo> {
     try {
@@ -43,7 +39,7 @@ export default class CreateGnPixService {
         infoAdicionais: _infoAdicionais,
       };
 
-      const gerencianetCreatePix = new GerencianetCreatePixAdapter(this.config);
+      const gerencianetCreatePix = new GerencianetCreatePixAdapter();
       const response = await gerencianetCreatePix.execute(request);
       return response;
     } catch (error: any) {

@@ -1,13 +1,8 @@
-import ContractCredentialPIX from '../contracts/credential.pix.contract';
 import { requestCreatePixDto } from '../dto/request.create.pix.dto';
 import { responseCreatePixDto } from '../dto/response.create.pix.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreatePixAdapter extends GerencianetBase {
-  constructor(config: ContractCredentialPIX) {
-    super(config);
-  }
-
   public async execute(request: requestCreatePixDto): Promise<responseCreatePixDto> {
     try {
       const params = request.params;

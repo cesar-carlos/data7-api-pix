@@ -1,6 +1,6 @@
 import path from 'path';
 import { LocalStorage } from 'node-localstorage';
-import LocalBaseRepositoryContract, { params, param } from '../contracts/local.base.repository.contract';
+import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ChaveDto from '../dto/chave.dto';
 
 export default class LocalStorageChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {

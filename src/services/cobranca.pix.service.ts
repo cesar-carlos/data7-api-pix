@@ -23,16 +23,18 @@ export default class CobrancaGnPixService {
     try {
       //get token from repository
       const _localStorageChave = new LocalStorageChaveRepository();
-      const chaveDto = await new ChavesGnCobrancaServices(_localStorageChave).execute();
-      if (!chaveDto) throw new Error('Chave não encontrada');
+      const chave = await new ChavesGnCobrancaServices(_localStorageChave).execute();
+      if (chave instanceof ProcessInfo) throw new Error(`${chave.info}, ${chave.result}`);
+
       const _cobranca: Cobranca = Cobranca.fromRequestCobrancaSe7eDto(this.cobrancaDto);
-      const _createGnPixService = new CreateGnPixService(chaveDto.chave, _cobranca);
+      const _createGnPixService = new CreateGnPixService(chave.chave, _cobranca);
       const _responseCreatePix = await _createGnPixService.execute();
 
       //todo: insert value in repository
       if (_responseCreatePix instanceof ProcessInfo) {
         throw new Error(`${_responseCreatePix.info}, ${_responseCreatePix.result}`);
       }
+
       const _createRnQrcodeService = new CreateGnQrcodeService(_responseCreatePix);
       const _pagamentoQrCode = await _createRnQrcodeService.execute();
 
@@ -53,6 +55,7 @@ export default class CobrancaGnPixService {
       //todo: insert value in repository / liberacao
       const _linstenPeymentPix = new LinstenPeymentPix();
       _linstenPeymentPix.open(_responseCreatePix.txid, async (pixDetailDto: responsePixDetailDto) => {
+        //CALLBACK PARA CONFIRMAR PAGAMENTO
         const _regraBloqueioService = new RegraBloqueioService(
           new LocalSqlServerLiberacaoBloqueioRepository(),
           new LocalSqlServerItemLiberacaoBloqueioRepository(),
