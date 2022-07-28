@@ -23,10 +23,6 @@ export default class WebhookGnConfigService {
         throw new Error('Não foi possível obter chave para emissão da cobrança');
       }
 
-      // const listWebook = new GerencianetListWebhook();
-      // const result = await listWebook.execute(new Date('2021-01-22T16:01:35Z'), new Date('2023-11-30T20:10:00Z'));
-      // console.log(result);
-
       const respose = await this.gerencianetConfigWebhook.execute(chaves.chave, new URL(rawUrl));
     } catch (error: any) {
       console.log(error);
