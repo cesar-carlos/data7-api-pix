@@ -13,7 +13,6 @@ export default class WebhookListGnServices {
 
       const _gerencianetListWebhook = new GerencianetListWebhook();
       const result = _gerencianetListWebhook.execute(startDate, endDate, page);
-
       const webhookList: WebhookList = (await result).map((item) => {
         return {
           webhookUrl: item.webhookUrl,
