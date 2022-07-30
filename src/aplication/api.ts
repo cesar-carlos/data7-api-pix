@@ -18,7 +18,6 @@ export default class Api {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static(this.publicPath));
-
     this.app.use(ApiRoute.router);
   }
 

@@ -1,5 +1,5 @@
 import { STATUS } from '../dto/response.create.pix.dto';
-import GerencianetPixDetail from '../adapter/gerencianet.pix.detail';
+import GerencianetPixDetail from '../adapter/gerencianet.pix.detail.adapter';
 import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
 
 export default class LinstenGnPeymentPixService {
@@ -10,7 +10,7 @@ export default class LinstenGnPeymentPixService {
     try {
       let _contRequest = 0;
       const interval = 7;
-      const requests = 30;
+      const requests = 15;
 
       const intevalId = setInterval(async () => {
         const _responsePixDetailDto = await this._gerencianetPixDetail.execute(txid);

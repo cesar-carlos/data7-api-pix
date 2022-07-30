@@ -1,7 +1,7 @@
 import { responsePixStatusDto } from '../dto/response.pix.status.dto';
 import GerencianetBase from './gerencianet.base';
 
-export default class GerencianetPixStatus extends GerencianetBase {
+export default class GerencianetPixStatusAdapter extends GerencianetBase {
   public async execute(endToEndId: string): Promise<responsePixStatusDto> {
     try {
       const params = { e2eId: endToEndId };

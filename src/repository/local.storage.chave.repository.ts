@@ -9,6 +9,7 @@ export default class LocalStorageChaveRepository implements LocalBaseRepositoryC
   private colection = 'chaves';
 
   constructor() {}
+
   async select(): Promise<ChaveDto[] | undefined> {
     const result = this.storage.getItem(this.colection);
     if (!result) return undefined;
@@ -33,7 +34,18 @@ export default class LocalStorageChaveRepository implements LocalBaseRepositoryC
   }
 
   async update(entity: ChaveDto): Promise<void> {
-    throw new Error('Method not implemented.');
+    const chavesJson = this.storage.getItem(this.colection);
+    const chaves = chavesJson ? JSON.parse(chavesJson) : [];
+    const newChave = chaves.map((item: any) => {
+      if (item.uuid === entity.uuid) {
+        return entity;
+      }
+
+      return item;
+    });
+
+    this.storage.removeItem(this.colection);
+    this.storage.setItem(this.colection, JSON.stringify(newChave));
   }
 
   async delete(entity: ChaveDto): Promise<void> {

@@ -8,6 +8,7 @@ import ItemLiberacaoBloqueioSituacaoDto from '../dto/item.liberacao.bloqueio.sit
 import LiberacaoBloqueio from '../entities/liberacao.bloqueio';
 import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
 import ProcessInfo from '../entities/process.info';
+import { ProcessInfoStatusType } from '../type/process.info.status.type';
 
 export default class RegraBloqueioService {
   constructor(
@@ -52,14 +53,31 @@ export default class RegraBloqueioService {
       const _stringLiberacaoKey = `${JSON.stringify(LiberacaoKey)}`;
       const paramObservacaoBloqueio = params.create<string>('ObservacaoBloqueio', _stringLiberacaoKey);
       const itemLiberacaoDto = await this.repoItemLiberacao.selectWhere([paramObservacaoBloqueio]);
+      const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
 
-      if (!itemLiberacaoDto) return new ProcessInfo('NOF FOUND', '(itemLiberacaoBloquio) Nenhum registro encontrado');
+      if (!itemLiberacaoDto)
+        return new ProcessInfo(
+          infoStatusErro,
+          'RegraBloqueioService method: findOneFromLiberacaoKey',
+          '(itemLiberacaoBloquio) Nenhum registro encontrado',
+        );
+
       const CodEmpresa = LiberacaoKey.CodEmpresa;
       const CodLiberacao = itemLiberacaoDto.shift()?.codLiberacaoBloqueio;
 
-      if (!CodLiberacao) return new ProcessInfo('NOF FOUND', '(LiberacaoBloquio) Nenhum registro encontrado');
+      if (!CodLiberacao) {
+        return new ProcessInfo(infoStatusErro, 'RegraBloqueioService', '(LiberacaoBloquio) Nenhum registro encontrado');
+      }
+
       const liberacaoBloqueio = await this.findOne(CodEmpresa, CodLiberacao);
-      if (!liberacaoBloqueio) return new ProcessInfo('NOF FOUND', '(LiberacaoBloquio) Nenhum registro encontrado');
+
+      if (!liberacaoBloqueio) {
+        return new ProcessInfo(
+          infoStatusErro,
+          'RegraBloqueioService method: findOneFromLiberacaoKey',
+          '(LiberacaoBloquio) Nenhum registro encontrado',
+        );
+      }
 
       return liberacaoBloqueio;
     } catch (error: any) {
@@ -75,7 +93,6 @@ export default class RegraBloqueioService {
   public async update(LiberacaoBloqueio: LiberacaoBloqueio): Promise<void> {
     try {
       const liberacaoDto = LiberacaoBloqueioDto.fromObject({ ...LiberacaoBloqueio });
-
       const itemLiberacaoDto = LiberacaoBloqueio.itemLiberacaoBloqueio.map((itemBloqueio: any) => {
         return ItemLiberacaoBloqueioDto.fromObject({ ...itemBloqueio });
       });

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import CobrancaController from '../controllers/cobranca.controller';
 import PagamentoController from '../controllers/pagamento.controller';
+import WebhookRegisterController from '../controllers/webhook.register.controller';
 
 export default class ApiRoute {
   private _router = Router();
@@ -11,6 +12,7 @@ export default class ApiRoute {
 
   inicialize() {
     this.index();
+    this.webhookRegister();
     this.cobranca();
     this.pagamento();
   }
@@ -25,6 +27,13 @@ export default class ApiRoute {
     this._router.get('/', (req: Request, res: Response) => {
       res.send('Data7 API-PIX');
     });
+  }
+
+  private webhookRegister() {
+    this._router.get('/webhook', WebhookRegisterController.get);
+    this._router.post('/webhook', WebhookRegisterController.post);
+    this._router.put('/webhook', WebhookRegisterController.put);
+    this._router.delete('/webhook', WebhookRegisterController.delete);
   }
 
   private cobranca() {

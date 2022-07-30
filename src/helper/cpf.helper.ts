@@ -1,5 +1,5 @@
 export default function cpf(value: string): boolean {
-  if (!value) {
+  if (!value || value.length !== 11) {
     return false;
   }
 
