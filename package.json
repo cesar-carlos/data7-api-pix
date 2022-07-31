@@ -17,6 +17,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cors": "^2.8.5",
+    "cpf-cnpj-validator": "^1.0.3",
     "currency-formatter": "^1.5.9",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

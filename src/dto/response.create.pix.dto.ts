@@ -27,7 +27,7 @@ export type infoAdicionais = {
 };
 
 export type responseCreatePixDto = {
-  calendario: { criacao: number; expiracao: number };
+  calendario: { criacao: Date; expiracao: number };
   txid: string;
   revisao: number;
   loc: loc;
@@ -37,5 +37,5 @@ export type responseCreatePixDto = {
   valor: valor;
   chave: string;
   solicitacaoPagador: string;
-  infoAdicionais: [infoAdicionais];
+  infoAdicionais: infoAdicionais[];
 };

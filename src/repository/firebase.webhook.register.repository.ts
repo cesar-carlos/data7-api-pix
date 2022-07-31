@@ -30,7 +30,7 @@ export default class FirebaseWebhookRegisterRepository
         .doc()
         .set({ ...entity });
     } catch (error: any) {
-      throw new Error('Method not implemented.');
+      throw new Error(error.message);
     }
   }
   async update(entity: WebhookDto): Promise<void> {

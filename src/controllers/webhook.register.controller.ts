@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import cpf from '../helper/cpf.helper';
-import cnpj from '../helper/cnpj.helper';
+import CPF from '../helper/cpf.helper';
+import CNPJ from '../helper/cnpj.helper';
 
 import WebhookGnRegisterService from '../services/webhook.gn.register.service';
 import WebhookListGnServices from '../services/webhook.list.gn.services';
@@ -23,13 +23,12 @@ export default class WebhookRegisterController {
 
   public static async post(req: Request, res: Response) {
     const { cnpj_cpf, chave, url } = req.body;
-
     if (!chave || !url || !cnpj_cpf) {
       res.status(400).send({ message: 'cnpj_cpf, chave e url são obrigatórios' });
       return;
     }
 
-    if (!cpf(cnpj_cpf) && !cnpj(cnpj_cpf)) {
+    if (!CPF(cnpj_cpf).isValid() && !CNPJ(cnpj_cpf).isValid()) {
       res.status(400).send({ message: 'cnpj_cpf inválido' });
       return;
     }
@@ -43,7 +42,6 @@ export default class WebhookRegisterController {
     try {
       const _webhookRegisterService = new WebhookGnRegisterService();
       const result = await _webhookRegisterService.execute(chave, urlObj);
-
       if (result.process.status === 'success') {
         const repo = new FirebaseWebhookRegisterRepository();
         const _webhookRegisterService = new WebhookRegisterService(repo);
@@ -53,9 +51,11 @@ export default class WebhookRegisterController {
           webhookUrl: url,
           criacao: new Date(),
         });
+
+        res.status(201).send(result);
       }
 
-      res.status(201).send(result);
+      if (result.process.status === 'error') return res.status(500).send(result);
     } catch (error: any) {
       res.status(500).send({ message: error.message });
     }

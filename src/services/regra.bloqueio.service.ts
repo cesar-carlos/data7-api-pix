@@ -24,9 +24,9 @@ export default class RegraBloqueioService {
 
       const liberacaoBloqueioDto = await this.repoLiberacao.selectWhere([paramCodEmpresa, paramCodLiberacao]);
       if (!liberacaoBloqueioDto) return undefined;
+
       const itemLiberacaoBloqueioDto = await this.repoItemLiberacao.selectWhere([paramCodLiberacao]);
       const itemLiberacaoBloqueioSituacaoDto = await this.repoItemLiberacaoSituacao.selectWhere([paramCodLiberacao]);
-
       const liberacaoBloqueio = { ...liberacaoBloqueioDto.shift() };
       const itemLiberacaoBloqueio = itemLiberacaoBloqueioDto!.map((itemBloqueio: any) => {
         return { ...itemBloqueio };
@@ -85,7 +85,6 @@ export default class RegraBloqueioService {
     }
   }
 
-  //todo: implementar
   public async create(LiberacaoBloqueio: LiberacaoBloqueio): Promise<void> {
     throw new Error('Method not implemented.');
   }

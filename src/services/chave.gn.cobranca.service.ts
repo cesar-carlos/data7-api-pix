@@ -16,11 +16,11 @@ export default class ChaveGnCobrancaService implements TokenCobrancaContract {
     try {
       let _local = (await this.repositorio.select()) ?? [];
       const _gerencianetListChaves = new GerencianetListChaveAdapter();
-      const _chave = _local.find((item: ChaveDto) => item.status.toLowerCase() === 'producao');
+      const chave = _local.find((item: ChaveDto) => item.status.toLowerCase() === 'producao');
 
       //retorna chave em cache produção
-      if (_chave) {
-        return new Chave(_chave.uuid, _chave.status, _chave.dataCriacao, _chave.chave);
+      if (chave) {
+        return new Chave(chave.uuid, chave.status, chave.dataCriacao, chave.chave);
       }
 
       //atualiza cache produção

@@ -1,4 +1,4 @@
-import GerencianetListWebhook from '../adapter/gerencianet.list.webhook.adapter';
+import GerencianetListWebhookAdapter from '../adapter/gerencianet.list.webhook.adapter';
 import { WebhookList } from '../entities/webhook.list';
 
 export default class WebhookListGnServices {
@@ -11,7 +11,7 @@ export default class WebhookListGnServices {
       const endDate = new Date('2060-01-31');
       const page = 1;
 
-      const _gerencianetListWebhook = new GerencianetListWebhook();
+      const _gerencianetListWebhook = new GerencianetListWebhookAdapter();
       const result = _gerencianetListWebhook.execute(startDate, endDate, page);
       const webhookList: WebhookList = (await result).map((item) => {
         return {

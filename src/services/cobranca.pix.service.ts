@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { requestCobrancaSe7eDto } from '../dto/request.cobranca.se7e.dto';
+import { ResultCreatePix } from '../dto/result.create.pix';
 import Chave from '../entities/chave';
 import Cobranca from '../entities/cobranca';
 import ProcessInfo from '../entities/process.info';
@@ -10,8 +11,9 @@ import CreateGnQrcodeService from './create.gn.qrcode.service';
 
 export default class CobrancaPixService {
   constructor(private readonly chave: Chave) {}
-  public async executar(cobrancaDto: requestCobrancaSe7eDto): Promise<ProcessInfo> {
+  public async executar(cobrancaDto: requestCobrancaSe7eDto): Promise<ProcessInfo | ResultCreatePix> {
     try {
+      //create charge PIX
       const cobranca = Cobranca.fromRequestCobrancaSe7eDto(cobrancaDto);
       const cobrancaPIX = new CreateGnPixService(this.chave.chave);
       const resultCreatePix = await cobrancaPIX.execute(cobranca);
@@ -19,32 +21,21 @@ export default class CobrancaPixService {
         return resultCreatePix;
       }
 
-      //TODO: GRAVAR TODOS OS DADOS DO (resultCreatePix) NO BANCO DE DADOS
-
-      const _createGnQrcodeService = new CreateGnQrcodeService();
-      const resultCreateQrCode = await _createGnQrcodeService.execute(resultCreatePix);
-      if (resultCreateQrCode instanceof ProcessInfo) {
-        return resultCreateQrCode;
+      //create qrcode
+      const createGnQrcodeService = new CreateGnQrcodeService();
+      const resultCreateQrCodePix = await createGnQrcodeService.execute(resultCreatePix);
+      if (resultCreateQrCodePix instanceof ProcessInfo) {
+        return resultCreateQrCodePix;
       }
 
-      //TODO: GRAVAR TODOS OS DADOS DO (_createGnQrcodeService) NO BANCO DE DADOS
+      //update status process
+      const result = {
+        cobranca: cobranca,
+        pagamentoPendente: resultCreatePix,
+        pagamentoQrCode: resultCreateQrCodePix,
+      };
 
-      //TODO: remove value bifore test
-      const request = axios.post('http://26.159.104.172:3500/qrcode', {
-        action: 'open',
-        id: resultCreateQrCode.id,
-        link: resultCreateQrCode.qrcode,
-        phone: cobranca.cliente.telefone,
-        awaiting_payment: true,
-        confirmed_payment: false,
-        canceled: false,
-        message: 'Teste fodão',
-        error: '',
-        img: resultCreateQrCode.imagemQrcode,
-      });
-
-      const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
-      return new ProcessInfo(infoStatusSuccess, 'CobrancaPixService');
+      return result;
     } catch (error: any) {
       const infoStatusError: ProcessInfoStatusType = { status: 'error' };
       return new ProcessInfo(infoStatusError, 'CobrancaPixService', error.message);
@@ -74,3 +65,17 @@ export default class CobrancaPixService {
 //     { nome: 'observações', valor: 'outras observações' }
 //   ]
 // }
+
+//
+// const request = axios.post('http://26.159.104.172:3500/qrcode', {
+//   action: 'open',
+//   id: resultCreateQrCode.id,
+//   link: resultCreateQrCode.qrcode,
+//   phone: cobranca.cliente.telefone,
+//   awaiting_payment: true,
+//   confirmed_payment: false,
+//   canceled: false,
+//   message: 'Teste fodão',
+//   error: '',
+//   img: resultCreateQrCode.imagemQrcode,
+// });

@@ -6,7 +6,7 @@ export default class LinstenGnPeymentPixService {
   private _gerencianetPixDetail = new GerencianetPixDetail();
   constructor() {}
 
-  public async open(txid: string, callBack: (pixDetailDto: responsePixDetailDto) => void): Promise<void> {
+  public async open(txid: string, callBack: (pixDetail: responsePixDetailDto) => void): Promise<void> {
     try {
       let _contRequest = 0;
       const interval = 7;

@@ -1,4 +1,4 @@
-export enum STATUS {
+export enum eStatus {
   ATIVA = 'ATIVA',
   CONCLUIDA = 'CONCLUIDA',
   REMOVIDA_PELO_USUARIO_RECEBEDOR = 'REMOVIDA_PELO_USUARIO_RECEBEDOR',
@@ -27,15 +27,15 @@ type infoAdicionais = {
 };
 
 export type responsePixDetailDto = {
-  calendario: { criacao: number; expiracao: number };
+  calendario: { criacao: Date; expiracao: number };
   txid: string;
   revisao: number;
   loc: loc;
   location: string;
-  status: STATUS;
+  status: eStatus;
   devedor: devedor;
   valor: valor;
   chave: string;
   solicitacaoPagador: string;
-  infoAdicionais: [infoAdicionais];
+  infoAdicionais: infoAdicionais[];
 };

@@ -1,6 +1,6 @@
-type Devedor = {
-  nome: string;
+type devedor = {
   cpf: string;
+  nome: string;
 };
 
 export enum eStatus {
@@ -13,12 +13,12 @@ export enum eStatus {
 export default class PagamentoSituacao {
   constructor(
     readonly txId: string,
-    readonly locId: string,
+    readonly locId: number,
     readonly sysId: string,
     readonly endToEndId: string | null,
     readonly status: eStatus,
     readonly chave: string,
-    readonly devedor: Devedor,
+    readonly devedor: devedor,
     readonly dataAbertura: Date,
     readonly dataFechamento?: Date | null,
   ) {}

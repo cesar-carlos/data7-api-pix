@@ -1,7 +1,6 @@
 import ChaveDto from '../dto/chave.dto';
 import GerencianetBase from './gerencianet.base';
 
-//todo: add respons dto
 export default class GerencianetRegisterWebhookAdapter extends GerencianetBase {
   public async execute(chave: string, webhookUrl: URL): Promise<any> {
     try {

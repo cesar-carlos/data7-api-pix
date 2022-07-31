@@ -4,7 +4,7 @@ import PagamentoQrCode from './pagamento.qrcode';
 import PagamentoSituacao from './pagamento.situacao';
 import { eStatus } from './pagamento.situacao';
 
-export default class CreatePix {
+export default class SituacaoPix {
   constructor(
     readonly status: eStatus,
     readonly cobranca: Cobranca,
