@@ -1,3 +1,5 @@
+import { ResponsePixDto } from './response.pix.dto';
+
 export enum eStatus {
   ATIVA = 'ATIVA',
   CONCLUIDA = 'CONCLUIDA',
@@ -38,4 +40,5 @@ export type responsePixDetailDto = {
   chave: string;
   solicitacaoPagador: string;
   infoAdicionais: infoAdicionais[];
+  pix?: ResponsePixDto[];
 };

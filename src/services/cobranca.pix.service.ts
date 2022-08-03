@@ -1,81 +1,68 @@
-import axios from 'axios';
-import { requestCobrancaSe7eDto } from '../dto/request.cobranca.se7e.dto';
-import { ResultCreatePix } from '../dto/result.create.pix';
-import Chave from '../entities/chave';
-import Cobranca from '../entities/cobranca';
-import ProcessInfo from '../entities/process.info';
-
 import { ProcessInfoStatusType } from '../type/process.info.status.type';
+import { STATUS } from '../type/status';
+
+import Cobranca from '../entities/cobranca';
+import CobrancaPix from '../entities/cobranca.pix';
+import ProcessInfo from '../entities/process.info';
 import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
+import ContractBaseRepository from '../contracts/base.repository.contract';
 
 export default class CobrancaPixService {
-  constructor(private readonly chave: Chave) {}
-  public async executar(cobrancaDto: requestCobrancaSe7eDto): Promise<ProcessInfo | ResultCreatePix> {
+  constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
+  public async execute(cobranca: Cobranca): Promise<ProcessInfo> {
     try {
-      //create charge PIX
-      const cobranca = Cobranca.fromRequestCobrancaSe7eDto(cobrancaDto);
-      const cobrancaPIX = new CreateGnPixService(this.chave.chave);
-      const resultCreatePix = await cobrancaPIX.execute(cobranca);
-      if (resultCreatePix instanceof ProcessInfo) {
-        return resultCreatePix;
+      const qtdParcelas = cobranca.parcelas.length;
+      if (!qtdParcelas || qtdParcelas > 1) {
+        //TODO: implementar mais de uma parcela
+        const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+        return new ProcessInfo(
+          infoStatusErro,
+          'CobrancaPixService',
+          'Quantidade de parcela superior a uma. Processo de cobrança não suportado',
+        );
       }
 
-      //create qrcode
+      const cobrancaPIX = new CreateGnPixService(cobranca.chave);
+      const cobrancaPixOrProcessInfo = await cobrancaPIX.execute(cobranca);
+      if (cobrancaPixOrProcessInfo instanceof ProcessInfo) {
+        return cobrancaPixOrProcessInfo;
+      }
+
       const createGnQrcodeService = new CreateGnQrcodeService();
-      const resultCreateQrCodePix = await createGnQrcodeService.execute(resultCreatePix);
-      if (resultCreateQrCodePix instanceof ProcessInfo) {
-        return resultCreateQrCodePix;
+      const qrCodePixOrProcessInfo = await createGnQrcodeService.execute(cobrancaPixOrProcessInfo);
+      if (qrCodePixOrProcessInfo instanceof ProcessInfo) {
+        return qrCodePixOrProcessInfo;
       }
 
-      //update status process
-      const result = {
-        cobranca: cobranca,
-        pagamentoPendente: resultCreatePix,
-        pagamentoQrCode: resultCreateQrCodePix,
-      };
+      const pgtoPendente = cobrancaPixOrProcessInfo;
+      const pgtoPendenteQrCode = qrCodePixOrProcessInfo;
+      const parcela = cobranca.parcelas.shift()?.numeroParcela || '001';
+      const cobrancaPix = new CobrancaPix(
+        pgtoPendente.sysId,
+        pgtoPendente.txid,
+        pgtoPendente.loc.id,
+        STATUS.ATIVO,
+        pgtoPendente.criacao,
+        parcela,
+        pgtoPendente.valor,
+        cobranca.filial.cnpj,
+        pgtoPendenteQrCode.qrcode,
+        pgtoPendenteQrCode.imagemQrcode,
+        cobranca.usuario.nomeUsuario,
+        cobranca.usuario.estacaoTrabalho,
+        cobranca.usuario.ip,
+        cobranca.cliente.nomeCliente,
+        cobranca.cliente.telefone,
+        cobranca.cliente.eMail,
+      );
 
-      return result;
+      this.repo.insert(cobrancaPix);
+      const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
+      return new ProcessInfo(infoStatusSuccess, 'CobrancaPixService');
     } catch (error: any) {
-      const infoStatusError: ProcessInfoStatusType = { status: 'error' };
-      return new ProcessInfo(infoStatusError, 'CobrancaPixService', error.message);
+      const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+      return new ProcessInfo(infoStatusErro, 'CobrancaPixService', error.message);
     }
   }
 }
-
-// RESULTADO DO EXECUTAR:
-// {
-//   calendario: { criacao: '2022-07-29T20:23:33.065Z', expiracao: 1600 },
-//   txid: 'da8f0fd899eb4977984a949569ae28d5',
-//     location: 'qrcodes-pix.gerencianet.com.br/v2/296dd6aa6cb44c82ab09fa52bf39543b',
-//     tipoCob: 'cob',
-//     criacao: '2022-07-29T20:23:33.088Z'
-//   },
-//   location: 'qrcodes-pix.gerencianet.com.br/v2/296dd6aa6cb44c82ab09fa52bf39543b',
-//   status: 'ATIVA',
-//   devedor: { cpf: '48855600125', nome: ' JORGE MEINERZ' },
-//   valor: { original: '0.50' },
-//   chave: 'bc89689b-11bc-4304-b2c4-c474e90e2467',
-//   solicitacaoPagador: ' (LIVRE PARA ADICIONAR OBSERVACAO NO BOLETO DO CLIENTE) ',
-//   infoAdicionais: [
-//     {
-//       nome: 'sysId',
-//       valor: '3832337.11.27740308000120.20220729162330-OB.22.001'
-//     },
-//     { nome: 'observações', valor: 'outras observações' }
-//   ]
-// }
-
-//
-// const request = axios.post('http://26.159.104.172:3500/qrcode', {
-//   action: 'open',
-//   id: resultCreateQrCode.id,
-//   link: resultCreateQrCode.qrcode,
-//   phone: cobranca.cliente.telefone,
-//   awaiting_payment: true,
-//   confirmed_payment: false,
-//   canceled: false,
-//   message: 'Teste fodão',
-//   error: '',
-//   img: resultCreateQrCode.imagemQrcode,
-// });

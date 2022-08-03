@@ -117,8 +117,6 @@ export default class RegraBloqueioService {
     this.repoItemLiberacaoSituacao.update(liberacao);
   }
 
-  // methods not implemented
-  //todo: implementar
   public async delete(CodEmpresa: number, CodLiberacao: number): Promise<void> {
     throw new Error('Method not implemented.');
   }

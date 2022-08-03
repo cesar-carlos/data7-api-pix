@@ -6,7 +6,6 @@ export default class WebhookListGnServices {
 
   public async execute(): Promise<WebhookList> {
     try {
-      //create pagination
       const startDate = new Date('2022-01-01');
       const endDate = new Date('2060-01-31');
       const page = 1;

@@ -54,7 +54,7 @@ export default class CreateGnPixService {
       const gerencianetCreatePix = new GerencianetCreatePixAdapter();
       const response = await gerencianetCreatePix.execute(request);
 
-      const rSysID = response.infoAdicionais[0].valor;
+      const rSysID = response?.infoAdicionais[0]?.valor;
       const rTxid = response.txid;
       const rChave = response.chave;
       const rStatus = response.status;
@@ -74,8 +74,8 @@ export default class CreateGnPixService {
       });
 
       const pagamentoPendente = new PagamentoPendente(
-        rSysID,
         rTxid,
+        rSysID,
         rChave,
         rStatus,
         rDevedor,

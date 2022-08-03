@@ -2,15 +2,17 @@ import { Request, Response } from 'express';
 import { requestCobrancaSe7eDto } from '../dto/request.cobranca.se7e.dto';
 
 import ProcessInfo from '../entities/process.info';
+import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
 import LocalStorageChaveRepository from '../repository/local.storage.chave.repository';
-import ChaveGnCobrancaService from '../services/chave.gn.cobranca.service';
+import ChaveProducaoService from '../services/chave.producao.service';
 import CobrancaPixService from '../services/cobranca.pix.service';
+import CobrancaService from '../services/cobranca.service';
 
 export default class CobrancaController {
   constructor() {}
 
   public static async get(req: Request, res: Response) {
-    res.status(404).send({ message: 'not implemented get' });
+    throw new Error('not implemented get');
   }
 
   public static async post(req: Request, res: Response) {
@@ -21,7 +23,8 @@ export default class CobrancaController {
       });
 
       if (!_request || _request.length === 0) {
-        res.status(400).send("request's body is invalid");
+        res.header('ERROR-REQUEST', 'data not found');
+        res.status(400).send(`data not found`);
         return;
       }
 
@@ -34,30 +37,37 @@ export default class CobrancaController {
         !requestCobranca.LiberacaoKey ||
         !requestCobranca.Parcelas
       ) {
-        res.status(400).send("request's body is invalid");
+        res.header('ERROR-REQUEST', 'data invalid');
+        res.status(400).send(`data invalid`);
         return;
       }
 
       //request key in  production
-      const _repository = new LocalStorageChaveRepository();
-      const _chaveOrProcessInfo = await new ChaveGnCobrancaService(_repository).execute();
-      if (_chaveOrProcessInfo instanceof ProcessInfo) {
-        res.status(400).send(_chaveOrProcessInfo);
+      const lsChaveRepository = new LocalStorageChaveRepository();
+      const chave = await new ChaveProducaoService(lsChaveRepository).execute();
+      if (!chave) {
+        res.header('ERROR-REQUEST', 'chave not found');
+        res.status(400).send(`chave not found`);
         return;
       }
 
       //start process charge
-      const _cobrancaPixService = new CobrancaPixService(_chaveOrProcessInfo);
-      const processInfoOrResultCreatePix = await _cobrancaPixService.executar(requestCobranca);
-      if (processInfoOrResultCreatePix instanceof ProcessInfo) {
-        return res.status(400).send(processInfoOrResultCreatePix);
+      const cobrancaService = new CobrancaService(chave);
+      const processInfoOrCobranca = await cobrancaService.executar(requestCobranca);
+      if (processInfoOrCobranca instanceof ProcessInfo) {
+        res.header('ERROR-REQUEST', ` ${processInfoOrCobranca.info};`);
+        return res.status(400).send(processInfoOrCobranca);
       }
 
-      //TODO: persist processInfoOrResultCreatePix
-      console.log(processInfoOrResultCreatePix);
+      //start create pix
+      const fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
+      const cobrancaPixService = new CobrancaPixService(fbCobrancaPixRepository);
+      cobrancaPixService.execute(processInfoOrCobranca);
+
       res.status(201).send();
     } catch (error: any) {
-      res.status(500).send('internal server error');
+      res.header('ERROR-REQUEST', error.message);
+      res.status(500).send(error.message);
     }
   }
 

@@ -1,7 +1,8 @@
 export type ResponsePixDto = {
   endToEndId: string;
   txid: string;
-  valor: number;
+  valor: string;
   chave: string;
   horario: Date;
+  infoPagador: string;
 };

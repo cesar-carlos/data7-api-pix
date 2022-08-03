@@ -20,9 +20,10 @@ export default class FirebaseWebhookRegisterRepository
       throw new Error(error).message;
     }
   }
-  async findAll(): Promise<WebhookDto | undefined> {
+  async findAll(): Promise<WebhookDto[] | undefined> {
     throw new Error('Method not implemented.');
   }
+
   async insert(entity: WebhookDto): Promise<void> {
     try {
       await this.db
@@ -33,7 +34,12 @@ export default class FirebaseWebhookRegisterRepository
       throw new Error(error.message);
     }
   }
+
   async update(entity: WebhookDto): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }
