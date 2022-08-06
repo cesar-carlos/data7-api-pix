@@ -1,6 +1,7 @@
+import { ProcessInfoStatusType } from '../type/process.info.status.type';
+
 import ProcessInfo from '../entities/process.info';
 import GerencianetRegisterWebhookAdapter from '../adapter/gerencianet.register.webhook.adapter';
-import { ProcessInfoStatusType } from '../type/process.info.status.type';
 
 export default class WebhookGnRegisterService {
   public async execute(chave: string, url: URL): Promise<ProcessInfo> {

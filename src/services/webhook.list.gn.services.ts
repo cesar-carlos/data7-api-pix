@@ -1,5 +1,6 @@
-import GerencianetListWebhookAdapter from '../adapter/gerencianet.list.webhook.adapter';
 import { WebhookList } from '../entities/webhook.list';
+
+import GerencianetListWebhookAdapter from '../adapter/gerencianet.list.webhook.adapter';
 
 export default class WebhookListGnServices {
   constructor() {}

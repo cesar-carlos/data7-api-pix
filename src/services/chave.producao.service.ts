@@ -1,10 +1,10 @@
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import ChaveDto from '../dto/chave.dto';
 import ChaveService from './chave.service';
-
-import { ChaveStatusType } from '../type/chave.status.type';
 import Chave from '../entities/chave';
 import WebhookGnRegisterService from './webhook.gn.register.service';
+
+import { ChaveStatusType } from '../type/chave.status.type';
 
 export default class ChaveProducaoService {
   constructor(readonly repo: LocalBaseRepositoryContract<ChaveDto>) {}

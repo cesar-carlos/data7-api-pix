@@ -15,6 +15,7 @@ export default class CobrancaPixService {
       const qtdParcelas = cobranca.parcelas.length;
       if (!qtdParcelas || qtdParcelas > 1) {
         //TODO: implementar mais de uma parcela
+        //CRIAR UM FOR AQUI
         const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
         return new ProcessInfo(
           infoStatusErro,

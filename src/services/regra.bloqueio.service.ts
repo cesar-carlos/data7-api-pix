@@ -1,14 +1,13 @@
-import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import { params } from '../contracts/local.base.repository.contract';
+import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
+import { ProcessInfoStatusType } from '../type/process.info.status.type';
 
+import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import LiberacaoBloqueioDto from '../dto/liberacao.bloqueio.dto';
 import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
 import ItemLiberacaoBloqueioSituacaoDto from '../dto/item.liberacao.bloqueio.situacao.dto';
-
 import LiberacaoBloqueio from '../entities/liberacao.bloqueio';
-import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
 import ProcessInfo from '../entities/process.info';
-import { ProcessInfoStatusType } from '../type/process.info.status.type';
 
 export default class RegraBloqueioService {
   constructor(
