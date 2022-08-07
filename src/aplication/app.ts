@@ -2,6 +2,7 @@ import path from 'path';
 import { cert, initializeApp } from 'firebase-admin/app';
 
 import Api from './api';
+import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
 
 export default class App {
   constructor() {
@@ -16,7 +17,7 @@ export default class App {
   }
 
   public async execute() {
-    const api = new Api();
-    api.execute();
+    new CobrancaPixListenService().linten();
+    new Api().execute();
   }
 }

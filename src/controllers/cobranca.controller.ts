@@ -62,12 +62,10 @@ export default class CobrancaController {
       //start create pix
       const fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
       const cobrancaPixService = new CobrancaPixService(fbCobrancaPixRepository);
-      const processInfoPIX = await cobrancaPixService.execute(processInfoOrCobranca);
-      if (processInfoOrCobranca instanceof ProcessInfo) {
-        if (processInfoPIX.process.status === 'error') {
-          res.header('ERROR-REQUEST', ` ${processInfoPIX.info};`);
-          return res.status(400).send(processInfoPIX);
-        }
+      const processInfoOrCobrancaPix = await cobrancaPixService.execute(processInfoOrCobranca);
+      if (processInfoOrCobrancaPix instanceof ProcessInfo) {
+        res.header('ERROR-REQUEST', ` ${processInfoOrCobrancaPix.info};`);
+        return res.status(400).send(processInfoOrCobrancaPix);
       }
 
       res.status(201).send();

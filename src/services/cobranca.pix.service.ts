@@ -10,7 +10,7 @@ import ContractBaseRepository from '../contracts/base.repository.contract';
 
 export default class CobrancaPixService {
   constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
-  public async execute(cobranca: Cobranca): Promise<ProcessInfo> {
+  public async execute(cobranca: Cobranca): Promise<ProcessInfo | CobrancaPix> {
     try {
       const qtdParcelas = cobranca.parcelas.length;
       if (!qtdParcelas || qtdParcelas > 1) {
@@ -59,8 +59,7 @@ export default class CobrancaPixService {
       );
 
       this.repo.insert(cobrancaPix);
-      const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
-      return new ProcessInfo(infoStatusSuccess, 'CobrancaPixService');
+      return cobrancaPix;
     } catch (error: any) {
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
       return new ProcessInfo(infoStatusErro, 'CobrancaPixService', error.message);
