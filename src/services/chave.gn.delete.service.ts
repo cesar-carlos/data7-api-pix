@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import GerencianetDeleteChaveAdapter from '../adapter/gerencianet.delete.chave.adapter';
 import Chave from '../entities/chave';
 

@@ -4,6 +4,7 @@ import { requestCobrancaSe7eDto } from '../dto/request.cobranca.se7e.dto';
 import ProcessInfo from '../entities/process.info';
 import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
 import LocalStorageChaveRepository from '../repository/local.storage.chave.repository';
+import CancelamentoPixService from '../services/cancelamento.pix.service';
 import ChaveProducaoService from '../services/chave.producao.service';
 import CobrancaPixService from '../services/cobranca.pix.service';
 import CobrancaService from '../services/cobranca.service';
@@ -34,7 +35,6 @@ export default class CobrancaController {
         !requestCobranca.Filial ||
         !requestCobranca.Usuario ||
         !requestCobranca.Cliente ||
-        !requestCobranca.LiberacaoKey ||
         !requestCobranca.Parcelas
       ) {
         res.header('ERROR-REQUEST', 'data invalid');
@@ -80,6 +80,9 @@ export default class CobrancaController {
   }
 
   public static delete(req: Request, res: Response) {
-    res.status(404).send({ message: 'not implemented get' });
+    const { sysId } = req.params;
+    const cancelamentoPixService = new CancelamentoPixService();
+    cancelamentoPixService.Cancelar(sysId);
+    res.status(204).send();
   }
 }

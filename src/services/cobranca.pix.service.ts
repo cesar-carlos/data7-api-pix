@@ -7,6 +7,7 @@ import ProcessInfo from '../entities/process.info';
 import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
 import ContractBaseRepository from '../contracts/base.repository.contract';
+import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
 
 export default class CobrancaPixService {
   constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
@@ -15,7 +16,7 @@ export default class CobrancaPixService {
       const qtdParcelas = cobranca.parcelas.length;
       if (!qtdParcelas || qtdParcelas > 1) {
         //TODO: implementar mais de uma parcela
-        //CRIAR UM FOR AQUI
+
         const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
         return new ProcessInfo(
           infoStatusErro,
@@ -36,26 +37,35 @@ export default class CobrancaPixService {
         return qrCodePixOrProcessInfo;
       }
 
+      //TODO: implementar mais de uma parcela
       const pgtoPendente = cobrancaPixOrProcessInfo;
       const pgtoPendenteQrCode = qrCodePixOrProcessInfo;
-      const parcela = cobranca.parcelas.shift()?.numeroParcela || '001';
+      const parcela = cobranca.parcelas.shift();
       const cobrancaPix = new CobrancaPix(
         pgtoPendente.sysId,
         pgtoPendente.txid,
         pgtoPendente.loc.id,
         STATUS.ATIVO,
         pgtoPendente.criacao,
-        parcela,
+        parcela!.numeroParcela,
         pgtoPendente.valor,
-        cobranca.filial.cnpj,
         pgtoPendenteQrCode.qrcode,
         pgtoPendenteQrCode.imagemQrcode,
-        cobranca.usuario.nomeUsuario,
-        cobranca.usuario.estacaoTrabalho,
-        cobranca.usuario.ip,
         cobranca.cliente.nomeCliente,
         cobranca.cliente.telefone,
         cobranca.cliente.eMail,
+        new CobrancaLiberacaoKey(
+          cobranca.filial.codEmpresa,
+          cobranca.filial.codFilial,
+          cobranca.filial.cnpj,
+          cobranca.usuario.nomeUsuario,
+          cobranca.usuario.estacaoTrabalho,
+          cobranca.usuario.ip,
+          parcela!.liberacaoKey.idLiberacao,
+          parcela!.liberacaoKey.origem,
+          parcela!.liberacaoKey.codOrigem,
+          parcela!.liberacaoKey.item,
+        ),
       );
 
       this.repo.insert(cobrancaPix);

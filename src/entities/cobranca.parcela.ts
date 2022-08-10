@@ -1,7 +1,7 @@
+import CobrancaLiberacaoKey from './cobranca.liberacao.key';
+
 export default class CobrancaParcela {
   constructor(
-    //readonly id: string,
-    //readonly IdCobranca: string,
     readonly origem: string,
     readonly codOrigem: string,
     readonly numeroParcela: string,
@@ -13,13 +13,12 @@ export default class CobrancaParcela {
     readonly valorLiquido: number,
     readonly valorParcela: number,
     readonly observacao: string,
+    readonly liberacaoKey: CobrancaLiberacaoKey,
   ) {}
 
   //create method from json
   static fromJson(json: any): CobrancaParcela {
     return new CobrancaParcela(
-      // json.id || json.Id,
-      // json.idCobranca || json.IdCobranca,
       json.origem || json.Origem,
       json.codOrigem || json.CodOrigem,
       json.numeroParcela || json.NumeroParcela,
@@ -31,14 +30,13 @@ export default class CobrancaParcela {
       json.valorLiquido || json.ValorLiquido,
       json.valorParcela || json.ValorParcela,
       json.observacao || json.Observacao,
+      CobrancaLiberacaoKey.fromJson(json.liberacaoKey || json.LiberacaoKey),
     );
   }
 
   //create method to json
   toJson(): any {
     return {
-      // id: this.id,
-      // IdCobranca: this.IdCobranca,
       Origem: this.origem,
       CodOrigem: this.codOrigem,
       NumeroParcela: this.numeroParcela,
@@ -50,14 +48,13 @@ export default class CobrancaParcela {
       ValorLiquido: this.valorLiquido,
       ValorParcela: this.valorParcela,
       Observacao: this.observacao,
+      LiberacaoKey: this.liberacaoKey,
     };
   }
 
   //create method from object
   static fromObject(obj: any): CobrancaParcela {
     return new CobrancaParcela(
-      // obj.id || obj.Id,
-      // obj.idCobranca || obj.IdCobranca,
       obj.origem || obj.Origem,
       obj.codOrigem || obj.CodOrigem,
       obj.numeroParcela || obj.NumeroParcela,
@@ -69,6 +66,7 @@ export default class CobrancaParcela {
       obj.valorLiquido || obj.ValorLiquido,
       obj.valorParcela || obj.ValorParcela,
       obj.observacao || obj.Observacao,
+      CobrancaLiberacaoKey.fromObject(obj.liberacaoKey || obj.LiberacaoKey),
     );
   }
 }

@@ -8,8 +8,6 @@ export default class LocalStorageChaveRepository implements LocalBaseRepositoryC
   private storage = new LocalStorage(this.path);
   private colection = 'chaves';
 
-  constructor() {}
-
   async select(): Promise<ChaveDto[] | undefined> {
     const result = this.storage.getItem(this.colection);
     if (!result) return undefined;

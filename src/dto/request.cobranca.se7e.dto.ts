@@ -48,6 +48,7 @@ export type Parcela = {
   ValorLiquido: number;
   ValorParcela: number;
   Observacao: string;
+  LiberacaoKey: LiberacaoKey;
 };
 
 export type requestCobrancaSe7eDto = {
@@ -55,6 +56,5 @@ export type requestCobrancaSe7eDto = {
   Filial: Filial;
   Usuario: Usuario;
   Cliente: Cliente;
-  LiberacaoKey: LiberacaoKey;
   Parcelas: Parcela[];
 };
