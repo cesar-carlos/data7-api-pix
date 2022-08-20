@@ -8,17 +8,15 @@ export default class CobrancaPixListenService {
   private fbCobrancaPixListenRepository = new FirebaseCobrancaPixListenRepository();
   public linten() {
     this.fbCobrancaPixListenRepository.linten(async (cobrancaPix: CobrancaPix) => {
-      if (cobrancaPix.STATUS === Pagamento.STATUS.CONCLUIDO) {
-        new PagamentoPixService().execute(cobrancaPix);
-      }
+      try {
+        if (cobrancaPix.STATUS === Pagamento.STATUS.CONCLUIDO) {
+          new PagamentoPixService().execute(cobrancaPix);
+        }
 
-      if (cobrancaPix.STATUS === Pagamento.STATUS.CANCELADO_CLIENTE) {
-        new CancelamentoPixService().execute(cobrancaPix);
-      }
-
-      if (cobrancaPix.STATUS === Pagamento.STATUS.CANCELADO) {
-        new CancelamentoPixService().execute(cobrancaPix);
-      }
+        if (cobrancaPix.STATUS === Pagamento.STATUS.CANCELADO_CLIENTE) {
+          new CancelamentoPixService().execute(cobrancaPix);
+        }
+      } catch (error) {}
     });
   }
 }

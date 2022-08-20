@@ -4,6 +4,7 @@ import { cert, initializeApp } from 'firebase-admin/app';
 import Api from './api';
 import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
 import { getFirestore } from 'firebase-admin/firestore';
+import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
 
 export default class App {
   constructor() {
@@ -20,6 +21,7 @@ export default class App {
 
   public async execute() {
     new CobrancaPixListenService().linten();
+    new CobrancaPixListenRefleshService().linten();
     new Api().execute();
   }
 }

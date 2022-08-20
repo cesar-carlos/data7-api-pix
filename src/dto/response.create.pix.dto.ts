@@ -1,9 +1,4 @@
-export enum STATUS {
-  ATIVA = 'ATIVA',
-  CONCLUIDA = 'CONCLUIDA',
-  REMOVIDA_PELO_USUARIO_RECEBEDOR = 'REMOVIDA_PELO_USUARIO_RECEBEDOR',
-  REMOVIDA_PELO_PSP = 'REMOVIDA_PELO_PSP',
-}
+import { STATUS } from '../type/status';
 
 export type loc = {
   id: number;

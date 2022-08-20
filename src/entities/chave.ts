@@ -1,3 +1,50 @@
 export default class Chave {
-  constructor(readonly uuid: string, readonly status: string, readonly dataCriacao: Date, readonly chave: string) {}
+  constructor(
+    readonly codEmpresa: string | null,
+    readonly codFilial: string | null,
+    readonly codCobrancaDigital: string | null,
+    readonly uuid: string,
+    readonly status: string,
+    readonly dataCriacao: Date,
+    readonly chave: string,
+  ) {}
+
+  //create method from json
+  static fromJson(json: any): Chave {
+    return new Chave(
+      json.codEmpresa || json.CodEmpresa,
+      json.codFilial || json.CodFilial,
+      json.codCobrancaDigital || json.CodCobrancaDigital,
+      json.uuid || json.UUID,
+      json.status || json.Status,
+      new Date(json.dataCriacao || json.DataCriacao),
+      json.chave,
+    );
+  }
+
+  //create method to json
+  toJson(): any {
+    return {
+      codEmpresa: this.codEmpresa,
+      codFilial: this.codFilial,
+      codCobrancaDigital: this.codCobrancaDigital,
+      uuid: this.uuid,
+      status: this.status,
+      dataCriacao: this.dataCriacao,
+      chave: this.chave,
+    };
+  }
+
+  //create method from object
+  static fromObject(object: any): Chave {
+    return new Chave(
+      object.codEmpresa || object.CodEmpresa,
+      object.codFilial || object.CodFilial,
+      object.codCobrancaDigital || object.CodCobrancaDigital,
+      object.uuid || object.UUID,
+      object.status || object.Status,
+      new Date(object.dataCriacao || object.DataCriacao),
+      object.chave,
+    );
+  }
 }

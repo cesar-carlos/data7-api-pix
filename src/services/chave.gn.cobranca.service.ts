@@ -10,7 +10,7 @@ export default class ChaveGnCobrancaService {
     try {
       const responseChave = await this.gerencianet.execute();
       const chaves = responseChave?.map((item: any) => {
-        return new Chave(uuidv4(), item.status, item.dataCriacao, item.chave);
+        return new Chave(null, null, null, uuidv4(), item.status, item.dataCriacao, item.chave);
       });
 
       return chaves;

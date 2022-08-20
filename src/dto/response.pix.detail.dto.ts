@@ -1,6 +1,6 @@
 import { ResponsePixDto } from './response.pix.dto';
 
-export enum eStatus {
+export enum STATUS_GN {
   ATIVA = 'ATIVA',
   CONCLUIDA = 'CONCLUIDA',
   REMOVIDA_PELO_USUARIO_RECEBEDOR = 'REMOVIDA_PELO_USUARIO_RECEBEDOR',
@@ -34,7 +34,7 @@ export type responsePixDetailDto = {
   revisao: number;
   loc: loc;
   location: string;
-  status: eStatus;
+  status: STATUS_GN;
   devedor: devedor;
   valor: valor;
   chave: string;

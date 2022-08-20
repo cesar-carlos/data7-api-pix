@@ -40,34 +40,34 @@ export default class CancelamentoPixService {
         return;
       }
 
-      //LIBERAR REGRA DE BLOQUIO
-      const dataLiberacao = moment().utc().format('YYYY-MM-DD HH:mm:ss');
-      bloqueioOrProcessInfo.itemLiberacaoBloqueioSituacao?.forEach(
-        async (itemLiberacao: ItemLiberacaoBloqueioSituacao) => {
-          const liberacao = new ItemLiberacaoBloqueioSituacaoDto(
-            itemLiberacao.codLiberacaoBloqueio,
-            itemLiberacao.item,
-            'R',
-            'Remota',
-            new Date(dataLiberacao),
-            1,
-            cobrancaPix.LiberacaoKey.estacaoTrabalho,
-            'COBRANCA DIGITAL PIX',
-            'PROCESSO CANCELADO', //MSG PARA USUARIO DO BLOQUEIO
-            'CANCELADO COBRANCA DIGITAL PIX - PAGAMENTO CANCELADO',
-          );
+      //LIBERAR RECUSA CANCELADO_CLIENTE
+      if (cobrancaPix.STATUS === STATUS.CANCELADO_CLIENTE) {
+        const dataRecusa = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+        bloqueioOrProcessInfo.itemLiberacaoBloqueioSituacao?.forEach(
+          async (itemLiberacao: ItemLiberacaoBloqueioSituacao) => {
+            const liberacao = new ItemLiberacaoBloqueioSituacaoDto(
+              itemLiberacao.codLiberacaoBloqueio,
+              itemLiberacao.item,
+              'R',
+              'Remota',
+              new Date(dataRecusa),
+              1,
+              cobrancaPix.LiberacaoKey.estacaoTrabalho,
+              'COBRANCA DIGITAL PIX',
+              cobrancaPix.STATUS,
+              'CANCELADO COBRANCA DIGITAL PIX - PAGAMENTO CANCELADO',
+            );
 
-          await _regraBloqueioService.setSituacao(liberacao);
-          cobrancaPix.STATUS = STATUS.FINALIZADO;
-          await this.fbCobrancaPixRepository.update(cobrancaPix);
-        },
-      );
+            await _regraBloqueioService.setSituacao(liberacao);
+          },
+        );
+      }
     } catch (error: any) {}
   }
 
   public async Cancelar(sysId: string): Promise<void> {
     const cobrancaPix = await this.fbCobrancaPixRepository.find(sysId);
-    if (cobrancaPix) {
+    if (cobrancaPix && cobrancaPix.STATUS === STATUS.ATIVO) {
       cobrancaPix.STATUS = STATUS.CANCELADO_SISTEMA;
       await this.fbCobrancaPixRepository.update(cobrancaPix);
     }

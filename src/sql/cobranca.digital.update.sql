@@ -1,0 +1,20 @@
+UPDATE integracao.CobrancaDigital SET
+	CodCliente = @CodCliente,
+	NomeCliente = @NomeCliente,
+	CNPJ_CPF = @CNPJ_CPF,
+	Telefone = @Telefone,
+	Email = @Email,
+	Endereco = @Endereco,
+	Numero = @Numero,
+	Complemento = @Complemento,
+	Bairro = @Bairro,
+	CEP = @CEP,
+	CodigoIBGE = @CodigoIBGE,
+	CodUsuario = @CodUsuario,
+	NomeUsuario = @NomeUsuario,
+	EstacaoTrabalho = @EstacaoTrabalho,
+	IP = @IP
+WHERE SysId = @SysId
+  AND CodEmpresa = @CodEmpresa
+  AND CodFilial = @CodFilial
+  AND CodCobrancaDigital = @CodCobrancaDigital

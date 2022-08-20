@@ -53,7 +53,7 @@ export default class PagamentoPixService {
             1,
             cobrancaPix.LiberacaoKey.estacaoTrabalho,
             'COBRANCA DIGITAL PIX',
-            '',
+            cobrancaPix.STATUS,
             'LIBERADO PELA COBRANCA DIGITAL PIX - PAGAMENTO CONCLUIDO',
           );
 
@@ -61,7 +61,6 @@ export default class PagamentoPixService {
           cobrancaPix.STATUS = STATUS.FINALIZADO;
           await this.fbCobrancaPixRepository.update(cobrancaPix);
         },
-        cobrancaPix,
       );
     } catch (error: any) {}
   }

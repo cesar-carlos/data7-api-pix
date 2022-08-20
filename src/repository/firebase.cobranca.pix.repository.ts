@@ -86,7 +86,7 @@ export default class FirebaseCobrancaPixRepository
   }
 
   private CobrancaPixFromFirebase(data: any): CobrancaPix {
-    const datacriacao = data.datacriacao.seconds ? new Date(data.datacriacao.seconds * 1000) : data.datacriacao;
+    const datacriacao = data.datacriacao._seconds ? new Date(data.datacriacao._seconds * 1000) : data.datacriacao;
     const liberacaoKey = new CobrancaLiberacaoKey(
       data.LiberacaoKey.codEmpresa,
       data.LiberacaoKey.codFilial,

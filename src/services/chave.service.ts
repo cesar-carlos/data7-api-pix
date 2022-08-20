@@ -17,7 +17,15 @@ export default class ChaveService {
       const chavesRemota = await chaveGnCobrancaService.execute();
       if (chavesRemota && chavesRemota.length > 0) {
         const chavesDto = chavesRemota.map((item: any) => {
-          return new ChaveDto(item.uuid, item.status, item.dataCriacao, item.chave);
+          return new ChaveDto(
+            item.codEmpresa,
+            item.codFilial,
+            item.codCobrancaDigital,
+            item.uuid,
+            item.status,
+            item.dataCriacao,
+            item.chave,
+          );
         });
 
         chavesDto.forEach(async (item: ChaveDto) => {
@@ -29,7 +37,15 @@ export default class ChaveService {
 
       const createGnChaveService = new CreateGnChaveService();
       const chaveNova = await createGnChaveService.executar();
-      const chaveNovaDto = new ChaveDto(chaveNova.uuid, chaveNova.status, chaveNova.dataCriacao, chaveNova.chave);
+      const chaveNovaDto = new ChaveDto(
+        chaveNova.codEmpresa,
+        chaveNova.codFilial,
+        chaveNova.codCobrancaDigital,
+        chaveNova.uuid,
+        chaveNova.status,
+        chaveNova.dataCriacao,
+        chaveNova.chave,
+      );
       await this.repo.insert(chaveNovaDto);
       return [chaveNovaDto];
     } catch (error: any) {

@@ -1,4 +1,6 @@
+import { STATUS } from './../type/status';
 import GerencianetPixDetailAdapter from '../adapter/gerencianet.pix.detail.adapter';
+import { STATUS_GN } from '../dto/response.pix.detail.dto';
 import PagamentoPix from '../entities/pagamento.pix';
 import PagamentoSituacao from '../entities/pagamento.situacao';
 
@@ -20,12 +22,22 @@ export default class SituacaoGnPixService {
       });
 
       //sempre da primeira posição enviar sysId
+      let _status = STATUS.ATIVO;
+      switch (response.status) {
+        case STATUS_GN.CONCLUIDA:
+          _status = STATUS.CONCLUIDO;
+          break;
+        case STATUS_GN.ATIVA:
+          _status = STATUS.ATIVO;
+          break;
+      }
+
       const sysId = response?.infoAdicionais[0]?.valor;
       const pagamentoSituacao = new PagamentoSituacao(
         response.txid,
         sysId,
         response.loc.id,
-        response.status,
+        _status,
         response.chave,
         response.devedor,
         response.loc.criacao,

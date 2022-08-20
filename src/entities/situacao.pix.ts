@@ -1,12 +1,12 @@
+import { STATUS } from '../type/status';
 import Cobranca from './cobranca';
 import PagamentoPendente from './pagamento.pendente';
 import PagamentoQrCode from './pagamento.qrcode';
 import PagamentoSituacao from './pagamento.situacao';
-import { eStatus } from './pagamento.situacao';
 
 export default class SituacaoPix {
   constructor(
-    readonly status: eStatus,
+    readonly STATUS: STATUS,
     readonly cobranca: Cobranca,
     readonly pagamentoPendente: PagamentoPendente,
     readonly pagamentoQrCode: PagamentoQrCode,

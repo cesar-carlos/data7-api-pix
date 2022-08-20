@@ -25,11 +25,27 @@ export default class ChaveProducaoService {
       //registra nova chave
       const webhookGnRegisterService = new WebhookGnRegisterService();
       const chaveDto = chavesDto[0];
-      const chave = new Chave(chaveDto.uuid, chaveDto.status, chaveDto.dataCriacao, chaveDto.chave);
+      const chave = new Chave(
+        chaveDto.codEmpresa,
+        chaveDto.codFilial,
+        chaveDto.codCobrancaDigital,
+        chaveDto.uuid,
+        chaveDto.status,
+        chaveDto.dataCriacao,
+        chaveDto.chave,
+      );
       const processInfo = await webhookGnRegisterService.execute(chave.chave, new URL(url));
 
       if (processInfo.process.status === 'success') {
-        const newChaveDto = new ChaveDto(chave.uuid, chaveStatus.status, chave.dataCriacao, chave.chave);
+        const newChaveDto = new ChaveDto(
+          chave.codEmpresa,
+          chave.codFilial,
+          chave.codCobrancaDigital,
+          chave.uuid,
+          chaveStatus.status,
+          chave.dataCriacao,
+          chave.chave,
+        );
         await this.repo.update(newChaveDto);
         return chaveDto;
       }
