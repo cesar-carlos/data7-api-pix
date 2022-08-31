@@ -1,78 +1,66 @@
 export default class CobrancaLiberacaoKey {
-  constructor(
-    readonly codEmpresa: number,
-    readonly codFilial: number,
-    readonly CNPJ: string,
-    readonly nomeUsuario: string,
-    readonly estacaoTrabalho: string,
-    readonly IP: string,
-    readonly idLiberacao: string,
-    readonly origem: string,
-    readonly codOrigem: number,
-    readonly item: string,
-  ) {}
+  readonly codEmpresa: number;
+  readonly codFilial: number;
+  readonly cnpj: string;
+  readonly idLiberacao: string;
+  readonly origem: string;
+  readonly codOrigem: number;
+  readonly item: string;
+  readonly nomeUsuario: string;
+  readonly estacaoTrabalho: string;
+  readonly ip: string;
 
-  //create method from json
-  public static fromJson(json: any): CobrancaLiberacaoKey {
-    return new CobrancaLiberacaoKey(
-      json.codEmpresa,
-      json.codFilial,
-      json.CNPJ,
-      json.nomeUsuario,
-      json.estacaoTrabalho,
-      json.IP,
-      json.idLiberacao,
-      json.origem,
-      json.codOrigem,
-      json.item,
-    );
+  constructor(params: {
+    codEmpresa: number;
+    codFilial: number;
+    cnpj: string;
+    idLiberacao: string;
+    origem: string;
+    codOrigem: number;
+    item: string;
+    nomeUsuario: string;
+    estacaoTrabalho: string;
+    ip: string;
+  }) {
+    this.codEmpresa = params.codEmpresa;
+    this.codFilial = params.codFilial;
+    this.cnpj = params.cnpj;
+    this.idLiberacao = params.idLiberacao;
+    this.origem = params.origem;
+    this.codOrigem = params.codOrigem;
+    this.item = params.item;
+    this.nomeUsuario = params.nomeUsuario;
+    this.estacaoTrabalho = params.estacaoTrabalho;
+    this.ip = params.ip;
   }
 
-  //create method to json
-  public toJson(): any {
-    return {
-      codEmpresa: this.codEmpresa,
-      codFilial: this.codFilial,
-      CNPJ: this.CNPJ,
-      nomeUsuario: this.nomeUsuario,
-      estacaoTrabalho: this.estacaoTrabalho,
-      IP: this.IP,
-      idLiberacao: this.idLiberacao,
-      origem: this.origem,
-      codOrigem: this.codOrigem,
-      item: this.item,
-    };
+  static create(params: {
+    codEmpresa: number;
+    codFilial: number;
+    cnpj: string;
+    idLiberacao: string;
+    origem: string;
+    codOrigem: number;
+    item: string;
+    nomeUsuario: string;
+    estacaoTrabalho: string;
+    ip: string;
+  }) {
+    return new CobrancaLiberacaoKey(params);
   }
 
-  //create method to json
-  public toObject(): any {
-    return {
-      codEmpresa: this.codEmpresa,
-      codFilial: this.codFilial,
-      CNPJ: this.CNPJ,
-      nomeUsuario: this.nomeUsuario,
-      estacaoTrabalho: this.estacaoTrabalho,
-      IP: this.IP,
-      idLiberacao: this.idLiberacao,
-      origem: this.origem,
-      codOrigem: this.codOrigem,
-      item: this.item,
-    };
-  }
-
-  //create method from object
-  public static fromObject(object: any): CobrancaLiberacaoKey {
-    return new CobrancaLiberacaoKey(
-      object.codEmpresa || object.CodEmpresa,
-      object.codFilial || object.CodFilial,
-      object.CNPJ || object.CNPJ,
-      object.nomeUsuario || object.NomeUsuario,
-      object.estacaoTrabalho || object.EstacaoTrabalho,
-      object.ip || object.IP,
-      object.idLiberacao || object.IdLiberacao,
-      object.origem || object.Origem,
-      object.codOrigem || object.CodOrigem,
-      object.item || object.Item,
-    );
+  static fromObject(object: any) {
+    return new CobrancaLiberacaoKey({
+      codEmpresa: object.CodEmpresa || object.codEmpresa,
+      codFilial: object.CodFilial || object.codFilial,
+      cnpj: object.CNPJ || object.cnpj,
+      idLiberacao: object.IdLiberacao || object.idLiberacao,
+      origem: object.Origem || object.origem,
+      codOrigem: object.CodOrigem || object.codOrigem,
+      item: object.Item || object.item,
+      nomeUsuario: object.NomeUsuario || object.nomeUsuario,
+      estacaoTrabalho: object.EstacaoTrabalho || object.estacaoTrabalho,
+      ip: object.IP || object.ip,
+    });
   }
 }

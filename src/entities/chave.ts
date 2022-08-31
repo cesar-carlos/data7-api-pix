@@ -1,8 +1,8 @@
 export default class Chave {
   constructor(
-    readonly codEmpresa: string | null,
-    readonly codFilial: string | null,
-    readonly codCobrancaDigital: string | null,
+    readonly codEmpresa: number | null,
+    readonly codFilial: number | null,
+    readonly codCobrancaDigital: number | null,
     readonly uuid: string,
     readonly status: string,
     readonly dataCriacao: Date,

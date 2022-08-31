@@ -5,10 +5,11 @@ export default class GerencianetCreateQrcodePixAdapter extends GerencianetBase {
   async execute(locid: number): Promise<responseCreateQrcodePixDto> {
     try {
       const params = { id: locid };
-      const request = await this.gerencianet.pixGenerateQRCode(params);
+      const respose = await this.gerencianet.pixGenerateQRCode(params);
+
       const result: responseCreateQrcodePixDto = {
-        qrcode: request.qrcode,
-        imagemQrcode: request.imagemQrcode,
+        qrcode: respose.qrcode,
+        imagemQrcode: respose.imagemQrcode,
       };
 
       return result;

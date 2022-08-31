@@ -1,34 +1,39 @@
 import CobrancaDigitalLogDto from '../../../src/dto/cobranca.digital.log';
 import LocalSqlServerCobrancaDigitalLogRepository from '../../../src/repository/local.sql.server.cobranca.digital.log.repository';
 
-test(`CRUD LOGS LOCAL SQL-SERVER`, async () => {
-  try {
-    const repository = new LocalSqlServerCobrancaDigitalLogRepository();
-    const uid = 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd';
+describe('CRUD (Integracao.CobrancaDigitalDataBase)', () => {
+  const repository = new LocalSqlServerCobrancaDigitalLogRepository();
+  const newEntity = new CobrancaDigitalLogDto('d1804d09-4cce-4df2-8889-a7a9be3ab3cd', 'MSG', 'DETAILS');
+  const upEntity = new CobrancaDigitalLogDto('d1804d09-4cce-4df2-8889-a7a9be3ab3cd', 'MSG2', 'DETAILS2');
 
-    //ESPERADO QUE RETORNE LOGS
-    const newLogDto = new CobrancaDigitalLogDto(uid, 'MSG', 'DETAILS');
-    await repository.insert(newLogDto);
-    const insert = await repository.selectWhere([{ key: 'ID', value: uid }]);
-    expect(insert).not.toBeUndefined();
-    expect(insert).not.toBeNull();
-    expect(insert?.length).toBe(1);
-    expect(insert?.[0].message === 'MSG').toBeTruthy();
+  it('deve inserir uma novo resitro', async () => {
+    const result = await repository.insert(newEntity);
+  });
 
-    //ESPERADO QUE RETORNE LOGS ALTERADA
-    const upLogDto = new CobrancaDigitalLogDto(uid, 'MSG-UP', 'DETAILS-UP');
-    await repository.update(upLogDto);
-    const update = await repository.selectWhere([{ key: 'ID', value: uid }]);
-    expect(update).not.toBeUndefined();
-    expect(update).not.toBeNull();
-    expect(update?.length).toBe(1);
-    expect(update?.[0].message === 'MSG-UP').toBeTruthy();
+  it('deve ler registro gravado', async () => {
+    const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
 
-    //DELETE LOGS
-    await repository.delete(update![0]);
-  } catch (error: any) {
-    error.message;
-  }
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].message).toBe('MSG');
+  });
+
+  it('deve atualizar registro gravado', async () => {
+    const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
+
+    const result = await repository.update(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].message).toBe('MSG2');
+  });
+
+  it('deve deletar registro gravado', async () => {
+    const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
+
+    const result = await repository.delete(newEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity).toBe(undefined);
+  });
 });
 
-export {};
+export default {};

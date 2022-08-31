@@ -1,8 +1,10 @@
 INSERT INTO integracao.CobrancaDigital (
-	SysId,
 	CodEmpresa,
 	CodFilial,
 	CodCobrancaDigital,
+	Origem,
+	CodOrigem,
+	Situacao,
 	CodCliente,
 	NomeCliente,
 	CNPJ_CPF,
@@ -13,16 +15,20 @@ INSERT INTO integracao.CobrancaDigital (
 	Complemento,
 	Bairro,
 	CEP,
-	CodigoIBGE,
+	CodigoMunicipio,
+	NomeMunicipio,
+	UFMunicipio,
 	CodUsuario,
 	NomeUsuario,
 	EstacaoTrabalho,
-	IP
+	Ip
 ) VALUES (
-	@SysId,
 	@CodEmpresa,
 	@CodFilial,
 	@CodCobrancaDigital,
+	@Origem,
+	@CodOrigem,
+	@Situacao,
 	@CodCliente,
 	@NomeCliente,
 	@CNPJ_CPF,
@@ -33,9 +39,11 @@ INSERT INTO integracao.CobrancaDigital (
 	@Complemento,
 	@Bairro,
 	@CEP,
-	@CodigoIBGE,
+	@CodigoMunicipio,
+	@NomeMunicipio,
+	@UFMunicipio,
 	@CodUsuario,
 	@NomeUsuario,
 	@EstacaoTrabalho,
-	@IP
+	@Ip
 )

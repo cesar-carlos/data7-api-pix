@@ -1,43 +1,40 @@
 import ChaveDto from '../../../src/dto/chave.dto';
 import LocalSqlServerCobrancaDigitalChaveRepository from '../../../src/repository/local.sql.server.cobranca.digital.chave.repository';
 
-test(`CRUD CHAVE LOCAL SQL-SERVER`, async () => {
-  try {
-    const repository = new LocalSqlServerCobrancaDigitalChaveRepository();
+describe('CRUD (Integracao.CobrancaDigitalChave)', () => {
+  const repository = new LocalSqlServerCobrancaDigitalChaveRepository();
+  const chave = 'd9b86139-047c-423e-957a-09c9405fe8ef';
+  const newEntity = new ChaveDto(999, 1, 1, '963187fc-ac10-4a54-a28c-382a38', 'A', new Date('2022-08-19'), chave);
+  const upEntity = new ChaveDto(999, 1, 1, '963187fc-ac10-4a54-a28c-382a38', 'C', new Date('2022-08-20'), chave);
 
-    //ESPERADO QUE RETORNE A CHAVE
-    const nwChave = 'd9b86139-047c-423e-957a-09c9405fe8ef';
-    const newChaveDto = new ChaveDto(999, 1, 1, 'UUID', 'A', new Date('2022-08-19'), nwChave);
-    await repository.insert(newChaveDto);
-    const insert = await repository.selectWhere([
-      { key: 'CodEmpresa', value: 999 },
-      { key: 'CodFilial', value: 1 },
-      { key: 'CodCobrancaDigital', value: 1 },
-    ]);
-    expect(insert).not.toBeUndefined();
-    expect(insert).not.toBeNull();
-    expect(insert?.length).toBe(1);
-    expect(insert?.[0].chave === nwChave).toBeTruthy();
+  const params = [
+    { key: 'CodEmpresa', value: 999 },
+    { key: 'CodFilial', value: 1 },
+    { key: 'CodCobrancaDigital', value: 1 },
+  ];
 
-    //ESPERADO QUE RETORNE A CHAVE ALTERADA
-    const upChave = 'd9b86139-047c-423e-957a-09c9405febbb';
-    const upChaveDto = new ChaveDto(999, 1, 1, 'UUID', 'C', new Date('2022-08-19'), upChave);
-    await repository.update(upChaveDto);
-    const update = await repository.selectWhere([
-      { key: 'CodEmpresa', value: 999 },
-      { key: 'CodFilial', value: 1 },
-      { key: 'CodCobrancaDigital', value: 1 },
-    ]);
-    expect(update).not.toBeUndefined();
-    expect(update).not.toBeNull();
-    expect(update?.length).toBe(1);
-    expect(update?.[0].chave === upChave).toBeTruthy();
+  it('deve inserir uma novo resitro', async () => {
+    const result = await repository.insert(newEntity);
+  });
 
-    //DELETE CHAVE
-    await repository.delete(update![0]);
-  } catch (error: any) {
-    error.message;
-  }
+  it('deve ler registro gravado', async () => {
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].status).toBe('A');
+  });
+
+  it('deve atualizar registro gravado', async () => {
+    const result = await repository.update(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].status).toBe('C');
+  });
+
+  it('deve deletar registro gravado', async () => {
+    const result = await repository.delete(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity).toBe(undefined);
+  });
 });
 
-export {};
+export default {};

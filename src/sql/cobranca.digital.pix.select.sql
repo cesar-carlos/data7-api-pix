@@ -1,7 +1,6 @@
 
 SELECT
 	SysId,
-	Item,
 	Sequencia,
 	Status,
 	DataPagamento,

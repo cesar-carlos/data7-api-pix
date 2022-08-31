@@ -13,6 +13,9 @@ export type Usuario = {
 };
 
 export type Cliente = {
+  CodEmpresa: number;
+  CodFilial: number;
+  CodCobrancaDigital: number;
   CodCliente: number;
   NomeCliente: string;
   CNPJ_CPF: string;
@@ -29,32 +32,35 @@ export type Cliente = {
 };
 
 export type LiberacaoKey = {
-  IdLiberacao: string;
   CodEmpresa: number;
   CodFilial: number;
+  CNPJ: string;
   Origem: string;
   CodOrigem: number;
-  Item: string;
+  nomeUsuario: string;
+  estacaoTrabalho: string;
+  IP: string;
 };
 
-export type Parcela = {
+export type Parcelas = {
+  SysId: string;
   Origem: string;
   CodOrigem: number;
+  LiberacaoKey: LiberacaoKey;
   NumeroParcela: string;
-  CodFormaPagamento: string;
+  QtdParcela: number;
+  TipoCobranca: string;
   DataEmissao: Date;
   DataVenda: Date;
   DataVencimento: Date;
-  ValorLiquido: number;
   ValorParcela: number;
   Observacao: string;
-  LiberacaoKey: LiberacaoKey;
 };
 
-export type requestCobrancaSe7eDto = {
-  Id: string;
+export type requestCobrancaDto = {
+  CobSysId: string;
   Filial: Filial;
   Usuario: Usuario;
   Cliente: Cliente;
-  Parcelas: Parcela[];
+  Parcelas: Parcelas[];
 };

@@ -7,18 +7,18 @@ import ProcessInfo from '../entities/process.info';
 
 export default class CreateGnQrcodeService {
   constructor() {}
-  public async execute(pagamentoPendente: PagamentoPendente): Promise<PagamentoQrCode | ProcessInfo> {
+  public async execute(pgtoPendente: PagamentoPendente): Promise<PagamentoQrCode | ProcessInfo> {
     try {
-      const locid = pagamentoPendente.loc.id;
-      const _gerencianetCreateQrcode = new GerencianetCreateQrcodePixAdapter();
-      const result = await _gerencianetCreateQrcode.execute(locid);
+      const locid = pgtoPendente.loc.id;
+      const gnCreateQrcode = new GerencianetCreateQrcodePixAdapter();
+      const result = await gnCreateQrcode.execute(locid);
 
-      const sysId = pagamentoPendente.adicionais!.shift()!.valor;
+      const sysId = pgtoPendente.sysId;
       const qrCode = result.qrcode;
       const imagemQrcode = result.imagemQrcode;
 
-      const _pagamentoQrCode = new PagamentoQrCode(sysId, locid, qrCode, imagemQrcode);
-      return _pagamentoQrCode;
+      const pgtoQrCode = new PagamentoQrCode(sysId, locid, qrCode, imagemQrcode);
+      return pgtoQrCode;
     } catch (error: any) {
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
       return new ProcessInfo(infoStatusErro, 'CreateGnQrcodeService', error.message);

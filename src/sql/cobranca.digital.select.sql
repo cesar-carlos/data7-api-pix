@@ -1,9 +1,11 @@
 
 SELECT
-	SysId,
 	CodEmpresa,
 	CodFilial,
 	CodCobrancaDigital,
+	Origem,
+	CodOrigem,
+	Situacao,
 	CodCliente,
 	NomeCliente,
 	CNPJ_CPF,
@@ -14,9 +16,11 @@ SELECT
 	Complemento,
 	Bairro,
 	CEP,
-	CodigoIBGE,
+	CodigoMunicipio,
+	NomeMunicipio,
+	UFMunicipio,
 	CodUsuario,
 	NomeUsuario,
 	EstacaoTrabalho,
-	IP
+	Ip
 FROM integracao.CobrancaDigital

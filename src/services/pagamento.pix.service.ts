@@ -9,7 +9,6 @@ import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.r
 import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
 import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository/local.sql.server.item.liberacao.bloqueio.situacao.repository';
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
-
 import RegraBloqueioService from './regra.bloqueio.service';
 
 export default class PagamentoPixService {
@@ -27,12 +26,12 @@ export default class PagamentoPixService {
       );
 
       const keyLiberacao = {
-        CodEmpresa: cobrancaPix.LiberacaoKey.codEmpresa,
-        CodFilial: cobrancaPix.LiberacaoKey.codFilial,
-        IdLiberacao: cobrancaPix.LiberacaoKey.idLiberacao,
-        Origem: cobrancaPix.LiberacaoKey.origem,
-        CodOrigem: cobrancaPix.LiberacaoKey.codOrigem,
-        Item: cobrancaPix.LiberacaoKey.item,
+        CodEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
+        CodFilial: cobrancaPix.liberacaoKey.codFilial,
+        IdLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
+        Origem: cobrancaPix.liberacaoKey.origem,
+        CodOrigem: cobrancaPix.liberacaoKey.codOrigem,
+        Item: cobrancaPix.liberacaoKey.item,
       };
 
       const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(keyLiberacao);
@@ -51,7 +50,7 @@ export default class PagamentoPixService {
             'Remota',
             new Date(dataLiberacao),
             1,
-            cobrancaPix.LiberacaoKey.estacaoTrabalho,
+            cobrancaPix.liberacaoKey.estacaoTrabalho,
             'COBRANCA DIGITAL PIX',
             cobrancaPix.STATUS,
             'LIBERADO PELA COBRANCA DIGITAL PIX - PAGAMENTO CONCLUIDO',

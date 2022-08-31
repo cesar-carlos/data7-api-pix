@@ -1,4 +1,7 @@
 UPDATE integracao.CobrancaDigital SET
+	Origem = @Origem,
+	CodOrigem = @CodOrigem,
+	Situacao = @Situacao,
 	CodCliente = @CodCliente,
 	NomeCliente = @NomeCliente,
 	CNPJ_CPF = @CNPJ_CPF,
@@ -9,12 +12,13 @@ UPDATE integracao.CobrancaDigital SET
 	Complemento = @Complemento,
 	Bairro = @Bairro,
 	CEP = @CEP,
-	CodigoIBGE = @CodigoIBGE,
+	CodigoMunicipio = @CodigoMunicipio,
+	NomeMunicipio = @NomeMunicipio,
+	UFMunicipio = @UFMunicipio,
 	CodUsuario = @CodUsuario,
 	NomeUsuario = @NomeUsuario,
 	EstacaoTrabalho = @EstacaoTrabalho,
-	IP = @IP
-WHERE SysId = @SysId
-  AND CodEmpresa = @CodEmpresa
+	Ip = @Ip
+WHERE CodEmpresa = @CodEmpresa
   AND CodFilial = @CodFilial
   AND CodCobrancaDigital = @CodCobrancaDigital

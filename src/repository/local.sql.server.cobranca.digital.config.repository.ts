@@ -90,7 +90,7 @@ export default class LocalSqlServerCobrancaDigitalConfigRepository
         .input('Gerenciadora', sql.VarChar(60), entity.gerenciadora)
         .input('ClientId', sql.VarChar(255), entity.clientId)
         .input('ClientSecret', sql.VarChar(255), entity.clientSecret)
-        .input('Certificado', sql.NVarChar(), entity.certificado)
+        .input('Certificado', sql.VarBinary(), Buffer.from(entity.certificado, 'binary'))
         .query(sqlCommand);
 
       await transaction.commit();

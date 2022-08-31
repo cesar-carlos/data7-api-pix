@@ -1,6 +1,8 @@
 
 SELECT
-	ID,
-	Message,
-	Details
-FROM integracao.CobrancaDigitalLog
+	SysId,
+	Sequencia,
+	Status,
+	DataPagamento,
+	Valor
+FROM integracao.CobrancaDigitalPagamento

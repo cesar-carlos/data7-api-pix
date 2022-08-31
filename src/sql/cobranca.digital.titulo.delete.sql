@@ -1,3 +1,4 @@
 DELETE integracao.CobrancaDigitalTitulo
-WHERE SysId = @SysId
+WHERE CodEmpresa = @CodEmpresa
+  AND CodCobrancaDigital = @CodCobrancaDigital
   AND Item = @Item

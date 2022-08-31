@@ -1,4 +1,6 @@
 DELETE integracao.CobrancaDigitalAdicionais
-WHERE SysId = @SysId
+WHERE CodEmpresa = @CodEmpresa
+ AND CodCobrancaDigital = @CodCobrancaDigital
+ AND Item = @Item
  AND Sequencia = @Sequencia
 

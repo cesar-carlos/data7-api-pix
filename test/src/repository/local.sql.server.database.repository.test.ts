@@ -1,34 +1,35 @@
 import CobrancaDigitalDataBaseDto from '../../../src/dto/cobranca.digital.data.base';
 import LocalSqlServerCobrancaDigitalDataBaseRepository from '../../../src/repository/local.sql.server.cobranca.digital.data.base.repository';
 
-test(`CRUD DATABASE LOCAL SQL-SERVER`, async () => {
-  try {
-    const repository = new LocalSqlServerCobrancaDigitalDataBaseRepository();
+describe('CRUD (Integracao.CobrancaDigitalDataBase)', () => {
+  const repository = new LocalSqlServerCobrancaDigitalDataBaseRepository();
+  const newEntity = new CobrancaDigitalDataBaseDto(999, 'SQL-SERVER', 'sa', '123abc.', 'localhost', 'MSCar', 1433);
+  const upEntity = new CobrancaDigitalDataBaseDto(999, 'SQL-SERVER', 'sa', '123abc.', 'localhost', 'Data7', 1433);
 
-    //ESPERADO QUE RETORNE A ENTITY
-    const inEntity = new CobrancaDigitalDataBaseDto(999, 'SQL-SERVER', 'sa', '123abc.', 'localhost', 'MSCar', 1433);
-    await repository.insert(inEntity);
-    const insert = await repository.selectWhere([{ key: 'CodCobrancaDigitalDataBase', value: 999 }]);
-    expect(insert).not.toBeUndefined();
-    expect(insert).not.toBeNull();
-    expect(insert?.length).toBe(1);
-    expect(insert?.[0].provedor === 'SQL-SERVER').toBeTruthy();
+  const params = [{ key: 'CodCobrancaDigitalDataBase', value: 999 }];
 
-    //ESPERADO QUE RETORNE A ENTITY ALTERADA
-    const upEntity = new CobrancaDigitalDataBaseDto(999, 'SYBASE', 'dba', 'sql', 'localhost', 'MSCar', 2638);
-    await repository.update(upEntity);
-    const update = await repository.selectWhere([{ key: 'CodCobrancaDigitalDataBase', value: 999 }]);
-    expect(update).not.toBeUndefined();
-    expect(update).not.toBeNull();
-    expect(update?.length).toBe(1);
-    expect(update?.[0].provedor === 'SYBASE').toBeTruthy();
+  it('deve inserir uma novo resitro', async () => {
+    const result = await repository.insert(newEntity);
+  });
 
-    console.log(update![0]);
-    //DELETE
-    await repository.delete(update![0]);
-  } catch (error: any) {
-    error.message;
-  }
+  it('deve ler registro gravado', async () => {
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].base).toBe('MSCar');
+  });
+
+  it('deve atualizar registro gravado', async () => {
+    const result = await repository.update(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].base).toBe('Data7');
+  });
+
+  it('deve deletar registro gravado', async () => {
+    const result = await repository.delete(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity).toBe(undefined);
+  });
 });
 
-export {};
+export default {};

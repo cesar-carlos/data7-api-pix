@@ -10,6 +10,7 @@ import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.s
 import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository/local.sql.server.item.liberacao.bloqueio.situacao.repository';
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
 import RegraBloqueioService from './regra.bloqueio.service';
+import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
 
 export default class CancelamentoPixService {
   private sqlServerLiberacaoBloqueioRepo = new LocalSqlServerLiberacaoBloqueioRepository();
@@ -26,16 +27,16 @@ export default class CancelamentoPixService {
         this.sqlServerItemLiberacaoBloqueioSituacaoRepo,
       );
 
-      const keyLiberacao = {
-        CodEmpresa: cobrancaPix.LiberacaoKey.codEmpresa,
-        CodFilial: cobrancaPix.LiberacaoKey.codFilial,
-        IdLiberacao: cobrancaPix.LiberacaoKey.idLiberacao,
-        Origem: cobrancaPix.LiberacaoKey.origem,
-        CodOrigem: cobrancaPix.LiberacaoKey.codOrigem,
-        Item: cobrancaPix.LiberacaoKey.item,
+      const liberacaoKey: liberacaoKeyDto = {
+        CodEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
+        CodFilial: cobrancaPix.liberacaoKey.codFilial,
+        IdLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
+        Origem: cobrancaPix.liberacaoKey.origem,
+        CodOrigem: cobrancaPix.liberacaoKey.codOrigem,
+        Item: cobrancaPix.liberacaoKey.item,
       };
 
-      const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(keyLiberacao);
+      const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(liberacaoKey);
       if (bloqueioOrProcessInfo instanceof ProcessInfo) {
         return;
       }
@@ -52,7 +53,7 @@ export default class CancelamentoPixService {
               'Remota',
               new Date(dataRecusa),
               1,
-              cobrancaPix.LiberacaoKey.estacaoTrabalho,
+              cobrancaPix.liberacaoKey.estacaoTrabalho,
               'COBRANCA DIGITAL PIX',
               cobrancaPix.STATUS,
               'CANCELADO COBRANCA DIGITAL PIX - PAGAMENTO CANCELADO',

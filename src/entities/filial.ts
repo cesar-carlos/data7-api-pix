@@ -1,33 +1,26 @@
 export default class Filial {
-  constructor(readonly codEmpresa: number, readonly codFilial: number, readonly nome: string, readonly cnpj: string) {}
+  readonly codEmpresa: number;
+  readonly codFilial: number;
+  readonly nome: string;
+  readonly cnpj: string;
 
-  //create method from json
-  static fromJson(json: any): Filial {
-    return new Filial(
-      json.codEmpresa || json.CodEmpresa,
-      json.codFilial || json.CodFilial,
-      json.nome || json.Nome,
-      json.cnpj || json.CNPJ,
-    );
+  constructor(params: { codEmpresa: number; codFilial: number; nome: string; cnpj: string }) {
+    this.codEmpresa = params.codEmpresa;
+    this.codFilial = params.codFilial;
+    this.nome = params.nome;
+    this.cnpj = params.cnpj;
   }
 
-  //create method to json
-  toJson(): any {
-    return {
-      CodEmpresa: this.codEmpresa,
-      CodFilial: this.codFilial,
-      Nome: this.nome,
-      CNPJ: this.cnpj,
-    };
-  }
+  static create = (params: { codEmpresa: number; codFilial: number; nome: string; cnpj: string }) => {
+    return new Filial(params);
+  };
 
-  //create method from object
-  static fromObject(obj: any): Filial {
-    return new Filial(
-      obj.codEmpresa || obj.CodEmpresa,
-      obj.codFilial || obj.CodFilial,
-      obj.nome || obj.Nome,
-      obj.cnpj || obj.CNPJ,
-    );
-  }
+  static fromObject = (object: any) => {
+    return new Filial({
+      codEmpresa: object.CodEmpresa,
+      codFilial: object.CodFilial,
+      nome: object.Nome,
+      cnpj: object.CNPJ,
+    });
+  };
 }

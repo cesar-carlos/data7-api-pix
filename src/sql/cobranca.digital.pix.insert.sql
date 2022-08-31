@@ -1,6 +1,5 @@
 INSERT INTO integracao.CobrancaDigitalPix (
 	SysId,
-	Item,
 	Sequencia,
 	EndToEndId,
 	DataCriacao,
@@ -9,7 +8,6 @@ INSERT INTO integracao.CobrancaDigitalPix (
 	ImagemQrcode
 ) VALUES (
 	@SysId,
-	@Item,
 	@Sequencia,
 	@EndToEndId,
 	@DataCriacao,

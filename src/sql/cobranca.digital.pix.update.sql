@@ -5,5 +5,4 @@ UPDATE integracao.CobrancaDigitalPix SET
 	QrCode = @QrCode,
 	ImagemQrcode = @ImagemQrcode
 WHERE SysId = @SysId
-	AND Item = @Item
   AND Sequencia = @Sequencia

@@ -1,15 +1,19 @@
 
 SELECT
-	SysId,
+	CodEmpresa,
+	CodCobrancaDigital,
 	Item,
-	Origem,
-	CodOrigem,
+	SysId,
 	Status,
 	TipoCobranca,
 	NumeroTitulo,
-	NumeroParcela,
+	Parcela,
+  QtdParcelas,
+	LiberacaoKey,
+  DataLancamento,
 	DataEmissao,
 	DataVenda,
 	DataVencimento,
-	Valor
+	Valor,
+	Observacao
 FROM integracao.CobrancaDigitalTitulo

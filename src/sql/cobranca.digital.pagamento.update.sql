@@ -3,5 +3,4 @@ UPDATE integracao.CobrancaDigitalPagamento SET
 	DataPagamento = @DataPagamento,
 	Valor = @Valor
 WHERE SysId = @SysId
- AND Item = @Item
  AND Sequencia = @Sequencia

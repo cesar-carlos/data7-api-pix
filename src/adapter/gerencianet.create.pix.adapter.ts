@@ -1,5 +1,6 @@
 import { requestCreatePixDto } from '../dto/request.create.pix.dto';
 import { responseCreatePixDto } from '../dto/response.create.pix.dto';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreatePixAdapter extends GerencianetBase {

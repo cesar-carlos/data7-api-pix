@@ -4,5 +4,4 @@ UPDATE integracao.CobrancaDigitalSituacao SET
 	LocId = @LocId,
 	Chave = @Chave
 WHERE SysId = @SysId
-  AND Item = @Item
-  AND Sequencia = @Sequencia
+

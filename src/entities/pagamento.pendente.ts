@@ -7,7 +7,6 @@ export type devedor = {
 };
 
 export default class PagamentoPendente {
-  //create constructor initialize properties
   constructor(
     readonly txid: string,
     readonly sysId: string,
@@ -16,7 +15,7 @@ export default class PagamentoPendente {
     readonly devedor: devedor,
     readonly criacao: Date,
     readonly expiracao: Date,
-    readonly valor: number,
+    readonly valor: string,
     readonly solicitacaoPagador: string,
     readonly loc: PagamentoLoc,
     readonly adicionais?: PagamentoAdicionais[],

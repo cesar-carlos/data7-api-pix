@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import CobrancaController from '../controllers/cobranca.controller';
 import PagamentoController from '../controllers/pagamento.controller';
+import TimeoutController from '../controllers/timeout.controller';
 import WebhookRegisterController from '../controllers/webhook.register.controller';
 
 export default class ApiRoute {
@@ -15,6 +16,7 @@ export default class ApiRoute {
     this.webhookRegister();
     this.cobranca();
     this.pagamento();
+    this.timeout();
   }
 
   static router = new ApiRoute().getRouter();
@@ -48,5 +50,12 @@ export default class ApiRoute {
     this._router.post('/pagamento', PagamentoController.post);
     this._router.put('/pagamento', PagamentoController.put);
     this._router.delete('/pagamento/:sysId', PagamentoController.delete);
+  }
+
+  private timeout() {
+    this._router.get('/timeout/:time', TimeoutController.get);
+    this._router.post('/timeout', TimeoutController.post);
+    this._router.put('/timeout', TimeoutController.put);
+    this._router.delete('/timeout', TimeoutController.delete);
   }
 }

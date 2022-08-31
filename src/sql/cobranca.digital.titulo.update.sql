@@ -1,13 +1,18 @@
 UPDATE integracao.CobrancaDigitalTitulo SET
-	Origem = @Origem,
-	CodOrigem = @CodOrigem,
+	SysId = @SysId,
 	Status = @Status,
 	TipoCobranca = @TipoCobranca,
 	NumeroTitulo = @NumeroTitulo,
-	NumeroParcela = @NumeroParcela,
+	Parcela = @Parcela,
+  QtdParcelas = @QtdParcelas,
+	LiberacaoKey = @LiberacaoKey,
+  DataLancamento = @DataLancamento,
 	DataEmissao = @DataEmissao,
 	DataVenda = @DataVenda,
 	DataVencimento = @DataVencimento,
-	Valor = @Valor
-WHERE SysId = @SysId
+	Valor = @Valor,
+	Observacao = @Observacao
+WHERE CodEmpresa = @CodEmpresa
+  AND CodCobrancaDigital = @CodCobrancaDigital
   AND Item = @Item
+

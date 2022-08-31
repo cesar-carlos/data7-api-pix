@@ -87,39 +87,46 @@ export default class FirebaseCobrancaPixRepository
 
   private CobrancaPixFromFirebase(data: any): CobrancaPix {
     const datacriacao = data.datacriacao._seconds ? new Date(data.datacriacao._seconds * 1000) : data.datacriacao;
-    const liberacaoKey = new CobrancaLiberacaoKey(
-      data.LiberacaoKey.codEmpresa,
-      data.LiberacaoKey.codFilial,
-      data.LiberacaoKey.CNPJ,
-      data.LiberacaoKey.nomeUsuario,
-      data.LiberacaoKey.estacaoTrabalho,
-      data.LiberacaoKey.IP,
-      data.LiberacaoKey.idLiberacao,
-      data.LiberacaoKey.origem,
-      data.LiberacaoKey.codOrigem,
-      data.LiberacaoKey.item,
-    );
 
-    const pagamentosPix: PagamentoPix[] = data[0]?.PagamentoPix?.map((pix: any) => {
-      return new PagamentoPix(pix.txid, pix.endToEndId, pix.chave, pix.horario, pix.valor, pix.infoPagador);
+    const liberacao = new CobrancaLiberacaoKey({
+      codEmpresa: data.LiberacaoKey.codEmpresa,
+      codFilial: data.LiberacaoKey.codFilial,
+      cnpj: data.LiberacaoKey.cnpj,
+      idLiberacao: data.LiberacaoKey.idLiberacao,
+      origem: data.LiberacaoKey.origem,
+      codOrigem: data.LiberacaoKey.codOrigem,
+      item: data.LiberacaoKey.item,
+      nomeUsuario: data.LiberacaoKey.nomeUsuario,
+      estacaoTrabalho: data.LiberacaoKey.estacaoTrabalho,
+      ip: data.LiberacaoKey.ip,
     });
 
-    const cobrancaPix = new CobrancaPix(
-      data.SysId,
-      data.TxId,
-      data.LocId,
-      data.STATUS,
-      datacriacao,
-      data.Parcela,
-      data.Valor,
-      data.LinkQrCode,
-      data.ImagemQrcode,
-      data.NomeCliente,
-      data.Telefone,
-      data.EMail,
-      liberacaoKey,
-      pagamentosPix,
-    );
+    const pagamentos = data.PagamentoPix.map((item: any) => {
+      return new PagamentoPix({
+        txid: item.txid,
+        endToEndId: item.endToEndId,
+        chave: item.chave,
+        horario: item.horario,
+        valor: item.valor,
+        infoPagador: item.infoPagador,
+      });
+    });
+
+    const cobrancaPix = new CobrancaPix({
+      sysId: data.sysId,
+      txId: data.txId,
+      locId: data.locId,
+      STATUS: data.STATUS,
+      datacriacao: datacriacao,
+      parcela: data.parcela,
+      valor: data.valor,
+      linkQrCode: data.linkQrCode,
+      imagemQrcode: data.imagemQrcode,
+      nomeCliente: data.nomeCliente,
+      telefone: data.telefone,
+      eMail: data.eMail,
+      liberacaoKey: liberacao,
+    });
 
     return cobrancaPix;
   }

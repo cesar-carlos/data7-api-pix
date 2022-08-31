@@ -1,8 +1,12 @@
 export type liberacaoKeyDto = {
-  CodEmpresa: number;
-  CodFilial: number;
-  IdLiberacao: string;
-  Origem: string;
-  CodOrigem: number;
-  Item: string;
+  codEmpresa: number;
+  codFilial: number;
+  CNPJ: string;
+  idLiberacao: string;
+  origem: string;
+  codOrigem: number;
+  item: string;
+  nomeUsuario: string;
+  estacaoTrabalho: string;
+  IP: string;
 };

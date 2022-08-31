@@ -11,64 +11,52 @@ import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
 
 export default class CobrancaPixService {
   constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
-  public async execute(cobranca: Cobranca): Promise<ProcessInfo | CobrancaPix> {
+  public async execute(cobranca: Cobranca): Promise<ProcessInfo | CobrancaPix[]> {
     try {
-      const qtdParcelas = cobranca.parcelas.length;
-      if (!qtdParcelas || qtdParcelas > 1) {
-        //TODO: implementar mais de uma parcela
+      const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+      const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
 
-        const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
-        return new ProcessInfo(
-          infoStatusErro,
-          'CobrancaPixService',
-          'Quantidade de parcela superior a uma. Processo de cobrança não suportado',
-        );
+      //CREATE COBRANCA PIX
+      const createGnPixService = new CreateGnPixService(cobranca.chave);
+      const pgtoPendenteOrProcessInfo = await createGnPixService.execute(cobranca);
+      if (pgtoPendenteOrProcessInfo instanceof ProcessInfo) {
+        return pgtoPendenteOrProcessInfo;
       }
 
-      const cobrancaPIX = new CreateGnPixService(cobranca.chave);
-      const cobrancaPixOrProcessInfo = await cobrancaPIX.execute(cobranca);
-      if (cobrancaPixOrProcessInfo instanceof ProcessInfo) {
-        return cobrancaPixOrProcessInfo;
-      }
+      //CREATE COBRANCA PIX QR CODE
+      const processInfoQrcode = [];
+      const cobrancaPix: CobrancaPix[] = [];
 
       const createGnQrcodeService = new CreateGnQrcodeService();
-      const qrCodePixOrProcessInfo = await createGnQrcodeService.execute(cobrancaPixOrProcessInfo);
-      if (qrCodePixOrProcessInfo instanceof ProcessInfo) {
-        return qrCodePixOrProcessInfo;
+      for (const item of pgtoPendenteOrProcessInfo) {
+        const pgtoQrCodeOrProcessInfo = await createGnQrcodeService.execute(item);
+        if (pgtoQrCodeOrProcessInfo instanceof ProcessInfo) {
+          processInfoQrcode.push(pgtoQrCodeOrProcessInfo);
+        } else {
+          const cobParcela = cobranca.parcelas.filter((p) => p.sysId === item.sysId).shift();
+          if (!cobParcela) return new ProcessInfo(infoStatusErro, 'Parcela não encontrada');
+
+          const cobPix = new CobrancaPix({
+            sysId: cobParcela.sysId,
+            txId: item.txid,
+            locId: item.loc.id,
+            STATUS: STATUS.ATIVO,
+            datacriacao: item.criacao,
+            parcela: cobParcela.numeroParcela,
+            valor: cobParcela.valorParcela,
+            linkQrCode: pgtoQrCodeOrProcessInfo.qrcode,
+            imagemQrcode: pgtoQrCodeOrProcessInfo.imagemQrcode,
+            nomeCliente: cobranca.cliente.nomeCliente,
+            telefone: cobranca.cliente.telefone || '',
+            eMail: cobranca.cliente.eMail || '',
+            liberacaoKey: new CobrancaLiberacaoKey({ ...cobParcela.liberacaoKey }),
+          });
+
+          this.repo.insert(cobPix);
+          cobrancaPix.push(cobPix);
+        }
       }
 
-      //TODO: implementar mais de uma parcela
-      const pgtoPendente = cobrancaPixOrProcessInfo;
-      const pgtoPendenteQrCode = qrCodePixOrProcessInfo;
-      const parcela = cobranca.parcelas.shift();
-      const cobrancaPix = new CobrancaPix(
-        pgtoPendente.sysId,
-        pgtoPendente.txid,
-        pgtoPendente.loc.id,
-        STATUS.ATIVO,
-        pgtoPendente.criacao,
-        parcela!.numeroParcela,
-        pgtoPendente.valor,
-        pgtoPendenteQrCode.qrcode,
-        pgtoPendenteQrCode.imagemQrcode,
-        cobranca.cliente.nomeCliente,
-        cobranca.cliente.telefone,
-        cobranca.cliente.eMail,
-        new CobrancaLiberacaoKey(
-          cobranca.filial.codEmpresa,
-          cobranca.filial.codFilial,
-          cobranca.filial.cnpj,
-          cobranca.usuario.nomeUsuario,
-          cobranca.usuario.estacaoTrabalho,
-          cobranca.usuario.ip,
-          parcela!.liberacaoKey.idLiberacao,
-          parcela!.liberacaoKey.origem,
-          parcela!.liberacaoKey.codOrigem,
-          parcela!.liberacaoKey.item,
-        ),
-      );
-
-      this.repo.insert(cobrancaPix);
       return cobrancaPix;
     } catch (error: any) {
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };

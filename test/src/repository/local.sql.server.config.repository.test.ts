@@ -1,39 +1,38 @@
 import CobrancaDigitalConfigDto from '../../../src/dto/cobranca.digital.config';
 import LocalSqlServerCobrancaDigitalConfigRepository from '../../../src/repository/local.sql.server.cobranca.digital.config.repository';
 
-test(`CRUD CONFIG LOCAL SQL-SERVER`, async () => {
-  try {
-    const repository = new LocalSqlServerCobrancaDigitalConfigRepository();
+describe('CRUD (Integracao.CobrancaDigitalConfig)', () => {
+  const repository = new LocalSqlServerCobrancaDigitalConfigRepository();
+  const newEntity = new CobrancaDigitalConfigDto(999, 1, 'S', 'GNET', 'clientId,', 'clientSecret', 'certificado');
+  const upEntity = new CobrancaDigitalConfigDto(999, 1, 'N', 'GNET', 'clientId,', 'clientSecret', 'certificado');
 
-    //ESPERADO QUE RETORNE A CONFIG
-    const inConfig = new CobrancaDigitalConfigDto(999, 1, 'A', 'TEST', 'clientId', 'clientSecret', 'certificado');
-    await repository.insert(inConfig);
-    const insert = await repository.selectWhere([
-      { key: 'CodEmpresa', value: 999 },
-      { key: 'CodConfiguracao', value: 1 },
-    ]);
-    expect(insert).not.toBeUndefined();
-    expect(insert).not.toBeNull();
-    expect(insert?.length).toBe(1);
-    expect(insert?.[0].ativo === 'A').toBeTruthy();
+  const params = [
+    { key: 'CodEmpresa', value: 999 },
+    { key: 'CodConfiguracao', value: 1 },
+  ];
 
-    //ESPERADO QUE RETORNE A CONFIG ALTERADA
-    const upConfig = new CobrancaDigitalConfigDto(999, 1, 'C', 'TEST', 'clientId', 'clientSecret', 'certificado');
-    await repository.update(upConfig);
-    const update = await repository.selectWhere([
-      { key: 'CodEmpresa', value: 999 },
-      { key: 'CodConfiguracao', value: 1 },
-    ]);
-    expect(update).not.toBeUndefined();
-    expect(update).not.toBeNull();
-    expect(update?.length).toBe(1);
-    expect(update?.[0].ativo === 'C').toBeTruthy();
+  it('deve inserir uma novo resitro', async () => {
+    const result = await repository.insert(newEntity);
+  });
 
-    //DELETE CONFIG
-    await repository.delete(update![0]);
-  } catch (error: any) {
-    error.message;
-  }
+  it('deve ler registro gravado', async () => {
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].ativo).toBe('S');
+  });
+
+  it('deve atualizar registro gravado', async () => {
+    const result = await repository.update(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].ativo).toBe('N');
+  });
+
+  it('deve deletar registro gravado', async () => {
+    const result = await repository.delete(upEntity);
+    const entity = await repository.selectWhere(params);
+    expect(entity).toBe(undefined);
+  });
 });
 
-export {};
+export default {};

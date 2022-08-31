@@ -1,9 +1,13 @@
 INSERT INTO integracao.CobrancaDigitalAdicionais (
-	SysId,
+	CodEmpresa,
+	CodCobrancaDigital,
+	Item,
 	Sequencia,
 	Adicional
 ) VALUES (
-	@SysId,
+	@CodEmpresa,
+	@CodCobrancaDigital,
+	@Item,
 	@Sequencia,
 	@Adicional
 )
