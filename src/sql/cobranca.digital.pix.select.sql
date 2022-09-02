@@ -2,8 +2,10 @@
 SELECT
 	SysId,
 	Sequencia,
-	Status,
-	DataPagamento,
-	Valor
-FROM integracao.CobrancaDigitalPagamento
+	EndToEndId,
+	DataCriacao,
+	DataExpiracao,
+	QrCode,
+	ImagemQrcode
+FROM integracao.CobrancaDigitalPix
 

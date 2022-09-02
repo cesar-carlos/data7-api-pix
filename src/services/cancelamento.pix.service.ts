@@ -28,12 +28,16 @@ export default class CancelamentoPixService {
       );
 
       const liberacaoKey: liberacaoKeyDto = {
-        CodEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
-        CodFilial: cobrancaPix.liberacaoKey.codFilial,
-        IdLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
-        Origem: cobrancaPix.liberacaoKey.origem,
-        CodOrigem: cobrancaPix.liberacaoKey.codOrigem,
-        Item: cobrancaPix.liberacaoKey.item,
+        codEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
+        codFilial: cobrancaPix.liberacaoKey.codFilial,
+        CNPJ: cobrancaPix.liberacaoKey.cnpj,
+        idLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
+        origem: cobrancaPix.liberacaoKey.origem,
+        codOrigem: cobrancaPix.liberacaoKey.codOrigem,
+        item: cobrancaPix.liberacaoKey.item,
+        nomeUsuario: cobrancaPix.liberacaoKey.nomeUsuario,
+        estacaoTrabalho: cobrancaPix.liberacaoKey.estacaoTrabalho,
+        IP: cobrancaPix.liberacaoKey.ip,
       };
 
       const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(liberacaoKey);

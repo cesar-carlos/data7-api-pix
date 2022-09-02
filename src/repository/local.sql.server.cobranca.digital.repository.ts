@@ -4,7 +4,7 @@ import sql from 'mssql';
 
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
-import CobrancaDigitalDto from '../dto/cobranca.digital';
+import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
 
 export default class LocalSqlServerCobrancaDigitalRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalDto>

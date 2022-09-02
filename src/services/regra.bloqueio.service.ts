@@ -47,9 +47,9 @@ export default class RegraBloqueioService {
     }
   }
 
-  public async findOneFromLiberacaoKey(LiberacaoKey: liberacaoKeyDto): Promise<LiberacaoBloqueio | ProcessInfo> {
+  public async findOneFromLiberacaoKey(liberacaoKey: liberacaoKeyDto): Promise<LiberacaoBloqueio | ProcessInfo> {
     try {
-      const _stringLiberacaoKey = `${JSON.stringify(LiberacaoKey)}`;
+      const _stringLiberacaoKey = `${JSON.stringify(liberacaoKey)}`;
       const paramObservacaoBloqueio = params.create<string>('ObservacaoBloqueio', _stringLiberacaoKey);
       const itemLiberacaoDto = await this.repoItemLiberacao.selectWhere([paramObservacaoBloqueio]);
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
@@ -61,7 +61,7 @@ export default class RegraBloqueioService {
           '(itemLiberacaoBloquio) Nenhum registro encontrado',
         );
 
-      const CodEmpresa = LiberacaoKey.CodEmpresa;
+      const CodEmpresa = liberacaoKey.codEmpresa;
       const CodLiberacao = itemLiberacaoDto.shift()?.codLiberacaoBloqueio;
 
       if (!CodLiberacao) {

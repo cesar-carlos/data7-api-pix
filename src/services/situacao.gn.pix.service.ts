@@ -11,14 +11,14 @@ export default class SituacaoGnPixService {
     try {
       const response = await this.pixDetail.execute(txid);
       const pix = response?.pix?.map((pix) => {
-        return new PagamentoPix(
-          pix.txid,
-          pix.endToEndId,
-          pix.chave,
-          pix.horario,
-          Number.parseFloat(pix.valor),
-          pix.infoPagador,
-        );
+        return new PagamentoPix({
+          txid: pix.txid,
+          endToEndId: pix.endToEndId,
+          chave: pix.chave,
+          horario: pix.horario,
+          valor: Number.parseFloat(pix.valor),
+          infoPagador: pix.infoPagador,
+        });
       });
 
       //sempre da primeira posição enviar sysId

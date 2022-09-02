@@ -66,7 +66,7 @@ export default class CreateGnPixService {
           resp.valor.original,
           resp.solicitacaoPagador,
           new PagamentoLoc(resp.loc.id, resp.loc.location, resp.loc.tipoCob, new Date(resp.loc.criacao)),
-          resp.infoAdicionais.map((info) => new PagamentoAdicionais(info.nome, info.valor)),
+          resp.infoAdicionais.map((info) => PagamentoAdicionais.create(info)),
         );
 
         pgtoPendentes.push(pgtoPendente);

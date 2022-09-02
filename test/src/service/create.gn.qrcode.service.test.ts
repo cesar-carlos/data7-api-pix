@@ -1,6 +1,5 @@
 import PagamentoPendente from '../../../src/entities/pagamento.pendente';
 import CreateGnQrcodeService from '../../../src/services/create.gn.qrcode.service';
-import { loc } from '../../../src/dto/response.create.pix.dto';
 import PagamentoLoc from '../../../src/entities/pagamento.loc';
 import PagamentoQrCode from '../../../src/entities/pagamento.qrcode';
 

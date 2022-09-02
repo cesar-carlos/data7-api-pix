@@ -10,6 +10,7 @@ import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.s
 import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository/local.sql.server.item.liberacao.bloqueio.situacao.repository';
 import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
 import RegraBloqueioService from './regra.bloqueio.service';
+import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
 
 export default class PagamentoPixService {
   private sqlServerLiberacaoBloqueioRepo = new LocalSqlServerLiberacaoBloqueioRepository();
@@ -25,16 +26,20 @@ export default class PagamentoPixService {
         this.sqlServerItemLiberacaoBloqueioSituacaoRepo,
       );
 
-      const keyLiberacao = {
-        CodEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
-        CodFilial: cobrancaPix.liberacaoKey.codFilial,
-        IdLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
-        Origem: cobrancaPix.liberacaoKey.origem,
-        CodOrigem: cobrancaPix.liberacaoKey.codOrigem,
-        Item: cobrancaPix.liberacaoKey.item,
+      const liberacaoKey: liberacaoKeyDto = {
+        codEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
+        codFilial: cobrancaPix.liberacaoKey.codFilial,
+        CNPJ: cobrancaPix.liberacaoKey.cnpj,
+        idLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
+        origem: cobrancaPix.liberacaoKey.origem,
+        codOrigem: cobrancaPix.liberacaoKey.codOrigem,
+        item: cobrancaPix.liberacaoKey.item,
+        nomeUsuario: cobrancaPix.liberacaoKey.nomeUsuario,
+        estacaoTrabalho: cobrancaPix.liberacaoKey.estacaoTrabalho,
+        IP: cobrancaPix.liberacaoKey.ip,
       };
 
-      const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(keyLiberacao);
+      const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(liberacaoKey);
       if (bloqueioOrProcessInfo instanceof ProcessInfo) {
         return;
       }

@@ -1,4 +1,4 @@
-import CobrancaDigitalConfigDto from '../../../src/dto/cobranca.digital.config';
+import CobrancaDigitalConfigDto from '../../../src/dto/cobranca.digital.config.dto';
 import LocalSqlServerCobrancaDigitalConfigRepository from '../../../src/repository/local.sql.server.cobranca.digital.config.repository';
 
 describe('CRUD (Integracao.CobrancaDigitalConfig)', () => {
@@ -18,14 +18,14 @@ describe('CRUD (Integracao.CobrancaDigitalConfig)', () => {
   it('deve ler registro gravado', async () => {
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].ativo).toBe('S');
+    expect(entity?.[0].ativo).toBe(newEntity.ativo);
   });
 
   it('deve atualizar registro gravado', async () => {
     const result = await repository.update(upEntity);
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].ativo).toBe('N');
+    expect(entity?.[0].ativo).toBe(upEntity.ativo);
   });
 
   it('deve deletar registro gravado', async () => {

@@ -20,14 +20,14 @@ describe('CRUD (Integracao.CobrancaDigitalChave)', () => {
   it('deve ler registro gravado', async () => {
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].status).toBe('A');
+    expect(entity?.[0].status).toBe(newEntity.status);
   });
 
   it('deve atualizar registro gravado', async () => {
     const result = await repository.update(upEntity);
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].status).toBe('C');
+    expect(entity?.[0].status).toBe(upEntity.status);
   });
 
   it('deve deletar registro gravado', async () => {

@@ -3,11 +3,13 @@ INSERT INTO integracao.CobrancaDigitalPagamento (
 	Sequencia,
 	Status,
 	DataPagamento,
-	Valor
+	Valor,
+  Observacao
 ) VALUES (
 	@SysId,
 	@Sequencia,
 	@Status,
 	@DataPagamento,
-	@Valor
+	@Valor,
+  @Observacao
 )

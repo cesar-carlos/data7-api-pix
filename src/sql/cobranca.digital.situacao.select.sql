@@ -1,6 +1,7 @@
 
 SELECT
 	SysId,
+  Sequencia,
 	Status,
 	TxId,
 	LocId,

@@ -1,4 +1,4 @@
-import CobrancaDigitalLogDto from '../../../src/dto/cobranca.digital.log';
+import CobrancaDigitalLogDto from '../../../src/dto/cobranca.digital.log.dto';
 import LocalSqlServerCobrancaDigitalLogRepository from '../../../src/repository/local.sql.server.cobranca.digital.log.repository';
 
 describe('CRUD (Integracao.CobrancaDigitalDataBase)', () => {
@@ -12,24 +12,21 @@ describe('CRUD (Integracao.CobrancaDigitalDataBase)', () => {
 
   it('deve ler registro gravado', async () => {
     const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
-
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].message).toBe('MSG');
+    expect(entity?.[0].message).toBe(newEntity.message);
   });
 
   it('deve atualizar registro gravado', async () => {
     const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
-
     const result = await repository.update(upEntity);
     const entity = await repository.selectWhere(params);
     expect(entity?.length).toBe(1);
-    expect(entity?.[0].message).toBe('MSG2');
+    expect(entity?.[0].message).toBe(upEntity.message);
   });
 
   it('deve deletar registro gravado', async () => {
     const params = [{ key: 'ID', value: 'd1804d09-4cce-4df2-8889-a7a9be3ab3cd' }];
-
     const result = await repository.delete(newEntity);
     const entity = await repository.selectWhere(params);
     expect(entity).toBe(undefined);

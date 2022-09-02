@@ -4,5 +4,6 @@ SELECT
 	Sequencia,
 	Status,
 	DataPagamento,
-	Valor
+	Valor,
+  Observacao
 FROM integracao.CobrancaDigitalPagamento
