@@ -10,7 +10,6 @@ export default class LocalSqlServerCobrancaDigitalPagamentoRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>
 {
   private connect = new ConnectionSqlServerMssql();
-  constructor() {}
 
   public async select(): Promise<CobrancaDigitalPagamentoDto[] | undefined> {
     try {
@@ -95,9 +94,11 @@ export default class LocalSqlServerCobrancaDigitalPagamentoRepository
         .input('SysId', sql.VarChar(500), entity.sysId)
         .input('Sequencia', sql.Int, entity.sequencia)
         .input('Status', sql.VarChar(1), entity.status)
+        .input('EndToEndId', sql.VarChar(500), entity.endToEndId?.substring(0, 500))
+        .input('Chave', sql.VarChar(100), entity.chave?.substring(0, 100))
         .input('DataPagamento', sql.Date, entity.dataPagamento)
         .input('Valor', sql.Money, entity.valor)
-        .input('Observacao', sql.Int, entity.observacao)
+        .input('Observacao', sql.VarChar(2000), entity.observacao?.substring(0, 2000))
         .query(sqlCommand);
 
       await transaction.commit();

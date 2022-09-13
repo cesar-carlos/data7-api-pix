@@ -95,11 +95,13 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
         .request()
         .input('SysId', sql.VarChar(500), entity.sysId)
         .input('Sequencia', sql.Int, entity.sequencia)
-        .input('EndToEndId', sql.VarChar(500), entity.endToEndId)
+        .input('TxId', sql.VarChar(100), entity.txId)
+        .input('locId', sql.VarChar(100), entity.locId)
         .input('DataCriacao', sql.Date, entity.dataCriacao)
         .input('DataExpiracao', sql.Date, entity.dataExpiracao)
         .input('QrCode', sql.VarChar(1000), entity.qrCode)
         .input('ImagemQrcode', sql.VarChar(8000), entity.imagemQrcode)
+        .input('Valor', sql.Money, entity.valor)
         .query(sqlCommand);
 
       await transaction.commit();

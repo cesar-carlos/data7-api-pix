@@ -10,7 +10,6 @@ export default class LocalSqlServerCobrancaDigitalTituloRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalTituloDto>
 {
   private connect = new ConnectionSqlServerMssql();
-  constructor() {}
 
   public async select(): Promise<CobrancaDigitalTituloDto[] | undefined> {
     try {
@@ -95,19 +94,19 @@ export default class LocalSqlServerCobrancaDigitalTituloRepository
         .input('CodEmpresa', sql.Int, entity.codEmpresa)
         .input('CodCobrancaDigital', sql.Int, entity.codCobrancaDigital)
         .input('Item', sql.VarChar(3), entity.item)
-        .input('SysId', sql.VarChar(500), entity.sysId)
-        .input('Status', sql.VarChar(1), entity.status)
-        .input('TipoCobranca', sql.VarChar(30), entity.tipoCobranca)
-        .input('NumeroTitulo', sql.VarChar(50), entity.numeroTitulo)
-        .input('Parcela', sql.VarChar(10), entity.parcela)
+        .input('SysId', sql.VarChar(500), entity.sysId?.substring(0, 500))
+        .input('Status', sql.VarChar(6), entity.status?.substring(0, 6))
+        .input('TipoCobranca', sql.VarChar(30), entity.tipoCobranca?.substring(0, 30))
+        .input('NumeroTitulo', sql.VarChar(50), entity.numeroTitulo?.substring(0, 50))
+        .input('Parcela', sql.VarChar(10), entity.parcela?.substring(0, 10))
         .input('QtdParcelas', sql.Int, entity.qtdParcelas)
-        .input('LiberacaoKey', sql.VarChar(500), entity.liberacaoKey)
+        .input('LiberacaoKey', sql.VarChar(500), entity.liberacaoKey?.substring(0, 500))
         .input('DataLancamento', sql.Date, entity.dataLancamento)
         .input('DataEmissao', sql.Date, entity.dataEmissao)
         .input('DataVenda', sql.Date, entity.dataVenda)
         .input('DataVencimento', sql.Date, entity.dataVencimento)
         .input('Valor', sql.Money, entity.valor)
-        .input('Observacao', sql.VarChar(2000), entity.observacao)
+        .input('Observacao', sql.VarChar(2000), entity.observacao?.substring(0, 2000))
         .query(sqlCommand);
 
       await transaction.commit();

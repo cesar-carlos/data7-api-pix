@@ -5,15 +5,18 @@ export default class FirebaseCobrancaPixListenRefleshRepository extends Firebase
   readonly collection = 'refresh-pix';
   linten(callback: (txid: any) => void): void {
     try {
-      this.db.collection(this.collection).onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const docUpdate = doc.updateTime.seconds * 1000;
-          const oneBackhour = moment().subtract(5, 'day').valueOf();
-          if (docUpdate > oneBackhour) {
-            callback(doc.data());
-          }
+      this.db
+        .collection(this.collection)
+        .limit(10)
+        .onSnapshot((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const docUpdate = doc.updateTime.seconds * 1000;
+            const oneBackhour = moment().subtract(1, 'day').valueOf();
+            if (docUpdate > oneBackhour) {
+              callback(doc.data());
+            }
+          });
         });
-      });
     } catch (error: any) {}
   }
 }

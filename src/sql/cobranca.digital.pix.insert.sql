@@ -1,17 +1,21 @@
 INSERT INTO integracao.CobrancaDigitalPix (
 	SysId,
 	Sequencia,
-	EndToEndId,
+	TxId,
+	LocId,
 	DataCriacao,
 	DataExpiracao,
 	QrCode,
-	ImagemQrcode
+	ImagemQrcode,
+	Valor
 ) VALUES (
 	@SysId,
 	@Sequencia,
-	@EndToEndId,
+	@TxId,
+	@LocId,
 	@DataCriacao,
 	@DataExpiracao,
 	@QrCode,
-	@ImagemQrcode
+	@ImagemQrcode,
+	@Valor
 )

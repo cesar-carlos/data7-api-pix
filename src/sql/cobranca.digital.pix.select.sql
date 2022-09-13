@@ -2,10 +2,12 @@
 SELECT
 	SysId,
 	Sequencia,
-	EndToEndId,
+	TxId,
+	LocId,
 	DataCriacao,
 	DataExpiracao,
 	QrCode,
-	ImagemQrcode
+	ImagemQrcode,
+	Valor
 FROM integracao.CobrancaDigitalPix
 

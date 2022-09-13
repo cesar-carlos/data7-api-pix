@@ -15,6 +15,7 @@ export default class CobrancaPixListenRefleshService {
         const pgtoSituacao = await this.situacaoGnPixService.execute(txid);
         if (pgtoSituacao.status === STATUS.CONCLUIDO) {
           const cobrancaPIX = await this.fbCobrancaPixRepository.find(pgtoSituacao.sysId);
+
           if (cobrancaPIX) {
             cobrancaPIX.STATUS = STATUS.CONCLUIDO;
             await this.fbCobrancaPixRepository.update(cobrancaPIX);

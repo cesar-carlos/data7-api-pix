@@ -16,7 +16,7 @@ export default class CobrancaService {
       const cpf = CFP(cobranca.cliente.cnpj_cpf);
       if (!cpf.isValid()) {
         const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
-        return new ProcessInfo(infoStatusErro, 'CobrancaPixService', 'CPF INVALIDO');
+        return new ProcessInfo(infoStatusErro, 'CobrancaPixService', `CPF INVALIDO: ${cobranca.cliente.cnpj_cpf}`);
       }
 
       return cobranca;

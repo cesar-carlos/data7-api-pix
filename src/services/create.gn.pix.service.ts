@@ -14,6 +14,7 @@ import PagamentoAdicionais from '../entities/pagamento.adicionais';
 
 export default class CreateGnPixService {
   constructor(private chave: string) {}
+
   public async execute(cobranca: Cobranca): Promise<PagamentoPendente[] | ProcessInfo> {
     const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
     const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
@@ -25,12 +26,8 @@ export default class CreateGnPixService {
       return new ProcessInfo(infoStatusErro, 'CreateGnPixService', 'CPF inválido para o cliente');
     }
 
-    if (!chave) {
-      return new ProcessInfo(infoStatusErro, 'CreateGnPixService', 'Chave inválida ou não informada');
-    }
-
     //OPEN
-    const timeExp = 1600;
+    const timeExp = 3600;
     const bodyCreatePix = cobranca.parcelas.map((parcela) => {
       return {
         sysId: parcela.sysId,
@@ -48,13 +45,14 @@ export default class CreateGnPixService {
     });
 
     //TODO: CREATE TRANSACTION TO COMPLITED PROCESS
-    const gnCreatePix = new GerencianetCreatePixAdapter();
     const pgtoPendentes = [];
     for (const bodyCreate of bodyCreatePix) {
       try {
+        const gnCreatePix = new GerencianetCreatePixAdapter();
         const date = new Date().toISOString();
         const dateExp = moment(date).add(timeExp, 'minute').toISOString();
         const resp = await gnCreatePix.execute(bodyCreate);
+
         const pgtoPendente = new PagamentoPendente(
           resp.txid,
           bodyCreate.sysId,

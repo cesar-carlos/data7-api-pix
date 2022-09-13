@@ -10,6 +10,7 @@ export default class GerencianetCreatePixAdapter extends GerencianetBase {
       const body = this.body(request);
       const response = await this.gerencianet.pixCreateImmediateCharge(params, body);
       const result: responseCreatePixDto = response;
+
       return result;
     } catch (error: any) {
       throw new Error(error.mensagem);

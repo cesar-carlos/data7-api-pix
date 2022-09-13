@@ -1,43 +1,98 @@
 import { liberacaoKeyDto } from './liberacao.key.dto';
 
 export default class CobrancaDigitalTituloDto {
-  constructor(
-    readonly codEmpresa: number,
-    readonly codCobrancaDigital: number,
-    readonly item: string,
-    readonly sysId: string,
-    readonly status: string,
-    readonly tipoCobranca: string,
-    readonly numeroTitulo: string,
-    readonly parcela: string,
-    readonly qtdParcelas: number | null,
-    readonly liberacaoKey: string,
-    readonly dataLancamento: Date,
-    readonly dataEmissao: Date,
-    readonly dataVenda: Date,
-    readonly dataVencimento: Date,
-    readonly valor: number,
-    readonly observacao: string,
-  ) {}
+  codEmpresa: number;
+  codCobrancaDigital: number;
+  item: string;
+  sysId: string;
+  status: string;
+  tipoCobranca: string;
+  numeroTitulo: string;
+  parcela: string;
+  qtdParcelas: number | undefined;
+  liberacaoKey: string;
+  dataLancamento: Date;
+  dataEmissao: Date;
+  dataVenda: Date;
+  dataVencimento: Date;
+  valor: number;
+  observacao: string;
 
-  public static fromObject(obj: any): CobrancaDigitalTituloDto {
-    return new CobrancaDigitalTituloDto(
-      obj.codEmpresa || obj.CodEmpresa,
-      obj.codCobrancaDigital || obj.CodCobrancaDigital,
-      obj.item || obj.Item,
-      obj.sysId || obj.SysId,
-      obj.status || obj.Status,
-      obj.tipoCobranca || obj.TipoCobranca,
-      obj.numeroTitulo || obj.NumeroTitulo,
-      obj.parcela || obj.Parcela,
-      obj.qtdParcelas || obj.QtdParcelas || 0,
-      obj.liberacaoKey || obj.LiberacaoKey,
-      obj.dataLancamento || obj.DataLancamento,
-      obj.dataEmissao || obj.DataEmissao,
-      obj.dataVenda || obj.DataVenda,
-      obj.dataVencimento || obj.DataVencimento,
-      obj.valor || obj.Valor,
-      obj.observacao || obj.Observacao,
-    );
+  constructor(params: {
+    codEmpresa: number;
+    codCobrancaDigital: number;
+    item: string;
+    sysId: string;
+    status: string;
+    tipoCobranca: string;
+    numeroTitulo: string;
+    parcela: string;
+    qtdParcelas: number | undefined;
+    liberacaoKey: string;
+    dataLancamento: Date;
+    dataEmissao: Date;
+    dataVenda: Date;
+    dataVencimento: Date;
+    valor: number;
+    observacao: string;
+  }) {
+    this.codEmpresa = params.codEmpresa;
+    this.codCobrancaDigital = params.codCobrancaDigital;
+    this.item = params.item;
+    this.sysId = params.sysId;
+    this.status = params.status;
+    this.tipoCobranca = params.tipoCobranca;
+    this.numeroTitulo = params.numeroTitulo;
+    this.parcela = params.parcela;
+    this.qtdParcelas = params.qtdParcelas;
+    this.liberacaoKey = params.liberacaoKey;
+    this.dataLancamento = params.dataLancamento;
+    this.dataEmissao = params.dataEmissao;
+    this.dataVenda = params.dataVenda;
+    this.dataVencimento = params.dataVencimento;
+    this.valor = params.valor;
+    this.observacao = params.observacao;
+  }
+
+  static create(params: {
+    codEmpresa: number;
+    codCobrancaDigital: number;
+    item: string;
+    sysId: string;
+    status: string;
+    tipoCobranca: string;
+    numeroTitulo: string;
+    parcela: string;
+    qtdParcelas: number | undefined;
+    liberacaoKey: string;
+    dataLancamento: Date;
+    dataEmissao: Date;
+    dataVenda: Date;
+    dataVencimento: Date;
+    valor: number;
+    observacao: string;
+  }) {
+    return new CobrancaDigitalTituloDto(params);
+  }
+
+  static fromObject(object: any) {
+    return new CobrancaDigitalTituloDto({
+      codEmpresa: object.codEmpresa || object.CodEmpresa,
+      codCobrancaDigital: object.codCobrancaDigital || object.CodCobrancaDigital,
+      item: object.item || object.Item,
+      sysId: object.sysId || object.SysId,
+      status: object.status || object.Status,
+      tipoCobranca: object.tipoCobranca || object.TipoCobranca,
+      numeroTitulo: object.numeroTitulo || object.NumeroTitulo,
+      parcela: object.parcela || object.Parcela,
+      qtdParcelas: object.qtdParcelas || object.QtdParcelas,
+      liberacaoKey: object.liberacaoKey || object.LiberacaoKey,
+      dataLancamento: object.dataLancamento || object.DataLancamento,
+      dataEmissao: object.dataEmissao || object.DataEmissao,
+      dataVenda: object.dataVenda || object.DataVenda,
+      dataVencimento: object.dataVencimento || object.DataVencimento,
+      valor: object.valor || object.Valor,
+      observacao: object.observacao || object.Observacao,
+    });
   }
 }

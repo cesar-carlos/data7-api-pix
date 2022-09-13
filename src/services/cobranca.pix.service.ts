@@ -8,9 +8,12 @@ import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
+import LocalSqlServerCobrancaDigitalPixRepository from '../repository/local.sql.server.cobranca.digital.pix.repository';
+import CobrancaDigitalPixDto from '../dto/cobranca.digital.pix.dto';
 
 export default class CobrancaPixService {
   constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
+
   public async execute(cobranca: Cobranca): Promise<ProcessInfo | CobrancaPix[]> {
     try {
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
@@ -56,6 +59,25 @@ export default class CobrancaPixService {
           cobrancaPix.push(cobPix);
         }
       }
+
+      //TODO: TROCAR PARA OUTRO REPOSITORIO
+      const locaPxrepo = new LocalSqlServerCobrancaDigitalPixRepository();
+      let sequencia = 1;
+      cobrancaPix.forEach((item) => {
+        const cobrancaDigitalPixDto = new CobrancaDigitalPixDto({
+          sysId: item.sysId,
+          sequencia: sequencia++,
+          txId: item.txId,
+          locId: item.locId.toString(),
+          dataCriacao: item.datacriacao,
+          dataExpiracao: item.datacriacao,
+          qrCode: item.linkQrCode,
+          imagemQrcode: item.imagemQrcode,
+          valor: item.valor,
+        });
+
+        locaPxrepo.insert(cobrancaDigitalPixDto);
+      });
 
       return cobrancaPix;
     } catch (error: any) {

@@ -1,71 +1,48 @@
-import moment from 'moment';
-
-import { STATUS } from '../type/status';
-import ItemLiberacaoBloqueioSituacaoDto from '../dto/item.liberacao.bloqueio.situacao.dto';
 import CobrancaPix from '../entities/cobranca.pix';
-import ItemLiberacaoBloqueioSituacao from '../entities/item.liberacao.bloqueio.situacao';
-import ProcessInfo from '../entities/process.info';
-import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
-import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
-import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from '../repository/local.sql.server.item.liberacao.bloqueio.situacao.repository';
-import LocalSqlServerLiberacaoBloqueioRepository from '../repository/local.sql.server.liberacao.bloqueio.repository';
-import RegraBloqueioService from './regra.bloqueio.service';
-import { liberacaoKeyDto } from '../dto/liberacao.key.dto';
+import PagamentoPix from '../entities/pagamento.pix';
+import ContractBaseRepository from '../contracts/base.repository.contract';
+import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
+import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
 
 export default class PagamentoPixService {
-  private sqlServerLiberacaoBloqueioRepo = new LocalSqlServerLiberacaoBloqueioRepository();
-  private sqlServerItemLiberacaoBloqueioRepo = new LocalSqlServerItemLiberacaoBloqueioRepository();
-  private sqlServerItemLiberacaoBloqueioSituacaoRepo = new LocalSqlServerItemLiberacaoBloqueioSituacaoRepository();
-  private fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
+  private lcRepoPgto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>;
+  private fbRepoPgto: ContractBaseRepository<PagamentoPix>;
 
-  public async execute(cobrancaPix: CobrancaPix): Promise<void> {
+  constructor(
+    lcRepoPgto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>,
+    fbRepoPgto: ContractBaseRepository<PagamentoPix>,
+  ) {
+    this.lcRepoPgto = lcRepoPgto;
+    this.fbRepoPgto = fbRepoPgto;
+  }
+
+  public async execute(params: { sysId: string; txId: string }): Promise<void> {
     try {
-      const _regraBloqueioService = new RegraBloqueioService(
-        this.sqlServerLiberacaoBloqueioRepo,
-        this.sqlServerItemLiberacaoBloqueioRepo,
-        this.sqlServerItemLiberacaoBloqueioSituacaoRepo,
-      );
+      const localPagamentos = await this.lcRepoPgto.selectWhere([{ key: 'SysId', value: params.sysId }]);
+      const fbPagamento = await this.fbRepoPgto.findWhere('Txid', params.txId);
 
-      const liberacaoKey: liberacaoKeyDto = {
-        codEmpresa: cobrancaPix.liberacaoKey.codEmpresa,
-        codFilial: cobrancaPix.liberacaoKey.codFilial,
-        CNPJ: cobrancaPix.liberacaoKey.cnpj,
-        idLiberacao: cobrancaPix.liberacaoKey.idLiberacao,
-        origem: cobrancaPix.liberacaoKey.origem,
-        codOrigem: cobrancaPix.liberacaoKey.codOrigem,
-        item: cobrancaPix.liberacaoKey.item,
-        nomeUsuario: cobrancaPix.liberacaoKey.nomeUsuario,
-        estacaoTrabalho: cobrancaPix.liberacaoKey.estacaoTrabalho,
-        IP: cobrancaPix.liberacaoKey.ip,
-      };
+      fbPagamento?.forEach(async (item) => {
+        const exists = localPagamentos?.find((loc) => loc.endToEndId === item.endToEndId);
+        if (!exists) {
+          const nextSequencia =
+            localPagamentos?.reduce((acc, cur) => (acc > cur.sequencia ? acc : cur.sequencia), 0) ?? 0;
 
-      const bloqueioOrProcessInfo = await _regraBloqueioService.findOneFromLiberacaoKey(liberacaoKey);
-      if (bloqueioOrProcessInfo instanceof ProcessInfo) {
-        return;
-      }
+          const cobDigitalPagamentoDto = new CobrancaDigitalPagamentoDto({
+            sysId: params.sysId,
+            sequencia: nextSequencia + 1,
+            status: 'P',
+            endToEndId: item.endToEndId,
+            chave: item.chave,
+            dataPagamento: item.horario,
+            valor: item.valor,
+            observacao: item.infoPagador,
+          });
 
-      //LIBERAR REGRA DE BLOQUIO
-      const dataLiberacao = moment().utc().format('YYYY-MM-DD HH:mm:ss');
-      bloqueioOrProcessInfo.itemLiberacaoBloqueioSituacao?.forEach(
-        async (itemLiberacao: ItemLiberacaoBloqueioSituacao) => {
-          const liberacao = new ItemLiberacaoBloqueioSituacaoDto(
-            itemLiberacao.codLiberacaoBloqueio,
-            itemLiberacao.item,
-            'L',
-            'Remota',
-            new Date(dataLiberacao),
-            1,
-            cobrancaPix.liberacaoKey.estacaoTrabalho,
-            'COBRANCA DIGITAL PIX',
-            cobrancaPix.STATUS,
-            'LIBERADO PELA COBRANCA DIGITAL PIX - PAGAMENTO CONCLUIDO',
-          );
-
-          await _regraBloqueioService.setSituacao(liberacao);
-          cobrancaPix.STATUS = STATUS.FINALIZADO;
-          await this.fbCobrancaPixRepository.update(cobrancaPix);
-        },
-      );
-    } catch (error: any) {}
+          this.lcRepoPgto.insert(cobDigitalPagamentoDto);
+        }
+      });
+    } catch (error: any) {
+      throw new Error(error).message;
+    }
   }
 }

@@ -1,5 +1,4 @@
 import { STATUS } from '../type/status';
-import PagamentoPix from '../entities/pagamento.pix';
 import CobrancaLiberacaoKey from './cobranca.liberacao.key';
 
 export default class CobrancaPix {
@@ -13,8 +12,8 @@ export default class CobrancaPix {
   readonly linkQrCode: string;
   readonly imagemQrcode: string;
   readonly nomeCliente: string;
-  readonly telefone: string;
-  readonly eMail: string;
+  readonly telefone: string | null;
+  readonly eMail: string | null;
   readonly liberacaoKey: CobrancaLiberacaoKey;
 
   constructor(params: {
@@ -28,8 +27,8 @@ export default class CobrancaPix {
     linkQrCode: string;
     imagemQrcode: string;
     nomeCliente: string;
-    telefone: string;
-    eMail: string;
+    telefone: string | null;
+    eMail: string | null;
     liberacaoKey: CobrancaLiberacaoKey;
   }) {
     this.sysId = params.sysId;
@@ -58,8 +57,8 @@ export default class CobrancaPix {
     linkQrCode: string;
     imagemQrcode: string;
     nomeCliente: string;
-    telefone: string;
-    eMail: string;
+    telefone: string | null;
+    eMail: string | null;
     liberacaoKey: CobrancaLiberacaoKey;
   }) {
     return new CobrancaPix(params);

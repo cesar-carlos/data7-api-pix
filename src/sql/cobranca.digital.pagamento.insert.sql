@@ -2,6 +2,8 @@ INSERT INTO integracao.CobrancaDigitalPagamento (
 	SysId,
 	Sequencia,
 	Status,
+	EndToEndId,
+	Chave,
 	DataPagamento,
 	Valor,
   Observacao
@@ -9,6 +11,8 @@ INSERT INTO integracao.CobrancaDigitalPagamento (
 	@SysId,
 	@Sequencia,
 	@Status,
+	@EndToEndId,
+	@Chave,
 	@DataPagamento,
 	@Valor,
   @Observacao

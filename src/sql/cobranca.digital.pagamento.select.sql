@@ -3,6 +3,8 @@ SELECT
 	SysId,
 	Sequencia,
 	Status,
+	EndToEndId,
+	Chave,
 	DataPagamento,
 	Valor,
   Observacao

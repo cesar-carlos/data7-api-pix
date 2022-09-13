@@ -6,11 +6,11 @@ export default class ConnectionSqlServerMssql implements ConnectionBaseSqlContra
   constructor() {}
 
   async getConnection(): Promise<ConnectionPool> {
-    const conn = await sql.connect(config);
-    return conn;
+    const pool = await sql.connect(config);
+    return pool;
   }
 
-  async closeConnection(conn: ConnectionPool): Promise<void> {
-    await conn.close();
+  async closeConnection(pool: ConnectionPool): Promise<void> {
+    await pool.close();
   }
 }

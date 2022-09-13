@@ -1,8 +1,10 @@
 UPDATE integracao.CobrancaDigitalPix SET
-	EndToEndId = @EndToEndId,
+	TxId = @TxId,
+	LocId = @LocId,
 	DataCriacao = @DataCriacao,
 	DataExpiracao = @DataExpiracao,
 	QrCode = @QrCode,
-	ImagemQrcode = @ImagemQrcode
+	ImagemQrcode = @ImagemQrcode,
+	Valor = @Valor
 WHERE SysId = @SysId
   AND Sequencia = @Sequencia

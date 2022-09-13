@@ -1,15 +1,17 @@
 import { Request, Response } from 'express';
 import { requestCobrancaDto } from '../dto/request.cobranca.dto';
-import ResponseErrorDto from '../dto/response.error.dto';
 
+import ChaveDto from '../dto/chave.dto';
+import ResponseErrorDto from '../dto/response.error.dto';
 import ProcessInfo from '../entities/process.info';
+
 import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
 import LocalStorageChaveRepository from '../repository/local.storage.chave.repository';
 import CancelamentoPixService from '../services/cancelamento.pix.service';
 import ChaveProducaoService from '../services/chave.producao.service';
 import CobrancaPixService from '../services/cobranca.pix.service';
 import CobrancaService from '../services/cobranca.service';
-import ChaveDto from '../dto/chave.dto';
+import LocalSqlServerCobrancaDigitalTituloRepository from '../repository/local.sql.server.cobranca.digital.titulo.repository';
 
 export default class CobrancaController {
   constructor() {}
@@ -24,28 +26,29 @@ export default class CobrancaController {
       const cobrancasOrError = CobrancaController.newCharge(data);
       const chaveOrError = await CobrancaController.getChave();
 
-      if (cobrancasOrError instanceof ResponseErrorDto) {
-        res.header(cobrancasOrError.error, cobrancasOrError.message);
-        res.status(cobrancasOrError.statusCode).send(cobrancasOrError.message);
-        return;
-      }
-
       if (chaveOrError instanceof ResponseErrorDto) {
         res.header(chaveOrError.error, chaveOrError.message);
         res.status(chaveOrError.statusCode).send(chaveOrError.message);
         return;
       }
 
+      if (cobrancasOrError instanceof ResponseErrorDto) {
+        res.header(cobrancasOrError.error, cobrancasOrError.message);
+        res.status(cobrancasOrError.statusCode).send(cobrancasOrError.message);
+        return;
+      }
+
       //start process charge
-      cobrancasOrError.forEach(async (cobranca) => {
+      for (const cobranca of cobrancasOrError) {
         const cobrancaService = new CobrancaService(chaveOrError);
         const processInfoOrCobranca = await cobrancaService.executar(cobranca);
 
+        //ERROR
         if (processInfoOrCobranca instanceof ProcessInfo) {
           const err = new ResponseErrorDto({
             error: 'ERROR-REQUEST',
             message: processInfoOrCobranca.info || '',
-            statusCode: 500,
+            statusCode: 400,
           });
 
           res.header(err.error, err.message);
@@ -53,22 +56,23 @@ export default class CobrancaController {
           return;
         }
 
-        //start create pix
-        const fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
-        const cobrancaPixService = new CobrancaPixService(fbCobrancaPixRepository);
+        //START CREATE PIX
+        const cobrancaPixService = new CobrancaPixService(new FirebaseCobrancaPixRepository());
         const processInfoOrCobrancaPix = await cobrancaPixService.execute(processInfoOrCobranca);
+
+        //ERROR
         if (processInfoOrCobrancaPix instanceof ProcessInfo) {
           const err = new ResponseErrorDto({
             error: 'ERROR-REQUEST',
             message: processInfoOrCobrancaPix.info || '',
-            statusCode: 500,
+            statusCode: 400,
           });
 
           res.header(err.error, err.message);
           res.status(err.statusCode).send(err.message);
           return;
         }
-      });
+      }
 
       res.status(204).send();
     } catch (error: any) {
@@ -84,23 +88,40 @@ export default class CobrancaController {
 
   public static delete(req: Request, res: Response) {
     const { sysId } = req.params;
-    const cancelamentoPixService = new CancelamentoPixService();
-    cancelamentoPixService.Cancelar(sysId);
+
+    if (!sysId) {
+      const err = new ResponseErrorDto({
+        error: 'ERROR-REQUEST',
+        message: 'SysId not found',
+        statusCode: 400,
+      });
+
+      res.header(err.error, err.message);
+      return;
+    }
+
+    const cancelamentoPixService = new CancelamentoPixService(
+      new LocalSqlServerCobrancaDigitalTituloRepository(),
+      new FirebaseCobrancaPixRepository(),
+    );
+
+    cancelamentoPixService.execute({ sysId: sysId, status: 'CS' });
     res.status(204).send();
   }
 
   private static newCharge(data: any): ResponseErrorDto | requestCobrancaDto[] {
-    if (!data) {
-      return new ResponseErrorDto({ error: 'ERROR-REQUEST', message: 'data not found', statusCode: 400 });
-    }
+    if (!data) return new ResponseErrorDto({ error: 'ERROR-REQUEST', message: 'data not found', statusCode: 400 });
 
-    if (data?.Data?.length === 0) {
+    if (!data?.Data)
+      return new ResponseErrorDto({ error: 'ERROR-REQUEST', message: 'data not found', statusCode: 400 });
+
+    if (data?.Data?.length === 0)
       return new ResponseErrorDto({ error: 'ERROR-REQUEST', message: 'data invalid', statusCode: 400 });
-    }
 
     try {
-      const cobrancas: requestCobrancaDto[] = data.Data.map((item: any) => {
-        const cobSysId: string = item?.Parcelas[0].SysId.toString().split(' ')[0].trim();
+      const cobrancas = data.Data.map((item: any) => {
+        const cobSysId = item?.Parcelas[0].SysId.toString().split('-')[0].trim();
+
         return {
           CobSysId: cobSysId,
           Filial: item?.Filial,

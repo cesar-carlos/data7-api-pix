@@ -5,6 +5,7 @@ SELECT
 	CodLiberacaoBloqueio,
 	Origem,
 	CodOrigem,
+	CodCliente,
 	DataHoraBloqueio,
 	CodUsuarioBloqueio,
 	NomeUsuarioBloqueio,

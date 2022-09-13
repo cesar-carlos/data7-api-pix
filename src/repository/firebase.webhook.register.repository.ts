@@ -21,6 +21,10 @@ export default class FirebaseWebhookRegisterRepository
     }
   }
 
+  findWhere(key: string, value: string): Promise<WebhookDto[] | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
   async findAll(): Promise<WebhookDto[] | undefined> {
     throw new Error('Method not implemented.');
   }

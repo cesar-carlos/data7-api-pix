@@ -1,38 +1,46 @@
 export default class CobrancaDigitalPixDto {
   readonly sysId: string;
   readonly sequencia: number;
-  readonly endToEndId: string;
+  readonly txId: string;
+  readonly locId: string;
   readonly dataCriacao: Date;
   readonly dataExpiracao: Date;
   readonly qrCode: string;
   readonly imagemQrcode: string;
+  readonly valor: number;
 
   constructor(params: {
     sysId: string;
     sequencia: number;
-    endToEndId: string;
+    txId: string;
+    locId: string;
     dataCriacao: Date;
     dataExpiracao: Date;
     qrCode: string;
     imagemQrcode: string;
+    valor: number;
   }) {
     this.sysId = params.sysId;
     this.sequencia = params.sequencia;
-    this.endToEndId = params.endToEndId;
+    this.txId = params.txId;
+    this.locId = params.locId;
     this.dataCriacao = params.dataCriacao;
     this.dataExpiracao = params.dataExpiracao;
     this.qrCode = params.qrCode;
     this.imagemQrcode = params.imagemQrcode;
+    this.valor = params.valor;
   }
 
   static create(params: {
     sysId: string;
     sequencia: number;
-    endToEndId: string;
+    txId: string;
+    locId: string;
     dataCriacao: Date;
     dataExpiracao: Date;
     qrCode: string;
     imagemQrcode: string;
+    valor: number;
   }) {
     return new CobrancaDigitalPixDto(params);
   }
@@ -41,11 +49,13 @@ export default class CobrancaDigitalPixDto {
     return new CobrancaDigitalPixDto({
       sysId: object.sysId || object.SysId,
       sequencia: object.sequencia || object.Sequencia,
-      endToEndId: object.endToEndId || object.EndToEndId,
+      txId: object.txId || object.TxId,
+      locId: object.locId || object.LocId,
       dataCriacao: object.dataCriacao || object.DataCriacao,
       dataExpiracao: object.dataExpiracao || object.DataExpiracao,
       qrCode: object.qrCode || object.QrCode,
       imagemQrcode: object.imagemQrcode || object.ImagemQrcode,
+      valor: object.valor || object.Valor,
     });
   }
 }

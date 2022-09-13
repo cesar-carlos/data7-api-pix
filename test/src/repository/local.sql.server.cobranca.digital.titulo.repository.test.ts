@@ -3,43 +3,43 @@ import LocalSqlServerCobrancaDigitalTituloRepository from '../../../src/reposito
 
 describe('CRUD (Integracao.CobrancaDigitalTitulo)', () => {
   const repository = new LocalSqlServerCobrancaDigitalTituloRepository();
-  const newEntity = new CobrancaDigitalTituloDto(
-    999,
-    1,
-    '001',
-    '3833582.11.27740308000120.20220831141405-OB.21 001',
-    'A',
-    'PIX',
-    '777777',
-    '001',
-    0,
-    '{}',
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    0.99,
-    'OBs..',
-  );
+  const newEntity = new CobrancaDigitalTituloDto({
+    codEmpresa: 999,
+    codCobrancaDigital: 1,
+    item: '001',
+    sysId: '3833582.11.27740308000120.20220831141405-OB.21 001',
+    status: 'A',
+    tipoCobranca: 'PIX',
+    numeroTitulo: '777777',
+    parcela: '001',
+    qtdParcelas: 1,
+    liberacaoKey: '{}',
+    dataLancamento: new Date(),
+    dataEmissao: new Date(),
+    dataVenda: new Date(),
+    dataVencimento: new Date(),
+    valor: 1,
+    observacao: '1',
+  });
 
-  const upEntity = new CobrancaDigitalTituloDto(
-    999,
-    1,
-    '001',
-    '3833582.11.27740308000120.20220831141405-OB.21 001',
-    'C',
-    'PIX',
-    '888888',
-    '001',
-    0,
-    '{}',
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    new Date('2021-08-31'),
-    0.99,
-    'OBs..',
-  );
+  const upEntity = new CobrancaDigitalTituloDto({
+    codEmpresa: 999,
+    codCobrancaDigital: 1,
+    item: '001',
+    sysId: '3833582.11.27740308000120.20220831141405-OB.21 001',
+    status: 'A',
+    tipoCobranca: 'PIX',
+    numeroTitulo: '777777',
+    parcela: '001',
+    qtdParcelas: 1,
+    liberacaoKey: '{}',
+    dataLancamento: new Date(),
+    dataEmissao: new Date(),
+    dataVenda: new Date(),
+    dataVencimento: new Date(),
+    valor: 1,
+    observacao: '1',
+  });
 
   it('deve inserir uma novo resitro', async () => {
     const result = await repository.insert(newEntity);

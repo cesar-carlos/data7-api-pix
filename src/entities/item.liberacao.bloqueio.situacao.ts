@@ -1,62 +1,67 @@
+import { STATUS } from '../type/status';
 export default class ItemLiberacaoBloqueioSituacao {
-  constructor(
-    readonly codLiberacaoBloqueio: number,
-    readonly item: string,
-    public status: string,
-    public rotinaLiberacao: string,
-    public dataHoraLiberacao: Date,
-    public codUsuarioLiberacao: number,
-    public estacaoTrabalhoLiberacao: string,
-    public observacaoLiberacao: string,
-    public motivoRejeicaoLiberacaoBloqueio: string,
-    public complemento: string,
-  ) {}
+  readonly codLiberacaoBloqueio: number;
+  readonly item: string;
+  readonly status: STATUS;
+  readonly rotinaLiberacao: string | undefined;
+  readonly dataHoraLiberacao: Date | undefined;
+  readonly codUsuarioLiberacao: number | undefined;
+  readonly estacaoTrabalhoLiberacao: string | undefined;
+  readonly observacaoLiberacao: string | undefined;
+  readonly motivoRejeicaoLiberacaoBloqueio: string | undefined;
+  readonly complemento: string | undefined;
 
-  //create method from json
-  static fromJson(json: any): ItemLiberacaoBloqueioSituacao {
-    return new ItemLiberacaoBloqueioSituacao(
-      json.codLiberacaoBloqueio || json.CodLiberacaoBloqueio,
-      json.item || json.Item,
-      json.status || json.Status,
-      json.rotinaLiberacao || json.RotinaLiberacao,
-      json.dataHoraLiberacao || json.DataHoraLiberacao,
-      json.codUsuarioLiberacao || json.CodUsuarioLiberacao,
-      json.estacaoTrabalhoLiberacao || json.EstacaoTrabalhoLiberacao,
-      json.observacaoLiberacao || json.ObservacaoLiberacao,
-      json.motivoRejeicaoLiberacaoBloqueio || json.MotivoRejeicaoLiberacaoBloqueio,
-      json.complemento || json.Complemento,
-    );
+  constructor(params: {
+    codLiberacaoBloqueio: number;
+    item: string;
+    status: STATUS;
+    rotinaLiberacao: string | undefined;
+    dataHoraLiberacao: Date | undefined;
+    codUsuarioLiberacao: number | undefined;
+    estacaoTrabalhoLiberacao: string | undefined;
+    observacaoLiberacao: string | undefined;
+    motivoRejeicaoLiberacaoBloqueio: string | undefined;
+    complemento: string | undefined;
+  }) {
+    this.codLiberacaoBloqueio = params.codLiberacaoBloqueio;
+    this.item = params.item;
+    this.status = params.status;
+    this.rotinaLiberacao = params.rotinaLiberacao;
+    this.dataHoraLiberacao = params.dataHoraLiberacao;
+    this.codUsuarioLiberacao = params.codUsuarioLiberacao;
+    this.estacaoTrabalhoLiberacao = params.estacaoTrabalhoLiberacao;
+    this.observacaoLiberacao = params.observacaoLiberacao;
+    this.motivoRejeicaoLiberacaoBloqueio = params.motivoRejeicaoLiberacaoBloqueio;
+    this.complemento = params.complemento;
   }
 
-  //create method to json
-  toJson(): any {
-    return {
-      CodLiberacaoBloqueio: this.codLiberacaoBloqueio,
-      Item: this.item,
-      Status: this.status,
-      RotinaLiberacao: this.rotinaLiberacao,
-      DataHoraLiberacao: this.dataHoraLiberacao,
-      CodUsuarioLiberacao: this.codUsuarioLiberacao,
-      EstacaoTrabalhoLiberacao: this.estacaoTrabalhoLiberacao,
-      ObservacaoLiberacao: this.observacaoLiberacao,
-      MotivoRejeicaoLiberacaoBloqueio: this.motivoRejeicaoLiberacaoBloqueio,
-      Complemento: this.complemento,
-    };
+  static create(params: {
+    codLiberacaoBloqueio: number;
+    item: string;
+    status: STATUS;
+    rotinaLiberacao: string;
+    dataHoraLiberacao: Date;
+    codUsuarioLiberacao: number;
+    estacaoTrabalhoLiberacao: string;
+    observacaoLiberacao: string;
+    motivoRejeicaoLiberacaoBloqueio: string;
+    complemento: string;
+  }) {
+    return new ItemLiberacaoBloqueioSituacao(params);
   }
 
-  //create method from object
-  static fromObject(object: any): ItemLiberacaoBloqueioSituacao {
-    return new ItemLiberacaoBloqueioSituacao(
-      object.codLiberacaoBloqueio || object.CodLiberacaoBloqueio,
-      object.item || object.Item,
-      object.status || object.Status,
-      object.rotinaLiberacao || object.RotinaLiberacao,
-      object.dataHoraLiberacao || object.DataHoraLiberacao,
-      object.codUsuarioLiberacao || object.CodUsuarioLiberacao,
-      object.estacaoTrabalhoLiberacao || object.EstacaoTrabalhoLiberacao,
-      object.observacaoLiberacao || object.ObservacaoLiberacao,
-      object.motivoRejeicaoLiberacaoBloqueio || object.MotivoRejeicaoLiberacaoBloqueio,
-      object.complemento || object.Complemento,
-    );
+  static fromObject(object: any) {
+    return new ItemLiberacaoBloqueioSituacao({
+      codLiberacaoBloqueio: object.CodLiberacaoBloqueio || object.codLiberacaoBloqueio,
+      item: object.Item || object.item,
+      status: object.Status || object.status,
+      rotinaLiberacao: object.RotinaLiberacao || object.rotinaLiberacao,
+      dataHoraLiberacao: object.DataHoraLiberacao || object.dataHoraLiberacao,
+      codUsuarioLiberacao: object.CodUsuarioLiberacao || object.codUsuarioLiberacao,
+      estacaoTrabalhoLiberacao: object.EstacaoTrabalhoLiberacao || object.estacaoTrabalhoLiberacao,
+      observacaoLiberacao: object.ObservacaoLiberacao || object.observacaoLiberacao,
+      motivoRejeicaoLiberacaoBloqueio: object.MotivoRejeicaoLiberacaoBloqueio || object.motivoRejeicaoLiberacaoBloqueio,
+      complemento: object.Complemento || object.complemento,
+    });
   }
 }
