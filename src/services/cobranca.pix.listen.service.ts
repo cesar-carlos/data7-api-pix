@@ -10,7 +10,6 @@ import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.r
 
 export default class CobrancaPixListenService {
   private fbCobrancaPixListenRepository = new FirebaseCobrancaPixListenRepository();
-
   private fbPagamentoPixRepository = new FirebasePagamentoPixRepository();
   private fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
   private lcSqlServerCobrancaDigitalTituloRepository = new LocalSqlServerCobrancaDigitalTituloRepository();
@@ -27,7 +26,7 @@ export default class CobrancaPixListenService {
 
           //FINALIZAR COBRANCA
           cobrancaPix.STATUS = Pagamento.STATUS.FINALIZADO;
-          this.fbCobrancaPixRepository.update(cobrancaPix);
+          await this.fbCobrancaPixRepository.update(cobrancaPix);
         }
 
         if (cobrancaPix.STATUS === Pagamento.STATUS.CANCELADO_CLIENTE) {
@@ -38,7 +37,7 @@ export default class CobrancaPixListenService {
 
           //FINALIZAR COBRANCA
           cobrancaPix.STATUS = Pagamento.STATUS.CANCELADO;
-          this.fbCobrancaPixRepository.update(cobrancaPix);
+          await this.fbCobrancaPixRepository.update(cobrancaPix);
         }
       } catch (error: any) {
         console.log(error.message);
