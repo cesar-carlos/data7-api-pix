@@ -1,11 +1,16 @@
-const Sybase = require('sybase-plus');
+const Sybase = require('sybase');
 import { IResult, ISqlType } from 'mssql';
-
 export class ConnectionSybase {
   private conn;
 
   constructor(private config: any) {
-    this.conn = new Sybase(config.host, config.port, config.dbname, config.username, config.password);
+    this.conn = new Sybase(
+      this.config.host,
+      this.config.port,
+      this.config.dbname,
+      this.config.username,
+      this.config.password,
+    );
   }
 
   public request(): Request {
@@ -33,11 +38,19 @@ export class Request {
         reject(new Error('Missing input value'));
       }
 
-      const conec = await this.pool.connect();
-      const res = this.pool.isConnected(() => {});
-      //const result = await this.pool.exec(sql);
-      console.log(res);
-      resolve('result');
+      const Pool = this.pool;
+      function DisconnectAndReject(ret: any) {
+        Pool.disconnect();
+        reject(ret);
+      }
+      Pool.connect(function (err: any) {
+        if (err) return DisconnectAndReject(err);
+        Pool.query(sql, function (err: any, data: any) {
+          if (err) return DisconnectAndReject(err);
+          Pool.disconnect();
+          return resolve(data);
+        });
+      });
     });
   }
 
