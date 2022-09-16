@@ -1,5 +1,5 @@
 const Sybase = require('sybase');
-import { IResult, ISqlType } from 'mssql';
+import { ISqlType } from 'mssql';
 export class ConnectionSybase {
   private conn;
 
@@ -43,14 +43,23 @@ export class Request {
         Pool.disconnect();
         reject(ret);
       }
-      Pool.connect(function (err: any) {
-        if (err) return DisconnectAndReject(err);
-        Pool.query(sql, function (err: any, data: any) {
+
+      try {
+        Pool.connect(function (err: any) {
           if (err) return DisconnectAndReject(err);
-          Pool.disconnect();
-          return resolve(data);
+          if (!Pool.isConnected()) throw new Error('Not connected');
+
+          Pool.query(sql, function (err: any, data: any) {
+            if (err) return DisconnectAndReject(err);
+            Pool.disconnect();
+            return resolve(data);
+          });
         });
-      });
+      } catch (error: any) {
+        throw new Error(error.message);
+      } finally {
+        //Pool.disconnect();
+      }
     });
   }
 
