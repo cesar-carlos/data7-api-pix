@@ -1,30 +1,26 @@
-import { ConnectionSybase } from '../../../src/infra/connection.sybase';
+import LocalSybaseDemoRepository from '../../../src/repository/local.sybase.demo.repository';
+import DemoDto from '../../../src/dto/demo.digital.dto';
 
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-import { Int, VarChar } from 'mssql';
+describe('CRUD DEMO SYBASE', () => {
+  const demo = new DemoDto({ id: 1, nome: 'DEMO' });
 
-import confg from '../../../src/assets/config.sybase';
-
-describe('CRUD (Sybase DEMO)', () => {
-  it('DEVE FAZER O INSERT', async () => {
+  it('INSERT', async () => {
     try {
-      const Id = 1;
-      const Nome = 'TESTE DE SISTEMA';
+      const repo = new LocalSybaseDemoRepository();
+      const entity = await repo.insert(demo);
+    } catch (error: any) {
+      console.log(error);
+    }
+  });
 
-      const DelPathFile = resolve(__dirname, '../../../src/sql/demo.delete.sql');
-      const PathFile = resolve(__dirname, '../../../src/sql/demo.insert.sql');
-
-      const DelSQLModel = readFileSync(DelPathFile, 'utf8');
-      const InsertSQLModel = readFileSync(PathFile, 'utf8');
-
-      const conn = new ConnectionSybase(confg);
-
-      const del = conn.request().input('Id', Int, Id);
-      const delResult = await del.query(DelSQLModel);
-
-      const request = conn.request().input('Id', Int, Id).input('Nome', VarChar, Nome);
-      const resultInsert = await request.query(InsertSQLModel);
+  it('SELECT', async () => {
+    try {
+      const repo = new LocalSybaseDemoRepository();
+      const entity = await repo.select();
+      expect(entity).toBeDefined();
+      expect(entity).toBeInstanceOf(Array);
+      expect(entity?.length).toBeGreaterThan(0);
+      expect(entity?.length).toBe(1);
     } catch (error: any) {
       console.log(error);
     }
