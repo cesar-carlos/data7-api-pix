@@ -6,7 +6,7 @@ export default abstract class GerencianetBase {
   protected gerencianet: GnSdk;
 
   constructor() {
-    const config = require(path.resolve(__dirname, '..', 'assets', 'config.pix.ts'));
+    const config = require(path.resolve(__dirname, '..', 'assets', 'config.pix'));
     this.gerencianet = Gerencianet(config);
   }
 }

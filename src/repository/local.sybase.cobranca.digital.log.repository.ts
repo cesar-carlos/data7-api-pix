@@ -1,39 +1,41 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { Int, VarChar } from 'mssql';
+import sql from 'mssql';
 
 import { ConnectionSybase } from '../infra/connection.sybase';
 
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
-import DemoDto from '../dto/demo.digital.dto';
+import CobrancaDigitalLogDto from '../dto/cobranca.digital.log.dto';
 
-export default class LocalSybaseDemoRepository implements LocalBaseRepositoryContract<DemoDto> {
+export default class LocalSybaseCobrancaDigitalLogRepository
+  implements LocalBaseRepositoryContract<CobrancaDigitalLogDto>
+{
   private connect = new ConnectionSybase();
   constructor() {}
 
-  public async select(): Promise<DemoDto[] | undefined> {
+  public async select(): Promise<CobrancaDigitalLogDto[] | undefined> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
-      const patch = path.resolve(__dirname, '..', 'sql', 'demo.select.sql');
+      const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.log.select.sql');
       const sql = fs.readFileSync(patch).toString();
       const result = await pool.request().query(sql);
       pool.close();
 
       if (result.length === 0) return undefined;
-      const demosDto = result.map((item: any) => {
-        return DemoDto.fromObject(item);
+      const logs = result.map((item: any) => {
+        return CobrancaDigitalLogDto.fromObject(item);
       });
 
-      return demosDto;
+      return logs;
     } catch (error: any) {
       console.log(error.message);
     }
   }
 
-  public async selectWhere(params: params[]): Promise<DemoDto[] | undefined> {
+  public async selectWhere(params: params[]): Promise<CobrancaDigitalLogDto[] | undefined> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
-      const patch = path.resolve(__dirname, '..', 'sql', 'demo.select.sql');
+      const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.log.select.sql');
       const select = fs.readFileSync(patch).toString();
 
       const _params = params
@@ -48,19 +50,19 @@ export default class LocalSybaseDemoRepository implements LocalBaseRepositoryCon
       pool.close();
 
       if (result.length === 0) return undefined;
-      const demosDto = result.map((item: any) => {
-        return DemoDto.fromObject(item);
+      const logs = result.map((item: any) => {
+        return CobrancaDigitalLogDto.fromObject(item);
       });
 
-      return demosDto;
+      return logs;
     } catch (error: any) {
       console.log(error.message);
     }
   }
 
-  public async insert(entity: DemoDto): Promise<void> {
+  public async insert(entity: CobrancaDigitalLogDto): Promise<void> {
     try {
-      const patch = path.resolve(__dirname, '..', 'sql', 'demo.insert.sql');
+      const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.log.insert.sql');
       const insert = fs.readFileSync(patch).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -68,9 +70,9 @@ export default class LocalSybaseDemoRepository implements LocalBaseRepositoryCon
     }
   }
 
-  public async update(entity: DemoDto): Promise<void> {
+  public async update(entity: CobrancaDigitalLogDto): Promise<void> {
     try {
-      const patch = path.resolve(__dirname, '..', 'sql', 'demo.update.sql');
+      const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.log.update.sql');
       const update = fs.readFileSync(patch).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -78,21 +80,22 @@ export default class LocalSybaseDemoRepository implements LocalBaseRepositoryCon
     }
   }
 
-  public async delete(entity: DemoDto): Promise<void> {
-    const patch = path.resolve(__dirname, '..', 'sql', 'demo.delete.sql');
+  public async delete(entity: CobrancaDigitalLogDto): Promise<void> {
+    const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.log.delete.sql');
     const delet = fs.readFileSync(patch).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: DemoDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: CobrancaDigitalLogDto, sqlCommand: string): Promise<void> {
     const pool = await this.connect.getConnection();
 
     try {
       const transaction = await pool.connect();
       await transaction
         .request()
-        .input('Id', sql.Int, entity.id)
-        .input('Nome', sql.VarChar(100), entity.nome)
+        .input('ID', sql.VarChar(500), entity.id)
+        .input('Message', sql.VarChar(2000), entity.message)
+        .input('Details', sql.VarChar(2000), entity.details)
         .query(sqlCommand);
     } catch (error: any) {
       console.log(error.message);

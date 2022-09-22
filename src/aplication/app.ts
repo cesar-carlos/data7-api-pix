@@ -16,7 +16,6 @@ export default class App {
     const sicret = require(path.resolve(__dirname, '..', 'certificates', 'secret_firebase.json'));
     initializeApp({ credential: cert(sicret), storageBucket: bucket });
     getFirestore().settings({ ignoreUndefinedProperties: true, timestampsInSnapshots: true });
-    require('dotenv').config();
   }
 
   public async execute() {

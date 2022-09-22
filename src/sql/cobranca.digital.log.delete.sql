@@ -1,2 +1,2 @@
 DELETE integracao.CobrancaDigitalLog
-WHERE ID = @ID
+WHERE "ID" = @ID

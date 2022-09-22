@@ -2,33 +2,34 @@ import path from 'path';
 import fs from 'fs';
 import sql from 'mssql';
 
-import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
+import { ConnectionSybase } from '../infra/connection.sybase';
+
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
 
-export default class LocalSqlServerItemLiberacaoBloqueioRepository
+export default class LocalSybaseItemLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>
 {
+  private connect = new ConnectionSybase();
   constructor() {}
-  private connect = new ConnectionSqlServerMssql();
+
   async select(): Promise<ItemLiberacaoBloqueioDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
     const sql = fs.readFileSync(patch).toString();
-
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const itensLiberacoes = result.recordset.map((item: any) => {
+    if (result.length === 0) return undefined;
+    const entity = result.map((item: any) => {
       return ItemLiberacaoBloqueioDto.fromObject(item);
     });
 
-    return itensLiberacoes;
+    return entity;
   }
 
   async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
     const select = fs.readFileSync(patch).toString();
 
@@ -43,12 +44,12 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const itensLiberacoes = result.recordset.map((item: any) => {
+    if (result.length === 0) return undefined;
+    const entitys = result.map((item: any) => {
       return ItemLiberacaoBloqueioDto.fromObject(item);
     });
 
-    return itensLiberacoes;
+    return entitys;
   }
 
   async insert(entity: ItemLiberacaoBloqueioDto): Promise<void> {
@@ -78,10 +79,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
   }
 
   private async actonEntity(entity: ItemLiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
+    const pool = await this.connect.getConnection();
+
     try {
-      const pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
-      await transaction.begin();
+      const transaction = await pool.connect();
       await transaction
         .request()
         .input('CodLiberacaoBloqueio', sql.Int, entity.codLiberacaoBloqueio)
@@ -103,11 +104,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
           entity.motivoRejeicaoLiberacaoBloqueio.substring(0, 2000),
         )
         .query(sqlCommand);
-
-      await transaction.commit();
-      pool.close();
     } catch (error: any) {
       console.log(error.message);
+    } finally {
+      pool.close();
     }
   }
 }

@@ -2,25 +2,26 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
+import { ConnectionSybase } from '../infra/connection.sybase';
+
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ItemLiberacaoBloqueioSituacaoDto from '../dto/item.liberacao.bloqueio.situacao.dto';
 
-export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
+export default class LocalSybaseItemLiberacaoBloqueioSituacaoRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioSituacaoDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  private connect = new ConnectionSybase();
   constructor() {}
 
   async select(): Promise<ItemLiberacaoBloqueioSituacaoDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.situacao.select.sql');
     const sql = fs.readFileSync(patch).toString();
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const situacoes = result.recordset.map((item: any) => {
+    if (result.length === 0) return undefined;
+    const situacoes = result.map((item: any) => {
       return ItemLiberacaoBloqueioSituacaoDto.fromObject(item);
     });
 
@@ -28,7 +29,7 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
   }
 
   async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioSituacaoDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.situacao.select.sql');
     const select = fs.readFileSync(patch).toString();
 
@@ -43,8 +44,8 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const situacoes = result.recordset.map((item: any) => {
+    if (result.length === 0) return undefined;
+    const situacoes = result.map((item: any) => {
       return ItemLiberacaoBloqueioSituacaoDto.fromObject(item);
     });
 
@@ -70,10 +71,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
   }
 
   private async actonEntity(entity: ItemLiberacaoBloqueioSituacaoDto, sqlCommand: string): Promise<void> {
+    const pool = await this.connect.getConnection();
+
     try {
-      const pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
-      await transaction.begin();
+      const transaction = await pool.connect();
       await transaction
         .request()
         .input('CodLiberacaoBloqueio', sql.Int, entity.codLiberacaoBloqueio)
@@ -87,11 +88,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
         .input('MotivoRejeicaoLiberacaoBloqueio', sql.VarChar(2000), entity.motivoRejeicaoLiberacaoBloqueio)
         .input('Complemento', sql.VarChar(2000), entity.complemento)
         .query(sqlCommand);
-
-      await transaction.commit();
-      pool.close();
     } catch (error: any) {
       console.log(error.message);
+    } finally {
+      pool.close();
     }
   }
 

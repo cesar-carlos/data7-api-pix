@@ -45,14 +45,20 @@ export class Request {
   public query(command: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const sql = this.inputs.reduce((acc: string, input: any) => {
-        const value = typeof input.value === 'string' ? (input.value = `'${input.value}'`) : input.value;
-        return acc.replace(`@${input.name}`, value);
+        if (input.type.toString().includes('Date')) {
+          const value = `'${input.value.toISOString().slice(0, 19).replace('T', ' ')}'`;
+          return acc.replace(`@${input.name}`, value);
+        } else {
+          const value = typeof input.value === 'string' ? (input.value = `'${input.value}'`) : input.value;
+          return acc.replace(`@${input.name}`, value);
+        }
       }, command);
 
-      if (sql.includes('@')) {
-        reject(new Error('Missing input value'));
-      }
+      // if (sql.includes('@')) {
+      //   reject(new Error('Missing input value ' + sql));
+      // }
 
+      ///console.log(sql);
       const Pool = this.pool;
       try {
         const RetData = await new Promise((resolve, reject) => {

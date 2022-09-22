@@ -2,26 +2,27 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
+import { ConnectionSybase } from '../infra/connection.sybase';
+
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
-import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 import CobrancaDigitalSituacaoDto from '../dto/cobranca.digital.situacao.dto';
 
-export default class LocalSqlServerCobrancaDigitalSituacaoRepository
+export default class LocalSybaseCobrancaDigitalSituacaoRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalSituacaoDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  private connect = new ConnectionSybase();
   constructor() {}
 
   public async select(): Promise<CobrancaDigitalSituacaoDto[] | undefined> {
     try {
-      const pool = await this.connect.getConnection();
+      const pool = await (await this.connect.getConnection()).connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.situacao.select.sql');
-      const sql = fs.readFileSync(patch).toString();
-      const result = await pool.request().query(sql);
+      const select = fs.readFileSync(patch).toString();
+      const result = await pool.request().query(select);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
-      const logs = result.recordset.map((item: any) => {
+      if (result.length === 0) return undefined;
+      const logs = result.map((item: any) => {
         return CobrancaDigitalSituacaoDto.fromObject(item);
       });
 
@@ -33,7 +34,7 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
 
   public async selectWhere(params: params[]): Promise<CobrancaDigitalSituacaoDto[] | undefined> {
     try {
-      const pool = await this.connect.getConnection();
+      const pool = await (await this.connect.getConnection()).connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.situacao.select.sql');
       const select = fs.readFileSync(patch).toString();
 
@@ -48,8 +49,8 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
-      const logs = result.recordset.map((item: any) => {
+      if (result.length === 0) return undefined;
+      const logs = result.map((item: any) => {
         return CobrancaDigitalSituacaoDto.fromObject(item);
       });
 
@@ -87,10 +88,10 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalSituacaoDto, sqlCommand: string): Promise<void> {
+    const pool = await this.connect.getConnection();
+
     try {
-      const pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
-      await transaction.begin();
+      const transaction = await pool.connect();
       await transaction
         .request()
         .input('SysId', sql.VarChar(500), entity.sysId)
@@ -100,11 +101,10 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
         .input('LocId', sql.VarChar(500), entity.locId)
         .input('Chave', sql.VarChar(100), entity.chave)
         .query(sqlCommand);
-
-      await transaction.commit();
-      pool.close();
     } catch (error: any) {
       console.log(error.message);
+    } finally {
+      pool.close();
     }
   }
 }

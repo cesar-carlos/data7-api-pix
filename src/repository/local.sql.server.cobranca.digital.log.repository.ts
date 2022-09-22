@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { VarChar } from 'mssql';
+import sql from 'mssql';
 
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';

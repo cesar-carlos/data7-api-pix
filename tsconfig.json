@@ -102,6 +102,12 @@
   },
   "exclude": [
     "node_modules",
-    "**/*.d.ts"
+    "dist",
+    "test",
+    "coverage",
+    "**/*.d.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "jest.config.js"
   ]
 }

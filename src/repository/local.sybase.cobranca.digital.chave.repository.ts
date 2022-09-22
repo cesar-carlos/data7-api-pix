@@ -2,23 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
+import { ConnectionSybase } from '../infra/connection.sybase';
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ChaveDto from '../dto/chave.dto';
-import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 
-export default class LocalSqlServerCobrancaDigitalChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {
-  private connect = new ConnectionSqlServerMssql();
+export default class LocalSybaseCobrancaDigitalChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {
+  private connect = new ConnectionSybase();
   constructor() {}
 
   public async select(): Promise<ChaveDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.chaves.select.sql');
-    const select = fs.readFileSync(patch).toString();
-    const result = await pool.request().query(select);
+    const sql = fs.readFileSync(patch).toString();
+    const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const chaves = result.recordset.map((item: any) => {
+    if (result.recordset === 0) return undefined;
+    const chaves = result.map((item: any) => {
       return ChaveDto.fromObject(item);
     });
 
@@ -26,7 +26,7 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
   }
 
   public async selectWhere(params: params[]): Promise<ChaveDto[] | undefined> {
-    const pool = await this.connect.getConnection();
+    const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.chaves.select.sql');
     const select = fs.readFileSync(patch).toString();
 
@@ -41,8 +41,8 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
-    const chaves = result.recordset.map((item: any) => {
+    if (result.length === 0) return undefined;
+    const chaves = result.map((item: any) => {
       return ChaveDto.fromObject(item);
     });
 
@@ -76,10 +76,10 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
   }
 
   private async actonEntity(entity: ChaveDto, sqlCommand: string): Promise<void> {
+    const pool = await this.connect.getConnection();
+
     try {
-      const pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
-      await transaction.begin();
+      const transaction = await pool.connect();
       await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.codEmpresa)
@@ -90,11 +90,10 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
         .input('DataCriacao', sql.Date, entity.dataCriacao)
         .input('Chave', sql.VarChar(255), entity.chave)
         .query(sqlCommand);
-
-      await transaction.commit();
-      pool.close();
     } catch (error: any) {
       console.log(error.message);
+    } finally {
+      pool.close();
     }
   }
 }

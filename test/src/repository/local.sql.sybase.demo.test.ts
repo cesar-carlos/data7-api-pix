@@ -2,28 +2,36 @@ import LocalSybaseDemoRepository from '../../../src/repository/local.sybase.demo
 import DemoDto from '../../../src/dto/demo.digital.dto';
 
 describe('CRUD DEMO SYBASE', () => {
-  const demo = new DemoDto({ id: 1, nome: 'DEMO' });
+  const newEntity = new DemoDto({ id: 1, nome: 'DEMO' });
+  const upEntity = new DemoDto({ id: 1, nome: 'DEMO 2' });
 
-  it('INSERT', async () => {
-    try {
-      const repo = new LocalSybaseDemoRepository();
-      const entity = await repo.insert(demo);
-    } catch (error: any) {
-      console.log(error);
-    }
+  it('deve inserir uma novo resitro', async () => {
+    const repo = new LocalSybaseDemoRepository();
+    await repo.insert(newEntity);
   });
 
-  it('SELECT', async () => {
-    try {
-      const repo = new LocalSybaseDemoRepository();
-      const entity = await repo.select();
-      expect(entity).toBeDefined();
-      expect(entity).toBeInstanceOf(Array);
-      expect(entity?.length).toBeGreaterThan(0);
-      expect(entity?.length).toBe(1);
-    } catch (error: any) {
-      console.log(error);
-    }
+  it('deve ler registro gravado', async () => {
+    const repo = new LocalSybaseDemoRepository();
+    const entity = await repo.selectWhere([{ key: 'ID', value: 1 }]);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].nome).toBe(newEntity.nome);
+  });
+
+  it('deve atualizar registro gravado', async () => {
+    const repo = new LocalSybaseDemoRepository();
+    const params = [{ key: 'ID', value: 1 }];
+    const result = await repo.update(upEntity);
+    const entity = await repo.selectWhere(params);
+    expect(entity?.length).toBe(1);
+    expect(entity?.[0].nome).toBe(upEntity.nome);
+  });
+
+  it('deve deletar registro gravado', async () => {
+    const repo = new LocalSybaseDemoRepository();
+    const params = [{ key: 'ID', value: 1 }];
+    const result = await repo.delete(newEntity);
+    const entity = await repo.selectWhere(params);
+    expect(entity).toBe(undefined);
   });
 });
 

@@ -1,8 +1,7 @@
-import { STATUS } from '../type/status';
 export default class ItemLiberacaoBloqueioSituacaoDto {
   readonly codLiberacaoBloqueio: number;
   readonly item: string;
-  readonly status: STATUS;
+  readonly status: string;
   readonly rotinaLiberacao: string | undefined;
   readonly dataHoraLiberacao: Date | undefined;
   readonly codUsuarioLiberacao: number | undefined;
@@ -14,7 +13,7 @@ export default class ItemLiberacaoBloqueioSituacaoDto {
   constructor(params: {
     codLiberacaoBloqueio: number;
     item: string;
-    status: STATUS;
+    status: string;
     rotinaLiberacao: string | undefined;
     dataHoraLiberacao: Date | undefined;
     codUsuarioLiberacao: number | undefined;
@@ -38,7 +37,7 @@ export default class ItemLiberacaoBloqueioSituacaoDto {
   static create(params: {
     codLiberacaoBloqueio: number;
     item: string;
-    status: STATUS;
+    status: string;
     rotinaLiberacao: string;
     dataHoraLiberacao: Date;
     codUsuarioLiberacao: number;
