@@ -11,8 +11,8 @@ export default class ManagementDependencys {
     ContainerDependency.instance.register(eContext.sybase, new LocalSybaseCobrancaDigitalConfigRepository());
   }
 
-  public static resolve<T>(context: eContext, type: T): T {
-    return ContainerDependency.instance.resolve<T>(context, type);
+  public static resolve<T>(context: eContext): T {
+    return ContainerDependency.instance.resolve<T>(context);
   }
 
   public static clear() {

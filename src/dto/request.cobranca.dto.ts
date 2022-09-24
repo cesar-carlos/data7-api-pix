@@ -1,3 +1,12 @@
+export type DataBase = {
+  Provedor: string;
+  Usuario: string;
+  Senha: string;
+  Servidor: string;
+  Base: string;
+  Porta: number;
+};
+
 export type Filial = {
   CodEmpresa: number;
   CodFilial: number;
@@ -59,6 +68,7 @@ export type Parcelas = {
 
 export type requestCobrancaDto = {
   CobSysId: string;
+  DataBase: DataBase;
   Filial: Filial;
   Usuario: Usuario;
   Cliente: Cliente;

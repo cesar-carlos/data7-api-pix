@@ -11,7 +11,10 @@ import CancelamentoPixService from '../services/cancelamento.pix.service';
 import ChaveProducaoService from '../services/chave.producao.service';
 import CobrancaPixService from '../services/cobranca.pix.service';
 import CobrancaService from '../services/cobranca.service';
+
 import LocalSqlServerCobrancaDigitalTituloRepository from '../repository/local.sql.server.cobranca.digital.titulo.repository';
+import LocalDatabaseStatusService from '../services/local.database.status.service';
+import LocalSqlServerDatabaseOnline from '../repository/local.sql.server.database.online';
 
 export default class CobrancaController {
   constructor() {}
@@ -23,22 +26,53 @@ export default class CobrancaController {
   public static async post(req: Request, res: Response) {
     try {
       const data = req.body;
-      const cobrancasOrError = CobrancaController.newCharge(data);
-      const chaveOrError = await CobrancaController.getChave();
 
-      if (chaveOrError instanceof ResponseErrorDto) {
-        res.header(chaveOrError.error, chaveOrError.message);
-        res.status(chaveOrError.statusCode).send(chaveOrError.message);
-        return;
-      }
-
+      // validação de dados de entrada
+      const cobrancasOrError = CobrancaController.validRequest(data);
       if (cobrancasOrError instanceof ResponseErrorDto) {
         res.header(cobrancasOrError.error, cobrancasOrError.message);
         res.status(cobrancasOrError.statusCode).send(cobrancasOrError.message);
         return;
       }
 
-      //start process charge
+      // local database config
+      const dataConf = cobrancasOrError[0]?.DataBase;
+      if (!dataConf) {
+        const err = new ResponseErrorDto({
+          error: 'ERROR-REQUEST',
+          message: 'DataBase config not found',
+          statusCode: 400,
+        });
+
+        res.header(err.error, err.message);
+        res.status(err.statusCode).send(err.message);
+        return;
+      }
+
+      //teste de conexão com banco de dados
+      const localSqlServerDatabaseOnline = new LocalSqlServerDatabaseOnline();
+      const databaseStatus = await new LocalDatabaseStatusService(localSqlServerDatabaseOnline).execute();
+      if (databaseStatus instanceof ProcessInfo) {
+        const err = new ResponseErrorDto({
+          error: 'ERROR-REQUEST',
+          message: databaseStatus.info ?? '',
+          statusCode: 400,
+        });
+
+        res.header(err.error, err.message);
+        res.status(err.statusCode).send(err.message);
+        return;
+      }
+
+      // valida chave de produção
+      const chaveOrError = await CobrancaController.getChave();
+      if (chaveOrError instanceof ResponseErrorDto) {
+        res.header(chaveOrError.error, chaveOrError.message);
+        res.status(chaveOrError.statusCode).send(chaveOrError.message);
+        return;
+      }
+
+      //inicia processo de cobrança
       for (const cobranca of cobrancasOrError) {
         const cobrancaService = new CobrancaService(chaveOrError);
         const processInfoOrCobranca = await cobrancaService.executar(cobranca);
@@ -109,7 +143,7 @@ export default class CobrancaController {
     res.status(204).send();
   }
 
-  private static newCharge(data: any): ResponseErrorDto | requestCobrancaDto[] {
+  private static validRequest(data: any): ResponseErrorDto | requestCobrancaDto[] {
     if (!data) return new ResponseErrorDto({ error: 'ERROR-REQUEST', message: 'data not found', statusCode: 400 });
 
     if (!data?.Data)
@@ -124,6 +158,7 @@ export default class CobrancaController {
 
         return {
           CobSysId: cobSysId,
+          DataBase: item?.DataBase,
           Filial: item?.Filial,
           Usuario: item?.Usuario,
           Cliente: item?.Cliente,
@@ -145,6 +180,7 @@ export default class CobrancaController {
                 estacaoTrabalho: LiberacaoKey?.estacaoTrabalho,
                 IP: LiberacaoKey?.IP,
               },
+
               NumeroParcela: parcela?.NumeroParcela,
               QtdParcela: parcela?.QtdParcela,
               TipoCobranca: parcela?.TipoCobranca,

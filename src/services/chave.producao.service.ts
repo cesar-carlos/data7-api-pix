@@ -1,7 +1,8 @@
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
+
+import Chave from '../entities/chave';
 import ChaveDto from '../dto/chave.dto';
 import ChaveService from './chave.service';
-import Chave from '../entities/chave';
 import WebhookGnRegisterService from './webhook.gn.register.service';
 
 import { ChaveStatusType } from '../type/chave.status.type';
@@ -34,8 +35,8 @@ export default class ChaveProducaoService {
         chaveDto.dataCriacao,
         chaveDto.chave,
       );
-      const processInfo = await webhookGnRegisterService.execute(chave.chave, new URL(url));
 
+      const processInfo = await webhookGnRegisterService.execute(chave.chave, new URL(url));
       if (processInfo.process.status === 'success') {
         const newChaveDto = new ChaveDto(
           chave.codEmpresa,
@@ -46,6 +47,7 @@ export default class ChaveProducaoService {
           chave.dataCriacao,
           chave.chave,
         );
+
         await this.repo.update(newChaveDto);
         return chaveDto;
       }

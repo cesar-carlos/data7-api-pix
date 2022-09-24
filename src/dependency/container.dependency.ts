@@ -1,3 +1,5 @@
+import { instanceId } from 'firebase-admin';
+
 export enum eContext {
   sql_server = 'sql_server',
   sybase = 'sybase',
@@ -5,7 +7,7 @@ export enum eContext {
 
 export interface Depedecy<T> {
   context: string;
-  type: T;
+  instance: T;
 }
 
 export default class ContainerDependency {
@@ -19,20 +21,17 @@ export default class ContainerDependency {
   }
 
   public register<T>(context: eContext, type: T) {
-    this._dependencies.push({ context, type });
+    this._dependencies.push({ context, instance: type });
   }
 
-  public resolve<T>(context: eContext, type: T): T {
-    console.log(type);
+  public resolve<T>(context: eContext): T {
+    const dependency = this._dependencies.find((x) => x.context === context);
 
-    const dependency = this._dependencies.find((deps) => {
-      if (deps.context === context) {
-        return deps;
-      }
-    });
+    if (!dependency) {
+      throw new Error(`Dependency not found for context: ${context}`);
+    }
 
-    if (!dependency) throw new Error(`Dependency for context ${context} not found`);
-    return dependency.type;
+    return dependency.instance;
   }
 
   public clear() {
