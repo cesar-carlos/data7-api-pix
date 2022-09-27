@@ -1,4 +1,5 @@
 import { ProcessInfoStatusType } from '../type/process.info.status.type';
+
 import ProcessInfo from '../entities/process.info';
 import GerencianetWebhookDeleteAdapter from '../adapter/gerencianet.webhook.delete.adapter';
 

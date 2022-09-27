@@ -1,6 +1,6 @@
 import express from 'express';
-import cors from 'cors';
 import logger from 'morgan';
+import cors from 'cors';
 
 import ApiRoute from '../route/api.router';
 import path from 'path';

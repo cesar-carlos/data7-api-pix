@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 
 export default class TimeoutController {
-  constructor() {}
-
   public static async get(req: Request, res: Response) {
     const time = req.params.time;
     const timeout = parseInt(time);

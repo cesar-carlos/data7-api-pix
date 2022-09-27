@@ -10,7 +10,6 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalPixDto>
 {
   private connect = new ConnectionSqlServerMssql();
-  constructor() {}
 
   public async select(): Promise<CobrancaDigitalPixDto[] | undefined> {
     try {

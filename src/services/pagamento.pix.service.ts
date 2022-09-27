@@ -4,21 +4,21 @@ import LocalBaseRepositoryContract from '../contracts/local.base.repository.cont
 import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
 
 export default class PagamentoPixService {
-  private lcRepoPgto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>;
-  private fbRepoPgto: ContractBaseRepository<PagamentoPix>;
+  private localRepository: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>;
+  private onlineRepository: ContractBaseRepository<PagamentoPix>;
 
   constructor(
-    lcRepoPgto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>,
-    fbRepoPgto: ContractBaseRepository<PagamentoPix>,
+    localRepository: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>,
+    onlineRepository: ContractBaseRepository<PagamentoPix>,
   ) {
-    this.lcRepoPgto = lcRepoPgto;
-    this.fbRepoPgto = fbRepoPgto;
+    this.localRepository = localRepository;
+    this.onlineRepository = onlineRepository;
   }
 
   public async execute(params: { sysId: string; txId: string }): Promise<void> {
     try {
-      const localPagamentos = await this.lcRepoPgto.selectWhere([{ key: 'SysId', value: params.sysId }]);
-      const fbPagamento = await this.fbRepoPgto.findWhere('Txid', params.txId);
+      const localPagamentos = await this.localRepository.selectWhere([{ key: 'SysId', value: params.sysId }]);
+      const fbPagamento = await this.onlineRepository.findWhere('Txid', params.txId);
 
       fbPagamento?.forEach(async (item) => {
         const exists = localPagamentos?.find((loc) => loc.endToEndId === item.endToEndId);
@@ -37,7 +37,7 @@ export default class PagamentoPixService {
             observacao: item.infoPagador,
           });
 
-          this.lcRepoPgto.insert(cobDigitalPagamentoDto);
+          this.localRepository.insert(cobDigitalPagamentoDto);
         }
       });
     } catch (error: any) {

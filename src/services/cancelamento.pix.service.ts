@@ -6,21 +6,21 @@ import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 
 export default class CancelamentoPixService {
-  private repo: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>;
-  private fbRepo: ContractBaseRepository<CobrancaPix>;
+  private localRepository: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>;
+  private onlineRepository: ContractBaseRepository<CobrancaPix>;
 
   constructor(
-    repo: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>,
-    fbRepo: ContractBaseRepository<CobrancaPix>,
+    localRepository: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>,
+    onlineRepository: ContractBaseRepository<CobrancaPix>,
   ) {
-    this.repo = repo;
-    this.fbRepo = fbRepo;
+    this.localRepository = localRepository;
+    this.onlineRepository = onlineRepository;
   }
 
   public async execute(params: { sysId: string; status: string }): Promise<void> {
     //CANCELADO-CLIENTE
     if (params.status === 'CC') {
-      const titulos = await this.repo.selectWhere([{ key: 'SysId ', value: params.sysId }]);
+      const titulos = await this.localRepository.selectWhere([{ key: 'SysId ', value: params.sysId }]);
       titulos?.forEach(async (titulo) => {
         const upTitulo = new CobrancaDigitalTituloDto({
           codEmpresa: titulo.codEmpresa,
@@ -41,17 +41,17 @@ export default class CancelamentoPixService {
           observacao: titulo.observacao,
         });
 
-        await this.repo.update(upTitulo);
+        await this.localRepository.update(upTitulo);
       });
     }
 
     //CANCELADO-SISTEMA
     if (params.status === 'CS') {
-      const fbTitulo = await this.fbRepo.find(params.sysId);
+      const fbTitulo = await this.onlineRepository.find(params.sysId);
       if (fbTitulo) {
         if (fbTitulo.STATUS === STATUS.ATIVO) {
           fbTitulo.STATUS = STATUS.CANCELADO_SISTEMA;
-          await this.fbRepo.update(fbTitulo);
+          await this.onlineRepository.update(fbTitulo);
         }
       }
     }

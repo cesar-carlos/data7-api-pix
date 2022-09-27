@@ -7,7 +7,7 @@ export default class FirebaseCobrancaPixListenRefleshRepository extends Firebase
     try {
       this.db
         .collection(this.collection)
-        .limit(10)
+        .limit(20)
         .onSnapshot((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const docUpdate = doc.updateTime.seconds * 1000;

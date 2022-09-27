@@ -8,11 +8,14 @@ import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
-import LocalSqlServerCobrancaDigitalPixRepository from '../repository/local.sql.server.cobranca.digital.pix.repository';
 import CobrancaDigitalPixDto from '../dto/cobranca.digital.pix.dto';
+import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 
 export default class CobrancaPixService {
-  constructor(readonly repo: ContractBaseRepository<CobrancaPix>) {}
+  constructor(
+    readonly localRepository: LocalBaseRepositoryContract<CobrancaDigitalPixDto>,
+    readonly onlineRepository: ContractBaseRepository<CobrancaPix>,
+  ) {}
 
   public async execute(cobranca: Cobranca): Promise<ProcessInfo | CobrancaPix[]> {
     try {
@@ -55,13 +58,12 @@ export default class CobrancaPixService {
             liberacaoKey: new CobrancaLiberacaoKey({ ...cobParcela.liberacaoKey }),
           });
 
-          this.repo.insert(cobPix);
+          this.onlineRepository.insert(cobPix);
           cobrancaPix.push(cobPix);
         }
       }
 
-      //TODO: TROCAR PARA OUTRO REPOSITORIO
-      const locaPxrepo = new LocalSqlServerCobrancaDigitalPixRepository();
+      //LOCAL REPOSITORY
       let sequencia = 1;
       cobrancaPix.forEach((item) => {
         const cobrancaDigitalPixDto = new CobrancaDigitalPixDto({
@@ -76,7 +78,7 @@ export default class CobrancaPixService {
           valor: item.valor,
         });
 
-        locaPxrepo.insert(cobrancaDigitalPixDto);
+        this.localRepository.insert(cobrancaDigitalPixDto);
       });
 
       return cobrancaPix;

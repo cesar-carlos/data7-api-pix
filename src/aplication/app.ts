@@ -4,9 +4,8 @@ import { cert, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
 import Api from './api';
-import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
-import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
-import ManagementDependencys from './management.dependencys';
+import AppLinstens from './app.linstens';
+import AppDependencys from './app.dependencys';
 
 export default class App {
   constructor() {
@@ -18,12 +17,11 @@ export default class App {
     const sicret = require(path.resolve(__dirname, '..', 'certificates', 'secret_firebase.json'));
     initializeApp({ credential: cert(sicret), storageBucket: bucket });
     getFirestore().settings({ ignoreUndefinedProperties: true, timestampsInSnapshots: true });
-    ManagementDependencys.load();
+    AppDependencys.load();
   }
 
   public async execute() {
-    new CobrancaPixListenService().linten();
-    new CobrancaPixListenRefleshService().linten();
+    new AppLinstens().execute();
     new Api().execute();
   }
 }

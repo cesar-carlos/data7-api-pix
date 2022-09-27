@@ -8,12 +8,12 @@ import WebhookGnRegisterService from './webhook.gn.register.service';
 import { ChaveStatusType } from '../type/chave.status.type';
 
 export default class ChaveProducaoService {
-  constructor(readonly repo: LocalBaseRepositoryContract<ChaveDto>) {}
+  constructor(readonly localRepository: LocalBaseRepositoryContract<ChaveDto>) {}
 
   public async execute(): Promise<ChaveDto> {
     try {
       const url = process.env.WEBHOOK_GN_URL;
-      const chaveService = new ChaveService(this.repo);
+      const chaveService = new ChaveService(this.localRepository);
       const chavesDto = await chaveService.execute();
 
       if (!url) throw new Error('WEBHOOK_GN_URL is not defined');
@@ -48,7 +48,7 @@ export default class ChaveProducaoService {
           chave.chave,
         );
 
-        await this.repo.update(newChaveDto);
+        await this.localRepository.update(newChaveDto);
         return chaveDto;
       }
 

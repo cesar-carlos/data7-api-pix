@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import LoginConfigService from '../services/login.config.service';
 
 export default class LoginController {
-  constructor() {}
-
   public static async get(req: Request, res: Response) {
     res.status(404).send({ message: 'not implemented get' });
   }

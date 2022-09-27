@@ -1,43 +1,48 @@
 import * as Pagamento from '../type/status';
+
 import CobrancaPix from '../entities/cobranca.pix';
 import PagamentoPixService from './pagamento.pix.service';
 import CancelamentoPixService from './cancelamento.pix.service';
 import FirebaseCobrancaPixListenRepository from '../repository/firebase.cobranca.pix.listen.repository';
-import LocalSqlServerCobrancaDigitalTituloRepository from '../repository/local.sql.server.cobranca.digital.titulo.repository';
-import FirebasePagamentoPixRepository from '../repository/firebase.pagamento.pix.repository';
-import LocalSqlServerCobrancaDigitalPagamentoRepository from '../repository/local.sql.server.cobranca.digital.pagamento.repository';
-import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
+
+import ContractBaseRepository from '../contracts/base.repository.contract';
+import PagamentoPix from '../entities/pagamento.pix';
+import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
+import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
+import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
 
 export default class CobrancaPixListenService {
   private fbCobrancaPixListenRepository = new FirebaseCobrancaPixListenRepository();
-  private fbPagamentoPixRepository = new FirebasePagamentoPixRepository();
-  private fbCobrancaPixRepository = new FirebaseCobrancaPixRepository();
-  private lcSqlServerCobrancaDigitalTituloRepository = new LocalSqlServerCobrancaDigitalTituloRepository();
-  private lcSqlServerCobrancaDigitalPagamentoRepository = new LocalSqlServerCobrancaDigitalPagamentoRepository();
+
+  constructor(
+    private onlineRepoCobrancaPix: ContractBaseRepository<CobrancaPix>,
+    private onlineRepoPagamentoPix: ContractBaseRepository<PagamentoPix>,
+    private localRepoCobrancaDigitalTituloDto: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>,
+    private localRepoCobrancaDigitalPagamentoDto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>,
+  ) {}
 
   public linten() {
     this.fbCobrancaPixListenRepository.linten(async (cobrancaPix: CobrancaPix) => {
       try {
         if (cobrancaPix.STATUS === Pagamento.STATUS.CONCLUIDO) {
-          await new PagamentoPixService(
-            this.lcSqlServerCobrancaDigitalPagamentoRepository,
-            this.fbPagamentoPixRepository,
-          ).execute({ sysId: cobrancaPix.sysId, txId: cobrancaPix.txId });
+          await new PagamentoPixService(this.localRepoCobrancaDigitalPagamentoDto, this.onlineRepoPagamentoPix).execute(
+            { sysId: cobrancaPix.sysId, txId: cobrancaPix.txId },
+          );
 
           //FINALIZAR COBRANCA
           cobrancaPix.STATUS = Pagamento.STATUS.FINALIZADO;
-          await this.fbCobrancaPixRepository.update(cobrancaPix);
+          await this.onlineRepoCobrancaPix.update(cobrancaPix);
         }
 
         if (cobrancaPix.STATUS === Pagamento.STATUS.CANCELADO_CLIENTE) {
-          new CancelamentoPixService(
-            this.lcSqlServerCobrancaDigitalTituloRepository,
-            this.fbCobrancaPixRepository,
-          ).execute({ sysId: cobrancaPix.sysId, status: 'CC' });
+          new CancelamentoPixService(this.localRepoCobrancaDigitalTituloDto, this.onlineRepoCobrancaPix).execute({
+            sysId: cobrancaPix.sysId,
+            status: 'CC',
+          });
 
           //FINALIZAR COBRANCA
           cobrancaPix.STATUS = Pagamento.STATUS.CANCELADO;
-          await this.fbCobrancaPixRepository.update(cobrancaPix);
+          await this.onlineRepoCobrancaPix.update(cobrancaPix);
         }
       } catch (error: any) {
         console.log(error.message);

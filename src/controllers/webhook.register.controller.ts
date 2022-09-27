@@ -9,8 +9,6 @@ import WebhookRegisterService from '../services/webhook.register.service';
 import FirebaseWebhookRegisterRepository from '../repository/firebase.webhook.register.repository';
 
 export default class WebhookRegisterController {
-  constructor() {}
-
   public static async get(req: Request, res: Response) {
     try {
       const _webhookListServices = new WebhookListGnServices();

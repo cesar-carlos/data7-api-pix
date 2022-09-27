@@ -3,8 +3,6 @@ import { txid as helpTxid } from '../helper/txid.help';
 import SituacaoGnPixService from '../services/situacao.gn.pix.service';
 
 export default class PagamentoController {
-  constructor() {}
-
   public static async get(req: Request, res: Response) {
     try {
       const { txid } = req.params;

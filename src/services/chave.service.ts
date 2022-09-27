@@ -5,11 +5,11 @@ import ChaveGnCobrancaService from './chave.gn.cobranca.service';
 import CreateGnChaveService from './create.gn.chave.service';
 
 export default class ChaveService {
-  constructor(readonly repo: LocalBaseRepositoryContract<ChaveDto>) {}
+  constructor(readonly localRepository: LocalBaseRepositoryContract<ChaveDto>) {}
 
   public async execute(): Promise<ChaveDto[]> {
     try {
-      const chavesLocal = await this.repo.select();
+      const chavesLocal = await this.localRepository.select();
       if (chavesLocal && chavesLocal.length > 0) {
         return chavesLocal;
       }
@@ -30,7 +30,7 @@ export default class ChaveService {
         });
 
         chavesDto.forEach(async (item: ChaveDto) => {
-          await this.repo.insert(item);
+          await this.localRepository.insert(item);
         });
 
         return chavesDto;
@@ -47,7 +47,8 @@ export default class ChaveService {
         chaveNova.dataCriacao,
         chaveNova.chave,
       );
-      await this.repo.insert(chaveNovaDto);
+
+      await this.localRepository.insert(chaveNovaDto);
       return [chaveNovaDto];
     } catch (error: any) {
       throw new Error(error.mensagem);
