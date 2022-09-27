@@ -21,8 +21,8 @@ export default class CobrancaPixListenService {
     private localRepoCobrancaDigitalPagamentoDto: LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>,
   ) {}
 
-  public linten() {
-    this.fbCobrancaPixListenRepository.linten(async (cobrancaPix: CobrancaPix) => {
+  public listen() {
+    this.fbCobrancaPixListenRepository.listen(async (cobrancaPix: CobrancaPix) => {
       try {
         if (cobrancaPix.STATUS === Pagamento.STATUS.CONCLUIDO) {
           await new PagamentoPixService(this.localRepoCobrancaDigitalPagamentoDto, this.onlineRepoPagamentoPix).execute(

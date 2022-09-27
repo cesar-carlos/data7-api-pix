@@ -48,10 +48,10 @@ export default class AppLinstens {
       firebasePagamentoPixRepository,
       localCobrancaDigitalTituloRepository,
       localCobrancaDigitalPagamentoRepository,
-    ).linten();
+    ).listen();
   }
 
   private listenRefleshCobrancaPix() {
-    new CobrancaPixListenRefleshService().linten();
+    new CobrancaPixListenRefleshService().listen();
   }
 }

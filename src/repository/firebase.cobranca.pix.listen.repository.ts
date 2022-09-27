@@ -9,7 +9,7 @@ export default class FirebaseCobrancaPixListenRepository extends FirebaseBaseRep
   readonly collection = 'cobrancas-pix';
   readonly cnpj = process.env.CNPJ;
 
-  linten(callback: (CobrancaPix: any) => void): void {
+  listen(callback: (CobrancaPix: any) => void): void {
     try {
       this.db
         .collection(this.collection)

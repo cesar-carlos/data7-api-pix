@@ -3,7 +3,7 @@ import FirebaseBaseRepository from './firebase.base.repository';
 
 export default class FirebaseCobrancaPixListenRefleshRepository extends FirebaseBaseRepository {
   readonly collection = 'refresh-pix';
-  linten(callback: (txid: any) => void): void {
+  listen(callback: (txid: any) => void): void {
     try {
       this.db
         .collection(this.collection)
