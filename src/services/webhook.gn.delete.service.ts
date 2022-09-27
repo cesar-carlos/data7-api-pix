@@ -6,7 +6,7 @@ export default class WebhookGnDeleteService {
   public async execute(chave: string): Promise<ProcessInfo> {
     try {
       const deleteWebhook = new GerencianetWebhookDeleteAdapter();
-      const result = await deleteWebhook.execute(chave);
+      await deleteWebhook.execute(chave);
       const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
       return new ProcessInfo(infoStatusSuccess, 'WebhookGnDeleteService', 'Webhook deletado com sucesso');
     } catch (error: any) {

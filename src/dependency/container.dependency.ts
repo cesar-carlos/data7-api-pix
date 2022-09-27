@@ -1,13 +1,18 @@
-import { instanceId } from 'firebase-admin';
-
 export enum eContext {
   sql_server = 'sql_server',
   sybase = 'sybase',
+  fireBase = 'fireBase',
 }
 
 export interface Depedecy<T> {
   context: string;
+  bind: string;
   instance: T;
+}
+
+export interface FindDepedecy {
+  context: string;
+  bind: string;
 }
 
 export default class ContainerDependency {
@@ -20,17 +25,13 @@ export default class ContainerDependency {
     return this._instance || (this._instance = new this());
   }
 
-  public register<T>(context: eContext, type: T) {
-    this._dependencies.push({ context, instance: type });
+  public register<T>(params: Depedecy<T>) {
+    this._dependencies.push(params);
   }
 
-  public resolve<T>(context: eContext): T {
-    const dependency = this._dependencies.find((x) => x.context === context);
-
-    if (!dependency) {
-      throw new Error(`Dependency not found for context: ${context}`);
-    }
-
+  public resolve<T>(params: FindDepedecy): T {
+    const dependency = this._dependencies.find((x) => x.context === params.context && x.bind === params.bind);
+    if (!dependency) throw new Error(`Dependency not found for context: ${params.context}`);
     return dependency.instance;
   }
 

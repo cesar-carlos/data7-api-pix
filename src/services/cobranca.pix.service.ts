@@ -19,7 +19,7 @@ export default class CobrancaPixService {
       const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
       const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
 
-      //CREATE COBRANCA PIX
+      //CREATE COBRANCA
       const createGnPixService = new CreateGnPixService(cobranca.chave);
       const pgtoPendenteOrProcessInfo = await createGnPixService.execute(cobranca);
       if (pgtoPendenteOrProcessInfo instanceof ProcessInfo) {

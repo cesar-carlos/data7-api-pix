@@ -8,6 +8,8 @@ LocalStorage
 certificates
 local.storage
 public
+web
+www
 
 
 ### Node ###

@@ -1,6 +1,4 @@
-import { responseCreateChaveDto } from '../dto/response.create.chave.dto';
 import GerencianetBase from './gerencianet.base';
-import ChaveDto from '../dto/chave.dto';
 
 export default class GerencianetDeleteChaveAdapter extends GerencianetBase {
   public async execute(chave: string): Promise<void> {

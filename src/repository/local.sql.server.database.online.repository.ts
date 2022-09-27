@@ -5,11 +5,9 @@ import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 import DatabaseOnlineDto from '../dto/database.online.dto';
 import DataBaseActiveContract from '../contracts/data.base.active.contract';
 
-export default class LocalSqlServerDatabaseOnline implements DataBaseActiveContract<DatabaseOnlineDto> {
+export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseActiveContract<DatabaseOnlineDto> {
   private connect = new ConnectionSqlServerMssql();
-  constructor() {}
-
-  public async getDataBaseInfo(): Promise<DatabaseOnlineDto | undefined> {
+  public async getDataBaseInfo(): Promise<DatabaseOnlineDto | string> {
     try {
       const pool = await this.connect.getConnection();
       const patch = path.resolve(__dirname, '..', 'sql', 'local.database.online.select.sql');
@@ -21,13 +19,10 @@ export default class LocalSqlServerDatabaseOnline implements DataBaseActiveContr
         return DatabaseOnlineDto.fromObject(item);
       });
 
-      if (!data || data.length === 0) {
-        return undefined;
-      }
-
-      return data.shift();
+      if (!data || data.length === 0) return 'Falha ao obter informacoes da base de dados (Local SQL-SERVER).';
+      return data[0];
     } catch (error: any) {
-      console.log(error.message);
+      return `Falha ao obter informacoes da base de dados (Local SQL-SERVER). ${error.message}`;
     }
   }
 }

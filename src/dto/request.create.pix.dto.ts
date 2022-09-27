@@ -3,7 +3,7 @@ export type params = {
 };
 
 export type devedor = {
-  cpf: string;
+  cnpj_cpf: string;
   nome: string;
 };
 

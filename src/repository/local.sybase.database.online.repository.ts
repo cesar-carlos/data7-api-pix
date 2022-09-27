@@ -2,16 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionSybase } from '../infra/connection.sybase';
+
 import DatabaseOnlineDto from '../dto/database.online.dto';
 import DataBaseActiveContract from '../contracts/data.base.active.contract';
 
-export default class LocalSybaseDatabaseOnline<DatabaseOnlineDto>
-  implements DataBaseActiveContract<DatabaseOnlineDto | undefined>
+export default class LocalSybaseDatabaseOnlineRepository<DatabaseOnlineDto>
+  implements DataBaseActiveContract<DatabaseOnlineDto | string>
 {
   private connect = new ConnectionSybase();
-  constructor() {}
-
-  public async getDataBaseInfo(): Promise<DatabaseOnlineDto | undefined> {
+  public async getDataBaseInfo(): Promise<DatabaseOnlineDto | string> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'local.database.online.select.sql');
@@ -19,14 +18,14 @@ export default class LocalSybaseDatabaseOnline<DatabaseOnlineDto>
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.length === 0) return undefined;
+      if (result.length === 0) return `Falha ao obter informacoes da base de dados (On-Line: SyBase).`;
       const databaseOnlineDto = result.map((item: any) => {
         return DatabaseOnlineDto.fromObject(item);
       });
 
       return databaseOnlineDto.shift();
     } catch (error: any) {
-      console.log(error.message);
+      return `Falha ao obter informacoes da base de dados (On-Line: SyBase). ${error.message}`;
     }
   }
 }

@@ -1,3 +1,3 @@
 export default interface DataBaseActiveContract<T> {
-  getDataBaseInfo(): Promise<T | undefined>;
+  getDataBaseInfo(): Promise<T | string>;
 }

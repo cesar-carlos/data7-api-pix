@@ -1,4 +1,5 @@
 import { ProcessInfoStatusType } from '../type/process.info.status.type';
+
 import ProcessInfo from '../entities/process.info';
 import GerencianetWebhookRegisterAdapter from '../adapter/gerencianet.webhook.register.adapter';
 

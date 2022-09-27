@@ -10,7 +10,6 @@ export default class GerencianetCreatePixAdapter extends GerencianetBase {
       const body = this.body(request);
       const response = await this.gerencianet.pixCreateImmediateCharge(params, body);
       const result: responseCreatePixDto = response;
-
       return result;
     } catch (error: any) {
       throw new Error(error.mensagem);
@@ -18,15 +17,37 @@ export default class GerencianetCreatePixAdapter extends GerencianetBase {
   }
 
   private body(request: requestCreatePixDto) {
-    const body = {
-      calendario: { expiracao: request.calendario.expiracao },
-      devedor: { cpf: request.devedor.cpf, nome: request.devedor.nome },
-      valor: { original: request.valor.original },
-      chave: request.chave,
-      solicitacaoPagador: request.solicitacaoPagador,
-      infoAdicionais: request.infoAdicionais,
-    };
+    if (request.devedor.cnpj_cpf === '00000000000') {
+      return {
+        calendario: { expiracao: request.calendario.expiracao },
+        //devedor: { cpf: request.devedor.cpf, nome: request.devedor.nome },
+        valor: { original: request.valor.original },
+        chave: request.chave,
+        solicitacaoPagador: request.solicitacaoPagador,
+        infoAdicionais: request.infoAdicionais,
+      };
+    }
 
-    return body;
+    if (request.devedor.cnpj_cpf.length === 11 && request.devedor.cnpj_cpf !== '00000000000') {
+      return {
+        calendario: { expiracao: request.calendario.expiracao },
+        devedor: { cpf: request.devedor.cnpj_cpf, nome: request.devedor.nome },
+        valor: { original: request.valor.original },
+        chave: request.chave,
+        solicitacaoPagador: request.solicitacaoPagador,
+        infoAdicionais: request.infoAdicionais,
+      };
+    }
+
+    if (request.devedor.cnpj_cpf.length === 14) {
+      return {
+        calendario: { expiracao: request.calendario.expiracao },
+        devedor: { cnpj: request.devedor.cnpj_cpf, nome: request.devedor.nome },
+        valor: { original: request.valor.original },
+        chave: request.chave,
+        solicitacaoPagador: request.solicitacaoPagador,
+        infoAdicionais: request.infoAdicionais,
+      };
+    }
   }
 }

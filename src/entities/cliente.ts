@@ -80,7 +80,7 @@ export default class Cliente {
       codCobrancaDigital: object.CodCobrancaDigital,
       codCliente: object.CodCliente,
       nomeCliente: object.NomeCliente,
-      cnpj_cpf: object.CNPJ_CPF,
+      cnpj_cpf: object.CNPJ_CPF.replace(/[^0-9]/g, ''),
       telefone: object.Telefone,
       eMail: object.EMail,
       endereco: object.Endereco,

@@ -12,7 +12,6 @@
     "start": "node ./dist/server.js",
     "test": "jest --watchAll --config ./jest.config.js"
   },
-
   "keywords": [],
   "author": "cesar carlos",
   "license": "MIT",
@@ -26,6 +25,7 @@
     "express": "^4.18.1",
     "firebase-admin": "^11.0.0",
     "gn-api-sdk-typescript": "^1.0.7",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "morgan": "^1.10.0",
     "mssql": "^8.1.2",
@@ -34,13 +34,13 @@
     "tedious": "^14.6.1",
     "uuid": "^8.3.2"
   },
-
   "devDependencies": {
     "@firebase/firestore-types": "^2.5.0",
     "@types/cors": "^2.8.12",
     "@types/currency-formatter": "^1.5.1",
     "@types/express": "^4.17.13",
     "@types/jest": "^28.1.4",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/morgan": "^1.9.3",
     "@types/mssql": "^8.0.3",
     "@types/node": "^18.0.0",

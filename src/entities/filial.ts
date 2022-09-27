@@ -20,7 +20,7 @@ export default class Filial {
       codEmpresa: object.CodEmpresa,
       codFilial: object.CodFilial,
       nome: object.Nome,
-      cnpj: object.CNPJ,
+      cnpj: object.CNPJ.replace(/[^0-9]/g, ''),
     });
   };
 }

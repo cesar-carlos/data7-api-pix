@@ -3,10 +3,10 @@ import cors from 'cors';
 import logger from 'morgan';
 
 import ApiRoute from '../route/api.router';
+import path from 'path';
 
 export default class Api {
   private app = express();
-  private publicPath = '../../public';
 
   constructor(private readonly port: number = 3000) {
     this.initialize();
@@ -17,7 +17,7 @@ export default class Api {
     this.app.use(logger('dev'));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static(this.publicPath));
+    //this.app.use(express.static(path.join(__dirname, '..', '..', 'www')));
     this.app.use(ApiRoute.router);
   }
 

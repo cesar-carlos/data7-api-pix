@@ -1,8 +1,9 @@
 import { STATUS } from './../type/status';
-import GerencianetPixDetailAdapter from '../adapter/gerencianet.pix.detail.adapter';
 import { STATUS_GN } from '../dto/response.pix.detail.dto';
-import PagamentoPix from '../entities/pagamento.pix';
+
+import GerencianetPixDetailAdapter from '../adapter/gerencianet.pix.detail.adapter';
 import PagamentoSituacao from '../entities/pagamento.situacao';
+import PagamentoPix from '../entities/pagamento.pix';
 
 export default class SituacaoGnPixService {
   private pixDetail = new GerencianetPixDetailAdapter();

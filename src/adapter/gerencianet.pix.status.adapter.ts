@@ -1,4 +1,5 @@
 import { responsePixStatusDto } from '../dto/response.pix.status.dto';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetPixStatusAdapter extends GerencianetBase {

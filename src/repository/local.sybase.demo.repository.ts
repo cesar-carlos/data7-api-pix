@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { Int, VarChar } from 'mssql';
+import sql from 'mssql';
 
 import { ConnectionSybase } from '../infra/connection.sybase';
 

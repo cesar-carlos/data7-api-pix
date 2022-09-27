@@ -1,4 +1,3 @@
-import CobrancaPix from '../entities/cobranca.pix';
 import PagamentoPix from '../entities/pagamento.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';

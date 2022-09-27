@@ -1,4 +1,5 @@
 import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetPixDetailAdapter extends GerencianetBase {

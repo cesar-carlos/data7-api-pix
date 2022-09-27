@@ -1,4 +1,5 @@
 import { resposeWebhookDto } from '../dto/respose.webhook.dto';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListWebhook extends GerencianetBase {

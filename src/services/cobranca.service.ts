@@ -1,4 +1,5 @@
 import CFP from '../helper/cpf.helper';
+import CNPJ from '../helper/cnpj.helper';
 
 import { requestCobrancaDto } from '../dto/request.cobranca.dto';
 import { ProcessInfoStatusType } from '../type/process.info.status.type';
@@ -14,9 +15,22 @@ export default class CobrancaService {
       //COBRANCA LIBERADA SOMENTE PARA PESSOA FISICA
       const cobranca = Cobranca.fromRequestCobrancaDto(this.chave.chave, cobrancaDto);
       const cpf = CFP(cobranca.cliente.cnpj_cpf);
-      if (!cpf.isValid()) {
+      const cnpj = CNPJ(cobranca.cliente.cnpj_cpf);
+      let tipoEntidade = '';
+
+      if (cobranca.cliente.cnpj_cpf.length === 11 && !cpf.isValid()) {
         const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
         return new ProcessInfo(infoStatusErro, 'CobrancaPixService', `CPF INVALIDO: ${cobranca.cliente.cnpj_cpf}`);
+      }
+
+      if (cobranca.cliente.cnpj_cpf.length === 14 && !cnpj.isValid()) {
+        const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+        return new ProcessInfo(infoStatusErro, 'CobrancaPixService', `CNPJ INVALIDO: ${cobranca.cliente.cnpj_cpf}`);
+      }
+
+      if (cobranca.cliente.cnpj_cpf.length !== 11 && cobranca.cliente.cnpj_cpf.length !== 14) {
+        const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+        return new ProcessInfo(infoStatusErro, 'CobrancaPixService', `CNPJ/CPF INVALIDO: ${cobranca.cliente.cnpj_cpf}`);
       }
 
       return cobranca;

@@ -1,8 +1,8 @@
-import FirebaseCobrancaPixListenRefleshRepository from '../repository/firebase.cobranca.pix.listen.reflesh.repository';
-import SituacaoGnPixService from './situacao.gn.pix.service';
-
-import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
 import { STATUS } from '../type/status';
+
+import FirebaseCobrancaPixListenRefleshRepository from '../repository/firebase.cobranca.pix.listen.reflesh.repository';
+import FirebaseCobrancaPixRepository from '../repository/firebase.cobranca.pix.repository';
+import SituacaoGnPixService from './situacao.gn.pix.service';
 
 export default class CobrancaPixListenRefleshService {
   private fbCobrancaPixListenRefleshRepository = new FirebaseCobrancaPixListenRefleshRepository();

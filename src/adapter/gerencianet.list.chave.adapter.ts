@@ -1,5 +1,6 @@
 import { ResponseChaveDto } from '../dto/response.chave.dto';
 import { ChaveStatusType } from '../type/chave.status.type';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListChaveAdapter extends GerencianetBase {

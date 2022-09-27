@@ -4,38 +4,28 @@ import moment from 'moment';
 import { txid } from '../helper/txid.help';
 import { ProcessInfoStatusType } from '../type/process.info.status.type';
 
-import GerencianetCreatePixAdapter from '../adapter/gerencianet.create.pix.adapter';
 import Cobranca from '../entities/cobranca';
 import ProcessInfo from '../entities/process.info';
-import cpf from '../helper/cpf.helper';
-import PagamentoPendente, { devedor } from '../entities/pagamento.pendente';
+
 import PagamentoLoc from '../entities/pagamento.loc';
+import PagamentoPendente from '../entities/pagamento.pendente';
+import GerencianetCreatePixAdapter from '../adapter/gerencianet.create.pix.adapter';
 import PagamentoAdicionais from '../entities/pagamento.adicionais';
 
 export default class CreateGnPixService {
+  private timeExp = 3600;
   constructor(private chave: string) {}
 
   public async execute(cobranca: Cobranca): Promise<PagamentoPendente[] | ProcessInfo> {
     const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
-    const infoStatusSuccess: ProcessInfoStatusType = { status: 'success' };
-
-    const CPF = cpf(cobranca.cliente.cnpj_cpf);
-    const chave = this.chave;
-
-    if (!CPF.isValid()) {
-      return new ProcessInfo(infoStatusErro, 'CreateGnPixService', 'CPF inválido para o cliente');
-    }
-
-    //OPEN
-    const timeExp = 3600;
     const bodyCreatePix = cobranca.parcelas.map((parcela) => {
       return {
         sysId: parcela.sysId,
         params: { txid: txid.create() },
-        calendario: { expiracao: timeExp },
-        devedor: { cpf: cobranca.cliente.cnpj_cpf, nome: cobranca.cliente.nomeCliente },
+        calendario: { expiracao: this.timeExp },
+        devedor: { cnpj_cpf: cobranca.cliente.cnpj_cpf, nome: cobranca.cliente.nomeCliente },
         valor: { original: formatter.format(parcela.valorParcela, { code: 'USD', symbol: '' }) },
-        chave: chave,
+        chave: this.chave,
         solicitacaoPagador: parcela.observacao,
         infoAdicionais: [
           { nome: 'sysId', valor: parcela.sysId },
@@ -50,7 +40,7 @@ export default class CreateGnPixService {
       try {
         const gnCreatePix = new GerencianetCreatePixAdapter();
         const date = new Date().toISOString();
-        const dateExp = moment(date).add(timeExp, 'minute').toISOString();
+        const dateExp = moment(date).add(this.timeExp, 'minute').toISOString();
         const resp = await gnCreatePix.execute(bodyCreate);
 
         const pgtoPendente = new PagamentoPendente(

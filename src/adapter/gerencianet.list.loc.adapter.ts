@@ -1,4 +1,5 @@
 import { responseListLocDto } from '../dto/response.list.loc.dto';
+
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListLocAdapter extends GerencianetBase {
