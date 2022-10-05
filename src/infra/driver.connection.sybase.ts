@@ -46,7 +46,7 @@ export class Request {
     return new Promise(async (resolve, reject) => {
       const sql = this.inputs.reduce((acc: string, input: any) => {
         if (input.type.toString().includes('Date')) {
-          const value = `'${input.value.toISOString().slice(0, 19).replace('T', ' ')}'`;
+          const value = `'${new Date(input.value).toISOString().slice(0, 19).replace('T', ' ')}'`;
           return acc.replace(`@${input.name}`, value);
         } else {
           const value = typeof input.value === 'string' ? (input.value = `'${input.value}'`) : input.value;
@@ -54,11 +54,6 @@ export class Request {
         }
       }, command);
 
-      // if (sql.includes('@')) {
-      //   reject(new Error('Missing input value ' + sql));
-      // }
-
-      ///console.log(sql);
       const Pool = this.pool;
       try {
         const RetData = await new Promise((resolve, reject) => {

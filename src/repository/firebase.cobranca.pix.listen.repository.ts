@@ -16,7 +16,7 @@ export default class FirebaseCobrancaPixListenRepository extends FirebaseBaseRep
         .where('STATUS', 'in', [STATUS.CONCLUIDO, STATUS.CANCELADO_CLIENTE])
         .where('liberacaoKey.cnpj', '==', this.cnpj!)
         .where('datacriacao', '>', moment().subtract(1, 'day').toDate())
-        .limit(10)
+        .limit(15)
         .onSnapshot((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const data = doc.data();

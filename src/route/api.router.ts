@@ -42,6 +42,7 @@ export default class ApiRoute {
   }
 
   private cobranca() {
+    this._router.get('/cobranca', CobrancaController.get);
     this._router.get('/cobranca/:id', CobrancaController.get);
     this._router.post('/cobranca', CobrancaController.post);
     this._router.put('/cobranca', CobrancaController.put);

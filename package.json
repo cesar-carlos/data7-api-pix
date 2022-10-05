@@ -30,6 +30,7 @@
     "morgan": "^1.10.0",
     "mssql": "^8.1.2",
     "node-localstorage": "^2.2.1",
+    "promisify": "^0.0.3",
     "sybase": "^1.2.3",
     "tedious": "^14.6.1",
     "uuid": "^8.3.2"

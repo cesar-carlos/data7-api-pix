@@ -34,7 +34,7 @@ export default class PagamentoPixService {
             chave: item.chave,
             dataPagamento: item.horario,
             valor: item.valor,
-            observacao: item.infoPagador,
+            observacao: item.infoPagador ?? '',
           });
 
           this.localRepository.insert(cobDigitalPagamentoDto);

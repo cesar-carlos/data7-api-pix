@@ -4,6 +4,7 @@ import CobrancaPix from '../entities/cobranca.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
+import console from 'console';
 
 export default class CancelamentoPixService {
   private localRepository: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>;
@@ -47,11 +48,12 @@ export default class CancelamentoPixService {
 
     //CANCELADO-SISTEMA
     if (params.status === 'CS') {
-      const fbTitulo = await this.onlineRepository.find(params.sysId);
-      if (fbTitulo) {
-        if (fbTitulo.STATUS === STATUS.ATIVO) {
-          fbTitulo.STATUS = STATUS.CANCELADO_SISTEMA;
-          await this.onlineRepository.update(fbTitulo);
+      const titulo = await this.onlineRepository.find(params.sysId);
+
+      if (titulo) {
+        if (titulo.STATUS === STATUS.ATIVO) {
+          titulo.STATUS = STATUS.CANCELADO_SISTEMA;
+          await this.onlineRepository.update(titulo);
         }
       }
     }

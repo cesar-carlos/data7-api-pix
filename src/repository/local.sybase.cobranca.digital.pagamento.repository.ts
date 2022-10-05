@@ -15,7 +15,8 @@ export default class LocalSybaseCobrancaDigitalPagamentoRepository
 
   public async select(): Promise<CobrancaDigitalPagamentoDto[] | undefined> {
     try {
-      const pool = await (await this.connect.getConnection()).connect();
+      const connection = await this.connect.getConnection();
+      const pool = await connection.connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.pagamento.select.sql');
       const sql = fs.readFileSync(patch).toString();
       const result = await pool.request().query(sql);
@@ -34,7 +35,8 @@ export default class LocalSybaseCobrancaDigitalPagamentoRepository
 
   public async selectWhere(params: params[]): Promise<CobrancaDigitalPagamentoDto[] | undefined> {
     try {
-      const pool = await (await this.connect.getConnection()).connect();
+      const connection = await this.connect.getConnection();
+      const pool = await connection.connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.pagamento.select.sql');
       const select = fs.readFileSync(patch).toString();
 
@@ -91,6 +93,18 @@ export default class LocalSybaseCobrancaDigitalPagamentoRepository
 
     try {
       const transaction = await pool.connect();
+      //TODO: FORCE USUARIO LOGADO ENVIRONMENT
+      await transaction.request().query(`
+            BEGIN
+              CREATE VARIABLE @CodEmpresa VARCHAR(1) = '1';
+              CREATE VARIABLE @CodFilial VARCHAR(1) = '1';
+              CREATE VARIABLE @CodUsuario VARCHAR(1) = '1';
+              CREATE VARIABLE @NomeUsuario VARCHAR(30) = 'ADMINISTRADOR';
+              CREATE VARIABLE @CodEstacaoTrabalho VARCHAR(1) = '1';
+              CREATE VARIABLE @EstacaoTrabalho VARCHAR(30) = 'SERVIDOR';
+            END;
+      `);
+
       await transaction
         .request()
         .input('SysId', sql.VarChar(500), entity.sysId)

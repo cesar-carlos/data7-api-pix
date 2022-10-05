@@ -15,7 +15,8 @@ export default class LocalSybaseCobrancaDigitalTituloRepository
 
   public async select(): Promise<CobrancaDigitalTituloDto[] | undefined> {
     try {
-      const pool = await (await this.connect.getConnection()).connect();
+      const connection = await this.connect.getConnection();
+      const pool = await connection.connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.titulo.select.sql');
       const sql = fs.readFileSync(patch).toString();
       const result = await pool.request().query(sql);
@@ -34,7 +35,8 @@ export default class LocalSybaseCobrancaDigitalTituloRepository
 
   public async selectWhere(params: params[]): Promise<CobrancaDigitalTituloDto[] | undefined> {
     try {
-      const pool = await (await this.connect.getConnection()).connect();
+      const connection = await this.connect.getConnection();
+      const pool = await connection.connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.titulo.select.sql');
       const select = fs.readFileSync(patch).toString();
 
@@ -108,7 +110,7 @@ export default class LocalSybaseCobrancaDigitalTituloRepository
         .input('DataVenda', sql.Date, entity.dataVenda)
         .input('DataVencimento', sql.Date, entity.dataVencimento)
         .input('Valor', sql.Money, entity.valor)
-        .input('Observacao', sql.VarChar(2000), entity.observacao?.substring(0, 2000))
+        .input('Observacao', sql.VarChar(2000), entity.observacao?.substring(0, 2000) || '')
         .query(sqlCommand);
     } catch (error: any) {
       console.log(error.message);

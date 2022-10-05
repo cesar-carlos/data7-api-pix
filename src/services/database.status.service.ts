@@ -11,6 +11,7 @@ export default class DatabaseStatusService {
     try {
       for (const repository of this.repositorys) {
         const databaseOnline = await repository.getDataBaseInfo();
+
         if (typeof databaseOnline === 'string') {
           const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
           const info = new ProcessInfo(
