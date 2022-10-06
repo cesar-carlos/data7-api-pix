@@ -3,7 +3,6 @@ import logger from 'morgan';
 import cors from 'cors';
 
 import ApiRoute from '../route/api.router';
-import path from 'path';
 
 export default class Api {
   private app = express();
