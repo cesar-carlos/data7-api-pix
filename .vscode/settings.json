@@ -1,0 +1,10 @@
+{
+  "editor.fontSize": 13,
+  "window.zoomLevel": 0,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "code-runner.executorMap": {
+    "typescript": "clear && npx ts-node --files --transpile-only",
+  }
+}
