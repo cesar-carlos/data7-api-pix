@@ -14,6 +14,8 @@ import CobrancaService from '../services/cobranca.service';
 import AppChargeKey from './app.charge.key';
 import AppDependencys from './app.dependencys';
 import responseInfoDto from '../dto/response.info.dto';
+import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
+import AppRuleStatusCharge from './app.rule.status.charge';
 
 export default class AppChargePix {
   private provedor: string = process.env.PROVEDOR || '';
@@ -23,7 +25,6 @@ export default class AppChargePix {
   public async execute(): Promise<responseInfoDto | undefined> {
     for (const cobranca of this.requestCobrancas) {
       const appChargeKey = await AppChargeKey.get();
-
       if (appChargeKey instanceof ResponseInfoDto) {
         const responseInfoDto = new ResponseInfoDto({
           info: 'INFO-REQUEST',
@@ -36,7 +37,6 @@ export default class AppChargePix {
 
       const cobrancaService = new CobrancaService(appChargeKey);
       const processInfoOrCobranca = await cobrancaService.executar(cobranca);
-
       if (processInfoOrCobranca instanceof ProcessInfo) {
         const responseInfoDto = new ResponseInfoDto({
           info: 'INFO-REQUEST',
@@ -48,20 +48,20 @@ export default class AppChargePix {
       }
 
       //START CREATE PIX - DEPENDENCIAS
-      const cobOnlineRepo = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
+      const onlineRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
         context: eContext.fireBase,
         bind: 'ContractBaseRepository<CobrancaPix>',
       });
 
-      const cobLocalRepo = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalPixDto>>({
-        context: this.provedor.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
-        bind: 'LocalBaseRepositoryContract<CobrancaDigitalPixDto>',
-      });
+      const localRepositoryCobrancaDigital = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalPixDto>>(
+        {
+          context: this.provedor.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+          bind: 'LocalBaseRepositoryContract<CobrancaDigitalPixDto>',
+        },
+      );
 
-      const cobrancaPixService = new CobrancaPixService(cobLocalRepo, cobOnlineRepo);
+      const cobrancaPixService = new CobrancaPixService(localRepositoryCobrancaDigital, onlineRepository);
       const processInfoOrCobrancaPix = await cobrancaPixService.execute(processInfoOrCobranca);
-
-      //ERROR
       if (processInfoOrCobrancaPix instanceof ProcessInfo) {
         const rsponseInfoDto = new ResponseInfoDto({
           info: 'INFO-REQUEST',

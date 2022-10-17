@@ -5,7 +5,7 @@ export default class CobrancaDigitalDto {
     readonly codCobrancaDigital: number,
     readonly origem: string,
     readonly codOrigem: number,
-    readonly situacao: string,
+    public situacao: string,
     readonly codCliente: number,
     readonly nomeCliente: string,
     readonly CNPJ_CPF: string,
@@ -49,7 +49,7 @@ export default class CobrancaDigitalDto {
       obj.codUsuario || obj.CodUsuario,
       obj.nomeUsuario || obj.NomeUsuario,
       obj.estacaoTrabalho || obj.EstacaoTrabalho,
-      obj.ip || obj.IP,
+      obj.ip || obj.IP || obj.Ip,
     );
   }
 }

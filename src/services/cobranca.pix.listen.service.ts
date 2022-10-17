@@ -5,8 +5,8 @@ import PagamentoPixService from './pagamento.pix.service';
 import CancelamentoPixService from './cancelamento.pix.service';
 import FirebaseCobrancaPixListenRepository from '../repository/firebase.cobranca.pix.listen.repository';
 
-import ContractBaseRepository from '../contracts/base.repository.contract';
 import PagamentoPix from '../entities/pagamento.pix';
+import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
 import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';

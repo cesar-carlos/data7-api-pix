@@ -1,4 +1,4 @@
-import { STATUS } from './../type/status';
+import { STATUS } from '../type/status';
 import { STATUS_GN } from '../dto/response.pix.detail.dto';
 
 import GerencianetPixDetailAdapter from '../adapter/gerencianet.pix.detail.adapter';

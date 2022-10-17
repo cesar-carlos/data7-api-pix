@@ -81,6 +81,18 @@ export default class LocalSybaseCobrancaDigitalRepository implements LocalBaseRe
 
     try {
       const transaction = await pool.connect();
+      //TODO: FORCE USUARIO LOGADO ENVIRONMENT
+      await transaction.request().query(`
+            BEGIN
+              CREATE VARIABLE @CodEmpresa VARCHAR(1) = '1';
+              CREATE VARIABLE @CodFilial VARCHAR(1) = '1';
+              CREATE VARIABLE @CodUsuario VARCHAR(1) = '1';
+              CREATE VARIABLE @NomeUsuario VARCHAR(30) = 'ADMINISTRADOR';
+              CREATE VARIABLE @CodEstacaoTrabalho VARCHAR(1) = '1';
+              CREATE VARIABLE @EstacaoTrabalho VARCHAR(30) = 'SERVIDOR';
+            END;
+      `);
+
       await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.codEmpresa)

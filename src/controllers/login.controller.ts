@@ -8,10 +8,13 @@ export default class LoginController {
 
   public static post(req: Request, res: Response) {
     const { email, password } = req.body;
+
     const loginConfigService = new LoginConfigService();
     const token = loginConfigService.auth(email, password);
+
     if (token === 'unauthorized') {
       res.status(401).send({ message: 'unauthorized' });
+      return;
     }
 
     res.status(200).send({ token });

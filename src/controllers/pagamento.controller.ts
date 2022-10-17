@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
 import { txid as helpTxid } from '../helper/txid.help';
+import { Request, Response } from 'express';
+
 import SituacaoGnPixService from '../services/situacao.gn.pix.service';
 
 export default class PagamentoController {

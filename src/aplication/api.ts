@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
+import path from 'path';
 
 import ApiRoute from '../route/api.router';
 
@@ -16,7 +17,7 @@ export default class Api {
     this.app.use(logger('dev'));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    //this.app.use(express.static(path.join(__dirname, '..', '..', 'www')));
+    this.app.use(express.static(path.join(__dirname, '..', '..', 'www')));
     this.app.use(ApiRoute.router);
   }
 

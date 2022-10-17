@@ -12,6 +12,10 @@ import LocalSybaseCobrancaDigitalPagamentoRepository from '../repository/local.s
 import LocalSybaseCobrancaDigitalPixRepository from '../repository/local.sybase.cobranca.digital.pix.repository';
 import LocalSybaseCobrancaDigitalTituloRepository from '../repository/local.sybase.cobranca.digital.titulo.repository';
 import LocalSybaseDatabaseOnlineRepository from '../repository/local.sybase.database.online.repository';
+import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.sql.server.item.liberacao.bloqueio.repository';
+import LocalSybaseItemLiberacaoBloqueioRepository from '../repository/local.sybase.item.liberacao.bloqueio.repository';
+import LocalSqlServerCobrancaDigitalRepository from '../repository/local.sql.server.cobranca.digital.repository';
+import LocalSybaseCobrancaDigitalRepository from '../repository/local.sybase.cobranca.digital.repository';
 
 export default class AppDependencys {
   constructor() {}
@@ -85,6 +89,30 @@ export default class AppDependencys {
       context: eContext.sybase,
       bind: 'LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>',
       instance: new LocalSybaseCobrancaDigitalPagamentoRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>',
+      instance: new LocalSqlServerItemLiberacaoBloqueioRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sybase,
+      bind: 'LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>',
+      instance: new LocalSybaseItemLiberacaoBloqueioRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
+      instance: new LocalSqlServerCobrancaDigitalRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sybase,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
+      instance: new LocalSybaseCobrancaDigitalRepository(),
     });
   }
 

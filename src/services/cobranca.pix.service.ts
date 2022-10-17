@@ -3,6 +3,7 @@ import { STATUS } from '../type/status';
 
 import Cobranca from '../entities/cobranca';
 import CobrancaPix from '../entities/cobranca.pix';
+
 import ProcessInfo from '../entities/process.info';
 import CreateGnPixService from './create.gn.pix.service';
 import CreateGnQrcodeService from './create.gn.qrcode.service';
@@ -46,7 +47,7 @@ export default class CobrancaPixService {
             sysId: cobParcela.sysId,
             txId: item.txid,
             locId: item.loc.id,
-            STATUS: STATUS.ATIVO,
+            STATUS: STATUS.AGUARDANDO,
             datacriacao: item.criacao,
             parcela: cobParcela.numeroParcela,
             valor: cobParcela.valorParcela,

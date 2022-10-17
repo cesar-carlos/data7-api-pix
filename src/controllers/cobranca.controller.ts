@@ -1,7 +1,9 @@
 import fs from 'fs';
 import util from 'util';
 
+import { STATUS } from '../type/status';
 import { Request, Response } from 'express';
+import { eContext } from '../dependency/container.dependency';
 
 import AppChargeValidDatabese from '../aplication/app.charge.valid.databese';
 import AppChargeRequestValid from '../aplication/app.charge.request.valid';
@@ -9,6 +11,13 @@ import ResponseInfoDto from '../dto/response.info.dto';
 import AppAbortCharge from '../aplication/app.abort.charge';
 import AppChargeKey from '../aplication/app.charge.key';
 import AppChargePix from '../aplication/app.charge.pix';
+import AppDependencys from '../aplication/app.dependencys';
+import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
+import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
+import ContractBaseRepository from '../contracts/base.repository.contract';
+import CobrancaPix from '../entities/cobranca.pix';
+import AppRuleStatusCharge from '../aplication/app.rule.status.charge';
+import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
 
 export default class CobrancaController {
   public static async get(req: Request, res: Response) {
@@ -77,7 +86,7 @@ export default class CobrancaController {
           }
 
           //return
-          res.header('INFO-REQUEST', 'PIX: AGUARDE CONFIRMACAO DE PAGAMENTO');
+          res.header('INFO-REQUEST', STATUS.MENSAGEM_BLOQUEIO);
           res.status(204).send();
           return;
         }
@@ -127,7 +136,7 @@ export default class CobrancaController {
         return;
       }
 
-      res.header('INFO-REQUEST', 'PIX: AGUARDE CONFIRMACAO DE PAGAMENTO');
+      res.header('INFO-REQUEST', STATUS.MENSAGEM_BLOQUEIO);
       res.status(204).send();
     } catch (error: any) {
       const err = new ResponseInfoDto({ info: 'INFO-REQUEST', message: error.message, statusCode: 500 });
@@ -136,9 +145,47 @@ export default class CobrancaController {
     }
   }
 
-  //
+  // PUT
   public static put(req: Request, res: Response) {
-    res.status(404).send({ message: 'not implemented get' });
+    const {
+      Provedor,
+      Trigger,
+      CodEmpresa,
+      CodLiberacaoBloqueio,
+      Item,
+      Origem,
+      CodOrigem,
+      ObservacaoBloqueio,
+      IdLiberacao,
+    } = req.query;
+
+    const proverdor = Provedor as string;
+    const codLiberacaoBloqueio = parseInt(CodLiberacaoBloqueio as string);
+    const idLiberacao = parseInt(IdLiberacao as string);
+
+    const localRepositoryLiberacao = AppDependencys.resolve<LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>>({
+      context: proverdor?.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>',
+    });
+
+    const localRepositoryCobranca = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalDto>>({
+      context: proverdor?.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
+    });
+
+    const onlineRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
+      context: eContext.fireBase,
+      bind: 'ContractBaseRepository<CobrancaPix>',
+    });
+
+    const appRuleStatusCharge = new AppRuleStatusCharge(
+      localRepositoryLiberacao,
+      localRepositoryCobranca,
+      onlineRepository,
+    );
+
+    appRuleStatusCharge.execute(codLiberacaoBloqueio, idLiberacao);
+    res.status(204).send();
   }
 
   //  DELETE

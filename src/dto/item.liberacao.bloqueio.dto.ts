@@ -1,7 +1,7 @@
 export default class ItemLiberacaoBloqueioDto {
   readonly codLiberacaoBloqueio: number;
   readonly item: string;
-  readonly status: string;
+  public status: string;
   readonly codRegra: number;
   readonly regra: string;
   readonly mensagemBloqueio: string;
@@ -12,7 +12,7 @@ export default class ItemLiberacaoBloqueioDto {
   readonly nomeUsuarioSolicitacao: string;
   readonly estacaoTrabalhoSolicitacao: string;
   readonly observacaoLiberacaoBloqueio: string;
-  readonly motivoRejeicaoLiberacaoBloqueio: string;
+  public motivoRejeicaoLiberacaoBloqueio: string;
 
   constructor(params: {
     codLiberacaoBloqueio: number;

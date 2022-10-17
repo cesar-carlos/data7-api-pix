@@ -10,10 +10,16 @@ export default class FirebaseCobrancaPixRepository
   implements ContractBaseRepository<CobrancaPix>
 {
   readonly collection = 'cobrancas-pix';
+  readonly cnpj = process.env.CNPJ || '';
 
   async find(sysId: string): Promise<CobrancaPix | undefined> {
     try {
-      const query = this.db.collection(this.collection).where('sysId', '==', sysId).get();
+      const query = this.db
+        .collection(this.collection)
+        .where('liberacaoKey.cnpj', '==', this.cnpj)
+        .where('sysId', '==', sysId)
+        .get();
+
       const docRef = await query;
       const data = docRef.docs.map((doc) => {
         return { ...doc.data() };
@@ -27,13 +33,28 @@ export default class FirebaseCobrancaPixRepository
     }
   }
 
-  findWhere(key: string, value: string): Promise<CobrancaPix[] | undefined> {
-    throw new Error('Method not implemented.');
+  async findWhere(key: string, value: string): Promise<CobrancaPix[] | undefined> {
+    try {
+      const query = this.db
+        .collection(this.collection)
+        .where('liberacaoKey.cnpj', '==', this.cnpj)
+        .where(key, '==', value)
+        .get();
+
+      const docRef = await query;
+      const cobrancasPix = docRef.docs.map((doc) => {
+        return this.cobrancaPixFromFirebase(doc.data());
+      });
+
+      return cobrancasPix;
+    } catch (error: any) {
+      throw new Error(error).message;
+    }
   }
 
   async findAll(): Promise<CobrancaPix[] | undefined> {
     try {
-      const query = this.db.collection(this.collection).get();
+      const query = this.db.collection(this.collection).where('liberacaoKey.cnpj', '==', this.cnpj).get();
       const docRef = await query;
       const cobrancasPix = docRef.docs.map((doc) => {
         return this.cobrancaPixFromFirebase(doc.data());
@@ -56,7 +77,12 @@ export default class FirebaseCobrancaPixRepository
 
   async update(entity: CobrancaPix): Promise<void> {
     try {
-      const query = this.db.collection(this.collection).where('sysId', '==', entity.sysId).get();
+      const query = this.db
+        .collection(this.collection)
+        .where('liberacaoKey.cnpj', '==', this.cnpj)
+        .where('sysId', '==', entity.sysId)
+        .get();
+
       const docRef = await query;
       const docsId = docRef.docs.map((doc) => {
         return doc.id;
@@ -76,7 +102,12 @@ export default class FirebaseCobrancaPixRepository
   async delete(sysId: string): Promise<void> {
     try {
       console.log('delete');
-      const query = this.db.collection(this.collection).where('ssId', '==', sysId).get();
+      const query = this.db
+        .collection(this.collection)
+        .where('liberacaoKey.cnpj', '==', this.cnpj)
+        .where('ssId', '==', sysId)
+        .get();
+
       const docRef = await query;
       const docsId = docRef.docs.map((doc) => {
         return doc.id;
@@ -90,6 +121,7 @@ export default class FirebaseCobrancaPixRepository
     }
   }
 
+  //create object CobrancaPix from firebase
   private cobrancaPixFromFirebase(data: any): CobrancaPix {
     const datacriacao = data.datacriacao._seconds ? new Date(data.datacriacao._seconds * 1000) : data.datacriacao;
 
