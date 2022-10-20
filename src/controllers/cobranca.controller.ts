@@ -33,6 +33,41 @@ export default class CobrancaController {
         fs.unlinkSync(fullPath);
         const jsonData = JSON.parse(fileData.toString());
 
+        //METHOD PUT
+        if (jsonData?.Method === 'PUT') {
+          const proverdor = jsonData.Provedor;
+          const codLiberacaoBloqueio = jsonData.Body?.CodLiberacaoBloqueio;
+          const idLiberacao = jsonData.Body?.IdLiberacao;
+
+          const localRepositoryLiberacao = AppDependencys.resolve<
+            LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>
+          >({
+            context: proverdor?.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+            bind: 'LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>',
+          });
+
+          const localRepositoryCobranca = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalDto>>({
+            context: proverdor?.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+            bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
+          });
+
+          const onlineRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
+            context: eContext.fireBase,
+            bind: 'ContractBaseRepository<CobrancaPix>',
+          });
+
+          const appRuleStatusCharge = new AppRuleStatusCharge(
+            localRepositoryLiberacao,
+            localRepositoryCobranca,
+            onlineRepository,
+          );
+
+          appRuleStatusCharge.execute(codLiberacaoBloqueio, idLiberacao);
+          res.header('INFO-REQUEST', 'REQUEST PUT OK');
+          res.status(200).send();
+          return;
+        }
+
         //METHOD DELETE
         if (jsonData?.Method === 'DELETE') {
           const appAbortCharge = new AppAbortCharge({
@@ -91,6 +126,8 @@ export default class CobrancaController {
           return;
         }
       }
+
+      res.status(204).send();
     } catch (err: any) {
       res.header('INFO-REQUEST', err.message);
       res.status(204).send();
@@ -147,17 +184,7 @@ export default class CobrancaController {
 
   // PUT
   public static put(req: Request, res: Response) {
-    const {
-      Provedor,
-      Trigger,
-      CodEmpresa,
-      CodLiberacaoBloqueio,
-      Item,
-      Origem,
-      CodOrigem,
-      ObservacaoBloqueio,
-      IdLiberacao,
-    } = req.query;
+    const { Provedor, CodLiberacaoBloqueio, IdLiberacao } = req.query;
 
     const proverdor = Provedor as string;
     const codLiberacaoBloqueio = parseInt(CodLiberacaoBloqueio as string);

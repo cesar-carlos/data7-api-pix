@@ -14,6 +14,7 @@ export default class AppRuleStatusCharge {
   ) {}
 
   async execute(codLiberacaoBloqueio: number, idLiberacao: number): Promise<void> {
+    const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
     const itensLiberacaoBloqueio = await this.localRepositoryLiberacao.selectWhere([
       { key: 'CodLiberacaoBloqueio ', value: codLiberacaoBloqueio },
     ]);
@@ -30,7 +31,7 @@ export default class AppRuleStatusCharge {
       // COBRANÇAS ONLINE NÃO ENCONTRADAS
       if (cobrancasOnLine === undefined || cobrancasOnLine.length <= 0) {
         itensLiberacaoBloqueio?.forEach(async (item) => {
-          if (item.status === 'B' && item.mensagemBloqueio.trim() === `INFO-REQUEST: ${STATUS.MENSAGEM_BLOQUEIO}`) {
+          if (item.status === 'B' && item.mensagemBloqueio.trim().replace(':', '') === `${msg}`) {
             item.status = 'R';
             item.motivoRejeicaoLiberacaoBloqueio = 'Cobrança não encontrada na base de dados online';
             await this.localRepositoryLiberacao.update(item);
@@ -88,8 +89,9 @@ export default class AppRuleStatusCharge {
     if (itensLiberacaoBloqueio === undefined) return STATUS.CANCELADO_SISTEMA;
     if (itensLiberacaoBloqueio.length <= 0) return STATUS.CANCELADO_SISTEMA;
 
+    const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
     for (const item of itensLiberacaoBloqueio) {
-      if (item.status === 'B' && item.mensagemBloqueio.trim() !== `INFO-REQUEST: ${STATUS.MENSAGEM_BLOQUEIO}`) {
+      if (item.status === 'B' && item.mensagemBloqueio.trim().replace(':', '') !== `${msg}`) {
         return STATUS.AGUARDANDO;
       }
 

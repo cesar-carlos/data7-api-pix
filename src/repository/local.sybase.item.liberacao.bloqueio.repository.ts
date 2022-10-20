@@ -29,27 +29,32 @@ export default class LocalSybaseItemLiberacaoBloqueioRepository
   }
 
   async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioDto[] | undefined> {
-    const pool = await (await this.connect.getConnection()).connect();
-    const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
-    const select = fs.readFileSync(patch).toString();
+    try {
+      const connection = await this.connect.getConnection();
+      const pool = await connection.connect();
+      const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
+      const select = fs.readFileSync(patch).toString();
 
-    const _params = params
-      .map((item: any) => {
-        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-        return `${item.key} = ${_value}`;
-      })
-      .join(' AND ');
+      const _params = params
+        .map((item: any) => {
+          const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+          return `${item.key} = ${_value}`;
+        })
+        .join(' AND ');
 
-    const sql = `${select} WHERE ${_params}`;
-    const result = await pool.request().query(sql);
-    pool.close();
+      const sql = `${select} WHERE ${_params}`;
+      const result = await pool.request().query(sql);
+      pool.close();
 
-    if (result.length === 0) return undefined;
-    const entitys = result.map((item: any) => {
-      return ItemLiberacaoBloqueioDto.fromObject(item);
-    });
+      if (result.length === 0) return undefined;
+      const entitys = result.map((item: any) => {
+        return ItemLiberacaoBloqueioDto.fromObject(item);
+      });
 
-    return entitys;
+      return entitys;
+    } catch (error: any) {
+      console.log(error);
+    }
   }
 
   async insert(entity: ItemLiberacaoBloqueioDto): Promise<void> {
