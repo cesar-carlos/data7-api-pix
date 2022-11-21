@@ -22,7 +22,9 @@ describe('registra webhook registered', () => {
   beforeEach(async () => {});
 
   test('deve registra webhook', async () => {
-    const url = env.WEBHOOK_GN_URL;
+    // const url = env.WEBHOOK_GN_URL;
+    const url = 'https://api.gerencianet.se7esistemassinop.com.br/webhook';
+
     const chaves = await chaveService.execute();
     const chaveProd = chaves.find((item) => item.status === 'producao');
     if (chaveProd && url) {

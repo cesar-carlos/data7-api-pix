@@ -5,6 +5,8 @@ describe('list webhook registered', () => {
 
   test('deve retornar chaves para gerar cobrança', async () => {
     const result = await webhook.execute();
+    console.log(result);
+
     expect(result.length).toBeGreaterThan(0);
     expect(result).not.toBeNull();
     expect(result).not.toBeUndefined();
