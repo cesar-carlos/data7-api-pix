@@ -4,7 +4,6 @@ import CobrancaPix from '../entities/cobranca.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
-import console from 'console';
 
 export default class CancelamentoPixService {
   private localRepository: LocalBaseRepositoryContract<CobrancaDigitalTituloDto>;

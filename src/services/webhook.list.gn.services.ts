@@ -8,7 +8,7 @@ export default class WebhookListGnServices {
   public async execute(): Promise<Webhook[]> {
     try {
       const startDate = new Date('2000-01-01');
-      const endDate = new Date('2060-01-31');
+      const endDate = new Date('2090-01-31');
       const page = 1;
 
       const gerencianetListWebhook = new GerencianetListWebhookAdapter();
