@@ -6,6 +6,8 @@ describe('? (ChaveGnCobrancaService)', () => {
 
   test('deve retornar chaves para gerar cobrança', async () => {
     const result = await chaveGnCobrancaService.execute();
+    //console.log(result);
+
     expect(result).not.toBeNull();
     expect(result).not.toBeUndefined();
     expect(result).not.toBe([]);

@@ -12,7 +12,7 @@ export default class ChaveProducaoService {
 
   public async execute(): Promise<ChaveDto> {
     try {
-      const url = process.env.WEBHOOK_GN_URL;
+      const url = process.env.WEBHOOK_GN_URL2;
       const chaveService = new ChaveService(this.localRepository);
       const chavesDto = await chaveService.execute();
 

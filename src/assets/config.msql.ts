@@ -1,7 +1,7 @@
 export = {
   user: 'sa',
   password: '123abc.',
-  database: 'MSCar',
+  database: 'Artemax',
   server: 'localhost',
   pool: {
     max: 10,

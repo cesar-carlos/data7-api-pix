@@ -13,6 +13,7 @@ export default class AppChargeValidDatabese {
 
   public async execute(): Promise<ResponseInfoDto> {
     const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
+
     const ActiveLocalRepo = AppDependencys.resolve<DataBaseActiveContract<DatabaseOnlineDto>>({
       context: this.provedor.toLocaleLowerCase().trim() === 'sybase' ? eContext.sybase : eContext.sql_server,
       bind: 'DataBaseActiveContract<DatabaseOnlineDto>',
