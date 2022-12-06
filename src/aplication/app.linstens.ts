@@ -20,26 +20,26 @@ export default class AppLinstens {
   private async listenCobrancaPix() {
     const locaDataBase = process.env.DATABASE || '';
     const firebaseCobrancaPixRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
-      context: eContext.fireBase,
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'ContractBaseRepository<CobrancaPix>',
     });
 
     const firebasePagamentoPixRepository = AppDependencys.resolve<ContractBaseRepository<PagamentoPix>>({
-      context: eContext.fireBase,
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'ContractBaseRepository<PagamentoPix>',
     });
 
     const localCobrancaDigitalTituloRepository = AppDependencys.resolve<
       LocalBaseRepositoryContract<CobrancaDigitalTituloDto>
     >({
-      context: locaDataBase.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<CobrancaDigitalTituloDto>',
     });
 
     const localCobrancaDigitalPagamentoRepository = AppDependencys.resolve<
       LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>
     >({
-      context: locaDataBase.toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>',
     });
 

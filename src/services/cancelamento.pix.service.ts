@@ -22,7 +22,7 @@ export default class CancelamentoPixService {
     if (params.status === 'CC') {
       const titulos = await this.localRepository.selectWhere([{ key: 'SysId ', value: params.sysId }]);
       titulos?.forEach(async (titulo) => {
-        const upTitulo = new CobrancaDigitalTituloDto({
+        const item = new CobrancaDigitalTituloDto({
           codEmpresa: titulo.codEmpresa,
           codCobrancaDigital: titulo.codCobrancaDigital,
           item: titulo.item,
@@ -41,7 +41,7 @@ export default class CancelamentoPixService {
           observacao: titulo.observacao,
         });
 
-        await this.localRepository.update(upTitulo);
+        await this.localRepository.update(item);
       });
     }
 
@@ -50,7 +50,7 @@ export default class CancelamentoPixService {
       const titulo = await this.onlineRepository.find(params.sysId);
 
       if (titulo) {
-        if (titulo.STATUS === STATUS.ATIVO) {
+        if (titulo.STATUS === STATUS.ATIVO || titulo.STATUS === STATUS.AGUARDANDO) {
           titulo.STATUS = STATUS.CANCELADO_SISTEMA;
           await this.onlineRepository.update(titulo);
         }

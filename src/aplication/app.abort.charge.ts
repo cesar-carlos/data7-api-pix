@@ -9,27 +9,25 @@ import CobrancaPix from '../entities/cobranca.pix';
 
 export default class AppAbortCharge {
   private sysId: string;
-  private provedor: string;
   private requerente: string; //'CS: CANCELADO-SISTEMA' | CC: 'CANCELADO-CLIENTE' | PG:'PAGAMENTO-CLIENTE'
 
-  constructor(params: { sysId: string; provedor: string; requerente: string }) {
+  constructor(params: { sysId: string; requerente: string }) {
     this.sysId = params.sysId;
-    this.provedor = params.provedor;
     this.requerente = params.requerente;
   }
 
   public async execute() {
     const localRepository = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalTituloDto>>({
-      context: (this.provedor as string).toLocaleLowerCase() === 'sybase' ? eContext.sybase : eContext.sql_server,
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<CobrancaDigitalTituloDto>',
     });
 
     const onlineRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
-      context: eContext.fireBase,
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'ContractBaseRepository<CobrancaPix>',
     });
 
     const cancelamentoPixService = new CancelamentoPixService(localRepository, onlineRepository);
-    cancelamentoPixService.execute({ sysId: this.sysId, status: 'CS' });
+    cancelamentoPixService.execute({ sysId: this.sysId, status: this.requerente });
   }
 }

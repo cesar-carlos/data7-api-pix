@@ -3,7 +3,6 @@ SELECT
 	SysId,
 	Sequencia,
 	TxId,
-	LocId,
 	DataCriacao,
 	DataExpiracao,
 	QrCode,

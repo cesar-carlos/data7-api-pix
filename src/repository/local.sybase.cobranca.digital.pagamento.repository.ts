@@ -43,7 +43,8 @@ export default class LocalSybaseCobrancaDigitalPagamentoRepository
       const _params = params
         .map((item: any) => {
           const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-          return `${item.key} = ${_value}`;
+          const _operator = item.operator ? item.operator : '=';
+          return `${item.key} ${_operator} ${_value}`;
         })
         .join(' AND ');
 

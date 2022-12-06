@@ -6,5 +6,5 @@
   },
   "code-runner.executorMap": {
     "typescript": "clear && npx ts-node --files --transpile-only",
-  }
+  },
 }

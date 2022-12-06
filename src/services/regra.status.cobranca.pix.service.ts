@@ -6,7 +6,7 @@ import ContractBaseRepository from '../contracts/base.repository.contract';
 import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
 import CobrancaPix from '../entities/cobranca.pix';
 
-export default class AppRuleStatusCharge {
+export default class RegraStatusCobrancaPixService {
   constructor(
     private localRepositoryLiberacao: LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>,
     private localRepositoryCobranca: LocalBaseRepositoryContract<CobrancaDigitalDto>,
@@ -15,23 +15,22 @@ export default class AppRuleStatusCharge {
 
   async execute(codLiberacaoBloqueio: number, idLiberacao: number): Promise<void> {
     const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
+
     const itensLiberacaoBloqueio = await this.localRepositoryLiberacao.selectWhere([
       { key: 'CodLiberacaoBloqueio ', value: codLiberacaoBloqueio },
     ]);
 
     const status = this.rule(itensLiberacaoBloqueio);
 
-    // ATUALIZA STATUS DA COBRANCA DIGITAL ATIVO
     if (status === STATUS.ATIVO) {
       const cobrancasOnLine = await this.onlineRepositoryCobranca.findWhere(
         'liberacaoKey.idLiberacao',
         idLiberacao.toString(),
       );
 
-      // COBRANÇAS ONLINE NÃO ENCONTRADAS
       if (cobrancasOnLine === undefined || cobrancasOnLine.length <= 0) {
         itensLiberacaoBloqueio?.forEach(async (item) => {
-          if (item.status === 'B' && item.mensagemBloqueio.trim().replace(':', '') === `${msg}`) {
+          if (item.status === 'B' && item.mensagemBloqueio?.trim().replace(':', '') === `${msg}`) {
             item.status = 'R';
             item.motivoRejeicaoLiberacaoBloqueio = 'Cobrança não encontrada na base de dados online';
             await this.localRepositoryLiberacao.update(item);
@@ -39,7 +38,6 @@ export default class AppRuleStatusCharge {
         });
       }
 
-      //ATIVA COBRANCA PIX ONLINE
       cobrancasOnLine?.forEach(async (cobranca) => {
         if (cobranca.STATUS === STATUS.AGUARDANDO) {
           cobranca.STATUS = STATUS.ATIVO;
@@ -48,8 +46,7 @@ export default class AppRuleStatusCharge {
       });
     }
 
-    //
-    // ATUALIZA STATUS DA COBRANCA DIGITAL
+    ///* */
     if (status === STATUS.CANCELADO_SISTEMA) {
       const cobrancasOnLine = await this.onlineRepositoryCobranca.findWhere(
         'liberacaoKey.idLiberacao',
@@ -75,7 +72,7 @@ export default class AppRuleStatusCharge {
       });
 
       itensLiberacaoBloqueio?.forEach(async (item) => {
-        if (item.status === 'B' && item.mensagemBloqueio.trim() === `INFO-REQUEST: ${STATUS.MENSAGEM_BLOQUEIO}`) {
+        if (item.status === 'B' && item.mensagemBloqueio?.trim() === `INFO-REQUEST: ${STATUS.MENSAGEM_BLOQUEIO}`) {
           item.status = 'R';
           item.motivoRejeicaoLiberacaoBloqueio = 'Cobrança não encontrada na base de dados online';
           await this.localRepositoryLiberacao.update(item);
@@ -84,14 +81,14 @@ export default class AppRuleStatusCharge {
     }
   }
 
-  // REGRA
+  ///* RULE */
   private rule(itensLiberacaoBloqueio?: ItemLiberacaoBloqueioDto[]): STATUS {
     if (itensLiberacaoBloqueio === undefined) return STATUS.CANCELADO_SISTEMA;
     if (itensLiberacaoBloqueio.length <= 0) return STATUS.CANCELADO_SISTEMA;
 
     const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
     for (const item of itensLiberacaoBloqueio) {
-      if (item.status === 'B' && item.mensagemBloqueio.trim().replace(':', '') !== `${msg}`) {
+      if (item.status === 'B' && item.mensagemBloqueio?.trim().replace(':', '') !== `${msg}`) {
         return STATUS.AGUARDANDO;
       }
 

@@ -101,11 +101,10 @@ export default class FirebaseCobrancaPixRepository
 
   async delete(sysId: string): Promise<void> {
     try {
-      console.log('delete');
       const query = this.db
         .collection(this.collection)
         .where('liberacaoKey.cnpj', '==', this.cnpj)
-        .where('ssId', '==', sysId)
+        .where('sysId', '==', sysId)
         .get();
 
       const docRef = await query;
@@ -141,7 +140,6 @@ export default class FirebaseCobrancaPixRepository
     const cobrancaPix = new CobrancaPix({
       sysId: data.sysId,
       txId: data.txId,
-      locId: data.locId,
       STATUS: data.STATUS,
       datacriacao: datacriacao,
       parcela: data.parcela,

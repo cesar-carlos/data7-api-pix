@@ -1,9 +1,9 @@
+import { STATUS } from '../type/status';
 import PagamentoAdicionais from './pagamento.adicionais';
-import PagamentoLoc from './pagamento.loc';
 
 export type devedor = {
-  cpf: string;
-  nome: string;
+  cnpj_cpf?: string;
+  nome?: string;
 };
 
 export default class PagamentoPendente {
@@ -11,13 +11,14 @@ export default class PagamentoPendente {
     readonly txid: string,
     readonly sysId: string,
     readonly chave: string,
-    readonly status: string,
+    readonly status: STATUS,
     readonly devedor: devedor,
     readonly criacao: Date,
     readonly expiracao: Date,
-    readonly valor: string,
+    readonly valor: number,
     readonly solicitacaoPagador: string,
-    readonly loc: PagamentoLoc,
     readonly adicionais?: PagamentoAdicionais[],
+    readonly qrcode?: string,
+    readonly imagemQrcode?: string,
   ) {}
 }

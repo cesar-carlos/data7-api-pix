@@ -1,7 +1,9 @@
 export enum eContext {
   sql_server = 'sql_server',
   sybase = 'sybase',
-  fireBase = 'fireBase',
+  firebase = 'firebase',
+  sicredi = 'sicredi',
+  gerencianet = 'gerencianet',
 }
 
 export interface Depedecy<T> {

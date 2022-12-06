@@ -39,7 +39,8 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
       const _params = params
         .map((item: any) => {
           const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-          return `${item.key} = ${_value}`;
+          const _operator = item.operator ? item.operator : '=';
+          return `${item.key} ${_operator} ${_value}`;
         })
         .join(' AND ');
 
@@ -95,7 +96,6 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
         .input('SysId', sql.VarChar(500), entity.sysId)
         .input('Sequencia', sql.Int, entity.sequencia)
         .input('TxId', sql.VarChar(100), entity.txId)
-        .input('locId', sql.VarChar(100), entity.locId)
         .input('DataCriacao', sql.Date, entity.dataCriacao)
         .input('DataExpiracao', sql.Date, entity.dataExpiracao)
         .input('QrCode', sql.VarChar(1000), entity.qrCode)

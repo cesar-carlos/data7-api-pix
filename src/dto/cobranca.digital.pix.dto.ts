@@ -2,7 +2,6 @@ export default class CobrancaDigitalPixDto {
   readonly sysId: string;
   readonly sequencia: number;
   readonly txId: string;
-  readonly locId: string;
   readonly dataCriacao: Date;
   readonly dataExpiracao: Date;
   readonly qrCode: string;
@@ -13,7 +12,6 @@ export default class CobrancaDigitalPixDto {
     sysId: string;
     sequencia: number;
     txId: string;
-    locId: string;
     dataCriacao: Date;
     dataExpiracao: Date;
     qrCode: string;
@@ -23,7 +21,6 @@ export default class CobrancaDigitalPixDto {
     this.sysId = params.sysId;
     this.sequencia = params.sequencia;
     this.txId = params.txId;
-    this.locId = params.locId;
     this.dataCriacao = params.dataCriacao;
     this.dataExpiracao = params.dataExpiracao;
     this.qrCode = params.qrCode;
@@ -35,7 +32,6 @@ export default class CobrancaDigitalPixDto {
     sysId: string;
     sequencia: number;
     txId: string;
-    locId: string;
     dataCriacao: Date;
     dataExpiracao: Date;
     qrCode: string;
@@ -50,7 +46,6 @@ export default class CobrancaDigitalPixDto {
       sysId: object.sysId || object.SysId,
       sequencia: object.sequencia || object.Sequencia,
       txId: object.txId || object.TxId,
-      locId: object.locId || object.LocId,
       dataCriacao: object.dataCriacao || object.DataCriacao,
       dataExpiracao: object.dataExpiracao || object.DataExpiracao,
       qrCode: object.qrCode || object.QrCode,

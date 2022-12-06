@@ -1,4 +1,4 @@
-export default class ResponseInfoDto {
+export default class ResponseInfoDTO {
   readonly info: string;
   readonly message: string;
   readonly statusCode: number;

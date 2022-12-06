@@ -16,13 +16,15 @@ import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/local.s
 import LocalSybaseItemLiberacaoBloqueioRepository from '../repository/local.sybase.item.liberacao.bloqueio.repository';
 import LocalSqlServerCobrancaDigitalRepository from '../repository/local.sql.server.cobranca.digital.repository';
 import LocalSybaseCobrancaDigitalRepository from '../repository/local.sybase.cobranca.digital.repository';
+import GerencianetCreatePixAdapter from '../adapter/gerencianet.create.pix.adapter';
+import SicrediCreatePixAdapter from '../adapter/sicredi.create.pix.adapter';
 
 export default class AppDependencys {
   constructor() {}
 
   public static load() {
     ContainerDependency.instance.register({
-      context: eContext.fireBase,
+      context: eContext.firebase,
       bind: 'DataBaseActiveContract<DatabaseOnlineDto>',
       instance: new FirebaseDatabaseOnlineRepository(),
     });
@@ -41,13 +43,13 @@ export default class AppDependencys {
 
     //
     ContainerDependency.instance.register({
-      context: eContext.fireBase,
+      context: eContext.firebase,
       bind: 'ContractBaseRepository<CobrancaPix>',
       instance: new FirebaseCobrancaPixRepository(),
     });
 
     ContainerDependency.instance.register({
-      context: eContext.fireBase,
+      context: eContext.firebase,
       bind: 'ContractBaseRepository<PagamentoPix>',
       instance: new FirebasePagamentoPixRepository(),
     });
@@ -113,6 +115,18 @@ export default class AppDependencys {
       context: eContext.sybase,
       bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
       instance: new LocalSybaseCobrancaDigitalRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.gerencianet,
+      bind: 'CreatePixApiContract',
+      instance: new GerencianetCreatePixAdapter(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sicredi,
+      bind: 'CreatePixApiContract',
+      instance: new SicrediCreatePixAdapter(),
     });
   }
 

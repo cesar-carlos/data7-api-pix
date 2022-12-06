@@ -1,0 +1,69 @@
+[
+  {
+    "DataBase": {
+      "Provedor": "SQL-SERVER",
+      "Usuario": "sa",
+      "Senha": "123abc.",
+      "Servidor": "LOCALHOST",
+      "Base": "Artemax",
+      "Porta": 1433
+    },
+    "Filial": {
+      "CodEmpresa": 1,
+      "CodFilial": 1,
+      "Nome": "ARTEMAX INDUSTRIA E COMERCIO DE FERRAGENS E FERRAMENTAS LTDA",
+      "CNPJ": "37334872000104"
+    },
+    "Usuario": {
+      "CodUsuario": 1,
+      "NomeUsuario": "Administrador",
+      "EstacaoTrabalho": "CESAR",
+      "IP": "127.0.0.1"
+    },
+    "Cliente": {
+      "CodEmpresa": 1,
+      "CodFilial": 1,
+      "CodCobrancaDigital": 30603424,
+      "CodCliente": 40,
+      "NomeCliente": "164 MADEIRAS LTDA",
+      "CNPJ_CPF": "01.878.115/0001-46",
+      "Telefone": "(66) 3531-2942/ (66) 3531-2942",
+      "EMail": "WINTERC@TERRA.COM.BR",
+      "Endereco": "R DIRSON JOSE MARTINI",
+      "Numero": "916",
+      "Complemento": "********",
+      "Bairro": "SETOR INDUSTRIAL",
+      "CEP": "78.557-524",
+      "CodigoIBGE": "5107909",
+      "NomeMunicipio": "SINOP",
+      "UF": "MT"
+    },
+    "Parcelas": [
+      {
+        "SysId": "30603424.11.37334872000104.20221130110443.OB.18198-001",
+        "Origem": "OB",
+        "CodOrigem": 18198,
+        "LiberacaoKey": {
+          "CodEmpresa": 1,
+          "CodFilial": 1,
+          "CNPJ": "37334872000104",
+          "IdLiberacao": "30603424",
+          "Origem": "OB",
+          "CodOrigem": 18198,
+          "Item": "001",
+          "nomeUsuario": "Administrador",
+          "estacaoTrabalho": "CESAR",
+          "IP": "127.0.0.1"
+        },
+        "NumeroParcela": "001",
+        "QtdParcela": "1",
+        "TipoCobranca": "PIX",
+        "DataEmissao": "2022/11/30",
+        "DataVenda": "2022/11/30",
+        "DataVencimento": "2022/11/30",
+        "ValorParcela": 0.25,
+        "Observacao": "SOLICITACAO DO PAGADOR"
+      }
+    ]
+  }
+]

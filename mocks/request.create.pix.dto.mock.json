@@ -1,0 +1,11 @@
+{
+  "sysId": "7905646.11.08899540000160.20220921184946.OB.118621-001",
+  "params": { "txid": "5fa72e42b4a14c71a18dbd8637332fd7" },
+  "calendario": {"expiracao": 3600 },
+  "devedor": { "cnpj_cpf": "00000000000", "nome": "SE7E SISTEMAS" },
+  "valor": { "original": "0.10" },
+  "solicitacaoPagador": "TESTE DE SISTEMA",
+  "infoAdicionais":  [
+      { "nome": "sysId", "valor": "7905646.11.08899540000160.20220921184946.OB.118621-001" }
+    ]
+}

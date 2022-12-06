@@ -13,23 +13,20 @@ export default class DatabaseStatusService {
         const databaseOnline = await repository.getDataBaseInfo();
 
         if (typeof databaseOnline === 'string') {
-          const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
           const info = new ProcessInfo(
-            infoStatusErro,
-            `Nao foi possivel obter informacoes da base de dados. ${databaseOnline}`,
-            `Nao foi possivel obter informacoes da base de dados. ${databaseOnline}`,
+            { status: 'error' },
+            `(database status service). Nao foi possivel obter informacoes da base de dados. ${databaseOnline}`,
+            `${databaseOnline}`,
           );
 
           return info;
         }
       }
 
-      const infoStatusErro: ProcessInfoStatusType = { status: 'success' };
-      const info = new ProcessInfo(infoStatusErro, 'Base de dados online.');
+      const info = new ProcessInfo({ status: 'success' }, 'Base de dados online.');
       return info;
     } catch (error: any) {
-      const infoStatusErro: ProcessInfoStatusType = { status: 'error' };
-      return new ProcessInfo(infoStatusErro, 'CreateGnQrcodeService', error.message);
+      return new ProcessInfo({ status: 'error' }, 'CreateGnQrcodeService', error.message);
     }
   }
 }

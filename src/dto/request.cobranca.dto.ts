@@ -66,8 +66,7 @@ export type Parcelas = {
   Observacao: string;
 };
 
-export type requestCobrancaDto = {
-  CobSysId: string;
+export type requestCobrancaDTO = {
   DataBase: DataBase;
   Filial: Filial;
   Usuario: Usuario;

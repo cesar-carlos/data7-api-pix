@@ -16,13 +16,12 @@ export type infoAdicionais = {
   valor: string;
 };
 
-export type requestCreatePixDto = {
+export type requestCreatePixDTO = {
   sysId: string;
   params: params;
   calendario: { expiracao: number };
   devedor: devedor;
   valor: valor;
-  chave: string;
   solicitacaoPagador: string;
   infoAdicionais: infoAdicionais[];
 };

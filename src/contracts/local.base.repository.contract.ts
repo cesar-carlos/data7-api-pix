@@ -1,6 +1,7 @@
 export type param<P> = {
   key: string;
   value: P;
+  operator: string;
 };
 
 export abstract class params {
@@ -8,6 +9,7 @@ export abstract class params {
     return {
       key,
       value,
+      operator: '=',
     };
   }
 }

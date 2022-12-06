@@ -1,21 +1,37 @@
+import dotenv from 'dotenv';
+
 import { eContext } from '../../../src/dependency/container.dependency';
 
-import App from '../../../src/aplication/app';
+import AppFirebase from '../../../src/aplication/app.firebase';
 import AppDependencys from '../../../src/aplication/app.dependencys';
-import DataBaseActiveContract from '../../../src/contracts/data.base.active.contract';
 import DatabaseOnlineDto from '../../../src/dto/database.online.dto';
+import DataBaseActiveContract from '../../../src/contracts/data.base.active.contract';
 
-describe('DEPENDENCY ()', () => {
-  it('deve verificar dependencias', async () => {
-    const app = new App();
+describe('DEPENDENCY', () => {
+  dotenv.config();
+  AppFirebase.load();
+  AppDependencys.load();
 
+  it('deve verificar dependencias base de dados online', async () => {
+    const onLineData = process.env.ONLINE_DATABASE || '';
     const dep = AppDependencys.resolve<DataBaseActiveContract<DatabaseOnlineDto>>({
-      context: eContext.fireBase,
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'DataBaseActiveContract<DatabaseOnlineDto>',
     });
 
-    const result = await dep.getDataBaseInfo();
-    console.log(result);
+    const databaseOnlineDto = (await dep.getDataBaseInfo()) as DatabaseOnlineDto;
+    expect(databaseOnlineDto.base.toLocaleLowerCase()).toBe(onLineData.toLocaleLowerCase());
+  });
+
+  it('deve verificar dependencias base de dados local', async () => {
+    const localData = process.env.LOCAL_DATABASE || '';
+    const dep = AppDependencys.resolve<DataBaseActiveContract<DatabaseOnlineDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'DataBaseActiveContract<DatabaseOnlineDto>',
+    });
+
+    const databaseOnlineDto = (await dep.getDataBaseInfo()) as DatabaseOnlineDto;
+    expect(databaseOnlineDto.base.toLocaleLowerCase()).toBe(localData.toLocaleLowerCase());
   });
 });
 

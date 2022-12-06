@@ -3,7 +3,7 @@ import { responseListLocDto } from '../dto/response.list.loc.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetListLocAdapter extends GerencianetBase {
-  async execute(startDate: Date, endDate: Date, page: number = 1): Promise<responseListLocDto> {
+  async execute(startDate: Date, endDate: Date, page: number): Promise<responseListLocDto> {
     try {
       const dataInicio = startDate.toISOString();
       const dataFim = endDate.toISOString();

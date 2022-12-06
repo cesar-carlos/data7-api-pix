@@ -1,6 +1,5 @@
 UPDATE integracao.CobrancaDigitalPix SET
 	TxId = @TxId,
-	LocId = @LocId,
 	DataCriacao = @DataCriacao,
 	DataExpiracao = @DataExpiracao,
 	QrCode = @QrCode,

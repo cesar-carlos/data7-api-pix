@@ -47,7 +47,6 @@ export default class FirebaseCobrancaPixListenRepository extends FirebaseBaseRep
     const cobrancaPix = new CobrancaPix({
       sysId: data.sysId,
       txId: data.txId,
-      locId: data.locId,
       STATUS: data.STATUS,
       datacriacao: datacriacao,
       parcela: data.parcela,

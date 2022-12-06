@@ -15,7 +15,6 @@ export default class LocalSybaseDatabaseOnlineRepository<DatabaseOnlineDto>
       const connection = await this.connect.getConnection();
       const pool = await connection.connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'local.database.online.select.sql');
-
       const sql = fs.readFileSync(patch).toString();
       const result = await pool.request().query(sql);
       pool.close();

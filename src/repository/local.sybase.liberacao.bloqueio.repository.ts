@@ -149,8 +149,9 @@ export default class LocalSybaseLiberacaoBloqueioRepository
   private buildParams(params: params[]): string {
     return params
       .map((item: any) => {
-        const value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-        return `${item.key} = ${value}`;
+        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+        const _operator = item.operator ? item.operator : '=';
+        return `${item.key} ${_operator} ${_value}`;
       })
       .join(' AND ');
   }
