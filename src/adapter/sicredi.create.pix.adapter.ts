@@ -46,22 +46,23 @@ export default class SicrediCreatePixAdapter extends SicrediBase implements Crea
   }
 
   private requestData(request: requestCreatePixDTO): DadosCobranca {
-    if (request.devedor.cnpj_cpf.length === 11 && request.devedor.cnpj_cpf !== '00000000000') {
+    const cnpj_cpf = request.devedor.cnpj_cpf.replace(/\D/g, '');
+    if (cnpj_cpf.length === 11 && cnpj_cpf !== '00000000000') {
       return {
         tx_id: request.params.txid,
         expiracao: request.calendario.expiracao,
-        devedor: { cpf: request.devedor.cnpj_cpf, nome: request.devedor.nome },
+        devedor: { cpf: cnpj_cpf, nome: request.devedor.nome },
         valor: request.valor.original,
         solicitacaoPagador: request.solicitacaoPagador,
         infoAdicionais: request.infoAdicionais,
       };
     }
 
-    if (request.devedor.cnpj_cpf.length === 14) {
+    if (cnpj_cpf.length === 14) {
       return {
         tx_id: request.params.txid,
         expiracao: request.calendario.expiracao,
-        devedor: { cnpj: request.devedor.cnpj_cpf, nome: request.devedor.nome },
+        devedor: { cnpj: cnpj_cpf, nome: request.devedor.nome },
         valor: request.valor.original,
         solicitacaoPagador: request.solicitacaoPagador,
         infoAdicionais: request.infoAdicionais,
