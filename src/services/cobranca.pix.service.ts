@@ -38,7 +38,7 @@ export default class CobrancaPixService {
         const localData = new CobrancaDigitalPixDto({
           sysId: parcela.sysId,
           sequencia: i + 1,
-          txId: result.txid,
+          txId: result.txId,
           dataCriacao: result.criacao,
           dataExpiracao: result.expiracao,
           qrCode: result.qrcode || '',
@@ -48,7 +48,7 @@ export default class CobrancaPixService {
 
         const onlineData = new CobrancaPix({
           sysId: parcela.sysId,
-          txId: result.txid,
+          txId: result.txId,
           STATUS: STATUS.AGUARDANDO,
           datacriacao: result.criacao,
           parcela: parcela.numeroParcela,
@@ -67,6 +67,7 @@ export default class CobrancaPixService {
 
       return new ProcessInfo({ status: 'success' }, '', '');
     } catch (error: any) {
+      console.log(error);
       return new ProcessInfo({ status: 'error' }, error.message);
     }
   }

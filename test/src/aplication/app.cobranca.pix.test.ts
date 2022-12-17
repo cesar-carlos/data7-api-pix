@@ -18,7 +18,6 @@ describe('criar cobrança', () => {
   it('deve criar um pix ', async () => {
     const mock = requestCobrancaDtoMock;
     const requestCobrancas: requestCobrancaDTO[] = [mock];
-
     const result = await appCobrancaPix.execute(requestCobrancas);
     expect(result).toBeInstanceOf(ProcessInfo);
     expect(result.process.status).toBe('success');

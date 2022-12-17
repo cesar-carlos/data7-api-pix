@@ -58,7 +58,6 @@ describe('processo de criar cobrança', () => {
 
       await localData.delete(item);
       await onlineData.delete(parcela.sysId);
-      //7909893.11.08899540000160.20220923162930.OB.118581-002
     }
   });
 

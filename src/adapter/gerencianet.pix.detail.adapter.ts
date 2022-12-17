@@ -1,16 +1,16 @@
-import { responsePixDetailDto } from '../dto/response.pix.detail.dto';
-
+import AppAlert from '../entities/app.alert';
 import GerencianetBase from './gerencianet.base';
-
-export default class GerencianetPixDetailAdapter extends GerencianetBase {
-  public async execute(txid: string): Promise<responsePixDetailDto> {
+import PagamentoSituacao from '../entities/pagamento.situacao';
+import SituacaoPixContract from '../contracts/situacao.pix.contract';
+export default class GerencianetPixDetailAdapter extends GerencianetBase implements SituacaoPixContract {
+  public async execute(txid: string): Promise<PagamentoSituacao | AppAlert> {
     try {
-      const params = txid;
+      const params = { txid };
       const response = await this.gerencianet.pixDetailCharge(params);
-      const result = response as responsePixDetailDto;
-      return result;
+
+      return new AppAlert('alert', 'message', 'details');
     } catch (error: any) {
-      throw new Error(error.mensagem);
+      return new AppAlert('alert', error.mensagem, error.detalhes);
     }
   }
 }

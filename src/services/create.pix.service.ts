@@ -30,21 +30,22 @@ export default class CreatePixService {
         infoAdicionais: adicionais,
       });
 
-      const output = new PagamentoPendente(
-        result.txid,
-        result.sysId,
-        result.chave,
-        result.status,
-        result.devedor,
-        result.calendario.criacao,
-        moment(result.calendario.criacao).add(result.calendario.expiracao, 'minute').toDate(),
-        Number.parseFloat(result.valor.original),
-        result.solicitacaoPagador,
-        result.infoAdicionais,
-        result.qrcode,
-        result.imagemQrcode,
-      );
+      const params = {
+        sysId: result.sysId,
+        chave: result.chave,
+        txId: result.txid,
+        status: result.status,
+        devedor: result.devedor,
+        criacao: result.calendario.criacao,
+        expiracao: moment(result.calendario.criacao).add(result.calendario.expiracao, 'minute').toDate(),
+        valor: Number.parseFloat(result.valor.original),
+        solicitacaoPagador: result.solicitacaoPagador,
+        adicionais: result.infoAdicionais,
+        qrcode: result.qrcode,
+        imagemQrcode: result.imagemQrcode,
+      };
 
+      const output = new PagamentoPendente(params);
       return output;
     } catch (error: any) {
       return new ProcessInfo({ status: 'error' }, error.message);

@@ -49,7 +49,7 @@ export default class AppCobrancaPix {
     bind: 'ContractBaseRepository<CobrancaPix>',
   });
 
-  private apiPix = AppDependencys.resolve<CreatePixApiContract>({
+  private appDependencys = AppDependencys.resolve<CreatePixApiContract>({
     context: this.api.toLocaleLowerCase(),
     bind: 'CreatePixApiContract',
   });
@@ -59,13 +59,14 @@ export default class AppCobrancaPix {
   /// </summary>
   public async execute(input: requestCobrancaDTO[]): Promise<ProcessInfo> {
     try {
+      //TODO: Validar se a cobrança
       const info = this.cobrancaPixValidar.execute(input);
       if (info.process.status === 'error') return info;
 
       const cobrancaPixService = new CobrancaPixService(
         this.localRepositoryCobrancaDigitalPix,
         this.onlineRepository,
-        new CreatePixService(this.apiPix),
+        new CreatePixService(this.appDependencys),
       );
 
       const appChargeValidDatabese = new AppTestDatabeses();
@@ -152,7 +153,7 @@ export default class AppCobrancaPix {
         }
 
         /// <summary>
-        /// ATIVAR COBRANÇA PARA PAGAMENTO
+        /// ATIVA COBRANÇA PARA PAGAMENTO
         /// </summary>
         setTimeout(() => {
           this.localRepositoryItemLiberacaoBloqueio.selectWhere([{ key: 'Status', value: 'B' }]).then((bloqueios) => {

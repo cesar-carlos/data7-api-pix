@@ -101,6 +101,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "exclude": [
+    "mocks",
     "node_modules",
     "dist",
     "test",
@@ -109,5 +110,5 @@
     "**/*.spec.ts",
     "**/*.test.ts",
     "jest.config.js"
-  ]
+  ],
 }
