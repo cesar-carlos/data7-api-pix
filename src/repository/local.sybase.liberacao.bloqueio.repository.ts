@@ -6,15 +6,15 @@ import { ConnectionSybase } from '../infra/connection.sybase';
 
 import LiberacaoBloqueioDto from '../dto/liberacao.bloqueio.dto';
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
-import LocalSqlServerItemLiberacaoBloqueioRepository from './local.sql.server.item.liberacao.bloqueio.repository';
-import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from './local.sql.server.item.liberacao.bloqueio.situacao.repository';
+import LocalSybaseItemLiberacaoBloqueioRepository from './local.sybase.item.liberacao.bloqueio.repository';
+import LocalSybaseIItemLiberacaoBloqueioSituacaoRepository from './local.sybase.item.liberacao.bloqueio.situacao.repository';
 
 export default class LocalSybaseLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<LiberacaoBloqueioDto>
 {
   private connect = new ConnectionSybase();
-  private itemLiberacaoBloqueioRepository = new LocalSqlServerItemLiberacaoBloqueioRepository();
-  private itemLiberacaoBloqueioSituacaoRepository = new LocalSqlServerItemLiberacaoBloqueioSituacaoRepository();
+  private itemLiberacaoBloqueioRepository = new LocalSybaseItemLiberacaoBloqueioRepository();
+  private itemLiberacaoBloqueioSituacaoRepository = new LocalSybaseIItemLiberacaoBloqueioSituacaoRepository();
 
   public async select(): Promise<LiberacaoBloqueioDto[] | undefined> {
     const pool = await (await this.connect.getConnection()).connect();
@@ -55,7 +55,6 @@ export default class LocalSybaseLiberacaoBloqueioRepository
   public async selectWhere(params: params[]): Promise<LiberacaoBloqueioDto[] | undefined> {
     const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'liberacao.bloqueio.select.sql');
-
     const select = fs.readFileSync(patch).toString();
     const _params = this.buildParams(params);
     const sql = `${select} WHERE ${_params}`;

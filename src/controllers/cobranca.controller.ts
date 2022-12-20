@@ -15,6 +15,7 @@ export default class CobrancaController {
       const path = req.headers.local_path as string;
       const appCobrancaAutoBuild = new AppCobrancaAutoBuild();
       const result = await appCobrancaAutoBuild.execute(path);
+
       res.header('INFO-REQUEST', result.result);
       res.status(204).send();
     } catch (err: any) {

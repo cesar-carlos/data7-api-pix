@@ -1,24 +1,24 @@
 import dotenv from 'dotenv';
 import LiberacaoBloqueioDto from '../../../src/dto/liberacao.bloqueio.dto';
-import LocalSqlServerLiberacaoBloqueioRepository from '../../../src/repository/local.sql.server.liberacao.bloqueio.repository';
+import LocalSybaseLiberacaoBloqueioRepository from '../../../src/repository/local.sybase.liberacao.bloqueio.repository';
 
-describe('CRUD (LiberacaoBloqueio sql server)', () => {
-  const repository = new LocalSqlServerLiberacaoBloqueioRepository();
+describe('CRUD (LiberacaoBloqueio sybase)', () => {
+  const repository = new LocalSybaseLiberacaoBloqueioRepository();
 
   const newEntity = new LiberacaoBloqueioDto({
     codEmpresa: 1,
     codFilial: 1,
-    codLiberacaoBloqueio: 999999999,
+    codLiberacaoBloqueio: 999999,
     origem: 'DM',
     codOrigem: 1,
-    codCliente: 2,
+    codCliente: 15,
     dataHoraBloqueio: new Date(),
     codUsuarioBloqueio: 1,
     nomeUsuarioBloqueio: 'nomeUsuario',
     estacaoTrabalhoBloqueio: 'estacaoTrabalho',
     itemLiberacaoBloqueio: [
       {
-        codLiberacaoBloqueio: 999999999,
+        codLiberacaoBloqueio: 999999,
         item: '001',
         status: 'B',
         codRegra: 1,
@@ -39,17 +39,17 @@ describe('CRUD (LiberacaoBloqueio sql server)', () => {
   const upEntity = new LiberacaoBloqueioDto({
     codEmpresa: 1,
     codFilial: 1,
-    codLiberacaoBloqueio: 999999999,
+    codLiberacaoBloqueio: 999999,
     origem: 'DM',
     codOrigem: 1,
-    codCliente: 2,
+    codCliente: 15,
     dataHoraBloqueio: new Date(),
     codUsuarioBloqueio: 1,
     nomeUsuarioBloqueio: 'nomeUsuario',
     estacaoTrabalhoBloqueio: 'estacaoTrabalho',
     itemLiberacaoBloqueio: [
       {
-        codLiberacaoBloqueio: 999999999,
+        codLiberacaoBloqueio: 999999,
         item: '001',
         status: 'L',
         codRegra: 1,

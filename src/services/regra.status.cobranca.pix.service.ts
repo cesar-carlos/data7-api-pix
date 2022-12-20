@@ -21,7 +21,6 @@ export default class RegraStatusCobrancaPixService {
     ]);
 
     const status = this.rule(itensLiberacaoBloqueio);
-
     if (status === STATUS.ATIVO) {
       const cobrancasOnLine = await this.onlineRepositoryCobranca.findWhere(
         'liberacaoKey.idLiberacao',

@@ -75,7 +75,6 @@ export default class LocalSybaseCobrancaDigitalPixRepository
     try {
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.pix.update.sql');
       const update = fs.readFileSync(patch).toString();
-
       await this.actonEntity(entity, update);
     } catch (error: any) {
       console.log(error.message);

@@ -57,15 +57,14 @@ export class Request {
       }, command);
 
       try {
-        const pool = this.pool;
-        const RetData = await new Promise((resolve, reject) => {
-          pool.query(sql, function (err: any, data: any) {
+        const data = await new Promise((resolve, reject) => {
+          this.pool.query(sql, (err: any, data: any) => {
             if (err) return reject(err);
             return resolve(data);
           });
         });
 
-        resolve(RetData);
+        resolve(data);
       } catch (err) {
         reject(err);
       }

@@ -9,15 +9,13 @@ import AppAbortCharge from './app.abort.charge';
 import AppTestDatabeses from './app.test.databeses';
 import AppCobrancaPix from './app.cobranca.pix';
 import AppCobrancaPixValidar from './app.cobranca.pix.validar';
+import AppRegraStatusCobrancaPix from './app.regra.status.cobranca.pix';
 
 export default class AppCobrancaAutoBuild {
-  constructor() {}
-
   async execute(patth: string): Promise<ProcessInfo> {
     try {
       const readDir = util.promisify(fs.readdir);
       const files = await readDir(patth);
-
       const appChargeValidDatabese = new AppTestDatabeses();
       const infoDatabese = await appChargeValidDatabese.execute();
       if (infoDatabese.process.status === 'error') return infoDatabese;
@@ -36,23 +34,25 @@ export default class AppCobrancaAutoBuild {
               sysId: request.SysId,
               requerente: 'CS',
             }).execute();
-
-            return new ProcessInfo({ status: 'success' }, 'INFO-REQUEST', 'DELETE');
           }
 
           //METHOD POST
           if (request?.Method === 'POST') {
             const data = request?.Body.Data;
-
             const infoValid = new AppCobrancaPixValidar().execute(data);
             if (infoValid.process.status === 'error') return infoValid;
-
             const appCobrancaPix = new AppCobrancaPix();
-            const infoCobranca = await appCobrancaPix.execute(data);
+            appCobrancaPix.execute(data);
+          }
 
-            if (infoCobranca.process.status === 'error') {
-              throw new Error(infoCobranca.result);
-            }
+          //METHOD PUT
+          if (request?.Method === 'PUT') {
+            const { CodLiberacaoBloqueio, IdLiberacao } = request?.Body;
+            const appRegraStatusCobrancaPix = new AppRegraStatusCobrancaPix();
+            appRegraStatusCobrancaPix.execute({
+              codLiberacaoBloqueio: CodLiberacaoBloqueio,
+              idLiberacao: IdLiberacao,
+            });
           }
         }
       }

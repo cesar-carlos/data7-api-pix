@@ -1,8 +1,8 @@
 export = {
   name: 'main',
-  host: 'cesar',
+  host: 'localhost',
   port: 2638,
-  dbname: 'turatti',
+  dbname: 'Turatti',
   username: 'dba',
   password: 'sql',
   logTiming: true,

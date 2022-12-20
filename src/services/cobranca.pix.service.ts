@@ -67,7 +67,6 @@ export default class CobrancaPixService {
 
       return new ProcessInfo({ status: 'success' }, '', '');
     } catch (error: any) {
-      console.log(error);
       return new ProcessInfo({ status: 'error' }, error.message);
     }
   }

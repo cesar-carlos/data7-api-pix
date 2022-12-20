@@ -30,20 +30,13 @@ export default class LocalSybaseItemLiberacaoBloqueioRepository
 
   async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioDto[] | undefined> {
     try {
-      const connection = await this.connect.getConnection();
-      const pool = await connection.connect();
+      const pool = await (await this.connect.getConnection()).connect();
       const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
       const select = fs.readFileSync(patch).toString();
 
-      const _params = params
-        .map((item: any) => {
-          const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-          const _operator = item.operator ? item.operator : '=';
-          return `${item.key} ${_operator} ${_value}`;
-        })
-        .join(' AND ');
-
+      const _params = this.buildParams(params);
       const sql = `${select} WHERE ${_params}`;
+
       const result = await pool.request().query(sql);
       pool.close();
 
@@ -84,12 +77,21 @@ export default class LocalSybaseItemLiberacaoBloqueioRepository
     await this.actonEntity(entity, delet);
   }
 
+  private buildParams(params: params[]): string {
+    return params
+      .map((item: any) => {
+        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+        const _operator = item.operator ? item.operator : '=';
+        return `${item.key} ${_operator} ${_value}`;
+      })
+      .join(' AND ');
+  }
+
   private async actonEntity(entity: ItemLiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
     const pool = await this.connect.getConnection();
 
     try {
       const transaction = await pool.connect();
-      //TODO: FORCE USUARIO LOGADO ENVIRONMENT
       await transaction.request().query(`
             BEGIN
               CREATE VARIABLE @CodEmpresa VARCHAR(1) = '1';

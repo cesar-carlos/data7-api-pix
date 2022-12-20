@@ -15,7 +15,6 @@ export default class CreatePixService {
   public async execute(input: CobrancaPixInputDTO): Promise<PagamentoPendente | ProcessInfo> {
     try {
       const adicionais: infoAdicionais[] = [{ nome: 'sysId', valor: input.id }];
-
       input.infoAdicionais.forEach((item) => {
         adicionais.push({ nome: item.nome, valor: item.valor });
       });

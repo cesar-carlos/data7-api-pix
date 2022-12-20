@@ -1,4 +1,3 @@
-import { buffer } from 'stream/consumers';
 import CobrancaDigitalConfigDto from '../../../src/dto/cobranca.digital.config.dto';
 import LocalSybaseCobrancaDigitalConfigRepository from '../../../src/repository/local.sybase.cobranca.digital.config.repository';
 

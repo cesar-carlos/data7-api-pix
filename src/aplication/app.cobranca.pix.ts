@@ -156,26 +156,29 @@ export default class AppCobrancaPix {
         /// ATIVA COBRANÇA PARA PAGAMENTO
         /// </summary>
         setTimeout(() => {
-          this.localRepositoryItemLiberacaoBloqueio.selectWhere([{ key: 'Status', value: 'B' }]).then((bloqueios) => {
-            if (bloqueios && bloqueios.length > 0) {
-              for (const bloqueio of bloqueios) {
-                if (bloqueio.mensagemBloqueio?.includes('INFO-REQUEST')) {
-                  try {
-                    const jsonObservacaoBloqueio = bloqueio.observacaoBloqueio.replace('\\', '');
-                    const keys = JSON.parse(jsonObservacaoBloqueio);
+          this.localRepositoryItemLiberacaoBloqueio
+            .selectWhere([{ key: 'Status', value: 'B' }])
+            .then((bloqueios) => {
+              if (bloqueios && bloqueios.length > 0) {
+                for (const bloqueio of bloqueios) {
+                  if (bloqueio.mensagemBloqueio?.includes('INFO-REQUEST')) {
+                    try {
+                      const jsonObservacaoBloqueio = bloqueio.observacaoBloqueio.replace('\\', '');
+                      const keys = JSON.parse(jsonObservacaoBloqueio);
 
-                    if (keys.CodCobrancaDigital == idLiberacao) {
-                      new AppRegraStatusCobrancaPix().execute({
-                        codLiberacaoBloqueio: bloqueio.codLiberacaoBloqueio,
-                        idLiberacao: idLiberacao,
-                      });
-                    }
-                  } catch (err) {}
+                      if (keys.CodCobrancaDigital == idLiberacao) {
+                        new AppRegraStatusCobrancaPix().execute({
+                          codLiberacaoBloqueio: bloqueio.codLiberacaoBloqueio,
+                          idLiberacao: idLiberacao,
+                        });
+                      }
+                    } catch (err) {}
+                  }
                 }
               }
-            }
-          });
-        }, 2000);
+            })
+            .catch((err) => {});
+        }, 3000);
       }
 
       /// <summary>
