@@ -147,6 +147,7 @@ export default class AppCobrancaPix {
         });
 
         const cobPix = new Cobranca(sysId, usuario, filial, cliente, parcelas);
+
         const infoCob = await cobrancaPixService.execute(cobPix);
         if (infoCob.process.status === 'error') {
           throw new Error(infoCob.result);

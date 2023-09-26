@@ -10,6 +10,6 @@ export class ConnectionSybase implements ConnectionBaseSqlContract<DriverConnect
   }
 
   async closeConnection(pool: DriverConnectionSybase): Promise<void> {
-    await pool.close();
+    pool.close();
   }
 }

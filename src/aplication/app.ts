@@ -5,6 +5,8 @@ import AppDependencys from './app.dependencys';
 import AppFirebase from './app.firebase';
 
 export default class App {
+  private readonly port: number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
+
   constructor() {
     this.initialize();
   }
@@ -17,6 +19,6 @@ export default class App {
 
   public async execute() {
     new AppLinstens().execute();
-    new Api().execute();
+    new Api(this.port).execute();
   }
 }

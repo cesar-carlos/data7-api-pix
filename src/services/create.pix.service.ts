@@ -1,5 +1,4 @@
 import moment from 'moment';
-import formatter from 'currency-formatter';
 
 import { txid } from '../helper/txid.help';
 import { infoAdicionais } from '../dto/request.create.pix.dto';
@@ -24,7 +23,7 @@ export default class CreatePixService {
         params: { txid: txid.create() },
         calendario: { expiracao: input.expiracao },
         devedor: { cnpj_cpf: input.cnpj_cpf, nome: input.nome },
-        valor: { original: formatter.format(input.valor, { code: 'USD', symbol: '' }) },
+        valor: { original: input.valor.toFixed(2).toString() },
         solicitacaoPagador: input.solicitacaoPagador,
         infoAdicionais: adicionais,
       });
