@@ -1,12 +1,9 @@
-
-SELECT
-	SysId,
-	Sequencia,
-	TxId,
-	DataCriacao,
-	DataExpiracao,
-	QrCode,
-	ImagemQrcode,
-	Valor
+SELECT SysId,
+  Sequencia,
+  TxId,
+  DataCriacao,
+  DataExpiracao,
+  QrCode,
+  ImagemQrcode,
+  Valor
 FROM integracao.CobrancaDigitalPix
-

@@ -25,6 +25,10 @@ import AppTestDatabeses from './app.test.databeses';
 import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
 import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
 import AppRegraStatusCobrancaPix from './app.regra.status.cobranca.pix';
+import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
+import PagamentoPix from '../entities/pagamento.pix';
+import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
+import CobrancaPixLiberacaoBloqueioService from '../services/cobranca.pix.liberacao.bloqueio.service';
 
 export default class AppCobrancaPix {
   private cobrancaPixValidar = new AppCobrancaPixValidar();
@@ -119,6 +123,7 @@ export default class AppCobrancaPix {
         const parcelas = reqCobranca.Parcelas.map((parcela) => {
           return new CobrancaParcela({
             sysId: parcela.SysId,
+            status: 'A',
             origem: parcela.Origem,
             codOrigem: parcela.CodOrigem,
 
@@ -146,7 +151,24 @@ export default class AppCobrancaPix {
           });
         });
 
-        const cobPix = new Cobranca(sysId, usuario, filial, cliente, parcelas);
+        /* CONSULTA ORIGEM */
+        for (const parc of parcelas) {
+          const existisPayment = await this.existisPaymentFromOrigem(parc.origem, parc.codOrigem, parc.numeroParcela);
+          if (existisPayment) {
+            parc.status = 'B';
+          }
+        }
+
+        /* CRIA A COBRANCA */
+        if (!parcelas.some((parc) => parc.status === 'A')) continue;
+
+        const cobPix = new Cobranca(
+          sysId,
+          usuario,
+          filial,
+          cliente,
+          parcelas.filter((parc) => parc.status === 'A'),
+        );
 
         const infoCob = await cobrancaPixService.execute(cobPix);
         if (infoCob.process.status === 'error') {
@@ -189,5 +211,57 @@ export default class AppCobrancaPix {
     } catch (error: any) {
       return new ProcessInfo({ status: 'error' }, error.message, error.stack);
     }
+  }
+
+  //checar o pagamento
+  public async existisPaymentFromOrigem(origem: string, codOrigem: number, parcela: string): Promise<boolean> {
+    const localRepoCobrancaDigital = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalDto>',
+    });
+
+    const localRepoCobrancaDigitalTitulo = AppDependencys.resolve<
+      LocalBaseRepositoryContract<CobrancaDigitalTituloDto>
+    >({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalTituloDto>',
+    });
+
+    const localRepoCobrancaDigitalPix = AppDependencys.resolve<LocalBaseRepositoryContract<CobrancaDigitalPixDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<CobrancaDigitalPixDto>',
+    });
+
+    const localRepoItemLiberacaoBloqueio = AppDependencys.resolve<
+      LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>
+    >({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>',
+    });
+
+    const onlineCobrancaPix = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'ContractBaseRepository<CobrancaPix>',
+    });
+
+    const onlineDataPagamentoPix = AppDependencys.resolve<ContractBaseRepository<PagamentoPix>>({
+      context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'ContractBaseRepository<PagamentoPix>',
+    });
+
+    const cobrancaPixLiberacaoBloqueioService = new CobrancaPixLiberacaoBloqueioService(
+      localRepoCobrancaDigital,
+      localRepoCobrancaDigitalTitulo,
+      localRepoCobrancaDigitalPix,
+      localRepoItemLiberacaoBloqueio,
+      onlineCobrancaPix,
+      onlineDataPagamentoPix,
+    );
+
+    const fromOrigem = await cobrancaPixLiberacaoBloqueioService.fromOrigem(origem, codOrigem, parcela);
+    if (!fromOrigem) return false;
+
+    if (fromOrigem.process.status === 'success') return true;
+    return false;
   }
 }

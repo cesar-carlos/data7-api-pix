@@ -1,10 +1,8 @@
-
-SELECT
-	CodCobrancaDigitalDataBase,
-	Provedor,
-	Usuario,
-	Senha,
-	Servidor,
-	Base,
-	Porta
+SELECT CodCobrancaDigitalDataBase,
+  Provedor,
+  Usuario,
+  Senha,
+  Servidor,
+  Base,
+  Porta
 FROM integracao.CobrancaDigitalDataBase

@@ -1,6 +1,4 @@
-
-SELECT
-	"ID",
-	"Message",
-	"Details"
+SELECT "ID",
+  "Message",
+  "Details"
 FROM integracao.CobrancaDigitalLog

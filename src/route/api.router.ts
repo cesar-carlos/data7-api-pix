@@ -50,6 +50,7 @@ export default class ApiRoute {
   }
 
   private pagamento() {
+    this._router.get('/pagamento', PagamentoController.getOrigem);
     this._router.get('/pagamento/:txid', PagamentoController.get);
     this._router.post('/pagamento', PagamentoController.post);
     this._router.put('/pagamento', PagamentoController.put);

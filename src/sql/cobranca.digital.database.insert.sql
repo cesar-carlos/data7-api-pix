@@ -1,17 +1,18 @@
 INSERT INTO integracao.CobrancaDigitalDataBase (
-	CodCobrancaDigitalDataBase,
-	Provedor,
-	Usuario,
-	Senha,
-	Servidor,
-	Base,
-	Porta
-) VALUES (
-	@CodCobrancaDigitalDataBase,
-	@Provedor,
-	@Usuario,
-	@Senha,
-	@Servidor,
-	@Base,
-	@Porta
-)
+    CodCobrancaDigitalDataBase,
+    Provedor,
+    Usuario,
+    Senha,
+    Servidor,
+    Base,
+    Porta
+  )
+VALUES (
+    @CodCobrancaDigitalDataBase,
+    @Provedor,
+    @Usuario,
+    @Senha,
+    @Servidor,
+    @Base,
+    @Porta
+  )

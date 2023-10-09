@@ -1,5 +1,4 @@
 DELETE LiberacaoBloqueio
 WHERE CodEmpresa = @CodEmpresa
-	AND CodFilial = @CodFilial
-	AND CodLiberacaoBloqueio = @CodLiberacaoBloqueio
-
+  AND CodFilial = @CodFilial
+  AND CodLiberacaoBloqueio = @CodLiberacaoBloqueio

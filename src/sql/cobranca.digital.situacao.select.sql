@@ -1,10 +1,7 @@
-
-SELECT
-	SysId,
+SELECT SysId,
   Sequencia,
-	Status,
-	TxId,
-	LocId,
-	Chave
+  Status,
+  TxId,
+  LocId,
+  Chave
 FROM integracao.CobrancaDigitalSituacao
-

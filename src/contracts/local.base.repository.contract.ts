@@ -6,11 +6,7 @@ export type param<P> = {
 
 export abstract class params {
   public static create<P>(key: string, value: P): param<P> {
-    return {
-      key,
-      value,
-      operator: '=',
-    };
+    return { key, value, operator: '=' };
   }
 }
 

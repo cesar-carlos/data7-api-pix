@@ -3,14 +3,14 @@
  * https://jestjs.io/docs/configuration
  */
 
-  module.exports = {
+module.exports = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
   globals: {
     'ts-jest': {
-      isolatedModules: true
-    }
+      isolatedModules: true,
+    },
   },
 
   // Stop running tests after `n` failures
@@ -131,9 +131,7 @@
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: [
-    "./test"
-  ],
+  roots: ['./test'],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",

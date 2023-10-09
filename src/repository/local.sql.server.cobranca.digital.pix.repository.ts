@@ -38,7 +38,8 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
 
       const _params = params
         .map((item: any) => {
-          const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
+          const _value =
+            typeof item.value === 'string' ? (item.value = `'${item.value.replaceAll("'", '')}'`) : item.value;
           const _operator = item.operator ? item.operator : '=';
           return `${item.key} ${_operator} ${_value}`;
         })

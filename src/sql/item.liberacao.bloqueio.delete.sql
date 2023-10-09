@@ -1,5 +1,3 @@
-
 DELETE ItemLiberacaoBloqueio
 WHERE CodLiberacaoBloqueio = @CodLiberacaoBloqueio
-	AND Item = @Item
-
+  AND Item = @Item

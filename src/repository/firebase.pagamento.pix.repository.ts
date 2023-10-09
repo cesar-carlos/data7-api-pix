@@ -10,7 +10,11 @@ export default class FirebasePagamentoPixRepository
 
   async find(EndToEndId: string): Promise<PagamentoPix | undefined> {
     try {
-      const query = this.db.collection(this.collection).where('EndToEndId', '==', EndToEndId).get();
+      const query = this.db
+        .collection(this.collection)
+        .where('Chave', '==', process.env.CHAVE_PIX)
+        .where('EndToEndId', '==', EndToEndId)
+        .get();
       const docRef = await query;
       const data = docRef.docs.map((doc) => {
         return { ...doc.data() };
@@ -37,7 +41,12 @@ export default class FirebasePagamentoPixRepository
 
   async findWhere(key: string, value: string): Promise<PagamentoPix[] | undefined> {
     try {
-      const query = this.db.collection(this.collection).where(key, '==', value).get();
+      const query = this.db
+        .collection(this.collection)
+        .where('Chave', '==', process.env.CHAVE_PIX)
+        .where(key, '==', value)
+        .get();
+
       const docRef = await query;
       const data = docRef.docs.map((doc) => {
         return { ...doc.data() };

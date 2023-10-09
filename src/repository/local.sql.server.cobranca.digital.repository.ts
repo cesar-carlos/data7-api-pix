@@ -10,10 +10,10 @@ export default class LocalSqlServerCobrancaDigitalRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalDto>
 {
   private connect = new ConnectionSqlServerMssql();
-  constructor() {}
 
   public async select(): Promise<CobrancaDigitalDto[] | undefined> {
     const pool = await this.connect.getConnection();
+
     const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.select.sql');
     const select = fs.readFileSync(patch).toString();
     const result = await pool.request().query(select);
@@ -88,6 +88,7 @@ export default class LocalSqlServerCobrancaDigitalRepository
         .input('CodEmpresa', sql.Int, entity.codEmpresa)
         .input('CodFilial', sql.Int, entity.codFilial)
         .input('CodCobrancaDigital', sql.Int, entity.codCobrancaDigital)
+        .input('BloqueioKey', sql.VarChar(500), entity.bloqueioKey)
         .input('Origem', sql.VarChar(6), entity.origem)
         .input('CodOrigem', sql.Int, entity.codOrigem)
         .input('Situacao', sql.VarChar(60), entity.situacao)

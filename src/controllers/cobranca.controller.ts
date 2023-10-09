@@ -53,9 +53,10 @@ export default class CobrancaController {
   ///** PUT **//
   public static async put(req: Request, res: Response) {
     try {
-      const { CodLiberacaoBloqueio, IdLiberacao } = req.query;
+      const { CodEmpresa, CodLiberacaoBloqueio, Item, IdLiberacao } = req.query;
       const codLiberacaoBloqueio = parseInt(CodLiberacaoBloqueio as string);
       const idLiberacao = parseInt(IdLiberacao as string);
+
       const appRegraStatusCobrancaPix = new AppRegraStatusCobrancaPix();
       appRegraStatusCobrancaPix.execute({ codLiberacaoBloqueio, idLiberacao });
       res.status(204).send();

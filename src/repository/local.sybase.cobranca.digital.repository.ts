@@ -99,6 +99,7 @@ export default class LocalSybaseCobrancaDigitalRepository implements LocalBaseRe
         .input('CodEmpresa', sql.Int, entity.codEmpresa)
         .input('CodFilial', sql.Int, entity.codFilial)
         .input('CodCobrancaDigital', sql.Int, entity.codCobrancaDigital)
+        .input('BloqueioKey', sql.VarChar(500), entity.bloqueioKey)
         .input('Origem', sql.VarChar(6), entity.origem)
         .input('CodOrigem', sql.Int, entity.codOrigem)
         .input('Situacao', sql.VarChar(60), entity.situacao)

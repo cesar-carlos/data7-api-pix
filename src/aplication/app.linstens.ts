@@ -18,7 +18,6 @@ export default class AppLinstens {
   }
 
   private async listenCobrancaPix() {
-    const locaDataBase = process.env.DATABASE || '';
     const firebaseCobrancaPixRepository = AppDependencys.resolve<ContractBaseRepository<CobrancaPix>>({
       context: process.env.ONLINE_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'ContractBaseRepository<CobrancaPix>',

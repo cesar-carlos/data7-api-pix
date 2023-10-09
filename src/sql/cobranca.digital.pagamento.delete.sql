@@ -1,3 +1,3 @@
 DELETE integracao.CobrancaDigitalPagamento
 WHERE SysId = @SysId
- AND Sequencia = @Sequencia
+  AND Sequencia = @Sequencia

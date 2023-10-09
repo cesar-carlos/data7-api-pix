@@ -78,14 +78,48 @@ export default class RegraStatusCobrancaPixService {
         }
       });
     }
+
+    //
+    ///* */
+    if (status === STATUS.CONCLUIDO_MANUAL) {
+      const cobrancasOnLine = await this.onlineRepositoryCobranca.findWhere(
+        'liberacaoKey.idLiberacao',
+        idLiberacao.toString(),
+      );
+
+      cobrancasOnLine?.forEach(async (cobranca) => {
+        if (cobranca.STATUS === STATUS.ATIVO || cobranca.STATUS === STATUS.AGUARDANDO) {
+          cobranca.STATUS = STATUS.CONCLUIDO;
+          await this.onlineRepositoryCobranca.update(cobranca);
+        }
+      });
+
+      const cobrancasLocal = await this.localRepositoryCobranca.selectWhere([
+        { key: 'CodCobrancaDigital ', value: idLiberacao },
+      ]);
+
+      cobrancasLocal?.forEach(async (cobranca) => {
+        if (cobranca.situacao === STATUS.ATIVO) {
+          cobranca.situacao = STATUS.CONCLUIDO_MANUAL;
+          await this.localRepositoryCobranca.update(cobranca);
+        }
+      });
+    }
   }
 
   ///* RULE */
   private rule(itensLiberacaoBloqueio?: ItemLiberacaoBloqueioDto[]): STATUS {
+    const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
     if (itensLiberacaoBloqueio === undefined) return STATUS.CANCELADO_SISTEMA;
     if (itensLiberacaoBloqueio.length <= 0) return STATUS.CANCELADO_SISTEMA;
 
-    const msg = `INFO-REQUEST ${STATUS.MENSAGEM_BLOQUEIO}`;
+    const qtdLiberadas = itensLiberacaoBloqueio.reduce((acc, item) => {
+      if (item.status === 'L') return acc + 1;
+      return acc;
+    }, 0);
+
+    if (qtdLiberadas === itensLiberacaoBloqueio.length) return STATUS.CONCLUIDO_MANUAL;
+
     for (const item of itensLiberacaoBloqueio) {
       if (item.status === 'B' && item.mensagemBloqueio?.trim().replace(':', '') !== `${msg}`) {
         return STATUS.AGUARDANDO;
