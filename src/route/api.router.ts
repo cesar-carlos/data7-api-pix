@@ -5,6 +5,7 @@ import TimeoutController from '../controllers/timeout.controller';
 import PagamentoController from '../controllers/pagamento.controller';
 import WebhookRegisterController from '../controllers/webhook.register.controller';
 import LoginController from '../controllers/login.controller';
+import ExpedicaoContextController from '../controllers/expedicao.context.controller';
 
 export default class ApiRoute {
   private _router = Router();
@@ -19,7 +20,9 @@ export default class ApiRoute {
     this.cobranca();
     this.pagamento();
     this.timeout();
+
     this.login();
+    this.Data7Login();
   }
 
   static router = new ApiRoute().getRouter();
@@ -66,8 +69,16 @@ export default class ApiRoute {
 
   private login() {
     this._router.get('/login', LoginController.get);
+    this._router.get('/login', LoginController.get);
     this._router.post('/login', LoginController.post);
     this._router.put('/login', LoginController.put);
     this._router.delete('/login', LoginController.delete);
+  }
+
+  private Data7Login() {
+    this._router.get('/expedicao/context', ExpedicaoContextController.get);
+    this._router.post('/expedicao/context', ExpedicaoContextController.post);
+    this._router.put('/expedicao/context', ExpedicaoContextController.put);
+    this._router.delete('/expedicao/context', ExpedicaoContextController.delete);
   }
 }

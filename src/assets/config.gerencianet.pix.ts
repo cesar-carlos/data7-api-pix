@@ -1,6 +1,6 @@
 import path from 'path';
 
-const cert_client = path.resolve(__dirname, '..', 'certificates', 'cert_gerencianet_client.p12');
+const cert_client = ''; //path.resolve(__dirname, '..', 'certificates', 'cert_gerencianet_client.p12');
 
 export = {
   client_id: '',

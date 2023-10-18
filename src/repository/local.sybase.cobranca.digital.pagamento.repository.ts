@@ -6,6 +6,7 @@ import { ConnectionSybase } from '../infra/connection.sybase';
 
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
+import ParamsCommonRepository from './common.repository/params.common.repository';
 
 export default class LocalSybaseCobrancaDigitalPagamentoRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalPagamentoDto>
@@ -40,14 +41,7 @@ export default class LocalSybaseCobrancaDigitalPagamentoRepository
       const patch = path.resolve(__dirname, '..', 'sql', 'cobranca.digital.pagamento.select.sql');
       const select = fs.readFileSync(patch).toString();
 
-      const _params = params
-        .map((item: any) => {
-          const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-          const _operator = item.operator ? item.operator : '=';
-          return `${item.key} ${_operator} ${_value}`;
-        })
-        .join(' AND ');
-
+      const _params = ParamsCommonRepository.build(params);
       const sql = `${select} WHERE ${_params}`;
       const result = await pool.request().query(sql);
       pool.close();

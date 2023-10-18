@@ -28,6 +28,7 @@ export default class CobrancaController {
   public static async post(req: Request, res: Response) {
     try {
       const data = req.body?.Data;
+
       if (!data) return new ResponseInfoDTO({ info: 'INFO-REQUEST', message: 'data not found', statusCode: 400 });
 
       if (!Array.isArray(data))

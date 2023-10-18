@@ -6,6 +6,7 @@ import { ConnectionSybase } from '../infra/connection.sybase';
 
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
+import ParamsCommonRepository from './common.repository/params.common.repository';
 
 export default class LocalSybaseItemLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>
@@ -34,9 +35,8 @@ export default class LocalSybaseItemLiberacaoBloqueioRepository
       const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.select.sql');
       const select = fs.readFileSync(patch).toString();
 
-      const _params = this.buildParams(params);
+      const _params = ParamsCommonRepository.build(params);
       const sql = `${select} WHERE ${_params}`;
-
       const result = await pool.request().query(sql);
       pool.close();
 
@@ -75,16 +75,6 @@ export default class LocalSybaseItemLiberacaoBloqueioRepository
     const patch = path.resolve(__dirname, '..', 'sql', 'item.liberacao.bloqueio.delete.sql');
     const delet = fs.readFileSync(patch).toString();
     await this.actonEntity(entity, delet);
-  }
-
-  private buildParams(params: params[]): string {
-    return params
-      .map((item: any) => {
-        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-        const _operator = item.operator ? item.operator : '=';
-        return `${item.key} ${_operator} ${_value}`;
-      })
-      .join(' AND ');
   }
 
   private async actonEntity(entity: ItemLiberacaoBloqueioDto, sqlCommand: string): Promise<void> {

@@ -8,6 +8,7 @@ import LiberacaoBloqueioDto from '../dto/liberacao.bloqueio.dto';
 import LocalBaseRepositoryContract, { params } from '../contracts/local.base.repository.contract';
 import LocalSybaseItemLiberacaoBloqueioRepository from './local.sybase.item.liberacao.bloqueio.repository';
 import LocalSybaseIItemLiberacaoBloqueioSituacaoRepository from './local.sybase.item.liberacao.bloqueio.situacao.repository';
+import ParamsCommonRepository from './common.repository/params.common.repository';
 
 export default class LocalSybaseLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<LiberacaoBloqueioDto>
@@ -56,7 +57,7 @@ export default class LocalSybaseLiberacaoBloqueioRepository
     const pool = await (await this.connect.getConnection()).connect();
     const patch = path.resolve(__dirname, '..', 'sql', 'liberacao.bloqueio.select.sql');
     const select = fs.readFileSync(patch).toString();
-    const _params = this.buildParams(params);
+    const _params = ParamsCommonRepository.build(params);
     const sql = `${select} WHERE ${_params}`;
     const result = await pool.request().query(sql);
     pool.close();
@@ -131,28 +132,14 @@ export default class LocalSybaseLiberacaoBloqueioRepository
       const patch = path.resolve(__dirname, '..', 'sql', 'liberacao.bloqueio.delete.sql');
       const delet = fs.readFileSync(patch).toString();
 
-      entity.itemLiberacaoBloqueio.map(async (item) => {
-        await this.itemLiberacaoBloqueioRepository.delete(item);
-      });
-
-      entity.itemLiberacaoBloqueioSituacao?.map(async (item) => {
-        await this.itemLiberacaoBloqueioSituacaoRepository.delete(item);
-      });
+      for (const itemLiberacao of entity.itemLiberacaoBloqueio) {
+        await this.itemLiberacaoBloqueioRepository.delete(itemLiberacao);
+      }
 
       await this.actonEntity(entity, delet);
     } catch (error: any) {
       console.log(error.message);
     }
-  }
-
-  private buildParams(params: params[]): string {
-    return params
-      .map((item: any) => {
-        const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;
-        const _operator = item.operator ? item.operator : '=';
-        return `${item.key} ${_operator} ${_value}`;
-      })
-      .join(' AND ');
   }
 
   private async actonEntity(entity: LiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
