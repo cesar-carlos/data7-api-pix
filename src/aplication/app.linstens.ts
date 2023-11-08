@@ -6,8 +6,8 @@ import PagamentoPix from '../entities/pagamento.pix';
 import AppDependencys from './app.dependencys';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
-import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
-import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
+import CobrancaDigitalPagamentoDto from '../dto/integracao/cobranca.digital.pagamento.dto';
+import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
 import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
 

@@ -1,6 +1,6 @@
 import FirebaseBaseRepository from './firebase.base.repository';
 import ContractBaseRepository from '../../contracts/base.repository.contract';
-import WebhookDto from '../../dto/webhook.dto';
+import WebhookDto from '../../dto/integracao/webhook.dto';
 
 export default class FirebaseWebhookRegisterRepository
   extends FirebaseBaseRepository
@@ -21,7 +21,7 @@ export default class FirebaseWebhookRegisterRepository
     }
   }
 
-  findWhere(key: string, value: string): Promise<WebhookDto[] | undefined> {
+  findWhere(key: string, value: string): Promise<WebhookDto[]> {
     throw new Error('Method not implemented.');
   }
 

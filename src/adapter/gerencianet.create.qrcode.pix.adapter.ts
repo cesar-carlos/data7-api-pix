@@ -1,4 +1,4 @@
-import { responseCreateQrcodePixDto } from '../dto/response.create.qrcode.pix.dto';
+import { responseCreateQrcodePixDto } from '../dto/api.responses/response.create.qrcode.pix.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreateQrcodePixAdapter extends GerencianetBase {

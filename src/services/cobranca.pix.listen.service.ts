@@ -8,8 +8,8 @@ import FirebaseCobrancaPixListenRepository from '../repository/firebase/firebase
 import PagamentoPix from '../entities/pagamento.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
-import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
-import CobrancaDigitalPagamentoDto from '../dto/cobranca.digital.pagamento.dto';
+import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
+import CobrancaDigitalPagamentoDto from '../dto/integracao/cobranca.digital.pagamento.dto';
 
 export default class CobrancaPixListenService {
   private fbCobrancaPixListenRepository = new FirebaseCobrancaPixListenRepository();

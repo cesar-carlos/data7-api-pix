@@ -1,5 +1,4 @@
 SELECT CodEmpresa,
-  CodEmpresa,
   CodSepararEstoque,
   Item,
   CodSetorEstoque,

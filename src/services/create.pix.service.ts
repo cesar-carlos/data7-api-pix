@@ -1,11 +1,11 @@
 import moment from 'moment';
 
 import { txid } from '../helper/txid.help';
-import { infoAdicionais } from '../dto/request.create.pix.dto';
+import { infoAdicionais } from '../dto/api.requets/request.create.pix.dto';
 
 import ProcessInfo from '../entities/process.info';
 import PagamentoPendente from '../entities/pagamento.pendente';
-import CobrancaPixInputDTO from '../dto/cobranca.pix.input.dto';
+import CobrancaPixInputDTO from '../dto/integracao/cobranca.pix.input.dto';
 import CreatePixApiContract from '../contracts/create.pix.api.contract';
 
 export default class CreatePixService {

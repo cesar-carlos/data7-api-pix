@@ -2,10 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../../contracts/local.base.repository.contract';
-import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
+import { params, pagination } from '../../contracts/local.base.params';
 
+import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ExpedicaoSetorEstoqueDto from '../../dto/expedicao/expedicao.setor.estoque.dto';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
 
 export default class SqlServerExpedicaoSetorEstoqueRepository
@@ -14,7 +15,7 @@ export default class SqlServerExpedicaoSetorEstoqueRepository
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoSetorEstoqueDto[] | undefined> {
+  public async select(): Promise<ExpedicaoSetorEstoqueDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.setor.estoque.select.sql');
@@ -22,29 +23,29 @@ export default class SqlServerExpedicaoSetorEstoqueRepository
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
         return ExpedicaoSetorEstoqueDto.fromObject(item);
       });
 
       return entity;
     } catch (error: any) {
-      console.log(error.message);
+      throw new Error(error.message);
     }
   }
 
-  public async selectWhere(params: params[]): Promise<ExpedicaoSetorEstoqueDto[] | undefined> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoSetorEstoqueDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.setor.estoque.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
-      const sql = `${select} WHERE ${_params}`;
+      const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
         return ExpedicaoSetorEstoqueDto.fromObject(item);
       });

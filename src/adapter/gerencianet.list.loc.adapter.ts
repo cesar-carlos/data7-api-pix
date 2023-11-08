@@ -1,4 +1,4 @@
-import { responseListLocDto } from '../dto/response.list.loc.dto';
+import { responseListLocDto } from '../dto/api.responses/response.list.loc.dto';
 
 import GerencianetBase from './gerencianet.base';
 

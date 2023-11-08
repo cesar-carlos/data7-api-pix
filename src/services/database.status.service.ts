@@ -1,7 +1,5 @@
-import { ProcessInfoStatusType } from '../type/process.info.status.type';
-
 import DataBaseActiveContract from '../contracts/data.base.active.contract';
-import DatabaseOnlineDto from '../dto/database.online.dto';
+import DatabaseOnlineDto from '../dto/common.data/database.online.dto';
 import ProcessInfo from '../entities/process.info';
 
 export default class DatabaseStatusService {

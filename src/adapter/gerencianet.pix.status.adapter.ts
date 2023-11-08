@@ -1,4 +1,4 @@
-import { responsePixStatusDto } from '../dto/response.pix.status.dto';
+import { responsePixStatusDto } from '../dto/api.responses/response.pix.status.dto';
 
 import GerencianetBase from './gerencianet.base';
 

@@ -5,8 +5,8 @@ import CobrancaPix from '../entities/cobranca.pix';
 
 import ProcessInfo from '../entities/process.info';
 import CreatePixService from './create.pix.service';
-import CobrancaPixInputDTO from '../dto/cobranca.pix.input.dto';
-import CobrancaDigitalPixDto from '../dto/cobranca.digital.pix.dto';
+import CobrancaPixInputDTO from '../dto/integracao/cobranca.pix.input.dto';
+import CobrancaDigitalPixDto from '../dto/integracao/cobranca.digital.pix.dto';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 

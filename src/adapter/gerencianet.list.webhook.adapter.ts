@@ -1,4 +1,4 @@
-import { resposeWebhookDto } from '../dto/respose.webhook.dto';
+import { resposeWebhookDto } from '../dto/api.responses/respose.webhook.dto';
 
 import GerencianetBase from './gerencianet.base';
 

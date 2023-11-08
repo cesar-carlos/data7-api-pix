@@ -1,8 +1,8 @@
 import { STATUS } from '../type/status';
 
 import { DadosCobranca } from 'data7-pix/dist/types/cobranca';
-import { requestCreatePixDTO } from '../dto/request.create.pix.dto';
-import { responseCreatePixDto } from '../dto/response.create.pix.dto';
+import { requestCreatePixDTO } from '../dto/api.requets/request.create.pix.dto';
+import { responseCreatePixDto } from '../dto/api.responses/response.create.pix.dto';
 
 import SicrediBase from './sicredi.base';
 import CreatePixApiContract from '../contracts/create.pix.api.contract';

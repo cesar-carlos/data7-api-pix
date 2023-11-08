@@ -1,6 +1,6 @@
 import { STATUS } from '../type/status';
 import { eContext } from '../dependency/container.dependency';
-import { requestCobrancaDTO } from '../dto/request.cobranca.dto';
+import { requestCobrancaDTO } from '../dto/api.requets/request.cobranca.dto';
 
 import CobrancaPix from '../entities/cobranca.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
@@ -13,7 +13,7 @@ import Cobranca from '../entities/cobranca';
 import ProcessInfo from '../entities/process.info';
 import AppDependencys from './app.dependencys';
 import CreatePixApiContract from '../contracts/create.pix.api.contract';
-import CobrancaDigitalPixDto from '../dto/cobranca.digital.pix.dto';
+import CobrancaDigitalPixDto from '../dto/integracao/cobranca.digital.pix.dto';
 import AppCobrancaPixValidar from './app.cobranca.pix.validar';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 
@@ -23,11 +23,11 @@ import CreatePixService from '../services/create.pix.service';
 import CobrancaParcela from '../entities/cobranca.parcela';
 import AppTestDatabeses from './app.test.databeses';
 import CobrancaLiberacaoKey from '../entities/cobranca.liberacao.key';
-import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
+import ItemLiberacaoBloqueioDto from '../dto/common.data/item.liberacao.bloqueio.dto';
 import AppRegraStatusCobrancaPix from './app.regra.status.cobranca.pix';
-import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
+import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import PagamentoPix from '../entities/pagamento.pix';
-import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
+import CobrancaDigitalDto from '../dto/integracao/cobranca.digital.dto';
 import CobrancaPixLiberacaoBloqueioService from '../services/cobranca.pix.liberacao.bloqueio.service';
 
 export default class AppCobrancaPix {

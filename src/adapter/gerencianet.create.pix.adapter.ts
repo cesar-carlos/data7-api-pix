@@ -1,6 +1,6 @@
 import { STATUS } from '../type/status';
-import { requestCreatePixDTO } from '../dto/request.create.pix.dto';
-import { responseCreatePixDto } from '../dto/response.create.pix.dto';
+import { requestCreatePixDTO } from '../dto/api.requets/request.create.pix.dto';
+import { responseCreatePixDto } from '../dto/api.responses/response.create.pix.dto';
 
 import GerencianetBase from './gerencianet.base';
 import CreatePixApiContract from '../contracts/create.pix.api.contract';

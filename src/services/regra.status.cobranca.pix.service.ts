@@ -1,9 +1,9 @@
 import { STATUS } from '../type/status';
 
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
-import ItemLiberacaoBloqueioDto from '../dto/item.liberacao.bloqueio.dto';
+import ItemLiberacaoBloqueioDto from '../dto/common.data/item.liberacao.bloqueio.dto';
 import ContractBaseRepository from '../contracts/base.repository.contract';
-import CobrancaDigitalDto from '../dto/cobranca.digital.dto';
+import CobrancaDigitalDto from '../dto/integracao/cobranca.digital.dto';
 import CobrancaPix from '../entities/cobranca.pix';
 
 export default class RegraStatusCobrancaPixService {

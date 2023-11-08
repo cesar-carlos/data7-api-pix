@@ -39,7 +39,7 @@ export default class FirebasePagamentoPixRepository
     }
   }
 
-  async findWhere(key: string, value: string): Promise<PagamentoPix[] | undefined> {
+  async findWhere(key: string, value: string): Promise<PagamentoPix[]> {
     try {
       const query = this.db
         .collection(this.collection)
@@ -52,7 +52,7 @@ export default class FirebasePagamentoPixRepository
         return { ...doc.data() };
       });
 
-      if (!data) return undefined;
+      if (!data) return [];
 
       const pagamentosPix = data.map((item) => {
         return new PagamentoPix({

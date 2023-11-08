@@ -2,10 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../../contracts/local.base.repository.contract';
+import { params, pagination } from '../../contracts/local.base.params';
+
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import CobrancaDigitalPixDto from '../../dto/cobranca.digital.pix.dto';
+import CobrancaDigitalPixDto from '../../dto/integracao/cobranca.digital.pix.dto';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSqlServerCobrancaDigitalPixRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalPixDto>
@@ -13,7 +15,7 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
-  public async select(): Promise<CobrancaDigitalPixDto[] | undefined> {
+  public async select(): Promise<CobrancaDigitalPixDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.pix.select.sql');
@@ -21,7 +23,7 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
       const result = await pool.request().query(select);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
         return CobrancaDigitalPixDto.fromObject(item);
       });
@@ -32,18 +34,18 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     }
   }
 
-  public async selectWhere(params: params[]): Promise<CobrancaDigitalPixDto[] | undefined> {
+  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalPixDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.pix.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
-      const sql = `${select} WHERE ${_params}`;
+      const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
         return CobrancaDigitalPixDto.fromObject(item);
       });

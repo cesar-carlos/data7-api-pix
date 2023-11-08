@@ -1,9 +1,9 @@
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import CobrancaPixConsultaService from './cobranca.pix.consulta.service';
-import CobrancaDigitalPixDto from '../dto/cobranca.digital.pix.dto';
+import CobrancaDigitalPixDto from '../dto/integracao/cobranca.digital.pix.dto';
 import PagamentoPix from '../entities/pagamento.pix';
-import CobrancaDigitalPixPagamentoDto from '../dto/cobranca.digital.pix.pagamento.dto';
+import CobrancaDigitalPixPagamentoDto from '../dto/integracao/cobranca.digital.pix.pagamento.dto';
 
 export default class CobrancaPixConsultaPagamentoService {
   constructor(

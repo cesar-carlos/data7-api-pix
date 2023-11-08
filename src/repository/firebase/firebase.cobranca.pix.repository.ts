@@ -33,7 +33,7 @@ export default class FirebaseCobrancaPixRepository
     }
   }
 
-  async findWhere(key: string, value: string): Promise<CobrancaPix[] | undefined> {
+  async findWhere(key: string, value: string): Promise<CobrancaPix[]> {
     try {
       const query = this.db
         .collection(this.collection)
@@ -52,7 +52,7 @@ export default class FirebaseCobrancaPixRepository
     }
   }
 
-  async findAll(): Promise<CobrancaPix[] | undefined> {
+  async findAll(): Promise<CobrancaPix[]> {
     try {
       const query = this.db.collection(this.collection).where('liberacaoKey.cnpj', '==', this.cnpj).get();
       const docRef = await query;

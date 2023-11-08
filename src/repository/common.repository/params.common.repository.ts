@@ -1,9 +1,11 @@
 import path from 'path';
 
-import { params } from '../../contracts/local.base.repository.contract';
+import { params, pagination } from '../../contracts/local.base.params';
 
 export default class ParamsCommonRepository {
-  static build(params: params[]) {
+  static build(params: params[] | string) {
+    if (typeof params === 'string') return params;W
+
     return params
       .map((item: any) => {
         const _value = typeof item.value === 'string' ? (item.value = `'${item.value}'`) : item.value;

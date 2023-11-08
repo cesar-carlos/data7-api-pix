@@ -2,11 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../../contracts/local.base.repository.contract';
+import { params, pagination } from '../../contracts/local.base.params';
 
-import CobrancaDigitalAdicionaisDto from '../../dto/cobranca.digital.adicionais.dto';
+import CobrancaDigitalAdicionaisDto from '../../dto/integracao/cobranca.digital.adicionais.dto';
 import { ConnectionSybase } from '../../infra/connection.sybase';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSybaseCobrancaDigitalAdicionaisRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalAdicionaisDto>
@@ -14,7 +15,7 @@ export default class LocalSybaseCobrancaDigitalAdicionaisRepository
   private connect = new ConnectionSybase();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
-  public async select(): Promise<CobrancaDigitalAdicionaisDto[] | undefined> {
+  public async select(): Promise<CobrancaDigitalAdicionaisDto[]> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.adicionais.select.sql');
@@ -22,7 +23,7 @@ export default class LocalSybaseCobrancaDigitalAdicionaisRepository
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.length === 0) return undefined;
+      if (result.length === 0) return [];
       const logs = result.map((item: any) => {
         return CobrancaDigitalAdicionaisDto.fromObject(item);
       });
@@ -33,18 +34,18 @@ export default class LocalSybaseCobrancaDigitalAdicionaisRepository
     }
   }
 
-  public async selectWhere(params: params[]): Promise<CobrancaDigitalAdicionaisDto[] | undefined> {
+  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalAdicionaisDto[]> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.adicionais.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
-      const sql = `${select} WHERE ${_params}`;
+      const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.length === 0) return undefined;
+      if (result.length === 0) return [];
       const logs = result.map((item: any) => {
         return CobrancaDigitalAdicionaisDto.fromObject(item);
       });

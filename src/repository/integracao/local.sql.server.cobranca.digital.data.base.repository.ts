@@ -2,9 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../../contracts/local.base.repository.contract';
+import { params, pagination } from '../../contracts/local.base.params';
+
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import CobrancaDigitalDataBaseDto from '../../dto/cobranca.digital.data.base.dto';
+import CobrancaDigitalDataBaseDto from '../../dto/integracao/cobranca.digital.data.base.dto';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
 
 export default class LocalSqlServerCobrancaDigitalDataBaseRepository
@@ -13,14 +15,14 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
-  public async select(): Promise<CobrancaDigitalDataBaseDto[] | undefined> {
+  public async select(): Promise<CobrancaDigitalDataBaseDto[]> {
     const pool = await this.connect.getConnection();
     const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
     const select = fs.readFileSync(patchSQL).toString();
     const result = await pool.request().query(select);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
+    if (result.recordset.length === 0) return [];
     const dataConfgs = result.recordset.map((item: any) => {
       return CobrancaDigitalDataBaseDto.fromObject(item);
     });
@@ -28,17 +30,17 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
     return dataConfgs;
   }
 
-  public async selectWhere(params: params[]): Promise<CobrancaDigitalDataBaseDto[] | undefined> {
+  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalDataBaseDto[]> {
     const pool = await this.connect.getConnection();
     const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
     const select = fs.readFileSync(patchSQL).toString();
 
     const _params = ParamsCommonRepository.build(params);
-    const sql = `${select} WHERE ${_params}`;
+    const sql = _params ? `${select} WHERE ${_params}` : select;
     const result = await pool.request().query(sql);
     pool.close();
 
-    if (result.recordset.length === 0) return undefined;
+    if (result.recordset.length === 0) return [];
     const dataConfgs = result.recordset.map((item: any) => {
       return CobrancaDigitalDataBaseDto.fromObject(item);
     });

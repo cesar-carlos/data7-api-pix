@@ -1,4 +1,4 @@
-import { ResponseChaveDto } from '../dto/response.chave.dto';
+import { ResponseChaveDto } from '../dto/api.responses/response.chave.dto';
 import { ChaveStatusType } from '../type/chave.status.type';
 
 import GerencianetBase from './gerencianet.base';

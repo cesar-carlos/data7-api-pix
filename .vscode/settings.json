@@ -8,19 +8,19 @@
     "typescript": "clear && npx ts-node --files --transpile-only"
   },
   "workbench.colorCustomizations": {
-    "activityBar.background": "#9ebed4",
-    "activityBar.foreground": "#C4AE78",
-    "activityBar.inactiveForeground": "#9e9e9e",
-    "activityBar.activeBorder": "#90a4c1",
-    "activityBar.activeBackground": "#171515",
-    "activityBar.border": "#171515",
-    "titleBar.activeBackground": "#6F5B3E",
-    "titleBar.activeForeground": "#C4AE78",
-    "titleBar.inactiveBackground": "#595754",
-    "titleBar.inactiveForeground": "#9e9e9e",
-    "titleBar.border": "#171515",
-    "statusBar.background": "#6F5B3E",
-    "statusBar.foreground": "#C4AE78",
-    "statusBar.border": "#171515"
+    "activityBar.background": "#80a8c4",
+    "activityBar.foreground": "#ecf1e9",
+    "activityBar.inactiveForeground": "#1c1c1c",
+    "activityBar.activeBorder": "#4972bf",
+    "activityBar.activeBackground": "#D6AD60",
+    "activityBar.border": "#D6AD60",
+    "titleBar.activeBackground": "#B68D40",
+    "titleBar.activeForeground": "#122620",
+    "titleBar.inactiveBackground": "#97845f",
+    "titleBar.inactiveForeground": "#1c1c1c",
+    "titleBar.border": "#D6AD60",
+    "statusBar.background": "#B68D40",
+    "statusBar.foreground": "#122620",
+    "statusBar.border": "#D6AD60"
   }
 }

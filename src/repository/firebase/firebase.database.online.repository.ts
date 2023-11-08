@@ -1,6 +1,6 @@
 import FirebaseBaseRepository from './firebase.base.repository';
 import DataBaseActiveContract from '../../contracts/data.base.active.contract';
-import DatabaseOnlineDto from '../../dto/database.online.dto';
+import DatabaseOnlineDto from '../../dto/common.data/database.online.dto';
 
 export default class FirebaseDatabaseOnlineRepository
   extends FirebaseBaseRepository

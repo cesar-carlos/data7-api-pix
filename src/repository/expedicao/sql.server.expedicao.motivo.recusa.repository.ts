@@ -2,11 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import LocalBaseRepositoryContract, { params } from '../../contracts/local.base.repository.contract';
-import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
+import { params, pagination } from '../../contracts/local.base.params';
 
+import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
 import ExpedicaoMotivoRecusaDto from '../../dto/expedicao/expedicao.motivo.recusa.dto';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class SqlServerExpedicaoMotivoRecusaRepository
   implements LocalBaseRepositoryContract<ExpedicaoMotivoRecusaDto>
@@ -14,7 +15,7 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoMotivoRecusaDto[] | undefined> {
+  public async select(): Promise<ExpedicaoMotivoRecusaDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.motivo.recusa.select.sql');
@@ -22,28 +23,28 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
         return ExpedicaoMotivoRecusaDto.fromObject(item);
       });
 
       return entity;
     } catch (error: any) {
-      console.log(error.message);
+      throw new Error(error.message);
     }
   }
 
-  public async selectWhere(params: params[]): Promise<ExpedicaoMotivoRecusaDto[] | undefined> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoMotivoRecusaDto[]> {
     try {
       const pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.motivo.recusa.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const _params = ParamsCommonRepository.build(params);
-      const sql = `${select} WHERE ${_params}`;
+      const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
       pool.close();
 
-      if (result.recordset.length === 0) return undefined;
+      if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
         return ExpedicaoMotivoRecusaDto.fromObject(item);
       });

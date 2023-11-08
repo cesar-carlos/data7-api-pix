@@ -5,7 +5,7 @@ import util from 'util';
 import { STATUS } from '../type/status';
 
 import ProcessInfo from '../entities/process.info';
-import AppAbortCharge from './app.abort.charge';
+import AppAbortCharge from './app.cancelar.cobranca';
 import AppTestDatabeses from './app.test.databeses';
 import AppCobrancaPix from './app.cobranca.pix';
 import AppCobrancaPixValidar from './app.cobranca.pix.validar';

@@ -1,5 +1,5 @@
-import Api from './api';
 import dotenv from 'dotenv';
+import AppApi from './app.api';
 import AppLinstens from './app.linstens';
 import AppDependencys from './app.dependencys';
 import AppFirebase from './app.firebase';
@@ -19,6 +19,6 @@ export default class App {
 
   public async execute() {
     new AppLinstens().execute();
-    new Api(this.port).execute();
+    new AppApi(this.port).execute();
   }
 }

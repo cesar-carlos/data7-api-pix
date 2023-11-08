@@ -2,7 +2,7 @@ import { STATUS } from '../type/status';
 
 import CobrancaPix from '../entities/cobranca.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
-import CobrancaDigitalTituloDto from '../dto/cobranca.digital.titulo.dto';
+import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 
 export default class CancelamentoPixService {

@@ -2,7 +2,7 @@ import { eContext } from '../dependency/container.dependency';
 
 import ProcessInfo from '../entities/process.info';
 import AppDependencys from './app.dependencys';
-import DatabaseOnlineDto from '../dto/database.online.dto';
+import DatabaseOnlineDto from '../dto/common.data/database.online.dto';
 import DatabaseStatusService from '../services/database.status.service';
 import DataBaseActiveContract from '../contracts/data.base.active.contract';
 

@@ -1,4 +1,4 @@
-import { responseCreateChaveDto } from '../dto/response.create.chave.dto';
+import { responseCreateChaveDto } from '../dto/api.responses/response.create.chave.dto';
 import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreateChaveAdapter extends GerencianetBase {
