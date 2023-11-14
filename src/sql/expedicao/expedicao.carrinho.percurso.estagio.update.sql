@@ -8,4 +8,5 @@ SET Situacao = @Situacao,
   NomeUsuario = @NomeUsuario
 WHERE CodEmpresa = @CodEmpresa
   AND CodCarrinhoPercurso = @CodCarrinhoPercurso
-  AND Item = @Item
+  AND CodPercursoEstagio = @CodPercursoEstagio
+  AND CodCarrinho = @CodCarrinho

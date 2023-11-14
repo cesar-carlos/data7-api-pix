@@ -1,16 +1,16 @@
 import { Socket } from 'socket.io';
 
-import CarrinhoPercursoRepository from './carrinho.percurso.repository';
+import SepararRepository from './separar.repository';
 
-export default class CarrinhoPercursoEvent {
-  private repository = new CarrinhoPercursoRepository();
+export default class SepararEvent {
+  private repository = new SepararRepository();
 
   constructor(private readonly socket: Socket) {
     const client = socket.id;
 
-    socket.on(`${client} carrinho.percurso.select`, async (data) => {
+    socket.on(`${client} separar.select`, async (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.select`;
+      const resposeIn = json['resposeIn'] ?? `${client} separar.select`;
       const params = json['where'] ?? '';
 
       try {
@@ -29,43 +29,43 @@ export default class CarrinhoPercursoEvent {
       }
     });
 
-    socket.on(`${client} carrinho.percurso.insert`, async (data) => {
+    socket.on(`${client} separar.insert`, (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.insert`;
+      const resposeIn = json['resposeIn'] ?? `${client} separar.insert`;
       const mutation = json['mutation'];
 
       try {
-        await this.repository.insert(mutation);
+        this.repository.insert(mutation);
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.carrinho.percurso.insert', JSON.stringify(json));
+        socket.broadcast.emit('separar.insert', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} carrinho.percurso.update`, async (data) => {
+    socket.on(`${client} separar.update`, async (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.update`;
+      const resposeIn = json['resposeIn'] ?? `${client} separar.update`;
       const mutation = json['mutation'];
 
       try {
         await this.repository.update(mutation);
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.carrinho.percurso.update', JSON.stringify(json));
+        socket.broadcast.emit('separar.update', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} carrinho.percurso.delete`, (data) => {
+    socket.on(`${client} separar.delete`, (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.delete`;
+      const resposeIn = json['resposeIn'] ?? `${client} separar.delete`;
       const mutation = json['mutation'];
 
       try {
         this.repository.delete(mutation);
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.carrinho.percurso.delete', JSON.stringify(json));
+        socket.broadcast.emit('separar.delete', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

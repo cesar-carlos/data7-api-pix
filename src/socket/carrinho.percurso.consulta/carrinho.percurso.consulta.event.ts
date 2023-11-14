@@ -6,20 +6,24 @@ export default class CarrinhoPercursoConsultaEvent {
   private repository = new CarrinhoPercursoConsultaRepository();
 
   constructor(private readonly socket: Socket) {
-    socket.on('carrinho.percurso.consulta', async (data) => {
+    const client = socket.id;
+
+    socket.on(`${client} carrinho.percurso.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'];
+      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.consulta`;
       const params = json['where'] ?? '';
 
       try {
         if (params != '') {
           const result = await this.repository.selectWhere(params);
-          socket.emit(resposeIn, JSON.stringify(result));
+          const json = result.map((item) => item.toJson());
+          socket.emit(resposeIn, JSON.stringify(json));
           return;
         }
 
         const result = await this.repository.select();
-        socket.emit(resposeIn, JSON.stringify(result));
+        const json = result.map((item) => item.toJson());
+        socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

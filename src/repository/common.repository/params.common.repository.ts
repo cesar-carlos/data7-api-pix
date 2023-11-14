@@ -4,7 +4,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 export default class ParamsCommonRepository {
   static build(params: params[] | string) {
-    if (typeof params === 'string') return params;W
+    if (typeof params === 'string') return params;
 
     return params
       .map((item: any) => {

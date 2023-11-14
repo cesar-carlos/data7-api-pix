@@ -1,18 +1,18 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
-import AppDependencys from '../../aplication/app.dependencys';
+import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
+import AppDependencys from '../../aplication/app.dependencys';
 
-export default class CarrinhoPercursoRepository {
-  public async select(): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+export default class PercursoEstagioRepository {
+  public async select(): Promise<ExpedicaoPercursoEstagioDto[]> {
     const repository = this.repository();
     const result = await repository.select();
     return result;
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
@@ -22,7 +22,7 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.update(ExpedicaoPercursoEstagioDto.fromObject(mutation));
     });
   }
 
@@ -31,7 +31,7 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.insert(ExpedicaoPercursoEstagioDto.fromObject(mutation));
     });
   }
 
@@ -40,14 +40,14 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.delete(ExpedicaoPercursoEstagioDto.fromObject(mutation));
     });
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>',
     });
   }
 }

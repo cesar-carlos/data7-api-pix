@@ -3,16 +3,16 @@ import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
+import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 
-export default class CarrinhoPercursoRepository {
-  public async select(): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+export default class SeparacaoItemRepository {
+  public async select(): Promise<ExpedicaoItemSeparacaoDto[]> {
     const repository = this.repository();
     const result = await repository.select();
     return result;
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
@@ -22,7 +22,7 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.update(ExpedicaoItemSeparacaoDto.fromObject(mutation));
     });
   }
 
@@ -31,7 +31,7 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.insert(ExpedicaoItemSeparacaoDto.fromObject(mutation));
     });
   }
 
@@ -40,14 +40,14 @@ export default class CarrinhoPercursoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoCarrinhoPercursoDto.fromObject(mutation));
+      await repository.delete(ExpedicaoItemSeparacaoDto.fromObject(mutation));
     });
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoItemSeparacaoDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemSeparacaoDto>',
     });
   }
 }

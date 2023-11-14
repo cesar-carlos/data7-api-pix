@@ -9,5 +9,11 @@ SELECT CodEmpresa,
   Hora,
   CodPrioridade,
   Historico,
-  Observacao
+  Observacao,
+  CodMotivoCancelamento,
+  DataCancelamento,
+  HoraCancelamento,
+  CodUsuarioCancelamento,
+  NomeUsuarioCancelamento,
+  ObservacaoCancelamento
 FROM Expedicao.SepararEstoque

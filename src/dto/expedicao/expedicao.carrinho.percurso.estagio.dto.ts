@@ -1,7 +1,8 @@
 export default class ExpedicaoCarrinhoPercursoEstagioDto {
   CodEmpresa: number;
   CodCarrinhoPercurso: number;
-  Item: string;
+  CodPercursoEstagio: number;
+  CodCarrinho: number;
   Situacao: string;
   DataInicio: Date;
   HoraInicio: string;
@@ -13,7 +14,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
   constructor(params: {
     CodEmpresa: number;
     CodCarrinhoPercurso: number;
-    Item: string;
+    CodPercursoEstagio: number;
+    CodCarrinho: number;
     Situacao: string;
     DataInicio: Date;
     HoraInicio: string;
@@ -24,7 +26,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
-    this.Item = params.Item;
+    this.CodPercursoEstagio = params.CodPercursoEstagio;
+    this.CodCarrinho = params.CodCarrinho;
     this.Situacao = params.Situacao;
     this.DataInicio = params.DataInicio;
     this.HoraInicio = params.HoraInicio;
@@ -37,7 +40,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
   public copyWith({
     CodEmpresa,
     CodCarrinhoPercurso,
-    Item,
+    CodPercursoEstagio,
+    CodCarrinho,
     Situacao,
     DataInicio,
     HoraInicio,
@@ -48,7 +52,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
   }: {
     CodEmpresa?: number;
     CodCarrinhoPercurso?: number;
-    Item?: string;
+    CodPercursoEstagio?: number;
+    CodCarrinho?: number;
     Situacao?: string;
     DataInicio?: Date;
     HoraInicio?: string;
@@ -60,7 +65,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
     return new ExpedicaoCarrinhoPercursoEstagioDto({
       CodEmpresa: CodEmpresa ?? this.CodEmpresa,
       CodCarrinhoPercurso: CodCarrinhoPercurso ? CodCarrinhoPercurso : this.CodCarrinhoPercurso,
-      Item: Item ?? this.Item,
+      CodPercursoEstagio: CodPercursoEstagio ?? this.CodPercursoEstagio,
+      CodCarrinho: CodCarrinho ?? this.CodCarrinho,
       Situacao: Situacao ?? this.Situacao,
       DataInicio: DataInicio ?? this.DataInicio,
       HoraInicio: HoraInicio ?? this.HoraInicio,
@@ -71,41 +77,12 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
     });
   }
 
-  static fromJson(json: any): ExpedicaoCarrinhoPercursoEstagioDto {
-    return new ExpedicaoCarrinhoPercursoEstagioDto({
-      CodEmpresa: json.CodEmpresa,
-      CodCarrinhoPercurso: json.CodCarrinhoPercurso,
-      Item: json.Item,
-      Situacao: json.Situacao,
-      DataInicio: json.DataInicio,
-      HoraInicio: json.HoraInicio,
-      DataFinalizacao: json.DataFinalizacao,
-      HoraFinalizacao: json.HoraFinalizacao,
-      CodUsuario: json.CodUsuario,
-      NomeUsuario: json.NomeUsuario,
-    });
-  }
-
-  public toJson(): any {
-    return {
-      CodEmpresa: this.CodEmpresa,
-      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
-      Item: this.Item,
-      Situacao: this.Situacao,
-      DataInicio: this.DataInicio,
-      HoraInicio: this.HoraInicio,
-      DataFinalizacao: this.DataFinalizacao,
-      HoraFinalizacao: this.HoraFinalizacao,
-      CodUsuario: this.CodUsuario,
-      NomeUsuario: this.NomeUsuario,
-    };
-  }
-
   static fromObject(object: any): ExpedicaoCarrinhoPercursoEstagioDto {
     return new ExpedicaoCarrinhoPercursoEstagioDto({
       CodEmpresa: object.CodEmpresa,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
-      Item: object.Item,
+      CodPercursoEstagio: object.CodPercursoEstagio,
+      CodCarrinho: object.CodCarrinho,
       Situacao: object.Situacao,
       DataInicio: object.DataInicio,
       HoraInicio: object.HoraInicio,
@@ -114,5 +91,21 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
       CodUsuario: object.CodUsuario,
       NomeUsuario: object.NomeUsuario,
     });
+  }
+
+  public toJson(): any {
+    return {
+      CodEmpresa: this.CodEmpresa,
+      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
+      CodPercursoEstagio: this.CodPercursoEstagio,
+      CodCarrinho: this.CodCarrinho,
+      Situacao: this.Situacao,
+      DataInicio: this.DataInicio,
+      HoraInicio: this.HoraInicio,
+      DataFinalizacao: this.DataFinalizacao,
+      HoraFinalizacao: this.HoraFinalizacao,
+      CodUsuario: this.CodUsuario,
+      NomeUsuario: this.NomeUsuario,
+    };
   }
 }

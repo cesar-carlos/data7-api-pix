@@ -40,14 +40,14 @@ export default class ExpedicaoCarrinhoDto {
     });
   }
 
-  static fromJson(json: any): ExpedicaoCarrinhoDto {
+  static fromObject(object: any): ExpedicaoCarrinhoDto {
     return new ExpedicaoCarrinhoDto({
-      CodEmpresa: json.CodEmpresa,
-      CodCarrinho: json.CodCarrinho,
-      CodigoBarras: json.CodigoBarras,
-      Descricao: json.Descricao,
-      Situacao: json.Situacao,
-      Ativo: json.Ativo,
+      CodEmpresa: object.CodEmpresa,
+      CodCarrinho: object.CodCarrinho,
+      CodigoBarras: object.CodigoBarras,
+      Descricao: object.Descricao,
+      Situacao: object.Situacao,
+      Ativo: object.Ativo,
     });
   }
 
@@ -60,16 +60,5 @@ export default class ExpedicaoCarrinhoDto {
       Situacao: this.Situacao,
       Ativo: this.Ativo,
     };
-  }
-
-  static fromObject(object: any): ExpedicaoCarrinhoDto {
-    return new ExpedicaoCarrinhoDto({
-      CodEmpresa: object.CodEmpresa,
-      CodCarrinho: object.CodCarrinho,
-      CodigoBarras: object.CodigoBarras,
-      Descricao: object.Descricao,
-      Situacao: object.Situacao,
-      Ativo: object.Ativo,
-    });
   }
 }

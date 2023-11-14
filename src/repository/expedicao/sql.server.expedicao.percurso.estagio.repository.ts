@@ -6,26 +6,26 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ParamsCommonRepository from '../common.repository/params.common.repository';
-import ExpedicaoItemSeparacaoEstoqueDto from '../../dto/expedicao/expedicao.item.separacao.estoque.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
 
-export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
-  implements LocalBaseRepositoryContract<ExpedicaoItemSeparacaoEstoqueDto>
+export default class SqlServerExpedicaoPercursoEstagioRepository
+  implements LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>
 {
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoItemSeparacaoEstoqueDto[]> {
+  public async select(): Promise<ExpedicaoPercursoEstagioDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separacao.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
       pool.close();
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoItemSeparacaoEstoqueDto.fromObject(item);
+        return ExpedicaoPercursoEstagioDto.fromObject(item);
       });
 
       return entity;
@@ -34,10 +34,10 @@ export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoEstoqueDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separacao.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -47,7 +47,7 @@ export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoItemSeparacaoEstoqueDto.fromObject(item);
+        return ExpedicaoPercursoEstagioDto.fromObject(item);
       });
 
       return entitys;
@@ -56,9 +56,9 @@ export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
     }
   }
 
-  public async insert(entity: ExpedicaoItemSeparacaoEstoqueDto): Promise<void> {
+  public async insert(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separacao.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -66,9 +66,9 @@ export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
     }
   }
 
-  public async update(entity: ExpedicaoItemSeparacaoEstoqueDto): Promise<void> {
+  public async update(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separacao.update.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.update.sql');
       const update = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -76,31 +76,24 @@ export default class SqlServerExpedicaoItemSeparacaoEstoqueRepository
     }
   }
 
-  public async delete(entity: ExpedicaoItemSeparacaoEstoqueDto): Promise<void> {
-    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separacao.delete.sql');
+  public async delete(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
+    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.delete.sql');
     const delet = fs.readFileSync(patchSQL).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: ExpedicaoItemSeparacaoEstoqueDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: ExpedicaoPercursoEstagioDto, sqlCommand: string): Promise<void> {
     try {
       const pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
-        .input('CodEmpresa', sql.Int, entity.CodEmpresa)
-        .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
-        .input('Item', sql.Int, entity.Item)
-        .input('SessionId', sql.VarChar(1000), entity.SessionId)
-        .input('CodCarrinho', sql.Int, entity.CodCarrinho)
-        .input('CodSeparador', sql.Int, entity.CodSeparador)
-        .input('NomeSeparador', sql.VarChar(100), entity.NomeSeparador)
-        .input('DataSeparacao', sql.Date, entity.DataSeparacao)
-        .input('HoraSeparacao', sql.VarChar(5), entity.HoraSeparacao)
-        .input('CodProduto', sql.Int, entity.CodProduto)
-        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
-        .input('Quantidade', sql.Float, entity.Quantidade)
+        .input('CodPercursoEstagio', sql.Int, entity.CodPercursoEstagio)
+        .input('Descricao', sql.VarChar(100), entity.Descricao)
+        .input('Ativo', sql.VarChar(1), entity.Ativo)
+        .input('Sigla', sql.VarChar(6), entity.Sigla)
+        .input('Sequencia', sql.Int, entity.Sequencia)
         .query(sqlCommand);
 
       await transaction.commit();

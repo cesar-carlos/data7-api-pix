@@ -10,7 +10,13 @@ INSERT INTO Expedicao.SepararEstoque(
     Hora,
     CodPrioridade,
     Historico,
-    Observacao
+    Observacao,
+    CodMotivoCancelamento,
+    DataCancelamento,
+    HoraCancelamento,
+    CodUsuarioCancelamento,
+    NomeUsuarioCancelamento,
+    ObservacaoCancelamento
   )
 VALUES (
     @CodEmpresa,
@@ -24,5 +30,11 @@ VALUES (
     @Hora,
     @CodPrioridade,
     @Historico,
-    @Observacao
+    @Observacao,
+    @CodMotivoCancelamento,
+    @DataCancelamento,
+    @HoraCancelamento,
+    @CodUsuarioCancelamento,
+    @NomeUsuarioCancelamento,
+    @ObservacaoCancelamento
   )

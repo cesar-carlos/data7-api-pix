@@ -1,4 +1,4 @@
-export default class ExpedicaoItemSepararEstoqueDto {
+export default class ExpedicaoItemSepararDto {
   CodEmpresa: number;
   CodSepararEstoque: number;
   Item: string;
@@ -77,7 +77,7 @@ export default class ExpedicaoItemSepararEstoqueDto {
     QuantidadeExterna?: number;
     QuantidadeSeparacao?: number;
   }) {
-    return new ExpedicaoItemSepararEstoqueDto({
+    return new ExpedicaoItemSepararDto({
       CodEmpresa: CodEmpresa ?? this.CodEmpresa,
       CodSepararEstoque: CodSepararEstoque ?? this.CodSepararEstoque,
       Item: Item ?? this.Item,
@@ -95,22 +95,22 @@ export default class ExpedicaoItemSepararEstoqueDto {
     });
   }
 
-  static fromJson(json: any): ExpedicaoItemSepararEstoqueDto {
-    return new ExpedicaoItemSepararEstoqueDto({
-      CodEmpresa: json.CodEmpresa,
-      CodSepararEstoque: json.CodSepararEstoque,
-      Item: json.Item,
-      CodSetorEstoque: json.CodSetorEstoque,
-      Origem: json.Origem,
-      CodOrigem: json.CodOrigem,
-      ItemOrigem: json.ItemOrigem,
-      CodLocaArmazenagem: json.CodLocaArmazenagem,
-      CodProduto: json.CodProduto,
-      CodUnidadeMedida: json.CodUnidadeMedida,
-      Quantidade: json.Quantidade,
-      QuantidadeInterna: json.QuantidadeInterna,
-      QuantidadeExterna: json.QuantidadeExterna,
-      QuantidadeSeparacao: json.QuantidadeSeparacao,
+  static fromObject(object: any): ExpedicaoItemSepararDto {
+    return new ExpedicaoItemSepararDto({
+      CodEmpresa: object.CodEmpresa,
+      CodSepararEstoque: object.CodSepararEstoque,
+      Item: object.Item,
+      CodSetorEstoque: object.CodSetorEstoque,
+      Origem: object.Origem,
+      CodOrigem: object.CodOrigem,
+      ItemOrigem: object.ItemOrigem,
+      CodLocaArmazenagem: object.CodLocaArmazenagem,
+      CodProduto: object.CodProduto,
+      CodUnidadeMedida: object.CodUnidadeMedida,
+      Quantidade: object.Quantidade,
+      QuantidadeInterna: object.QuantidadeInterna,
+      QuantidadeExterna: object.QuantidadeExterna,
+      QuantidadeSeparacao: object.QuantidadeSeparacao,
     });
   }
 
@@ -131,24 +131,5 @@ export default class ExpedicaoItemSepararEstoqueDto {
       QuantidadeExterna: this.QuantidadeExterna,
       QuantidadeSeparacao: this.QuantidadeSeparacao,
     };
-  }
-
-  static fromObject(object: any): ExpedicaoItemSepararEstoqueDto {
-    return new ExpedicaoItemSepararEstoqueDto({
-      CodEmpresa: object.CodEmpresa,
-      CodSepararEstoque: object.CodSepararEstoque,
-      Item: object.Item,
-      CodSetorEstoque: object.CodSetorEstoque,
-      Origem: object.Origem,
-      CodOrigem: object.CodOrigem,
-      ItemOrigem: object.ItemOrigem,
-      CodLocaArmazenagem: object.CodLocaArmazenagem,
-      CodProduto: object.CodProduto,
-      CodUnidadeMedida: object.CodUnidadeMedida,
-      Quantidade: object.Quantidade,
-      QuantidadeInterna: object.QuantidadeInterna,
-      QuantidadeExterna: object.QuantidadeExterna,
-      QuantidadeSeparacao: object.QuantidadeSeparacao,
-    });
   }
 }

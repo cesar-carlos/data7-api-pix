@@ -4,7 +4,7 @@ import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoSepararEstoqueDto from '../../dto/expedicao/expedicao.separar.estoque.dto';
+import ExpedicaoSepararEstoqueDto from '../../dto/expedicao/expedicao.separar.dto';
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class ExpedicaoSepararEstoqueController {

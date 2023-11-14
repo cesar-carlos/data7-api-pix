@@ -2,6 +2,9 @@ SELECT CodEmpresa,
   CodCarrinhoPercurso,
   Origem,
   CodOrigem,
-  CodCarrinho,
-  Situacao
+  Situacao,
+  DataInicio,
+  HoraInicio,
+  DataFinalizacao,
+  HoraFinalizacao
 FROM Expedicao.CarrinhoPercurso

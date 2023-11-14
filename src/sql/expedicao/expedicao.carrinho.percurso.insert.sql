@@ -3,14 +3,20 @@ INSERT INTO Expedicao.CarrinhoPercurso(
     CodCarrinhoPercurso,
     Origem,
     CodOrigem,
-    CodCarrinho,
-    Situacao
+    Situacao,
+    DataInicio,
+    HoraInicio,
+    DataFinalizacao,
+    HoraFinalizacao
   )
 VALUES (
     @CodEmpresa,
     @CodCarrinhoPercurso,
     @Origem,
     @CodOrigem,
-    @CodCarrinho,
-    @Situacao
+    @Situacao,
+    @DataInicio,
+    @HoraInicio,
+    @DataFinalizacao,
+    @HoraFinalizacao
   )

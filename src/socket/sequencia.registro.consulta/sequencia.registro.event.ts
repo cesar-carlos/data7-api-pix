@@ -6,9 +6,11 @@ export default class SequenciaRegistroEvent {
   private repository = new SequenciaRegistroRepository();
 
   constructor(private readonly socket: Socket) {
-    socket.on('sequencia.consulta', async (data) => {
+    const client = socket.id;
+
+    socket.on(`${client} sequencia.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'];
+      const resposeIn = json['resposeIn'] ?? `${client} sequencia.consulta`;
       const params = json['where'] ?? '';
 
       try {

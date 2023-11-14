@@ -22,7 +22,7 @@ export default class CarrinhoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoCarrinhoDto.fromJson(mutation));
+      await repository.update(ExpedicaoCarrinhoDto.fromObject(mutation));
     });
   }
 
@@ -31,7 +31,7 @@ export default class CarrinhoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoCarrinhoDto.fromJson(mutation));
+      await repository.insert(ExpedicaoCarrinhoDto.fromObject(mutation));
     });
   }
 
@@ -40,7 +40,7 @@ export default class CarrinhoRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoCarrinhoDto.fromJson(mutation));
+      await repository.delete(ExpedicaoCarrinhoDto.fromObject(mutation));
     });
   }
 

@@ -2,37 +2,39 @@ export default class ExpedicaoCarrinhoConsultaDto {
   CodEmpresa: number;
   CodCarrinho: number;
   Descricao: string;
-  Ativo: 'S' | 'N';
+  Ativo: string;
   Situacao: string;
   CodigoBarras: string;
-  CodCarrinhoPercurso: number;
-  Item: string;
-  Origem: string;
-  CodOrigem: number;
-  DataInicio: Date;
-  HoraInicio: string;
-  CodUsuario: number;
-  NomeUsuario: string;
-  CodSetorEstoque: number;
-  NomeSetorEstoque: string;
+  CodCarrinhoPercurso?: number;
+  CodPercursoEstagio?: number;
+  DescricaoPercursoEstagio?: string;
+  Origem?: string;
+  CodOrigem?: number;
+  DataInicio?: Date;
+  HoraInicio?: string;
+  CodUsuario?: number;
+  NomeUsuario?: string;
+  CodSetorEstoque?: number;
+  NomeSetorEstoque?: string;
 
   constructor(params: {
     CodEmpresa: number;
     CodCarrinho: number;
     Descricao: string;
-    Ativo: 'S' | 'N';
+    Ativo: string;
     Situacao: string;
     CodigoBarras: string;
-    CodCarrinhoPercurso: number;
-    Item: string;
-    Origem: string;
-    CodOrigem: number;
-    DataInicio: Date;
-    HoraInicio: string;
-    CodUsuario: number;
-    NomeUsuario: string;
-    CodSetorEstoque: number;
-    NomeSetorEstoque: string;
+    CodCarrinhoPercurso?: number;
+    CodPercursoEstagio?: number;
+    DescricaoPercursoEstagio?: string;
+    Origem?: string;
+    CodOrigem?: number;
+    DataInicio?: Date;
+    HoraInicio?: string;
+    CodUsuario?: number;
+    NomeUsuario?: string;
+    CodSetorEstoque?: number;
+    NomeSetorEstoque?: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinho = params.CodCarrinho;
@@ -41,7 +43,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
     this.Situacao = params.Situacao;
     this.CodigoBarras = params.CodigoBarras;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
-    this.Item = params.Item;
+    this.CodPercursoEstagio = params.CodPercursoEstagio;
+    this.DescricaoPercursoEstagio = params.DescricaoPercursoEstagio;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.DataInicio = params.DataInicio;
@@ -56,11 +59,12 @@ export default class ExpedicaoCarrinhoConsultaDto {
     CodEmpresa?: number;
     CodCarrinho?: number;
     Descricao?: string;
-    Ativo?: 'S' | 'N';
+    Ativo?: string;
     Situacao?: string;
     CodigoBarras?: string;
     CodCarrinhoPercurso?: number;
-    Item?: string;
+    CodPercursoEstagio?: number;
+    DescricaoPercursoEstagio?: string;
     Origem?: string;
     CodOrigem?: number;
     DataInicio?: Date;
@@ -78,7 +82,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
       Situacao: params.Situacao ?? this.Situacao,
       CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
-      Item: params.Item ?? this.Item,
+      CodPercursoEstagio: params.CodPercursoEstagio ?? this.CodPercursoEstagio,
+      DescricaoPercursoEstagio: params.DescricaoPercursoEstagio ?? this.DescricaoPercursoEstagio,
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       DataInicio: params.DataInicio ?? this.DataInicio,
@@ -90,24 +95,25 @@ export default class ExpedicaoCarrinhoConsultaDto {
     });
   }
 
-  static fromJson(json: any): ExpedicaoCarrinhoConsultaDto {
+  static fromObject(object: any): ExpedicaoCarrinhoConsultaDto {
     return new ExpedicaoCarrinhoConsultaDto({
-      CodEmpresa: json.CodEmpresa,
-      CodCarrinho: json.CodCarrinho,
-      Descricao: json.Descricao,
-      Ativo: json.Ativo,
-      Situacao: json.Situacao,
-      CodigoBarras: json.CodigoBarras,
-      CodCarrinhoPercurso: json.CodCarrinhoPercurso,
-      Item: json.Item,
-      Origem: json.Origem,
-      CodOrigem: json.CodOrigem,
-      DataInicio: json.DataInicio,
-      HoraInicio: json.HoraInicio,
-      CodUsuario: json.CodUsuario,
-      NomeUsuario: json.NomeUsuario,
-      CodSetorEstoque: json.CodSetorEstoque,
-      NomeSetorEstoque: json.NomeSetorEstoque,
+      CodEmpresa: object.CodEmpresa,
+      CodCarrinho: object.CodCarrinho,
+      Descricao: object.Descricao,
+      Ativo: object.Ativo,
+      Situacao: object.Situacao,
+      CodigoBarras: object.CodigoBarras,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      CodPercursoEstagio: object.CodPercursoEstagio,
+      DescricaoPercursoEstagio: object.DescricaoPercursoEstagio,
+      Origem: object.Origem,
+      CodOrigem: object.CodOrigem,
+      DataInicio: object.DataInicio,
+      HoraInicio: object.HoraInicio,
+      CodUsuario: object.CodUsuario,
+      NomeUsuario: object.NomeUsuario,
+      CodSetorEstoque: object.CodSetorEstoque,
+      NomeSetorEstoque: object.NomeSetorEstoque,
     });
   }
 
@@ -120,7 +126,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
       Situacao: this.Situacao,
       CodigoBarras: this.CodigoBarras,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
-      Item: this.Item,
+      CodPercursoEstagio: this.CodPercursoEstagio,
+      DescricaoPercursoEstagio: this.DescricaoPercursoEstagio,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       DataInicio: this.DataInicio,
@@ -130,26 +137,5 @@ export default class ExpedicaoCarrinhoConsultaDto {
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
     };
-  }
-
-  static fromObject(object: any): ExpedicaoCarrinhoConsultaDto {
-    return new ExpedicaoCarrinhoConsultaDto({
-      CodEmpresa: object.CodEmpresa,
-      CodCarrinho: object.CodCarrinho,
-      Descricao: object.Descricao,
-      Ativo: object.Ativo,
-      Situacao: object.Situacao,
-      CodigoBarras: object.CodigoBarras,
-      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
-      Item: object.Item,
-      Origem: object.Origem,
-      CodOrigem: object.CodOrigem,
-      DataInicio: object.DataInicio,
-      HoraInicio: object.HoraInicio,
-      CodUsuario: object.CodUsuario,
-      NomeUsuario: object.NomeUsuario,
-      CodSetorEstoque: object.CodSetorEstoque,
-      NomeSetorEstoque: object.NomeSetorEstoque,
-    });
   }
 }

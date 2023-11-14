@@ -1,12 +1,12 @@
 SELECT *
 FROM (
-    SELECT cp.CodEmpresa,
-      cp.CodCarrinhoPercurso,
-      cpe.Item,
+    SELECT cpe.CodEmpresa,
+      cpe.CodCarrinhoPercurso,
+      cpe.CodPercursoEstagio,
       cp.Origem,
       cp.CodOrigem,
       cpe.Situacao,
-      cart.CodCarrinho,
+      cpe.CodCarrinho,
       cart.Descricao NomeCarrinho,
       cart.CodigoBarras CodigoBarrasCarrinho,
       cart.Ativo Ativo,
@@ -18,12 +18,11 @@ FROM (
       cpe.NomeUsuario,
       co.CodSetorEstoque,
       se.Descricao NomeSetorEstoque
-    FROM Expedicao.CarrinhoPercurso cp
-      LEFT JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = cp.CodEmpresa
-      AND cpe.CodCarrinhoPercurso = cp.CodCarrinhoPercurso
-      LEFT JOIN Expedicao.Carrinho cart on cart.CodEmpresa = cpe.CodEmpresa
-      AND cart.CodCarrinho = cp.CodCarrinho
-      LEFT JOIN CaixaOperador co ON co.CodEmpresa = cp.CodEmpresa
-      AND co.CodUsuario = cpe.CodUsuario
+    FROM Expedicao.CarrinhoPercursoEstagio cpe
+      INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = cpe.CodEmpresa
+      AND cp.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
+      LEFT JOIN Expedicao.Carrinho cart ON cart.CodEmpresa = cpe.CodEmpresa
+      AND cart.CodCarrinho = cpe.CodCarrinho
+      LEFT JOIN CaixaOperador co ON co.CodUsuario = cpe.CodUsuario
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = co.CodSetorEstoque
-  ) CarrinhoPercurso
+  ) CarrinhoPercursoConsulta

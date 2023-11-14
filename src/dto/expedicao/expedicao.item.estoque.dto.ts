@@ -61,27 +61,71 @@ export default class ExpedicaoItemEstoqueDto {
     this.Endereco = params.Endereco;
   }
 
-  static fromJson(json: any): ExpedicaoItemEstoqueDto {
+  public copyWith(params: {
+    CodProduto?: number;
+    NomeProduto?: string;
+    Ativo?: string;
+    CodTipoProduto?: string;
+    CodUnidadeMedida?: string;
+    NomeUnidadeMedida?: string;
+    CodGrupoProduto?: number;
+    NomeGrupoProduto?: string;
+    CodMarca?: number;
+    NomeMarca?: string;
+    CodSetorEstoque?: number;
+    NCM?: string;
+    CodigoBarras?: string;
+    CodigoBarras2?: string;
+    CodigoReferencia?: string;
+    CodigoFornecedor?: string;
+    CodigoFabricante?: string;
+    CodigoOriginal?: string;
+    Endereco?: string;
+  }): ExpedicaoItemEstoqueDto {
     return new ExpedicaoItemEstoqueDto({
-      CodProduto: json.CodProduto,
-      NomeProduto: json.NomeProduto,
-      Ativo: json.Ativo,
-      CodTipoProduto: json.CodTipoProduto,
-      CodUnidadeMedida: json.CodUnidadeMedida,
-      NomeUnidadeMedida: json.NomeUnidadeMedida,
-      CodGrupoProduto: json.CodGrupoProduto,
-      NomeGrupoProduto: json.NomeGrupoProduto,
-      CodMarca: json.CodMarca,
-      NomeMarca: json.NomeMarca,
-      CodSetorEstoque: json.CodSetorEstoque,
-      NCM: json.NCM,
-      CodigoBarras: json.CodigoBarras,
-      CodigoBarras2: json.CodigoBarras2,
-      CodigoReferencia: json.CodigoReferencia,
-      CodigoFornecedor: json.CodigoFornecedor,
-      CodigoFabricante: json.CodigoFabricante,
-      CodigoOriginal: json.CodigoOriginal,
-      Endereco: json.Endereco,
+      CodProduto: params.CodProduto ?? this.CodProduto,
+      NomeProduto: params.NomeProduto ?? this.NomeProduto,
+      Ativo: params.Ativo ?? this.Ativo,
+      CodTipoProduto: params.CodTipoProduto ?? this.CodTipoProduto,
+      CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
+      NomeUnidadeMedida: params.NomeUnidadeMedida ?? this.NomeUnidadeMedida,
+      CodGrupoProduto: params.CodGrupoProduto ?? this.CodGrupoProduto,
+      NomeGrupoProduto: params.NomeGrupoProduto ?? this.NomeGrupoProduto,
+      CodMarca: params.CodMarca ?? this.CodMarca,
+      NomeMarca: params.NomeMarca ?? this.NomeMarca,
+      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
+      NCM: params.NCM ?? this.NCM,
+      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
+      CodigoBarras2: params.CodigoBarras2 ?? this.CodigoBarras2,
+      CodigoReferencia: params.CodigoReferencia ?? this.CodigoReferencia,
+      CodigoFornecedor: params.CodigoFornecedor ?? this.CodigoFornecedor,
+      CodigoFabricante: params.CodigoFabricante ?? this.CodigoFabricante,
+      CodigoOriginal: params.CodigoOriginal ?? this.CodigoOriginal,
+      Endereco: params.Endereco ?? this.Endereco,
+    });
+  }
+
+  static fromObject(object: any): ExpedicaoItemEstoqueDto {
+    return new ExpedicaoItemEstoqueDto({
+      CodProduto: object.CodProduto,
+      NomeProduto: object.NomeProduto,
+      Ativo: object.Ativo,
+      CodTipoProduto: object.CodTipoProduto,
+      CodUnidadeMedida: object.CodUnidadeMedida,
+      NomeUnidadeMedida: object.NomeUnidadeMedida,
+      CodGrupoProduto: object.CodGrupoProduto,
+      NomeGrupoProduto: object.NomeGrupoProduto,
+      CodMarca: object.CodMarca,
+      NomeMarca: object.NomeMarca,
+      CodSetorEstoque: object.CodSetorEstoque,
+      NCM: object.NCM,
+      CodigoBarras: object.CodigoBarras,
+      CodigoBarras2: object.CodigoBarras2,
+      CodigoReferencia: object.CodigoReferencia,
+      CodigoFornecedor: object.CodigoFornecedor,
+      CodigoFabricante: object.CodigoFabricante,
+      CodigoOriginal: object.CodigoOriginal,
+      Endereco: object.Endereco,
     });
   }
 
@@ -107,29 +151,5 @@ export default class ExpedicaoItemEstoqueDto {
       CodigoOriginal: this.CodigoOriginal,
       Endereco: this.Endereco,
     };
-  }
-
-  static fromObject(object: any): ExpedicaoItemEstoqueDto {
-    return new ExpedicaoItemEstoqueDto({
-      CodProduto: object.CodProduto,
-      NomeProduto: object.NomeProduto,
-      Ativo: object.Ativo,
-      CodTipoProduto: object.CodTipoProduto,
-      CodUnidadeMedida: object.CodUnidadeMedida,
-      NomeUnidadeMedida: object.NomeUnidadeMedida,
-      CodGrupoProduto: object.CodGrupoProduto,
-      NomeGrupoProduto: object.NomeGrupoProduto,
-      CodMarca: object.CodMarca,
-      NomeMarca: object.NomeMarca,
-      CodSetorEstoque: object.CodSetorEstoque,
-      NCM: object.NCM,
-      CodigoBarras: object.CodigoBarras,
-      CodigoBarras2: object.CodigoBarras2,
-      CodigoReferencia: object.CodigoReferencia,
-      CodigoFornecedor: object.CodigoFornecedor,
-      CodigoFabricante: object.CodigoFabricante,
-      CodigoOriginal: object.CodigoOriginal,
-      Endereco: object.Endereco,
-    });
   }
 }

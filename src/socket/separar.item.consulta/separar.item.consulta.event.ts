@@ -6,21 +6,24 @@ export default class SepararItemConsultaEvent {
   private repository = new SepararItemConsultaRepository();
 
   constructor(private readonly socket: Socket) {
-    socket.on('separar.item.consulta', async (data) => {
+    const client = socket.id;
+
+    socket.on(`${client} separar.item.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const resposeIn = json['resposeIn'];
+      const resposeIn = json['resposeIn'] ?? `${client} separar.item.consulta`;
       const params = json['where'] ?? '';
 
       try {
         if (params != '') {
           const result = await this.repository.selectWhere(params);
-          const resultJson = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(resultJson));
+          const json = result.map((item) => item.toJson());
+          socket.emit(resposeIn, JSON.stringify(json));
           return;
         }
 
         const result = await this.repository.select();
-        socket.emit(resposeIn, JSON.stringify(result));
+        const json = result.map((item) => item.toJson());
+        socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

@@ -22,7 +22,7 @@ export default class CarrinhoPercursoEstagioRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoCarrinhoPercursoEstagioDto.fromJson(mutation));
+      await repository.update(ExpedicaoCarrinhoPercursoEstagioDto.fromObject(mutation));
     });
   }
 
@@ -31,7 +31,7 @@ export default class CarrinhoPercursoEstagioRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoCarrinhoPercursoEstagioDto.fromJson(mutation));
+      await repository.insert(ExpedicaoCarrinhoPercursoEstagioDto.fromObject(mutation));
     });
   }
 
@@ -40,7 +40,7 @@ export default class CarrinhoPercursoEstagioRepository {
     if (!Array.isArray(mutations)) mutations = [mutations];
 
     mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoCarrinhoPercursoEstagioDto.fromJson(mutation));
+      await repository.delete(ExpedicaoCarrinhoPercursoEstagioDto.fromObject(mutation));
     });
   }
 

@@ -3,23 +3,32 @@ export default class ExpedicaoCarrinhoPercursoDto {
   CodCarrinhoPercurso: number;
   Origem: string;
   CodOrigem: number;
-  CodCarrinho: number;
   Situacao: string;
+  DataInicio: Date;
+  HoraInicio: string;
+  DataFinalizacao?: Date;
+  HoraFinalizacao?: string;
 
   constructor(params: {
     CodEmpresa: number;
     CodCarrinhoPercurso: number;
     Origem: string;
     CodOrigem: number;
-    CodCarrinho: number;
     Situacao: string;
+    DataInicio: Date;
+    HoraInicio: string;
+    DataFinalizacao?: Date;
+    HoraFinalizacao?: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
-    this.CodCarrinho = params.CodCarrinho;
     this.Situacao = params.Situacao;
+    this.DataInicio = params.DataInicio;
+    this.HoraInicio = params.HoraInicio;
+    this.DataFinalizacao = params.DataFinalizacao;
+    this.HoraFinalizacao = params.HoraFinalizacao;
   }
 
   public copyWith({
@@ -27,34 +36,46 @@ export default class ExpedicaoCarrinhoPercursoDto {
     CodCarrinhoPercurso,
     Origem,
     CodOrigem,
-    CodCarrinho,
     Situacao,
+    DataInicio,
+    HoraInicio,
+    DataFinalizacao,
+    HoraFinalizacao,
   }: {
     CodEmpresa?: number;
     CodCarrinhoPercurso?: number;
     Origem?: string;
     CodOrigem?: number;
-    CodCarrinho?: number;
     Situacao?: string;
-  }) {
+    DataInicio?: Date;
+    HoraInicio?: string;
+    DataFinalizacao?: Date;
+    HoraFinalizacao?: string;
+  }): ExpedicaoCarrinhoPercursoDto {
     return new ExpedicaoCarrinhoPercursoDto({
       CodEmpresa: CodEmpresa ?? this.CodEmpresa,
       CodCarrinhoPercurso: CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       Origem: Origem ?? this.Origem,
       CodOrigem: CodOrigem ?? this.CodOrigem,
-      CodCarrinho: CodCarrinho ?? this.CodCarrinho,
       Situacao: Situacao ?? this.Situacao,
+      DataInicio: DataInicio ?? this.DataInicio,
+      HoraInicio: HoraInicio ?? this.HoraInicio,
+      DataFinalizacao: DataFinalizacao ?? this.DataFinalizacao,
+      HoraFinalizacao: HoraFinalizacao ?? this.HoraFinalizacao,
     });
   }
 
-  static fromJson(json: any): ExpedicaoCarrinhoPercursoDto {
+  static fromObject(object: any): ExpedicaoCarrinhoPercursoDto {
     return new ExpedicaoCarrinhoPercursoDto({
-      CodEmpresa: json.CodEmpresa,
-      CodCarrinhoPercurso: json.CodCarrinhoPercurso,
-      Origem: json.Origem,
-      CodOrigem: json.CodOrigem,
-      CodCarrinho: json.CodCarrinho,
-      Situacao: json.Situacao,
+      CodEmpresa: object.CodEmpresa,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      Origem: object.Origem,
+      CodOrigem: object.CodOrigem,
+      Situacao: object.Situacao,
+      DataInicio: object.DataInicio,
+      HoraInicio: object.HoraInicio,
+      DataFinalizacao: object.DataFinalizacao,
+      HoraFinalizacao: object.HoraFinalizacao,
     });
   }
 
@@ -64,19 +85,11 @@ export default class ExpedicaoCarrinhoPercursoDto {
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
-      CodCarrinho: this.CodCarrinho,
       Situacao: this.Situacao,
+      DataInicio: this.DataInicio,
+      HoraInicio: this.HoraInicio,
+      DataFinalizacao: this.DataFinalizacao,
+      HoraFinalizacao: this.HoraFinalizacao,
     };
-  }
-
-  static fromObject(object: any): ExpedicaoCarrinhoPercursoDto {
-    return new ExpedicaoCarrinhoPercursoDto({
-      CodEmpresa: object.CodEmpresa,
-      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
-      Origem: object.Origem,
-      CodOrigem: object.CodOrigem,
-      CodCarrinho: object.CodCarrinho,
-      Situacao: object.Situacao,
-    });
   }
 }

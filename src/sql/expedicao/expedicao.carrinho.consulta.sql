@@ -6,8 +6,9 @@ FROM (
       cart.Ativo,
       cart.Situacao,
       cart.CodigoBarras,
-      cartp.CodCarrinhoPercurso,
-      cartpe.Item,
+      cartpe.CodCarrinhoPercurso,
+      cartpe.CodPercursoEstagio,
+      cpe.Descricao DescricaoPercursoEstagio,
       cartp.Origem,
       cartp.CodOrigem,
       cartpe.DataInicio,
@@ -17,12 +18,12 @@ FROM (
       se.CodSetorEstoque,
       se.Descricao NomeSetorEstoque
     FROM Expedicao.Carrinho cart
-      LEFT JOIN Expedicao.CarrinhoPercurso cartp ON cartp.CodEmpresa = cart.CodEmpresa
-      AND cartp.CodCarrinho = cart.CodCarrinho
-      AND cartp.Situacao = 'AB'
-      LEFT JOIN Expedicao.CarrinhoPercursoEstagio cartpe ON cartpe.CodEmpresa = cartp.CodEmpresa
-      AND cartpe.CodCarrinhoPercurso = cartp.CodCarrinhoPercurso
+      LEFT JOIN Expedicao.CarrinhoPercursoEstagio cartpe ON cartpe.CodEmpresa = cart.CodEmpresa
+      AND cartpe.CodCarrinho = cart.CodCarrinho
       AND cartpe.Situacao = 'AB'
+      LEFT JOIN Expedicao.CarrinhoPercurso cartp ON cartp.CodEmpresa = cartpe.CodEmpresa
+      AND cartp.CodCarrinhoPercurso = cartpe.CodCarrinhoPercurso
+      LEFT JOIN Expedicao.PercursoEstagio cpe ON cpe.CodPercursoEstagio = cartpe.CodPercursoEstagio
       LEFT JOIN CaixaOperador co ON co.CodUsuario = cartpe.CodUsuario
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = co.CodSetorEstoque
   ) CarrinhoConsulta
