@@ -5,9 +5,9 @@ import sql from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoItemSeparacaoRepository
   implements LocalBaseRepositoryContract<ExpedicaoItemSeparacaoDto>
@@ -93,7 +93,9 @@ export default class SqlServerExpedicaoItemSeparacaoRepository
         .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
         .input('Item', sql.VarChar(6), entity.Item)
         .input('SessionId', sql.VarChar(1000), entity.SessionId)
-        .input('CodCarrinho', sql.Int, entity.CodCarrinho)
+        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
         .input('CodSeparador', sql.Int, entity.CodSeparador)
         .input('NomeSeparador', sql.VarChar(100), entity.NomeSeparador)
         .input('DataSeparacao', sql.Date, entity.DataSeparacao)

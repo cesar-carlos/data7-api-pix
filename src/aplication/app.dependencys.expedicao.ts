@@ -19,9 +19,16 @@ import SqlServerExpedicaoItemSeparacaoConsultaRepository from '../repository/exp
 import SqlServerExpedicaoItemSeparacaoRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.repository';
 import SqlServerExpedicaoItemSepararRepository from '../repository/expedicao/sql.server.expedicao.item.separar.repository';
 import SqlServerExpedicaoPercursoEstagioRepository from '../repository/expedicao/sql.server.expedicao.percurso.estagio.repository';
+import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoCancelamentoDto>',
+      instance: new SqlServerCancelamentoRepository(),
+    });
+
     ContainerDependency.instance.register({
       context: eContext.sql_server,
       bind: 'LocalBaseRepositoryContract<ProcessoExecutavelDto>',

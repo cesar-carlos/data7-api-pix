@@ -7,7 +7,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import CobrancaDigitalSituacaoDto from '../../dto/integracao/cobranca.digital.situacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalSituacaoDto>

@@ -2,6 +2,7 @@ SELECT *
 FROM (
     SELECT cpe.CodEmpresa,
       cpe.CodCarrinhoPercurso,
+      cpe.Item,
       cpe.CodPercursoEstagio,
       cp.Origem,
       cp.CodOrigem,

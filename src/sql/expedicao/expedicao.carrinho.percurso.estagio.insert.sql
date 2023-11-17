@@ -1,6 +1,7 @@
 INSERT INTO Expedicao.CarrinhoPercursoEstagio(
     CodEmpresa,
     CodCarrinhoPercurso,
+    Item,
     CodPercursoEstagio,
     CodCarrinho,
     Situacao,
@@ -14,6 +15,7 @@ INSERT INTO Expedicao.CarrinhoPercursoEstagio(
 VALUES (
     @CodEmpresa,
     @CodCarrinhoPercurso,
+    @Item,
     @CodPercursoEstagio,
     @CodCarrinho,
     @Situacao,

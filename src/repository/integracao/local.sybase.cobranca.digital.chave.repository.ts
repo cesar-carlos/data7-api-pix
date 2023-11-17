@@ -6,7 +6,7 @@ import { ConnectionSybase } from '../../infra/connection.sybase';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ChaveDto from '../../dto/integracao/chave.dto';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSybaseCobrancaDigitalChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {

@@ -5,9 +5,9 @@ import sql from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import ExpedicaoTipoSolicitacaoDto from '../../dto/expedicao/expedicao.tipo.solicitacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoTipoSolicitacaoRepository
   implements LocalBaseRepositoryContract<ExpedicaoTipoSolicitacaoDto>

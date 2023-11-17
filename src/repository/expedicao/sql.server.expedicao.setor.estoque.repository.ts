@@ -7,7 +7,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ExpedicaoSetorEstoqueDto from '../../dto/expedicao/expedicao.setor.estoque.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoSetorEstoqueRepository
   implements LocalBaseRepositoryContract<ExpedicaoSetorEstoqueDto>

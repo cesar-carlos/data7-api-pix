@@ -1,6 +1,8 @@
 UPDATE Expedicao.ItemSeparacaoEstoque
-SET SessionId = @SessionId,
-  CodCarrinho = @CodCarrinho,
+SET CodCarrinhoPercurso = @CodCarrinhoPercurso,
+  ItemCarrinhoPercurso = @ItemCarrinhoPercurso,
+  SessionId = @SessionId,
+  Situacao = @Situacao,
   CodSeparador = @CodSeparador,
   NomeSeparador = @NomeSeparador,
   DataSeparacao = @DataSeparacao,

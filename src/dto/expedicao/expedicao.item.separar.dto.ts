@@ -126,10 +126,10 @@ export default class ExpedicaoItemSepararDto {
       CodLocaArmazenagem: this.CodLocaArmazenagem,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      Quantidade: this.Quantidade,
-      QuantidadeInterna: this.QuantidadeInterna,
-      QuantidadeExterna: this.QuantidadeExterna,
-      QuantidadeSeparacao: this.QuantidadeSeparacao,
+      Quantidade: this.Quantidade.toFixed(4),
+      QuantidadeInterna: this.QuantidadeInterna.toFixed(4),
+      QuantidadeExterna: this.QuantidadeExterna.toFixed(4),
+      QuantidadeSeparacao: this.QuantidadeSeparacao.toFixed(4),
     };
   }
 }

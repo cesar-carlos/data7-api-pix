@@ -2,45 +2,48 @@ import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
+import ExpedicaoCarrinhoConsultaDto from '../../dto/expedicao/expedicao.carrinho.consulta.dto';
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class CarrinhoRepository {
-  public async select(): Promise<ExpedicaoCarrinhoDto[]> {
-    const repository = this.repository();
-    const result = await repository.select();
-    return result;
+  public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoConsultaDto[]> {
+    const repository = this.repositoryConsulta();
+    const result = await repository.selectWhere(params);
+    return result as ExpedicaoCarrinhoConsultaDto[];
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoDto[]> {
+  public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
 
-  public async update(mutations: any[] | any): Promise<void> {
+  public async insert(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoCarrinhoDto.fromObject(mutation));
-    });
+    for (const el of carrinhos) {
+      await repository.insert(el);
+    }
   }
 
-  public async insert(mutations: any[] | any): Promise<void> {
+  public async update(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoCarrinhoDto.fromObject(mutation));
-    });
+    for (const el of carrinhos) {
+      await repository.update(el);
+    }
   }
 
-  public async delete(mutations: any[] | any): Promise<void> {
+  public async delete(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
+    for (const el of carrinhos) {
+      await repository.delete(el);
+    }
+  }
 
-    mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoCarrinhoDto.fromObject(mutation));
+  private repositoryConsulta() {
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoConsultaDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoConsultaDto>',
     });
   }
 

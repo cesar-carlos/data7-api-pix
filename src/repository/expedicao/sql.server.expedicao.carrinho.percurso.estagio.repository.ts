@@ -5,9 +5,9 @@ import sql from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
   implements LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoEstagioDto>
@@ -91,6 +91,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('Item', sql.VarChar(5), entity.Item)
         .input('CodPercursoEstagio', sql.Int, entity.CodPercursoEstagio)
         .input('CodCarrinho', sql.Int, entity.CodCarrinho)
         .input('Situacao', sql.VarChar(20), entity.Situacao)

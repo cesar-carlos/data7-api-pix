@@ -3,26 +3,27 @@ import path from 'path';
 import sql from 'mssql';
 
 import { params, pagination } from '../../contracts/local.base.params';
+
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
+import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoSepararRepository implements LocalBaseRepositoryContract<ExpedicaoSepararDto> {
+export default class SqlServerCancelamentoRepository implements LocalBaseRepositoryContract<ExpedicaoCancelamentoDto> {
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoSepararDto[]> {
+  public async select(): Promise<ExpedicaoCancelamentoDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.cancelamento.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
       pool.close();
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoSepararDto.fromObject(item);
+        return ExpedicaoCancelamentoDto.fromObject(item);
       });
 
       return entity;
@@ -31,10 +32,10 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoSepararDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCancelamentoDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.cancelamento.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -44,7 +45,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoSepararDto.fromObject(item);
+        return ExpedicaoCancelamentoDto.fromObject(item);
       });
 
       return entitys;
@@ -53,9 +54,9 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     }
   }
 
-  public async insert(entity: ExpedicaoSepararDto): Promise<void> {
+  public async insert(entity: ExpedicaoCancelamentoDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.cancelamento.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -63,9 +64,9 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     }
   }
 
-  public async update(entity: ExpedicaoSepararDto): Promise<void> {
+  public async update(entity: ExpedicaoCancelamentoDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.update.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.cancelamento.update.sql');
       const update = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -73,13 +74,13 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     }
   }
 
-  public async delete(entity: ExpedicaoSepararDto): Promise<void> {
-    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.delete.sql');
+  public async delete(entity: ExpedicaoCancelamentoDto): Promise<void> {
+    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.cancelamento.delete.sql');
     const delet = fs.readFileSync(patchSQL).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: ExpedicaoSepararDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: ExpedicaoCancelamentoDto, sqlCommand: string): Promise<void> {
     try {
       const pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
@@ -87,17 +88,10 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
       await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
-        .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
-        .input('CodTipoOperacaoExpedicao', sql.Int, entity.CodTipoOperacaoExpedicao)
-        .input('TipoEntidade', sql.VarChar(5), entity.TipoEntidade)
-        .input('CodEntidade', sql.Int, entity.CodEntidade)
-        .input('NomeEntidade', sql.VarChar(100), entity.NomeEntidade)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
-        .input('Data', sql.Date, entity.Data)
-        .input('Hora', sql.VarChar(8), entity.Hora)
-        .input('CodPrioridade', sql.Int, entity.CodPrioridade)
-        .input('Historico', sql.VarChar(50), entity.Historico)
-        .input('Observacao', sql.VarChar(2000), entity.Observacao)
+        .input('CodCancelamento', sql.Int, entity.CodCancelamento)
+        .input('Origem', sql.VarChar(6), entity.Origem)
+        .input('CodOrigem', sql.Int, entity.CodOrigem)
+        .input('ItemOrigem', sql.VarChar(5), entity.ItemOrigem)
         .input('CodMotivoCancelamento', sql.Int, entity.CodMotivoCancelamento)
         .input('DataCancelamento', sql.Date, entity.DataCancelamento)
         .input('HoraCancelamento', sql.VarChar(8), entity.HoraCancelamento)

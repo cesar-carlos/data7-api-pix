@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 import DataBaseActiveContract from '../../contracts/data.base.active.contract';
 import DatabaseOnlineDto from '../../dto/common.data/database.online.dto';
 

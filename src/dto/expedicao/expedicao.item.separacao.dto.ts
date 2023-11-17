@@ -3,7 +3,9 @@ export default class ExpedicaoItemSeparacaoDto {
   CodSepararEstoque: number;
   Item: string;
   SessionId: string;
-  CodCarrinho: number;
+  Situacao: string;
+  CodCarrinhoPercurso: number;
+  ItemCarrinhoPercurso: string;
   CodSeparador: number;
   NomeSeparador: string;
   DataSeparacao: Date;
@@ -17,7 +19,9 @@ export default class ExpedicaoItemSeparacaoDto {
     CodSepararEstoque: number;
     Item: string;
     SessionId: string;
-    CodCarrinho: number;
+    Situacao: string;
+    CodCarrinhoPercurso: number;
+    ItemCarrinhoPercurso: string;
     CodSeparador: number;
     NomeSeparador: string;
     DataSeparacao: Date;
@@ -30,7 +34,9 @@ export default class ExpedicaoItemSeparacaoDto {
     this.CodSepararEstoque = params.CodSepararEstoque;
     this.Item = params.Item;
     this.SessionId = params.SessionId;
-    this.CodCarrinho = params.CodCarrinho;
+    this.Situacao = params.Situacao;
+    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
+    this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
     this.CodSeparador = params.CodSeparador;
     this.NomeSeparador = params.NomeSeparador;
     this.DataSeparacao = params.DataSeparacao;
@@ -45,7 +51,9 @@ export default class ExpedicaoItemSeparacaoDto {
     CodSepararEstoque,
     Item,
     SessionId,
-    CodCarrinho,
+    Situacao,
+    CodCarrinhoPercurso,
+    ItemCarrinhoPercurso,
     CodSeparador,
     NomeSeparador,
     DataSeparacao,
@@ -58,7 +66,9 @@ export default class ExpedicaoItemSeparacaoDto {
     CodSepararEstoque?: number;
     Item: string;
     SessionId?: string;
-    CodCarrinho?: number;
+    Situacao?: string;
+    CodCarrinhoPercurso?: number;
+    ItemCarrinhoPercurso?: string;
     CodSeparador?: number;
     NomeSeparador?: string;
     DataSeparacao?: Date;
@@ -72,7 +82,9 @@ export default class ExpedicaoItemSeparacaoDto {
       CodSepararEstoque: CodSepararEstoque ?? this.CodSepararEstoque,
       Item: Item ?? this.Item,
       SessionId: SessionId ?? this.SessionId,
-      CodCarrinho: CodCarrinho ?? this.CodCarrinho,
+      Situacao: Situacao ?? this.Situacao,
+      CodCarrinhoPercurso: CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
       CodSeparador: CodSeparador ?? this.CodSeparador,
       NomeSeparador: NomeSeparador ?? this.NomeSeparador,
       DataSeparacao: DataSeparacao ?? this.DataSeparacao,
@@ -89,7 +101,9 @@ export default class ExpedicaoItemSeparacaoDto {
       CodSepararEstoque: object.CodSepararEstoque,
       Item: object.Item,
       SessionId: object.SessionId,
-      CodCarrinho: object.CodCarrinho,
+      Situacao: object.Situacao,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
       CodSeparador: object.CodSeparador,
       NomeSeparador: object.NomeSeparador,
       DataSeparacao: object.DataSeparacao,
@@ -106,14 +120,16 @@ export default class ExpedicaoItemSeparacaoDto {
       CodSepararEstoque: this.CodSepararEstoque,
       Item: this.Item,
       SessionId: this.SessionId,
-      CodCarrinho: this.CodCarrinho,
+      Situacao: this.Situacao,
+      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
       CodSeparador: this.CodSeparador,
       NomeSeparador: this.NomeSeparador,
       DataSeparacao: this.DataSeparacao,
       HoraSeparacao: this.HoraSeparacao,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      Quantidade: this.Quantidade,
+      Quantidade: this.Quantidade.toFixed(4),
     };
   }
 }

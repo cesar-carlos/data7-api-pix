@@ -9,7 +9,7 @@ import LiberacaoBloqueioDto from '../../dto/common.data/liberacao.bloqueio.dto';
 import LocalSybaseItemLiberacaoBloqueioRepository from './local.sybase.item.liberacao.bloqueio.repository';
 import LocalSybaseIItemLiberacaoBloqueioSituacaoRepository from './local.sybase.item.liberacao.bloqueio.situacao.repository';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSybaseLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<LiberacaoBloqueioDto>

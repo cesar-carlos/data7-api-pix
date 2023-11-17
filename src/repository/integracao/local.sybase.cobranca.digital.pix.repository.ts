@@ -6,7 +6,7 @@ import { ConnectionSybase } from '../../infra/connection.sybase';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import CobrancaDigitalPixDto from '../../dto/integracao/cobranca.digital.pix.dto';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSybaseCobrancaDigitalPixRepository

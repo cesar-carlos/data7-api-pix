@@ -6,42 +6,30 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class PercursoEstagioRepository {
-  public async select(): Promise<ExpedicaoPercursoEstagioDto[]> {
-    const repository = this.repository();
-    const result = await repository.select();
-    return result;
-  }
-
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
+  public async select(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
 
-  public async update(mutations: any[] | any): Promise<void> {
+  public async insert(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoPercursoEstagioDto.fromObject(mutation));
-    });
+    for (const el of percursoEstagios) {
+      await repository.insert(el);
+    }
   }
 
-  public async insert(mutations: any[] | any): Promise<void> {
+  public async update(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoPercursoEstagioDto.fromObject(mutation));
-    });
+    for (const el of percursoEstagios) {
+      await repository.update(el);
+    }
   }
 
-  public async delete(mutations: any[] | any): Promise<void> {
+  public async delete(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoPercursoEstagioDto.fromObject(mutation));
-    });
+    for (const el of percursoEstagios) {
+      await repository.delete(el);
+    }
   }
 
   private repository() {

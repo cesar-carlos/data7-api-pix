@@ -6,7 +6,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import CobrancaDigitalAdicionaisDto from '../../dto/integracao/cobranca.digital.adicionais.dto';
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSybaseCobrancaDigitalAdicionaisRepository

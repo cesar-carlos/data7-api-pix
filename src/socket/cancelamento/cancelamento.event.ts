@@ -1,18 +1,18 @@
 import { Socket } from 'socket.io';
 
-import CarrinhoRepository from './percurso.estagio.repository';
-import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
+import CancelamentoRepository from './cancelamento.repository';
+import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
 
-export default class PercursoEstagioEvent {
-  private repository = new CarrinhoRepository();
+export default class CancelamentoEvent {
+  private repository = new CancelamentoRepository();
 
   constructor(private readonly socket: Socket) {
     const client = socket.id;
 
-    socket.on(`${client} percurso.estagio.select`, async (data) => {
+    socket.on(`${client} cancelamento.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} percurso.estagio.select`;
+      const resposeIn = json['resposeIn'] ?? `${client} cancelamento.select`;
       const params = json['where'] ?? '';
 
       try {
@@ -31,57 +31,57 @@ export default class PercursoEstagioEvent {
       }
     });
 
-    socket.on(`${client} percurso.estagio.insert`, async (data) => {
+    socket.on(`${client} cancelamento.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} percurso.estagio.insert`;
+      const resposeIn = json['resposeIn'] ?? `${client} cancelamento.insert`;
       const mutation = json['mutation'];
 
       try {
         await this.repository.insert(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.insert', JSON.stringify(json));
+        socket.emit(resposeIn, JSON.stringify(json));
+        socket.broadcast.emit('broadcast.cancelamento.insert', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} percurso.estagio.update`, async (data) => {
+    socket.on(`${client} cancelamento.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} percurso.estagio.update`;
+      const resposeIn = json['resposeIn'] ?? `${client} cancelamento.update`;
       const mutation = json['mutation'];
 
       try {
         await this.repository.update(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.update', JSON.stringify(json));
+        socket.emit(resposeIn, JSON.stringify(json));
+        socket.broadcast.emit('broadcast.cancelamento.update', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} percurso.estagio.delete`, async (data) => {
+    socket.on(`${client} cancelamento.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} percurso.estagio.delete`;
+      const resposeIn = json['resposeIn'] ?? `${client} cancelamento.delete`;
       const mutation = json['mutation'];
 
       try {
         await this.repository.delete(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.delete', JSON.stringify(json));
+        socket.emit(resposeIn, JSON.stringify(json));
+        socket.broadcast.emit('broadcast.cancelamento.delete', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoPercursoEstagioDto[] {
+  private convert(mutations: any[] | any): ExpedicaoCancelamentoDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoPercursoEstagioDto.fromObject(mutation);
+        return ExpedicaoCancelamentoDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

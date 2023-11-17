@@ -5,9 +5,9 @@ import sql from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoCarrinhoPercursoRepository
   implements LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>

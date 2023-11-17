@@ -6,42 +6,30 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 
 export default class SepararRepository {
-  public async select(): Promise<ExpedicaoSepararDto[]> {
-    const repository = this.repository();
-    const result = await repository.select();
-    return result;
-  }
-
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoSepararDto[]> {
+  public async select(params: params[] | string = []): Promise<ExpedicaoSepararDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
 
-  public async update(mutations: any[] | any): Promise<void> {
+  public async insert(separars: ExpedicaoSepararDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.update(ExpedicaoSepararDto.fromObject(mutation));
-    });
+    for (const el of separars) {
+      await repository.insert(el);
+    }
   }
 
-  public async insert(mutations: any[] | any): Promise<void> {
+  public async update(separars: ExpedicaoSepararDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.insert(ExpedicaoSepararDto.fromObject(mutation));
-    });
+    for (const el of separars) {
+      await repository.update(el);
+    }
   }
 
-  public async delete(mutations: any[] | any): Promise<void> {
+  public async delete(separars: ExpedicaoSepararDto[]): Promise<void> {
     const repository = this.repository();
-    if (!Array.isArray(mutations)) mutations = [mutations];
-
-    mutations.forEach(async (mutation: any) => {
-      await repository.delete(ExpedicaoSepararDto.fromObject(mutation));
-    });
+    for (const el of separars) {
+      await repository.delete(el);
+    }
   }
 
   private repository() {

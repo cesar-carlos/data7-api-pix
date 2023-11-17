@@ -7,7 +7,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ItemLiberacaoBloqueioSituacaoDto from '../../dto/common.data/item.liberacao.bloqueio.situacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSybaseItemLiberacaoBloqueioSituacaoRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioSituacaoDto>

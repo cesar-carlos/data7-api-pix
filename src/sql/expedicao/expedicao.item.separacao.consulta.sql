@@ -1,15 +1,16 @@
 SELECT *
 FROM (
-    SELECT ie.CodEmpresa,
-      ie.CodSepararEstoque,
-      ie.Item,
-      ie.SessionId,
-      ie.CodCarrinho,
+    SELECT ise.CodEmpresa,
+      ise.CodSepararEstoque,
+      ise.Item,
+      ise.SessionId,
+      ise.Situacao,
+      car.CodCarrinho,
       car.Descricao NomeCarrinho,
       car.CodigoBarras CodigoBarrasCarrinho,
-      ie.CodProduto,
+      ise.CodProduto,
       prod.Nome NomeProduto,
-      ie.CodUnidadeMedida,
+      ise.CodUnidadeMedida,
       und.Descricao NomeUnidadeMedida,
       prod.CodGrupoProduto,
       gp.Nome NomeGrupoProduto,
@@ -25,15 +26,18 @@ FROM (
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
-      ie.CodSeparador,
-      ie.NomeSeparador,
-      ie.DataSeparacao,
-      ie.HoraSeparacao,
-      ie.Quantidade
-    FROM Expedicao.ItemSeparacaoEstoque ie
-      LEFT JOIN Expedicao.Carrinho car ON car.CodCarrinho = ie.CodCarrinho
-      LEFT JOIN Produto prod ON prod.CodProduto = ie.CodProduto
-      LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ie.CodUnidadeMedida
+      ise.CodSeparador,
+      ise.NomeSeparador,
+      ise.DataSeparacao,
+      ise.HoraSeparacao,
+      ise.Quantidade
+    FROM Expedicao.ItemSeparacaoEstoque ise
+      LEFT JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = ise.CodEmpresa
+      AND cpe.CodCarrinhoPercurso = ise.CodCarrinhoPercurso
+      AND cpe.Item = ise.ItemCarrinhoPercurso
+      LEFT JOIN Expedicao.Carrinho car ON car.CodCarrinho = cpe.CodCarrinho
+      LEFT JOIN Produto prod ON prod.CodProduto = ise.CodProduto
+      LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ise.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = prod.CodSetorEstoque

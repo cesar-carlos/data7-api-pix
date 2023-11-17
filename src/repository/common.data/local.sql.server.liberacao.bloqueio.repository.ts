@@ -8,7 +8,7 @@ import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalSqlServerItemLiberacaoBloqueioRepository from './local.sql.server.item.liberacao.bloqueio.repository';
 import LocalSqlServerItemLiberacaoBloqueioSituacaoRepository from './local.sql.server.item.liberacao.bloqueio.situacao.repository';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 import LiberacaoBloqueioDto from '../../dto/common.data/liberacao.bloqueio.dto';
 
 export default class LocalSqlServerLiberacaoBloqueioRepository

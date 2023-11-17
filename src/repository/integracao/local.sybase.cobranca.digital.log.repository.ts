@@ -7,7 +7,7 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import CobrancaDigitalLogDto from '../../dto/integracao/cobranca.digital.log.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSybaseCobrancaDigitalLogRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalLogDto>

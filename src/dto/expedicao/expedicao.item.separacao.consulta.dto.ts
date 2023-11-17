@@ -3,6 +3,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
   CodSepararEstoque: number;
   Item: string;
   SessionId: string;
+  Situacao: string;
   CodCarrinho: number;
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
@@ -35,6 +36,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     CodSepararEstoque: number;
     Item: string;
     SessionId: string;
+    Situacao: string;
     CodCarrinho: number;
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
@@ -66,6 +68,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     this.CodSepararEstoque = params.CodSepararEstoque;
     this.Item = params.Item;
     this.SessionId = params.SessionId;
+    this.Situacao = params.Situacao;
     this.CodCarrinho = params.CodCarrinho;
     this.NomeCarrinho = params.NomeCarrinho;
     this.CodigoBarrasCarrinho = params.CodigoBarrasCarrinho;
@@ -99,6 +102,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     CodSepararEstoque?: number;
     Item?: string;
     SessionId?: string;
+    Situacao?: string;
     CodCarrinho?: number;
     NomeCarrinho?: string;
     CodigoBarrasCarrinho?: string;
@@ -131,6 +135,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodSepararEstoque: params.CodSepararEstoque ?? this.CodSepararEstoque,
       Item: params.Item ?? this.Item,
       SessionId: params.SessionId ?? this.SessionId,
+      Situacao: params.Situacao ?? this.Situacao,
       CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
       NomeCarrinho: params.NomeCarrinho ?? this.NomeCarrinho,
       CodigoBarrasCarrinho: params.CodigoBarrasCarrinho ?? this.CodigoBarrasCarrinho,
@@ -166,6 +171,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodSepararEstoque: object.CodSepararEstoque,
       Item: object.Item,
       SessionId: object.SessionId,
+      Situacao: object.Situacao,
       CodCarrinho: object.CodCarrinho,
       NomeCarrinho: object.NomeCarrinho,
       CodigoBarrasCarrinho: object.CodigoBarrasCarrinho,
@@ -201,6 +207,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodSepararEstoque: this.CodSepararEstoque,
       Item: this.Item,
       SessionId: this.SessionId,
+      Situacao: this.Situacao,
       CodCarrinho: this.CodCarrinho,
       NomeCarrinho: this.NomeCarrinho,
       CodigoBarrasCarrinho: this.CodigoBarrasCarrinho,

@@ -1,5 +1,6 @@
 SELECT CodEmpresa,
   CodCarrinhoPercurso,
+  Item,
   CodPercursoEstagio,
   CodCarrinho,
   Situacao,

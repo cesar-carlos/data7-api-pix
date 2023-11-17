@@ -6,8 +6,8 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRepositoryContract<ExpedicaoCarrinhoDto> {
   private connect = new ConnectionSqlServerMssql();

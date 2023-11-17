@@ -1,6 +1,7 @@
 export default class ExpedicaoCarrinhoPercursoConsultaDto {
   CodEmpresa: number;
   CodCarrinhoPercurso: number;
+  Item: string;
   CodPercursoEstagio: number;
   Origem: string;
   CodOrigem: number;
@@ -21,6 +22,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   constructor(params: {
     CodEmpresa: number;
     CodCarrinhoPercurso: number;
+    Item: string;
     CodPercursoEstagio: number;
     Origem: string;
     CodOrigem: number;
@@ -40,6 +42,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
+    this.Item = params.Item;
     this.CodPercursoEstagio = params.CodPercursoEstagio;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
@@ -61,6 +64,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   public copyWith(params: {
     CodEmpresa?: number;
     CodCarrinhoPercurso?: number;
+    Item?: string;
     CodPercursoEstagio?: number;
     Origem?: string;
     CodOrigem?: number;
@@ -81,6 +85,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     return new ExpedicaoCarrinhoPercursoConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
+      Item: params.Item ?? this.Item,
       CodPercursoEstagio: params.CodPercursoEstagio ?? this.CodPercursoEstagio,
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
@@ -104,6 +109,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     return new ExpedicaoCarrinhoPercursoConsultaDto({
       CodEmpresa: object.CodEmpresa,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      Item: object.Item,
       CodPercursoEstagio: object.CodPercursoEstagio,
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
@@ -127,6 +133,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     return {
       CodEmpresa: this.CodEmpresa,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
+      Item: this.Item,
       CodPercursoEstagio: this.CodPercursoEstagio,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,

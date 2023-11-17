@@ -4,9 +4,9 @@ import path from 'path';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoCarrinhoPercursoConsultaRepository
   implements LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>

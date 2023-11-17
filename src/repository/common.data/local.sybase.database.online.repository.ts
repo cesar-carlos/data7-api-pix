@@ -5,7 +5,7 @@ import { ConnectionSybase } from '../../infra/connection.sybase';
 
 import DatabaseOnlineDto from '../../dto/common.data/database.online.dto';
 import DataBaseActiveContract from '../../contracts/data.base.active.contract';
-import ParamsCommonRepository from '../common.repository/params.common.repository';
+import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSybaseDatabaseOnlineRepository<DatabaseOnlineDto>
   implements DataBaseActiveContract<DatabaseOnlineDto | string>
