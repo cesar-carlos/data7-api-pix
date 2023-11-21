@@ -2,8 +2,10 @@ import { eContext } from '../dependency/container.dependency';
 
 import ContainerDependency from '../dependency/container.dependency';
 import LocalSqlServerDatabaseOnlineRepository from '../repository/common.data/local.sql.server.database.online.repository';
-import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/common.data/local.sql.server.item.liberacao.bloqueio.repository';
 import LocalSybaseItemLiberacaoBloqueioRepository from '../repository/common.data/local.sybase.item.liberacao.bloqueio.repository';
+import LocalSqlServerItemLiberacaoBloqueioRepository from '../repository/common.data/local.sql.server.item.liberacao.bloqueio.repository';
+import LocalSqlServerEstoqueProdutoConsultaRepository from '../repository/common.data/local.sql.server.estoque.produto.consulta.repository';
+import LocalSqlServerEstoqueProdutoRepository from '../repository/common.data/local.sql.server.estoque.produto.repository';
 import LocalSybaseDatabaseOnlineRepository from '../repository/common.data/local.sybase.database.online.repository';
 import LocalSqlServerSequences from '../repository/common.data/local.sql.server.sequences';
 
@@ -35,8 +37,20 @@ export default class AppDependencysGeral {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<EstoqueProdutoDto>',
+      instance: new LocalSqlServerEstoqueProdutoRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
       bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
       instance: new LocalSqlServerSequences(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<EstoqueProdutoConsultaDto>',
+      instance: new LocalSqlServerEstoqueProdutoConsultaRepository(),
     });
   }
 }

@@ -10,6 +10,7 @@ import SeparacaoItemEvent from '../socket/separacao.item/separacao.item.event';
 import SepararItemEvent from '../socket/separar.item/separar.item.event';
 import SepararEvent from '../socket/separar/separar.event';
 import CancelamentoEvent from '../socket/cancelamento/cancelamento.event';
+import EstoqueProdutoEvent from '../socket/produto/estoque.produto.event';
 
 export default class AppSocket {
   constructor(private readonly io: SocketIOServer) {
@@ -29,6 +30,7 @@ export default class AppSocket {
       new SepararItemEvent(socket);
       new CancelamentoEvent(socket);
       new PercursoEstagioEvent(socket);
+      new EstoqueProdutoEvent(socket);
 
       socket.on('disconnect', () => {
         console.log('Cliente desconectado');

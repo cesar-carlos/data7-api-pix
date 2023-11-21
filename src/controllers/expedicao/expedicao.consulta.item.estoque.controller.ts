@@ -4,7 +4,7 @@ import { params } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoItemEstoqueDto from '../../dto/expedicao/expedicao.item.estoque.dto';
+import ExpedicaoItemEstoqueDto from '../../dto/common.data/estoque.produto.consulta.dto';
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class ExpedicaoConsultaItemEstoqueController {

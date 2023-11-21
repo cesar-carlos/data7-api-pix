@@ -1,4 +1,4 @@
-export default class ExpedicaoItemEstoqueDto {
+export default class EstoqueProdutoConsultaDto {
   CodProduto: number;
   NomeProduto: string;
   Ativo: string;
@@ -81,8 +81,8 @@ export default class ExpedicaoItemEstoqueDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
-  }): ExpedicaoItemEstoqueDto {
-    return new ExpedicaoItemEstoqueDto({
+  }): EstoqueProdutoConsultaDto {
+    return new EstoqueProdutoConsultaDto({
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       Ativo: params.Ativo ?? this.Ativo,
@@ -105,8 +105,8 @@ export default class ExpedicaoItemEstoqueDto {
     });
   }
 
-  static fromObject(object: any): ExpedicaoItemEstoqueDto {
-    return new ExpedicaoItemEstoqueDto({
+  static fromObject(object: any): EstoqueProdutoConsultaDto {
+    return new EstoqueProdutoConsultaDto({
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       Ativo: object.Ativo,

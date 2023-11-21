@@ -40,7 +40,7 @@ export default class PercursoEstagioEvent {
       try {
         await this.repository.insert(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.insert', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.percurso.estagio.insert', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -55,7 +55,7 @@ export default class PercursoEstagioEvent {
       try {
         await this.repository.update(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.update', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.percurso.estagio.update', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -70,7 +70,7 @@ export default class PercursoEstagioEvent {
       try {
         await this.repository.delete(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(data));
-        socket.broadcast.emit('broadcast.percurso.estagio.delete', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.percurso.estagio.delete', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

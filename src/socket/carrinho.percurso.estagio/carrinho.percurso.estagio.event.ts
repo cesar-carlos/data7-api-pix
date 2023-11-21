@@ -63,6 +63,7 @@ export default class CarrinhoPercursoEstagioEvent {
       try {
         const carrinhoEstagios = this.convert(mutation);
         const lestItem = await this.lestItem(mutation.CodEmpresa, mutation.CodCarrinhoPercurso);
+
         for (let i = 0; i < carrinhoEstagios.length; i++) {
           const el = carrinhoEstagios[i];
           if (el.Item == '') {

@@ -62,7 +62,7 @@ export default class SepararItemEvent {
       try {
         this.repository.insert(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.separar.item.insert', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.separar.item.insert', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -77,7 +77,7 @@ export default class SepararItemEvent {
       try {
         await this.repository.update(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.separar.item.update', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.separar.item.update', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -92,7 +92,7 @@ export default class SepararItemEvent {
       try {
         this.repository.delete(this.convert(mutation));
         socket.emit(resposeIn, JSON.stringify(json));
-        socket.broadcast.emit('broadcast.separar.item.delete', JSON.stringify(json));
+        //socket.broadcast.emit('broadcast.separar.item.delete', JSON.stringify(json));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
