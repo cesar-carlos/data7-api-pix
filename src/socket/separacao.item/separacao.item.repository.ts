@@ -1,11 +1,11 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
-import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
+import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
+import AppDependencys from '../../aplication/app.dependencys';
 
 export default class SeparacaoItemRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {

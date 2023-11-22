@@ -6,6 +6,8 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import EstoqueProdutoConsultaDto from '../../dto/common.data/estoque.produto.consulta.dto';
 import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
+import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
+import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class EstoqueProdutoRepository {
   public async consulta(params: params[] | string = []): Promise<EstoqueProdutoConsultaDto[]> {
@@ -40,6 +42,13 @@ export default class EstoqueProdutoRepository {
     }
   }
 
+  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
+  public async sequence(): Promise<SequenceDto | undefined> {
+    const name = 'Expedicao.PercursoEstagio_Sequencia_1';
+    const repository = this.sequenceRepository();
+    return await repository.select(name);
+  }
+
   private repositoryConsulta() {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<EstoqueProdutoConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
@@ -51,6 +60,13 @@ export default class EstoqueProdutoRepository {
     return AppDependencys.resolve<LocalBaseRepositoryContract<EstoqueProdutoDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<EstoqueProdutoDto>',
+    });
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

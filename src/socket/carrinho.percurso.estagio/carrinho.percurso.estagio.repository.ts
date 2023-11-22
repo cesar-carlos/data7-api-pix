@@ -1,11 +1,11 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
-import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
-import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
+import AppDependencys from '../../aplication/app.dependencys';
 
 export default class CarrinhoPercursoEstagioRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {

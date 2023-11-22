@@ -2,7 +2,6 @@ import { Socket } from 'socket.io';
 
 import SeparacaoItemRepository from './separacao.item.repository';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
-import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 
 export default class SeparacaoItemEvent {
@@ -62,39 +61,22 @@ export default class SeparacaoItemEvent {
       const mutation = json['mutation'];
 
       try {
-        const itemSeparacao = this.convert(mutation);
-        const lestItem = await this.lestItem(mutation.CodEmpresa, mutation.CodSepararEstoque);
-
-        for (let i = 0; i < itemSeparacao.length; i++) {
-          const el = itemSeparacao[i];
-          if (el.Item == '') {
-            const nextItem = String(Number(lestItem) + i).padStart(5, '0');
-            el.Item = nextItem;
-          }
-        }
-
-        await this.repository.insert(itemSeparacao);
-
-        const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
-        for (const item of itemSeparacao) {
-          const itens = await this.repository.consulta([
-            { key: 'CodEmpresa', value: item.CodEmpresa },
-            { key: 'CodSepararEstoque', value: item.CodSepararEstoque },
-            { key: 'Item', value: item.Item },
-          ]);
-
-          itensSeparacaoConsulta.push(...itens);
+        const itens = this.convert(mutation);
+        for (const item of itens) {
+          item.Item = await this.lestItem(item.CodEmpresa, item.CodSepararEstoque);
+          await this.repository.insert([item]);
         }
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: itensSeparacaoConsulta.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('broadcast.separacao.item.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
+        console.log(error);
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
@@ -106,11 +88,17 @@ export default class SeparacaoItemEvent {
       const mutation = json['mutation'];
 
       try {
-        const itemSeparacao = this.convert(mutation);
-        await this.repository.update(itemSeparacao);
-        socket.emit(resposeIn, JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.update(itens);
 
-        //socket.broadcast.emit('broadcast.separacao.item.update', JSON.stringify(json));
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.separacao.item.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -123,9 +111,17 @@ export default class SeparacaoItemEvent {
       const mutation = json['mutation'];
 
       try {
-        await this.repository.delete(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.separacao.item.delete', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.delete(itens);
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.separacao.item.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -144,14 +140,14 @@ export default class SeparacaoItemEvent {
   }
 
   private async lestItem(codEmpresa: number, CodSepararEstoque: number): Promise<string> {
-    const itemSeparacaoEstoque = await this.repository.select([
+    const itens = await this.repository.select([
       { key: 'CodEmpresa', value: codEmpresa },
       { key: 'CodSepararEstoque', value: CodSepararEstoque },
     ]);
 
-    if (itemSeparacaoEstoque.length == 0) return '00001';
-    const itens = itemSeparacaoEstoque.map((item) => item.Item);
-    const max = Math.max(...itens.map((item) => Number(item)));
+    if (itens.length == 0) return '00001';
+    const list = itens.map((item) => item.Item);
+    const max = Math.max(...list.map((item) => Number(item)));
     return String(max + 1).padStart(5, '0');
   }
 }

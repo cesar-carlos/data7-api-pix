@@ -7,6 +7,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
   CodCarrinho: number;
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
+  CodCarrinhoPercurso: number;
+  ItemCarrinhoPercurso: string;
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
@@ -40,6 +42,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     CodCarrinho: number;
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
+    CodCarrinhoPercurso: number;
+    ItemCarrinhoPercurso: string;
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
@@ -72,6 +76,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     this.CodCarrinho = params.CodCarrinho;
     this.NomeCarrinho = params.NomeCarrinho;
     this.CodigoBarrasCarrinho = params.CodigoBarrasCarrinho;
+    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
+    this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
@@ -106,6 +112,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     CodCarrinho?: number;
     NomeCarrinho?: string;
     CodigoBarrasCarrinho?: string;
+    CodCarrinhoPercurso?: number;
+    ItemCarrinhoPercurso?: string;
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
@@ -139,6 +147,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
       NomeCarrinho: params.NomeCarrinho ?? this.NomeCarrinho,
       CodigoBarrasCarrinho: params.CodigoBarrasCarrinho ?? this.CodigoBarrasCarrinho,
+      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
@@ -175,6 +185,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodCarrinho: object.CodCarrinho,
       NomeCarrinho: object.NomeCarrinho,
       CodigoBarrasCarrinho: object.CodigoBarrasCarrinho,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
@@ -211,6 +223,8 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodCarrinho: this.CodCarrinho,
       NomeCarrinho: this.NomeCarrinho,
       CodigoBarrasCarrinho: this.CodigoBarrasCarrinho,
+      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
@@ -233,7 +247,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       NomeSeparador: this.NomeSeparador,
       DataSeparacao: this.DataSeparacao,
       HoraSeparacao: this.HoraSeparacao,
-      Quantidade: this.Quantidade.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
     };
   }
 }

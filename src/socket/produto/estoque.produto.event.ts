@@ -61,17 +61,21 @@ export default class EstoqueProdutoEvent {
       const mutation = json['mutation'];
 
       try {
-        const produtos = this.convert(mutation);
-        await this.repository.insert(produtos);
+        const itens = this.convert(mutation);
+        for (const item of itens) {
+          const sequence = await this.repository.sequence();
+          item.CodProduto = sequence?.Valor ?? 0;
+          await this.repository.insert([item]);
+        }
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: produtos.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.produto.insert', JSON.stringify(basicEvent.toJson()));
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.produto.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -84,17 +88,17 @@ export default class EstoqueProdutoEvent {
       const mutation = json['mutation'];
 
       try {
-        const produtos = this.convert(mutation);
-        await this.repository.update(produtos);
+        const itens = this.convert(mutation);
+        await this.repository.update(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: produtos.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.produto.update', JSON.stringify(basicEvent.toJson()));
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.produto.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -107,17 +111,17 @@ export default class EstoqueProdutoEvent {
       const mutation = json['mutation'];
 
       try {
-        const produtos = this.convert(mutation);
-        await this.repository.delete(produtos);
+        const itens = this.convert(mutation);
+        await this.repository.delete(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: produtos.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.produto.delete', JSON.stringify(basicEvent.toJson()));
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.produto.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

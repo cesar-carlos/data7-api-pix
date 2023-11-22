@@ -247,7 +247,7 @@ export default class EstoqueProdutoDto {
       PermiteNotaFiscal: this.PermiteNotaFiscal,
       PermiteDesconto: this.PermiteDesconto,
       MargemLucro: this.MargemLucro,
-      PrecoVenda: this.PrecoVenda.toFixed(2),
+      PrecoVenda: Number(this.PrecoVenda).toFixed(2),
     };
   }
 }

@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 
 import CarrinhoPercursoRepository from './carrinho.percurso.repository';
 import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
+import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 
 export default class CarrinhoPercursoEvent {
   private repository = new CarrinhoPercursoRepository();
@@ -60,9 +61,21 @@ export default class CarrinhoPercursoEvent {
       const mutation = json['mutation'];
 
       try {
-        await this.repository.insert(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.carrinho.percurso.insert', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        for (const item of itens) {
+          const sequence = await this.repository.sequence();
+          item.CodCarrinhoPercurso = sequence?.Valor ?? 0;
+          await this.repository.insert([item]);
+        }
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.carrinho.percurso.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -75,9 +88,17 @@ export default class CarrinhoPercursoEvent {
       const mutation = json['mutation'];
 
       try {
-        await this.repository.update(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.carrinho.percurso.update', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.update(itens);
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.carrinho.percurso.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -90,9 +111,17 @@ export default class CarrinhoPercursoEvent {
       const mutation = json['mutation'];
 
       try {
-        await this.repository.delete(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.carrinho.percurso.delete', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.delete(itens);
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.carrinho.percurso.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }

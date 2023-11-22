@@ -1,9 +1,11 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
-import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
 import AppDependencys from '../../aplication/app.dependencys';
+import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
+import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
+import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CancelamentoRepository {
   public async select(params: params[] | string = []): Promise<ExpedicaoCancelamentoDto[]> {
@@ -30,6 +32,20 @@ export default class CancelamentoRepository {
     for (const el of cancelamentos) {
       await repository.delete(el);
     }
+  }
+
+  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
+  public async sequence(): Promise<SequenceDto | undefined> {
+    const name = 'Cancelamento_Sequencia_1';
+    const repository = this.sequenceRepository();
+    return await repository.select(name);
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
   }
 
   private repository() {

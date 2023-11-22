@@ -129,7 +129,7 @@ export default class ExpedicaoItemSeparacaoDto {
       HoraSeparacao: this.HoraSeparacao,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      Quantidade: this.Quantidade.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
     };
   }
 }

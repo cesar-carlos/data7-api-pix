@@ -19,6 +19,7 @@ import SqlServerExpedicaoItemSepararRepository from '../repository/expedicao/sql
 import SqlServerExpedicaoCarrinhoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.repository';
 import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.server.expedicao.separar.repository';
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
+import SqlServerExpedicaoSepararConsultaRepository from '../repository/expedicao/sql.server.expedicao.separar.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -116,6 +117,12 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoConsultaDto>',
       instance: new SqlServerExpedicaoCarrinhoConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>',
+      instance: new SqlServerExpedicaoSepararConsultaRepository(),
     });
 
     ContainerDependency.instance.register({

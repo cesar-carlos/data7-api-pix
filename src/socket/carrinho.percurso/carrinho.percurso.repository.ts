@@ -6,6 +6,8 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
+import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {
@@ -40,6 +42,13 @@ export default class CarrinhoPercursoRepository {
     }
   }
 
+  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
+  public async sequence(): Promise<SequenceDto | undefined> {
+    const name = 'CarrinhoPercurso_Sequencia_1';
+    const repository = this.sequenceRepository();
+    return await repository.select(name);
+  }
+
   private repositoryConsulta() {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
@@ -51,6 +60,13 @@ export default class CarrinhoPercursoRepository {
     return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoDto>',
+    });
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

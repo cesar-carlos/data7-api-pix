@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 
 import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
+import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 
 export default class SepararItemEvent {
   private repository = new SepararItemRepository();
@@ -53,16 +54,27 @@ export default class SepararItemEvent {
       }
     });
 
-    socket.on(`${client} separar.item.insert`, (data) => {
+    socket.on(`${client} separar.item.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? `${client} separar.item.insert`;
       const mutation = json['mutation'];
 
       try {
-        this.repository.insert(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.separar.item.insert', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        for (const item of itens) {
+          item.Item = await this.lestItem(item.CodEmpresa, item.CodSepararEstoque);
+          await this.repository.insert([item]);
+        }
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.separar.item.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -75,24 +87,40 @@ export default class SepararItemEvent {
       const mutation = json['mutation'];
 
       try {
-        await this.repository.update(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.separar.item.update', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.update(itens);
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.separar.item.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} separar.item.delete`, (data) => {
+    socket.on(`${client} separar.item.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? `${client} separar.item.delete`;
       const mutation = json['mutation'];
 
       try {
-        this.repository.delete(this.convert(mutation));
-        socket.emit(resposeIn, JSON.stringify(json));
-        //socket.broadcast.emit('broadcast.separar.item.delete', JSON.stringify(json));
+        const itens = this.convert(mutation);
+        await this.repository.delete(itens);
+
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: itens.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('broadcast.separar.item.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -108,5 +136,17 @@ export default class SepararItemEvent {
     } catch (error) {
       return [];
     }
+  }
+
+  private async lestItem(codEmpresa: number, CodSepararEstoque: number): Promise<string> {
+    const itens = await this.repository.select([
+      { key: 'CodEmpresa', value: codEmpresa },
+      { key: 'CodSepararEstoque', value: CodSepararEstoque },
+    ]);
+
+    if (itens.length == 0) return '00001';
+    const list = itens.map((item) => item.Item);
+    const max = Math.max(...list.map((item) => Number(item)));
+    return String(max + 1).padStart(5, '0');
   }
 }

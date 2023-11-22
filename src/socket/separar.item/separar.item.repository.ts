@@ -3,9 +3,9 @@ import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
+import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 
 export default class SepararItemRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSepararConsultaDto[]> {

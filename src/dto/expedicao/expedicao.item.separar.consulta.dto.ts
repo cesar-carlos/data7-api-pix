@@ -235,10 +235,10 @@ export default class ExpedicaoItemSepararConsultaDto {
       Endereco: this.Endereco,
       CodLocaArmazenagem: this.CodLocaArmazenagem,
       NomeLocaArmazenagem: this.NomeLocaArmazenagem,
-      Quantidade: this.Quantidade.toFixed(4),
-      QuantidadeInterna: this.QuantidadeInterna.toFixed(4),
-      QuantidadeExterna: this.QuantidadeExterna.toFixed(4),
-      QuantidadeSeparacao: this.QuantidadeSeparacao.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
+      QuantidadeInterna: Number(this.QuantidadeInterna).toFixed(4),
+      QuantidadeExterna: Number(this.QuantidadeExterna).toFixed(4),
+      QuantidadeSeparacao: Number(this.QuantidadeSeparacao).toFixed(4),
     };
   }
 }

@@ -8,6 +8,8 @@ FROM (
       car.CodCarrinho,
       car.Descricao NomeCarrinho,
       car.CodigoBarras CodigoBarrasCarrinho,
+      cpe.CodCarrinhoPercurso,
+      cpe.Item ItemCarrinhoPercurso,
       ise.CodProduto,
       prod.Nome NomeProduto,
       ise.CodUnidadeMedida,

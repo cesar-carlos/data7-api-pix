@@ -1,11 +1,13 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
+import AppDependencys from '../../aplication/app.dependencys';
+import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
+import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
 import ExpedicaoCarrinhoConsultaDto from '../../dto/expedicao/expedicao.carrinho.consulta.dto';
-import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
-import AppDependencys from '../../aplication/app.dependencys';
+import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoConsultaDto[]> {
@@ -40,6 +42,13 @@ export default class CarrinhoRepository {
     }
   }
 
+  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
+  public async sequence(): Promise<SequenceDto | undefined> {
+    const name = 'Carrinho_Sequencia_1';
+    const repository = this.sequenceRepository();
+    return await repository.select(name);
+  }
+
   private repositoryConsulta() {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
@@ -51,6 +60,13 @@ export default class CarrinhoRepository {
     return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoCarrinhoDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoDto>',
+    });
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

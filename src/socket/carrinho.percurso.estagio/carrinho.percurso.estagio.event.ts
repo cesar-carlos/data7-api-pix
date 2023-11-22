@@ -61,28 +61,29 @@ export default class CarrinhoPercursoEstagioEvent {
       const mutation = json['mutation'];
 
       try {
-        const carrinhoEstagios = this.convert(mutation);
-        const lestItem = await this.lestItem(mutation.CodEmpresa, mutation.CodCarrinhoPercurso);
-
-        for (let i = 0; i < carrinhoEstagios.length; i++) {
-          const el = carrinhoEstagios[i];
-          if (el.Item == '') {
-            const nextItem = String(Number(lestItem) + i).padStart(5, '0');
-            el.Item = nextItem;
-          }
+        const itens = this.convert(mutation);
+        for (const item of itens) {
+          item.Item = await this.lestItem(item.CodEmpresa, item.CodCarrinhoPercurso);
+          await this.repository.insert([item]);
         }
 
-        await this.repository.insert(carrinhoEstagios);
-        const percursoConsultaJson = await this.carrinhoPercursoConsulta(carrinhoEstagios);
+        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: percursoConsultaJson.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
+        const basicEventConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: percursoConsulta.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('broadcast.carrinho.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.insert.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -95,18 +96,25 @@ export default class CarrinhoPercursoEstagioEvent {
       const mutation = json['mutation'];
 
       try {
-        const carrinhoEstagios = this.convert(mutation);
-        await this.repository.update(carrinhoEstagios);
-        const percursoConsultaJson = await this.carrinhoPercursoConsulta(carrinhoEstagios);
+        const itens = this.convert(mutation);
+        await this.repository.update(itens);
+        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: percursoConsultaJson.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
+        const basicEventConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: percursoConsulta.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('broadcast.carrinho.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.update.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -119,18 +127,25 @@ export default class CarrinhoPercursoEstagioEvent {
       const mutation = json['mutation'];
 
       try {
-        const carrinhoEstagios = this.convert(mutation);
-        await this.repository.delete(carrinhoEstagios);
-        const percursoConsultaJson = await this.carrinhoPercursoConsulta(carrinhoEstagios);
+        const itens = this.convert(mutation);
+        await this.repository.delete(itens);
+        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: percursoConsultaJson.map((item) => item.toJson()),
+          Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(json));
+        const basicEventConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: percursoConsulta.map((item) => item.toJson()),
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('broadcast.carrinho.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.delete.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
         this.socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -169,14 +184,14 @@ export default class CarrinhoPercursoEstagioEvent {
   }
 
   private async lestItem(codEmpresa: number, codCarrinhoPercurso: number): Promise<string> {
-    const carrinhosEstagio = await this.repository.select([
+    const itens = await this.repository.select([
       { key: 'CodEmpresa', value: codEmpresa },
       { key: 'CodCarrinhoPercurso', value: codCarrinhoPercurso },
     ]);
 
-    if (carrinhosEstagio.length == 0) return '00001';
-    const itens = carrinhosEstagio.map((item) => item.Item);
-    const max = Math.max(...itens.map((item) => Number(item)));
+    if (itens.length == 0) return '00001';
+    const list = itens.map((item) => item.Item);
+    const max = Math.max(...list.map((item) => Number(item)));
     return String(max + 1).padStart(5, '0');
   }
 }
