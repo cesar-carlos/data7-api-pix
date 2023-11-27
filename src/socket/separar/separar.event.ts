@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
@@ -7,7 +7,7 @@ import SepararRepository from './separar.repository';
 export default class SepararEvent {
   private repository = new SepararRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
     socket.on(`${client} separar.consulta`, async (data) => {
@@ -28,7 +28,7 @@ export default class SepararEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -51,7 +51,7 @@ export default class SepararEvent {
         console.log(json);
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -76,9 +76,9 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.separar.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('separar.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -99,9 +99,9 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.separar.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('separar.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -122,9 +122,9 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.separar.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('separar.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }

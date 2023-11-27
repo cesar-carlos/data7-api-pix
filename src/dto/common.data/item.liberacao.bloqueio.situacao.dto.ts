@@ -34,21 +34,6 @@ export default class ItemLiberacaoBloqueioSituacaoDto {
     this.complemento = params.complemento;
   }
 
-  static create(params: {
-    codLiberacaoBloqueio: number;
-    item: string;
-    status: string;
-    rotinaLiberacao: string;
-    dataHoraLiberacao: Date;
-    codUsuarioLiberacao: number;
-    estacaoTrabalhoLiberacao: string;
-    observacaoLiberacao: string;
-    motivoRejeicaoLiberacaoBloqueio: string;
-    complemento: string;
-  }) {
-    return new ItemLiberacaoBloqueioSituacaoDto(params);
-  }
-
   static fromObject(object: any) {
     return new ItemLiberacaoBloqueioSituacaoDto({
       codLiberacaoBloqueio: object.CodLiberacaoBloqueio || object.codLiberacaoBloqueio,
@@ -62,5 +47,20 @@ export default class ItemLiberacaoBloqueioSituacaoDto {
       motivoRejeicaoLiberacaoBloqueio: object.MotivoRejeicaoLiberacaoBloqueio || object.motivoRejeicaoLiberacaoBloqueio,
       complemento: object.Complemento || object.complemento,
     });
+  }
+
+  public toJson(): any {
+    return {
+      codLiberacaoBloqueio: this.codLiberacaoBloqueio,
+      item: this.item,
+      status: this.status,
+      rotinaLiberacao: this.rotinaLiberacao,
+      dataHoraLiberacao: this.dataHoraLiberacao,
+      codUsuarioLiberacao: this.codUsuarioLiberacao,
+      estacaoTrabalhoLiberacao: this.estacaoTrabalhoLiberacao,
+      observacaoLiberacao: this.observacaoLiberacao,
+      motivoRejeicaoLiberacaoBloqueio: this.motivoRejeicaoLiberacaoBloqueio,
+      complemento: this.complemento,
+    };
   }
 }

@@ -84,6 +84,7 @@ export default class LocalSqlServerProcessoExecutavelRepository
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodFilial', sql.Int, entity.CodFilial)
         .input('Status', sql.VarChar(15), entity.Status)
+        .input('Contexto', sql.VarChar(20), entity.Contexto)
         .input('Origem', sql.VarChar(6), entity.Origem)
         .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('ItemOrigem', sql.VarChar(5), entity.ItemOrigem)
@@ -93,8 +94,8 @@ export default class LocalSqlServerProcessoExecutavelRepository
         .input('CodContaFinanceira', sql.VarChar(6), entity.CodContaFinanceira)
         .input('CodPeriodoCaixa', sql.Int, entity.CodPeriodoCaixa)
         .input('StatusPeriodoCaixa', sql.VarChar(30), entity.StatusPeriodoCaixa)
-        .input('NomeComputador', sql.VarChar(30), entity.NomeComputador)
         .input('UsuarioWindows', sql.VarChar(30), entity.UsuarioWindows)
+        .input('NomeComputador', sql.VarChar(30), entity.NomeComputador)
         .input('BancoDados', sql.VarChar(60), entity.BancoDados)
         .query(sqlCommand);
 

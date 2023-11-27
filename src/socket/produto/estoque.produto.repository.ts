@@ -3,10 +3,10 @@ import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import EstoqueProdutoConsultaDto from '../../dto/common.data/estoque.produto.consulta.dto';
-import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
+import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
+import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class EstoqueProdutoRepository {

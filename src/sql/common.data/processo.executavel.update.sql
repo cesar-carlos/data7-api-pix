@@ -2,6 +2,7 @@ UPDATE ProcessoExecutavel
 SET CodEmpresa = @CodEmpresa,
   CodFilial = @CodFilial,
   Status = @Status,
+  Contexto = @Contexto,
   Origem = @Origem,
   CodOrigem = @CodOrigem,
   ItemOrigem = @ItemOrigem,
@@ -11,7 +12,7 @@ SET CodEmpresa = @CodEmpresa,
   CodContaFinanceira = @CodContaFinanceira,
   CodPeriodoCaixa = @CodPeriodoCaixa,
   StatusPeriodoCaixa = @StatusPeriodoCaixa,
-  NomeComputador = @NomeComputador,
   UsuarioWindows = @UsuarioWindows,
+  NomeComputador = @NomeComputador,
   BancoDados = @BancoDados
 WHERE CodProcessoExecutavel = @CodProcessoExecutavel

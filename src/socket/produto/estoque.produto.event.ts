@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import EstoqueProdutoRepository from './estoque.produto.repository';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
@@ -7,7 +7,7 @@ import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
 export default class EstoqueProdutoEvent {
   private repository = new EstoqueProdutoRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
     socket.on(`${client} estoque.produto.consulta`, async (data) => {
       const json = JSON.parse(data);
@@ -28,7 +28,7 @@ export default class EstoqueProdutoEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -50,7 +50,7 @@ export default class EstoqueProdutoEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -75,9 +75,9 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.produto.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -98,9 +98,9 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.produto.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -121,9 +121,9 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.produto.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import CancelamentoRepository from './cancelamento.repository';
 import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
@@ -7,7 +7,7 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 export default class CancelamentoEvent {
   private repository = new CancelamentoRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
     socket.on(`${client} cancelamento.select`, async (data) => {

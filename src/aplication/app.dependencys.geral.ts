@@ -8,6 +8,7 @@ import LocalSqlServerEstoqueProdutoConsultaRepository from '../repository/common
 import LocalSqlServerEstoqueProdutoRepository from '../repository/common.data/local.sql.server.estoque.produto.repository';
 import LocalSybaseDatabaseOnlineRepository from '../repository/common.data/local.sybase.database.online.repository';
 import LocalSqlServerSequences from '../repository/common.data/local.sql.server.sequences';
+import LocalSqlServerProcessoExecutavelRepository from '../repository/common.data/local.sql.server.processo.executavel.repository';
 
 export default class AppDependencysGeral {
   public static load() {
@@ -39,6 +40,12 @@ export default class AppDependencysGeral {
       context: eContext.sql_server,
       bind: 'LocalBaseRepositoryContract<EstoqueProdutoDto>',
       instance: new LocalSqlServerEstoqueProdutoRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ProcessoExecutavelDto>',
+      instance: new LocalSqlServerProcessoExecutavelRepository(),
     });
 
     ContainerDependency.instance.register({

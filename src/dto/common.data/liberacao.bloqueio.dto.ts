@@ -43,23 +43,6 @@ export default class LiberacaoBloqueioDto {
     this.itemLiberacaoBloqueioSituacao = params.itemLiberacaoBloqueioSituacao;
   }
 
-  static create(params: {
-    codEmpresa: number;
-    codFilial: number;
-    codLiberacaoBloqueio: number;
-    origem: string;
-    codOrigem: number;
-    codCliente: number;
-    dataHoraBloqueio: Date;
-    codUsuarioBloqueio: number;
-    nomeUsuarioBloqueio: string;
-    estacaoTrabalhoBloqueio: string;
-    itemLiberacaoBloqueio: ItemLiberacaoBloqueioDto[];
-    itemLiberacaoBloqueioSituacao?: ItemLiberacaoBloqueioSituacaoDto[];
-  }) {
-    return new LiberacaoBloqueioDto(params);
-  }
-
   static fromObject(object: any) {
     return new LiberacaoBloqueioDto({
       codEmpresa: object.CodEmpresa || object.codEmpresa,

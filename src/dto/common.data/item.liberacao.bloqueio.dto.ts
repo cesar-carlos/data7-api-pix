@@ -46,25 +46,6 @@ export default class ItemLiberacaoBloqueioDto {
     this.motivoRejeicaoLiberacaoBloqueio = params.motivoRejeicaoLiberacaoBloqueio;
   }
 
-  static create(params: {
-    codLiberacaoBloqueio: number;
-    item: string;
-    status: string;
-    codRegra: number;
-    regra: string;
-    mensagemBloqueio: string;
-    descricaoBloqueio: string;
-    observacaoBloqueio: string;
-    dataHoraSolicitacao: Date;
-    codUsuarioSolicitacao: number;
-    nomeUsuarioSolicitacao: string;
-    estacaoTrabalhoSolicitacao: string;
-    observacaoLiberacaoBloqueio: string;
-    motivoRejeicaoLiberacaoBloqueio: string;
-  }) {
-    return new ItemLiberacaoBloqueioDto(params);
-  }
-
   static fromObject(object: any) {
     return new ItemLiberacaoBloqueioDto({
       codLiberacaoBloqueio: object.CodLiberacaoBloqueio || object.codLiberacaoBloqueio,
@@ -82,5 +63,24 @@ export default class ItemLiberacaoBloqueioDto {
       observacaoLiberacaoBloqueio: object.ObservacaoLiberacaoBloqueio || object.observacaoLiberacaoBloqueio,
       motivoRejeicaoLiberacaoBloqueio: object.MotivoRejeicaoLiberacaoBloqueio || object.motivoRejeicaoLiberacaoBloqueio,
     });
+  }
+
+  public toJson(): any {
+    return {
+      codLiberacaoBloqueio: this.codLiberacaoBloqueio,
+      item: this.item,
+      status: this.status,
+      codRegra: this.codRegra,
+      regra: this.regra,
+      mensagemBloqueio: this.mensagemBloqueio,
+      descricaoBloqueio: this.descricaoBloqueio,
+      observacaoBloqueio: this.observacaoBloqueio,
+      dataHoraSolicitacao: this.dataHoraSolicitacao,
+      codUsuarioSolicitacao: this.codUsuarioSolicitacao,
+      nomeUsuarioSolicitacao: this.nomeUsuarioSolicitacao,
+      estacaoTrabalhoSolicitacao: this.estacaoTrabalhoSolicitacao,
+      observacaoLiberacaoBloqueio: this.observacaoLiberacaoBloqueio,
+      motivoRejeicaoLiberacaoBloqueio: this.motivoRejeicaoLiberacaoBloqueio,
+    };
   }
 }

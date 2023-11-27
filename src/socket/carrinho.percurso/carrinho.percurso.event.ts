@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import CarrinhoPercursoRepository from './carrinho.percurso.repository';
 import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
@@ -7,7 +7,7 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 export default class CarrinhoPercursoEvent {
   private repository = new CarrinhoPercursoRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
     socket.on(`${client} carrinho.percurso.consulta`, async (data) => {
@@ -28,7 +28,7 @@ export default class CarrinhoPercursoEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -50,7 +50,7 @@ export default class CarrinhoPercursoEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -75,9 +75,9 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -98,9 +98,9 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -121,9 +121,9 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }

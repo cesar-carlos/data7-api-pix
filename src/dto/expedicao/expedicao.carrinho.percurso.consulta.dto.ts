@@ -10,14 +10,22 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
   Ativo: string;
-  DataInicio?: Date;
-  HoraInicio?: string;
+  DataInicio: Date;
+  HoraInicio: string;
   DataFinalizacao?: Date;
   HoraFinalizacao?: string;
-  CodUsuario?: number;
-  NomeUsuario?: string;
+  CodUsuario: number;
+  NomeUsuario: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
+  CodCancelamento?: number;
+  CodMotivoCancelamento?: number;
+  DescricaoMotivoCancelamento?: string;
+  DataCancelamento?: Date;
+  HoraCancelamento?: string;
+  CodUsuarioCancelamento?: number;
+  NomeUsuarioCancelamento?: string;
+  ObservacaoCancelamento?: string;
 
   constructor(params: {
     CodEmpresa: number;
@@ -31,14 +39,22 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
     Ativo: string;
-    DataInicio?: Date;
-    HoraInicio?: string;
+    DataInicio: Date;
+    HoraInicio: string;
     DataFinalizacao?: Date;
     HoraFinalizacao?: string;
-    CodUsuario?: number;
-    NomeUsuario?: string;
+    CodUsuario: number;
+    NomeUsuario: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
+    CodCancelamento?: number;
+    CodMotivoCancelamento?: number;
+    DescricaoMotivoCancelamento?: string;
+    DataCancelamento?: Date;
+    HoraCancelamento?: string;
+    CodUsuarioCancelamento?: number;
+    NomeUsuarioCancelamento?: string;
+    ObservacaoCancelamento?: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
@@ -59,6 +75,14 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     this.NomeUsuario = params.NomeUsuario;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.NomeSetorEstoque = params.NomeSetorEstoque;
+    this.CodCancelamento = params.CodCancelamento;
+    this.CodMotivoCancelamento = params.CodMotivoCancelamento;
+    this.DescricaoMotivoCancelamento = params.DescricaoMotivoCancelamento;
+    this.DataCancelamento = params.DataCancelamento;
+    this.HoraCancelamento = params.HoraCancelamento;
+    this.CodUsuarioCancelamento = params.CodUsuarioCancelamento;
+    this.NomeUsuarioCancelamento = params.NomeUsuarioCancelamento;
+    this.ObservacaoCancelamento = params.ObservacaoCancelamento;
   }
 
   public copyWith(params: {
@@ -81,6 +105,14 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     NomeUsuario?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
+    CodCancelamento?: number;
+    CodMotivoCancelamento?: number;
+    DescricaoMotivoCancelamento?: string;
+    DataCancelamento?: Date;
+    HoraCancelamento?: string;
+    CodUsuarioCancelamento?: number;
+    NomeUsuarioCancelamento?: string;
+    ObservacaoCancelamento?: string;
   }) {
     return new ExpedicaoCarrinhoPercursoConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
@@ -102,6 +134,14 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeUsuario: params.NomeUsuario ?? this.NomeUsuario,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
       NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
+      CodCancelamento: params.CodCancelamento ?? this.CodCancelamento,
+      CodMotivoCancelamento: params.CodMotivoCancelamento ?? this.CodMotivoCancelamento,
+      DescricaoMotivoCancelamento: params.DescricaoMotivoCancelamento ?? this.DescricaoMotivoCancelamento,
+      DataCancelamento: params.DataCancelamento ?? this.DataCancelamento,
+      HoraCancelamento: params.HoraCancelamento ?? this.HoraCancelamento,
+      CodUsuarioCancelamento: params.CodUsuarioCancelamento ?? this.CodUsuarioCancelamento,
+      NomeUsuarioCancelamento: params.NomeUsuarioCancelamento ?? this.NomeUsuarioCancelamento,
+      ObservacaoCancelamento: params.ObservacaoCancelamento ?? this.ObservacaoCancelamento,
     });
   }
 
@@ -126,6 +166,14 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeUsuario: object.NomeUsuario,
       CodSetorEstoque: object.CodSetorEstoque,
       NomeSetorEstoque: object.NomeSetorEstoque,
+      CodCancelamento: object.CodCancelamento,
+      CodMotivoCancelamento: object.CodMotivoCancelamento,
+      DescricaoMotivoCancelamento: object.DescricaoMotivoCancelamento,
+      DataCancelamento: object.DataCancelamento,
+      HoraCancelamento: object.HoraCancelamento,
+      CodUsuarioCancelamento: object.CodUsuarioCancelamento,
+      NomeUsuarioCancelamento: object.NomeUsuarioCancelamento,
+      ObservacaoCancelamento: object.ObservacaoCancelamento,
     });
   }
 
@@ -150,6 +198,14 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeUsuario: this.NomeUsuario,
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
+      CodCancelamento: this.CodCancelamento,
+      CodMotivoCancelamento: this.CodMotivoCancelamento,
+      DescricaoMotivoCancelamento: this.DescricaoMotivoCancelamento,
+      DataCancelamento: this.DataCancelamento,
+      HoraCancelamento: this.HoraCancelamento,
+      CodUsuarioCancelamento: this.CodUsuarioCancelamento,
+      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
+      ObservacaoCancelamento: this.ObservacaoCancelamento,
     };
   }
 }

@@ -1,41 +1,19 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
-import CarrinhoRepository from './carrinho.repository';
-import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ProcessoExecutavelDto from '../../dto/common.data/processo.executavel.dto';
+import ProcessoExecutavelRepository from './processo.executavel.repository';
 
-export default class CarrinhoEvent {
-  private repository = new CarrinhoRepository();
+export default class ProcessoExecutavelEvent {
+  private repository = new ProcessoExecutavelRepository();
 
   constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
-    socket.on(`${client} carrinho.consulta`, async (data) => {
+    socket.on(`${client} processo.executavel.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.consulta`;
-      const params = json['where'] ?? '';
-
-      try {
-        if (params != '') {
-          const result = await this.repository.consulta(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
-
-        const result = await this.repository.select();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
-      }
-    });
-
-    socket.on(`${client} carrinho.select`, async (data) => {
-      const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.select`;
+      const resposeIn = json['resposeIn'] ?? `${client} processo.executavel.select`;
       const params = json['where'] ?? '';
 
       try {
@@ -54,17 +32,17 @@ export default class CarrinhoEvent {
       }
     });
 
-    socket.on(`${client} carrinho.insert`, async (data) => {
+    socket.on(`${client} processo.executavel.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.insert`;
+      const resposeIn = json['resposeIn'] ?? `${client} processo.executavel.insert`;
       const mutation = json['mutation'];
 
       try {
         const itens = this.convert(mutation);
         for (const item of itens) {
           const sequence = await this.repository.sequence();
-          item.CodCarrinho = sequence?.Valor ?? 0;
+          item.CodProcessoExecutavel = sequence?.Valor ?? 0;
           await this.repository.insert([item]);
         }
 
@@ -75,16 +53,16 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('processo.executavel.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} carrinho.update`, async (data) => {
+    socket.on(`${client} processo.executavel.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.update`;
+      const resposeIn = json['resposeIn'] ?? `${client} percurso.estagio.update`;
       const mutation = json['mutation'];
 
       try {
@@ -98,16 +76,16 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('processo.executavel.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} carrinho.delete`, async (data) => {
+    socket.on(`${client} processo.executavel.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.delete`;
+      const resposeIn = json['resposeIn'] ?? `${client} processo.executavel.delete`;
       const mutation = json['mutation'];
 
       try {
@@ -121,18 +99,18 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('processo.executavel.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoCarrinhoDto[] {
+  private convert(mutations: any[] | any): ProcessoExecutavelDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoCarrinhoDto.fromObject(mutation);
+        return ProcessoExecutavelDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

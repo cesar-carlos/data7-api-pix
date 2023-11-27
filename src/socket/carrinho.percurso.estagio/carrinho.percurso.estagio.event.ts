@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import CarrinhoPercursoEstagioRepository from './carrinho.percurso.estagio.repository';
 import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
@@ -8,7 +8,7 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 export default class CarrinhoPercursoEstagioEvent {
   private repository = new CarrinhoPercursoEstagioRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
     socket.on(`${client} carrinho.percurso.estagio.consulta`, async (data) => {
       const json = JSON.parse(data);
@@ -28,7 +28,7 @@ export default class CarrinhoPercursoEstagioEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -50,7 +50,7 @@ export default class CarrinhoPercursoEstagioEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -82,10 +82,10 @@ export default class CarrinhoPercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.insert.listen', JSON.stringify(basicEventConsulta.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.percurso.estagio.insert.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -113,10 +113,10 @@ export default class CarrinhoPercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.update.listen', JSON.stringify(basicEventConsulta.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.percurso.estagio.update.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -144,10 +144,10 @@ export default class CarrinhoPercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.carrinho.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.delete.listen', JSON.stringify(basicEventConsulta.toJson()));
+        socket.broadcast.emit('carrinho.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.percurso.estagio.delete.listen', JSON.stringify(basicEventConsulta.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }
@@ -163,10 +163,11 @@ export default class CarrinhoPercursoEstagioEvent {
         { key: 'CodCarrinhoPercurso', value: el.CodCarrinhoPercurso },
         { key: 'CodPercursoEstagio', value: el.CodPercursoEstagio },
         { key: 'CodCarrinho', value: el.CodCarrinho },
+        { key: 'Item', value: el.Item },
       ];
 
-      const result = await this.repository.consulta(params);
-      if (result.length > 0) carrinhoPercursoConsulta.push(result.shift()!);
+      const cars = await this.repository.consulta(params);
+      carrinhoPercursoConsulta.push(...cars);
     }
 
     return carrinhoPercursoConsulta;

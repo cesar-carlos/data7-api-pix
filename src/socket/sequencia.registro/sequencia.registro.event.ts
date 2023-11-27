@@ -1,11 +1,11 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import SequenciaRegistroRepository from './sequencia.registro.repository';
 
 export default class SequenciaRegistroEvent {
   private repository = new SequenciaRegistroRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
     socket.on(`${client} sequencia.consulta`, async (data) => {
@@ -18,7 +18,7 @@ export default class SequenciaRegistroEvent {
         if (result === undefined) socket.emit(resposeIn, JSON.stringify([]));
         socket.emit(resposeIn, JSON.stringify([result]));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }

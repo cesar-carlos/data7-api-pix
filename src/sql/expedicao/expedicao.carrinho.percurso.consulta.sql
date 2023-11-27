@@ -18,7 +18,15 @@ FROM (
       cpe.CodUsuario,
       cpe.NomeUsuario,
       co.CodSetorEstoque,
-      se.Descricao NomeSetorEstoque
+      se.Descricao NomeSetorEstoque,
+      can.CodCancelamento,
+      can.CodMotivoCancelamento,
+      mc.Descricao descricaoMotivoCancelamento,
+      can.DataCancelamento,
+      can.HoraCancelamento,
+      can.CodUsuarioCancelamento,
+      can.NomeUsuarioCancelamento,
+      can.ObservacaoCancelamento
     FROM Expedicao.CarrinhoPercursoEstagio cpe
       INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = cpe.CodEmpresa
       AND cp.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
@@ -26,4 +34,8 @@ FROM (
       AND cart.CodCarrinho = cpe.CodCarrinho
       LEFT JOIN CaixaOperador co ON co.CodUsuario = cpe.CodUsuario
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = co.CodSetorEstoque
+      LEFT JOIN Expedicao.Cancelamento can ON can.Origem = 'CP'
+      AND can.CodOrigem = cpe.CodCarrinhoPercurso
+      AND can.ItemOrigem = cpe.Item
+      LEFT JOIN MotivoCancelamento mc ON mc.CodMotivoCancelamento = can.CodMotivoCancelamento
   ) CarrinhoPercursoConsulta

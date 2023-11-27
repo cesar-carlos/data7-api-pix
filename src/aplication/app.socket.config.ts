@@ -11,6 +11,7 @@ import SepararItemEvent from '../socket/separar.item/separar.item.event';
 import SepararEvent from '../socket/separar/separar.event';
 import CancelamentoEvent from '../socket/cancelamento/cancelamento.event';
 import EstoqueProdutoEvent from '../socket/produto/estoque.produto.event';
+import ProcessoExecutavelEvent from '../socket/processo.executavel/processo.executavel.event';
 
 export default class AppSocket {
   constructor(private readonly io: SocketIOServer) {
@@ -21,16 +22,17 @@ export default class AppSocket {
     this.io.on('connection', (socket: Socket) => {
       console.log('Cliente conectado');
 
-      new SepararEvent(socket);
-      new CarrinhoEvent(socket);
-      new CarrinhoPercursoEstagioEvent(socket);
-      new SequenciaRegistroEvent(socket);
-      new CarrinhoPercursoEvent(socket);
-      new SeparacaoItemEvent(socket);
-      new SepararItemEvent(socket);
-      new CancelamentoEvent(socket);
-      new PercursoEstagioEvent(socket);
-      new EstoqueProdutoEvent(socket);
+      new ProcessoExecutavelEvent(this.io, socket);
+      new SepararEvent(this.io, socket);
+      new CarrinhoEvent(this.io, socket);
+      new CarrinhoPercursoEstagioEvent(this.io, socket);
+      new SequenciaRegistroEvent(this.io, socket);
+      new CarrinhoPercursoEvent(this.io, socket);
+      new SeparacaoItemEvent(this.io, socket);
+      new SepararItemEvent(this.io, socket);
+      new CancelamentoEvent(this.io, socket);
+      new PercursoEstagioEvent(this.io, socket);
+      new EstoqueProdutoEvent(this.io, socket);
 
       socket.on('disconnect', () => {
         console.log('Cliente desconectado');

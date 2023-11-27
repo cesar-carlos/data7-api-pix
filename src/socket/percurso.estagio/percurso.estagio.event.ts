@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import CarrinhoRepository from './percurso.estagio.repository';
 import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
@@ -7,7 +7,7 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 export default class PercursoEstagioEvent {
   private repository = new CarrinhoRepository();
 
-  constructor(private readonly socket: Socket) {
+  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
     socket.on(`${client} percurso.estagio.select`, async (data) => {
@@ -28,7 +28,7 @@ export default class PercursoEstagioEvent {
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -53,9 +53,9 @@ export default class PercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -76,9 +76,9 @@ export default class PercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
@@ -99,9 +99,9 @@ export default class PercursoEstagioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
-        this.socket.emit(resposeIn, JSON.stringify(error));
+        socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }

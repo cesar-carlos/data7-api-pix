@@ -3,6 +3,7 @@ INSERT INTO ProcessoExecutavel(
     CodEmpresa,
     CodFilial,
     Status,
+    Contexto,
     Origem,
     CodOrigem,
     ItemOrigem,
@@ -12,8 +13,8 @@ INSERT INTO ProcessoExecutavel(
     CodContaFinanceira,
     CodPeriodoCaixa,
     StatusPeriodoCaixa,
-    NomeComputador,
     UsuarioWindows,
+    NomeComputador,
     BancoDados
   )
 VALUES (
@@ -21,6 +22,7 @@ VALUES (
     @CodEmpresa,
     @CodFilial,
     @Status,
+    @Contexto,
     @Origem,
     @CodOrigem,
     @ItemOrigem,
@@ -30,7 +32,7 @@ VALUES (
     @CodContaFinanceira,
     @CodPeriodoCaixa,
     @StatusPeriodoCaixa,
-    @NomeComputador,
     @UsuarioWindows,
+    @NomeComputador,
     @BancoDados
   )

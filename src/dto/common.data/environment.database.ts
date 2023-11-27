@@ -22,17 +22,6 @@ export default class EnvironmentDatabaseDto {
     this.estacaoTrabalho = params.estacaoTrabalho;
   }
 
-  static create(params: {
-    codEmpresa: number;
-    codFilial: number;
-    codUsuario: number;
-    nomeUsuario: string;
-    codEstacaoTrabalho: number;
-    estacaoTrabalho: string;
-  }) {
-    return new EnvironmentDatabaseDto(params);
-  }
-
   static fromObject(object: any) {
     return new EnvironmentDatabaseDto({
       codEmpresa: object.codEmpresa || object.CodEmpresa,
@@ -42,5 +31,16 @@ export default class EnvironmentDatabaseDto {
       codEstacaoTrabalho: object.codEstacaoTrabalho || object.CodEstacaoTrabalho,
       estacaoTrabalho: object.estacaoTrabalho || object.EstacaoTrabalho,
     });
+  }
+
+  public toJson(): any {
+    return {
+      codEmpresa: this.codEmpresa,
+      codFilial: this.codFilial,
+      codUsuario: this.codUsuario,
+      nomeUsuario: this.nomeUsuario,
+      codEstacaoTrabalho: this.codEstacaoTrabalho,
+      estacaoTrabalho: this.estacaoTrabalho,
+    };
   }
 }
