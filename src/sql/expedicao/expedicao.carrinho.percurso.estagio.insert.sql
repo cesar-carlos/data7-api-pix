@@ -2,27 +2,35 @@ INSERT INTO Expedicao.CarrinhoPercursoEstagio(
     CodEmpresa,
     CodCarrinhoPercurso,
     Item,
+    Origem,
+    CodOrigem,
     CodPercursoEstagio,
     CodCarrinho,
     Situacao,
     DataInicio,
     HoraInicio,
+    CodUsuarioInicio,
+    NomeUsuarioInicio,
     DataFinalizacao,
     HoraFinalizacao,
-    CodUsuario,
-    NomeUsuario
+    CodUsuarioFinalizacao,
+    NomeUsuarioFinalizacao
   )
 VALUES (
     @CodEmpresa,
     @CodCarrinhoPercurso,
     @Item,
+    @Origem,
+    @CodOrigem,
     @CodPercursoEstagio,
     @CodCarrinho,
     @Situacao,
     @DataInicio,
     @HoraInicio,
+    @CodUsuarioInicio,
+    @NomeUsuarioInicio,
     @DataFinalizacao,
     @HoraFinalizacao,
-    @CodUsuario,
-    @NomeUsuario
+    @CodUsuarioFinalizacao,
+    @NomeUsuarioFinalizacao
   )

@@ -2,13 +2,13 @@ INSERT INTO Expedicao.PercursoEstagio(
     CodPercursoEstagio,
     Descricao,
     Ativo,
-    Sigla,
+    Origem,
     Sequencia
   )
 VALUES (
     @CodPercursoEstagio,
     @Descricao,
     @Ativo,
-    @Sigla,
+    @Origem,
     @Sequencia
   )

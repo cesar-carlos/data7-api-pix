@@ -2,32 +2,32 @@ import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
-import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
+import ExpedicaoEstagioDto from '../../dto/expedicao/expedicao.estagio.dto';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
-export default class PercursoEstagioRepository {
-  public async select(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
+export default class ExpedicaoEstagioRepository {
+  public async select(params: params[] | string = []): Promise<ExpedicaoEstagioDto[]> {
     const repository = this.repository();
     return await repository.selectWhere(params);
   }
 
-  public async insert(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
+  public async insert(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
     const repository = this.repository();
     for (const el of percursoEstagios) {
       await repository.insert(el);
     }
   }
 
-  public async update(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
+  public async update(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
     const repository = this.repository();
     for (const el of percursoEstagios) {
       await repository.update(el);
     }
   }
 
-  public async delete(percursoEstagios: ExpedicaoPercursoEstagioDto[]): Promise<void> {
+  public async delete(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
     const repository = this.repository();
     for (const el of percursoEstagios) {
       await repository.delete(el);
@@ -42,9 +42,9 @@ export default class PercursoEstagioRepository {
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoEstagioDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
     });
   }
 

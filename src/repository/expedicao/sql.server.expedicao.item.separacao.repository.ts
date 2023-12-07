@@ -93,7 +93,7 @@ export default class SqlServerExpedicaoItemSeparacaoRepository
         .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
         .input('Item', sql.VarChar(6), entity.Item)
         .input('SessionId', sql.VarChar(1000), entity.SessionId)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
         .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
         .input('CodSeparador', sql.Int, entity.CodSeparador)

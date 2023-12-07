@@ -1,11 +1,17 @@
 UPDATE Expedicao.CarrinhoPercursoEstagio
-SET Situacao = @Situacao,
+SET Origem = @Origem,
+  CodOrigem = @CodOrigem,
+  CodPercursoEstagio = @CodPercursoEstagio,
+  CodCarrinho = @CodCarrinho,
+  Situacao = @Situacao,
   DataInicio = @DataInicio,
   HoraInicio = @HoraInicio,
+  CodUsuarioInicio = @CodUsuarioInicio,
+  NomeUsuarioInicio = @NomeUsuarioInicio,
   DataFinalizacao = @DataFinalizacao,
   HoraFinalizacao = @HoraFinalizacao,
-  CodUsuario = @CodUsuario,
-  NomeUsuario = @NomeUsuario
+  CodUsuarioFinalizacao = @CodUsuarioFinalizacao,
+  NomeUsuarioFinalizacao = @NomeUsuarioFinalizacao
 WHERE CodEmpresa = @CodEmpresa
   AND CodCarrinhoPercurso = @CodCarrinhoPercurso
   AND Item = @Item

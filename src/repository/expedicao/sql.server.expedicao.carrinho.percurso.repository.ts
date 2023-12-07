@@ -93,7 +93,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoRepository
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
         .input('Origem', sql.VarChar(6), entity.Origem)
         .input('CodOrigem', sql.Int, entity.CodOrigem)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('DataInicio', sql.Date, entity.DataInicio)
         .input('HoraInicio', sql.VarChar(8), entity.HoraInicio)
         .input('DataFinalizacao', sql.Date, entity.DataFinalizacao)

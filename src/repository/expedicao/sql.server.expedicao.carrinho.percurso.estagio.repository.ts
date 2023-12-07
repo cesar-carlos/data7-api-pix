@@ -92,15 +92,19 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
         .input('Item', sql.VarChar(5), entity.Item)
+        .input('Origem', sql.VarChar(6), entity.Origem)
+        .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('CodPercursoEstagio', sql.Int, entity.CodPercursoEstagio)
         .input('CodCarrinho', sql.Int, entity.CodCarrinho)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('DataInicio', sql.Date, entity.DataInicio)
         .input('HoraInicio', sql.VarChar(8), entity.HoraInicio)
+        .input('CodUsuarioInicio', sql.Int, entity.CodUsuarioInicio)
+        .input('NomeUsuarioInicio', sql.VarChar(20), entity.NomeUsuarioInicio)
         .input('DataFinalizacao', sql.Date, entity.DataFinalizacao)
         .input('HoraFinalizacao', sql.VarChar(8), entity.HoraFinalizacao)
-        .input('CodUsuario', sql.Int, entity.CodUsuario)
-        .input('NomeUsuario', sql.VarChar(20), entity.NomeUsuario)
+        .input('CodUsuarioFinalizacao', sql.Int, entity.CodUsuarioFinalizacao)
+        .input('NomeUsuarioFinalizacao', sql.VarChar(20), entity.NomeUsuarioFinalizacao)
         .query(sqlCommand);
 
       await transaction.commit();

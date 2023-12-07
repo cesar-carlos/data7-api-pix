@@ -1,6 +1,6 @@
 SELECT CodPercursoEstagio,
   Descricao,
   Ativo,
-  Sigla,
+  Origem,
   Sequencia
 FROM Expedicao.PercursoEstagio

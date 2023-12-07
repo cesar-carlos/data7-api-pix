@@ -13,15 +13,15 @@ FROM (
       cart.Ativo Ativo,
       cpe.DataInicio,
       cpe.HoraInicio,
+      cpe.CodUsuarioInicio,
+      cpe.NomeUsuarioInicio,
       cpe.DataFinalizacao,
       cpe.HoraFinalizacao,
-      cpe.CodUsuario,
-      cpe.NomeUsuario,
       co.CodSetorEstoque,
       se.Descricao NomeSetorEstoque,
       can.CodCancelamento,
       can.CodMotivoCancelamento,
-      mc.Descricao descricaoMotivoCancelamento,
+      mc.Descricao DescricaoMotivoCancelamento,
       can.DataCancelamento,
       can.HoraCancelamento,
       can.CodUsuarioCancelamento,
@@ -32,7 +32,7 @@ FROM (
       AND cp.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
       LEFT JOIN Expedicao.Carrinho cart ON cart.CodEmpresa = cpe.CodEmpresa
       AND cart.CodCarrinho = cpe.CodCarrinho
-      LEFT JOIN CaixaOperador co ON co.CodUsuario = cpe.CodUsuario
+      LEFT JOIN CaixaOperador co ON co.CodUsuario = cpe.CodUsuarioInicio
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = co.CodSetorEstoque
       LEFT JOIN Expedicao.Cancelamento can ON can.Origem = 'CP'
       AND can.CodOrigem = cpe.CodCarrinhoPercurso

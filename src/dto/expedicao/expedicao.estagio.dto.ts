@@ -1,21 +1,21 @@
-export default class ExpedicaoPercursoEstagioDto {
+export default class ExpedicaoEstagioDto {
   CodPercursoEstagio: number;
   Descricao: string;
   Ativo: string;
-  Sigla: string;
+  Origem: string;
   Sequencia: number;
 
   constructor(params: {
     CodPercursoEstagio: number;
     Descricao: string;
     Ativo: string;
-    Sigla: string;
+    Origem: string;
     Sequencia: number;
   }) {
     this.CodPercursoEstagio = params.CodPercursoEstagio;
     this.Descricao = params.Descricao;
     this.Ativo = params.Ativo;
-    this.Sigla = params.Sigla;
+    this.Origem = params.Origem;
     this.Sequencia = params.Sequencia;
   }
 
@@ -23,24 +23,24 @@ export default class ExpedicaoPercursoEstagioDto {
     CodPercursoEstagio: number;
     Descricao: string;
     Ativo: string;
-    Sigla: string;
+    Origem: string;
     Sequencia: number;
-  }): ExpedicaoPercursoEstagioDto {
-    return new ExpedicaoPercursoEstagioDto({
+  }): ExpedicaoEstagioDto {
+    return new ExpedicaoEstagioDto({
       CodPercursoEstagio: params.CodPercursoEstagio ?? this.CodPercursoEstagio,
       Descricao: params.Descricao ?? this.Descricao,
       Ativo: params.Ativo ?? this.Ativo,
-      Sigla: params.Sigla ?? this.Sigla,
+      Origem: params.Origem ?? this.Origem,
       Sequencia: params.Sequencia ?? this.Sequencia,
     });
   }
 
-  static fromObject(object: any): ExpedicaoPercursoEstagioDto {
-    return new ExpedicaoPercursoEstagioDto({
+  static fromObject(object: any): ExpedicaoEstagioDto {
+    return new ExpedicaoEstagioDto({
       CodPercursoEstagio: object.CodPercursoEstagio,
       Descricao: object.Descricao,
       Ativo: object.Ativo,
-      Sigla: object.Sigla,
+      Origem: object.Origem,
       Sequencia: object.Sequencia,
     });
   }
@@ -50,7 +50,7 @@ export default class ExpedicaoPercursoEstagioDto {
       CodPercursoEstagio: this.CodPercursoEstagio,
       Descricao: this.Descricao,
       Ativo: this.Ativo,
-      Sigla: this.Sigla,
+      Origem: this.Origem,
       Sequencia: this.Sequencia,
     };
   }

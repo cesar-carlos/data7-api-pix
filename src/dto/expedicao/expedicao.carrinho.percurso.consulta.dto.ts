@@ -12,10 +12,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   Ativo: string;
   DataInicio: Date;
   HoraInicio: string;
+  CodUsuarioInicio: number;
+  NomeUsuarioInicio: string;
   DataFinalizacao?: Date;
   HoraFinalizacao?: string;
-  CodUsuario: number;
-  NomeUsuario: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
   CodCancelamento?: number;
@@ -41,10 +41,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     Ativo: string;
     DataInicio: Date;
     HoraInicio: string;
+    CodUsuarioInicio: number;
+    NomeUsuarioInicio: string;
     DataFinalizacao?: Date;
     HoraFinalizacao?: string;
-    CodUsuario: number;
-    NomeUsuario: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
     CodCancelamento?: number;
@@ -69,10 +69,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     this.Ativo = params.Ativo;
     this.DataInicio = params.DataInicio;
     this.HoraInicio = params.HoraInicio;
+    this.CodUsuarioInicio = params.CodUsuarioInicio;
+    this.NomeUsuarioInicio = params.NomeUsuarioInicio;
     this.DataFinalizacao = params.DataFinalizacao;
     this.HoraFinalizacao = params.HoraFinalizacao;
-    this.CodUsuario = params.CodUsuario;
-    this.NomeUsuario = params.NomeUsuario;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.NomeSetorEstoque = params.NomeSetorEstoque;
     this.CodCancelamento = params.CodCancelamento;
@@ -99,10 +99,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     Ativo?: string;
     DataInicio?: Date;
     HoraInicio?: string;
+    CodUsuarioInicio?: number;
+    NomeUsuarioInicio?: string;
     DataFinalizacao?: Date;
     HoraFinalizacao?: string;
-    CodUsuario?: number;
-    NomeUsuario?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
     CodCancelamento?: number;
@@ -128,10 +128,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       Ativo: params.Ativo ?? this.Ativo,
       DataInicio: params.DataInicio ?? this.DataInicio,
       HoraInicio: params.HoraInicio ?? this.HoraInicio,
+      CodUsuarioInicio: params.CodUsuarioInicio ?? this.CodUsuarioInicio,
+      NomeUsuarioInicio: params.NomeUsuarioInicio ?? this.NomeUsuarioInicio,
       DataFinalizacao: params.DataFinalizacao ?? this.DataFinalizacao,
       HoraFinalizacao: params.HoraFinalizacao ?? this.HoraFinalizacao,
-      CodUsuario: params.CodUsuario ?? this.CodUsuario,
-      NomeUsuario: params.NomeUsuario ?? this.NomeUsuario,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
       NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
       CodCancelamento: params.CodCancelamento ?? this.CodCancelamento,
@@ -160,10 +160,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       Ativo: object.Ativo,
       DataInicio: object.DataInicio,
       HoraInicio: object.HoraInicio,
+      CodUsuarioInicio: object.CodUsuarioInicio,
+      NomeUsuarioInicio: object.NomeUsuarioInicio,
       DataFinalizacao: object.DataFinalizacao,
       HoraFinalizacao: object.HoraFinalizacao,
-      CodUsuario: object.CodUsuario,
-      NomeUsuario: object.NomeUsuario,
       CodSetorEstoque: object.CodSetorEstoque,
       NomeSetorEstoque: object.NomeSetorEstoque,
       CodCancelamento: object.CodCancelamento,
@@ -192,10 +192,10 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       Ativo: this.Ativo,
       DataInicio: this.DataInicio,
       HoraInicio: this.HoraInicio,
+      CodUsuarioInicio: this.CodUsuarioInicio,
+      NomeUsuarioInicio: this.NomeUsuarioInicio,
       DataFinalizacao: this.DataFinalizacao,
       HoraFinalizacao: this.HoraFinalizacao,
-      CodUsuario: this.CodUsuario,
-      NomeUsuario: this.NomeUsuario,
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
       CodCancelamento: this.CodCancelamento,

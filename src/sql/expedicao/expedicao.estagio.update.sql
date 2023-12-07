@@ -1,6 +1,6 @@
 UPDATE Expedicao.PercursoEstagio
 SET Descricao = @Descricao,
   Ativo = @Ativo,
-  Sigla = @Sigla,
+  Origem = @Origem,
   Sequencia = @Sequencia
 WHERE CodPercursoEstagio = @CodPercursoEstagio

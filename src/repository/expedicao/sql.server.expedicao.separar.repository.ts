@@ -93,7 +93,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
         .input('TipoEntidade', sql.VarChar(5), entity.TipoEntidade)
         .input('CodEntidade', sql.Int, entity.CodEntidade)
         .input('NomeEntidade', sql.VarChar(100), entity.NomeEntidade)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('Data', sql.Date, entity.Data)
         .input('Hora', sql.VarChar(8), entity.Hora)
         .input('CodPrioridade', sql.Int, entity.CodPrioridade)

@@ -91,7 +91,7 @@ export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRe
         .input('CodCarrinho', sql.Int, entity.CodCarrinho)
         .input('CodigoBarras', sql.VarChar(200), entity.CodigoBarras)
         .input('Descricao', sql.VarChar(100), entity.Descricao)
-        .input('Situacao', sql.VarChar(20), entity.Situacao)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('Ativo', sql.VarChar(1), entity.Ativo)
         .query(sqlCommand);
 

@@ -62,16 +62,18 @@ export default class CarrinhoPercursoEvent {
 
       try {
         const itens = this.convert(mutation);
+        const carrinhoPercursos: ExpedicaoCarrinhoPercursoDto[] = [];
         for (const item of itens) {
           const sequence = await this.repository.sequence();
           item.CodCarrinhoPercurso = sequence?.Valor ?? 0;
           await this.repository.insert([item]);
+          carrinhoPercursos.push(item);
         }
 
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: carrinhoPercursos.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));

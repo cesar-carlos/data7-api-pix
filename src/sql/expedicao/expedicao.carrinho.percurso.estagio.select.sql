@@ -1,13 +1,17 @@
 SELECT CodEmpresa,
   CodCarrinhoPercurso,
   Item,
+  Origem,
+  CodOrigem,
   CodPercursoEstagio,
   CodCarrinho,
   Situacao,
   DataInicio,
   HoraInicio,
+  CodUsuarioInicio,
+  NomeUsuarioInicio,
   DataFinalizacao,
   HoraFinalizacao,
-  CodUsuario,
-  NomeUsuario
+  CodUsuarioFinalizacao,
+  NomeUsuarioFinalizacao
 FROM Expedicao.CarrinhoPercursoEstagio

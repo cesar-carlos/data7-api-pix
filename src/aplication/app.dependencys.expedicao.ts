@@ -1,8 +1,11 @@
 import { eContext } from '../dependency/container.dependency';
 
 import ContainerDependency from '../dependency/container.dependency';
+
+import SqlServerExpedicaoEstagioRepository from '../repository/expedicao/sql.server.expedicao.estagio.repository';
 import SqlServerExpedicaoPrioridadeRepository from '../repository/expedicao/sql.server.expedicao.prioridade.repository';
 import SqlServerExpedicaoMotivoRecusaRepository from '../repository/expedicao/sql.server.expedicao.motivo.recusa.repository';
+import SqlServerExpedicaoSepararConsultaRepository from '../repository/expedicao/sql.server.expedicao.separar.consulta.repository';
 import LocalSqlServerProcessoExecutavelRepository from '../repository/common.data/local.sql.server.processo.executavel.repository';
 import SqlServerExpedicaoCarrinhoPercursoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.repository';
 import SqlServerExpedicaoCarrinhoConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.consulta.repository';
@@ -11,7 +14,6 @@ import SqlServerExpedicaoCarrinhoPercursoConsultaRepository from '../repository/
 import SqlServerExpedicaoCarrinhoPercursoEstagioRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.estagio.repository';
 import SqlServerExpedicaoTipoOperacaoExpedicaoRepository from '../repository/expedicao/sql.server.expedicao.tipo.operacao.expedicao.repository';
 import SqlServerExpedicaoItemSeparacaoConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.consulta.repository';
-import SqlServerExpedicaoPercursoEstagioRepository from '../repository/expedicao/sql.server.expedicao.percurso.estagio.repository';
 import SqlServerExpedicaoTipoSolicitacaoRepository from '../repository/expedicao/sql.server.expedicao.tipo.solicitacao.repository';
 import SqlServerExpedicaoItemSeparacaoRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.repository';
 import SqlServerExpedicaoSetorEstoqueRepository from '../repository/expedicao/sql.server.expedicao.setor.estoque.repository';
@@ -19,7 +21,6 @@ import SqlServerExpedicaoItemSepararRepository from '../repository/expedicao/sql
 import SqlServerExpedicaoCarrinhoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.repository';
 import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.server.expedicao.separar.repository';
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
-import SqlServerExpedicaoSepararConsultaRepository from '../repository/expedicao/sql.server.expedicao.separar.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -103,8 +104,8 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>',
-      instance: new SqlServerExpedicaoPercursoEstagioRepository(),
+      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
+      instance: new SqlServerExpedicaoEstagioRepository(),
     });
 
     ContainerDependency.instance.register({

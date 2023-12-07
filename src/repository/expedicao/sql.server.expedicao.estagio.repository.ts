@@ -6,26 +6,24 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
+import ExpedicaoEstagioDto from '../../dto/expedicao/expedicao.estagio.dto';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoPercursoEstagioRepository
-  implements LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>
-{
+export default class SqlServerExpedicaoEstagioRepository implements LocalBaseRepositoryContract<ExpedicaoEstagioDto> {
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoPercursoEstagioDto[]> {
+  public async select(): Promise<ExpedicaoEstagioDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.estagio.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
       pool.close();
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoPercursoEstagioDto.fromObject(item);
+        return ExpedicaoEstagioDto.fromObject(item);
       });
 
       return entity;
@@ -34,10 +32,10 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoPercursoEstagioDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoEstagioDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.estagio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -47,7 +45,7 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoPercursoEstagioDto.fromObject(item);
+        return ExpedicaoEstagioDto.fromObject(item);
       });
 
       return entitys;
@@ -56,9 +54,9 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
     }
   }
 
-  public async insert(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
+  public async insert(entity: ExpedicaoEstagioDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.estagio.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -66,9 +64,9 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
     }
   }
 
-  public async update(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
+  public async update(entity: ExpedicaoEstagioDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.update.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.estagio.update.sql');
       const update = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -76,13 +74,13 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
     }
   }
 
-  public async delete(entity: ExpedicaoPercursoEstagioDto): Promise<void> {
-    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.percurso.estagio.delete.sql');
+  public async delete(entity: ExpedicaoEstagioDto): Promise<void> {
+    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.estagio.delete.sql');
     const delet = fs.readFileSync(patchSQL).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: ExpedicaoPercursoEstagioDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: ExpedicaoEstagioDto, sqlCommand: string): Promise<void> {
     try {
       const pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
@@ -92,7 +90,7 @@ export default class SqlServerExpedicaoPercursoEstagioRepository
         .input('CodPercursoEstagio', sql.Int, entity.CodPercursoEstagio)
         .input('Descricao', sql.VarChar(100), entity.Descricao)
         .input('Ativo', sql.VarChar(1), entity.Ativo)
-        .input('Sigla', sql.VarChar(6), entity.Sigla)
+        .input('Origem', sql.VarChar(6), entity.Origem)
         .input('Sequencia', sql.Int, entity.Sequencia)
         .query(sqlCommand);
 

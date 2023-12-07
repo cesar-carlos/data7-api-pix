@@ -12,8 +12,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
   CodOrigem?: number;
   DataInicio?: Date;
   HoraInicio?: string;
-  CodUsuario?: number;
-  NomeUsuario?: string;
+  CodUsuarioInicio?: number;
+  NomeUsuarioInicio?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
 
@@ -31,8 +31,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
     CodOrigem?: number;
     DataInicio?: Date;
     HoraInicio?: string;
-    CodUsuario?: number;
-    NomeUsuario?: string;
+    CodUsuarioInicio?: number;
+    NomeUsuarioInicio?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
   }) {
@@ -49,8 +49,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
     this.CodOrigem = params.CodOrigem;
     this.DataInicio = params.DataInicio;
     this.HoraInicio = params.HoraInicio;
-    this.CodUsuario = params.CodUsuario;
-    this.NomeUsuario = params.NomeUsuario;
+    this.CodUsuarioInicio = params.CodUsuarioInicio;
+    this.NomeUsuarioInicio = params.NomeUsuarioInicio;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.NomeSetorEstoque = params.NomeSetorEstoque;
   }
@@ -69,8 +69,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
     CodOrigem?: number;
     DataInicio?: Date;
     HoraInicio?: string;
-    CodUsuario?: number;
-    NomeUsuario?: string;
+    CodUsuarioInicio?: number;
+    NomeUsuarioInicio?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
   }) {
@@ -88,8 +88,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       DataInicio: params.DataInicio ?? this.DataInicio,
       HoraInicio: params.HoraInicio ?? this.HoraInicio,
-      CodUsuario: params.CodUsuario ?? this.CodUsuario,
-      NomeUsuario: params.NomeUsuario ?? this.NomeUsuario,
+      CodUsuarioInicio: params.CodUsuarioInicio ?? this.CodUsuarioInicio,
+      NomeUsuarioInicio: params.NomeUsuarioInicio ?? this.NomeUsuarioInicio,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
       NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
     });
@@ -110,8 +110,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
       CodOrigem: object.CodOrigem,
       DataInicio: object.DataInicio,
       HoraInicio: object.HoraInicio,
-      CodUsuario: object.CodUsuario,
-      NomeUsuario: object.NomeUsuario,
+      CodUsuarioInicio: object.CodUsuarioInicio,
+      NomeUsuarioInicio: object.NomeUsuarioInicio,
       CodSetorEstoque: object.CodSetorEstoque,
       NomeSetorEstoque: object.NomeSetorEstoque,
     });
@@ -132,8 +132,8 @@ export default class ExpedicaoCarrinhoConsultaDto {
       CodOrigem: this.CodOrigem,
       DataInicio: this.DataInicio,
       HoraInicio: this.HoraInicio,
-      CodUsuario: this.CodUsuario,
-      NomeUsuario: this.NomeUsuario,
+      CodUsuarioInicio: this.CodUsuarioInicio,
+      NomeUsuarioInicio: this.NomeUsuarioInicio,
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
     };
