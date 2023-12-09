@@ -1,20 +1,20 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
-import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
-import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
-import SepararRepository from './separar.repository';
+import ExpedicaoConferirConsultaDto from '../../dto/expedicao/expedicao.conferir.consulta.dto';
+import ExpedicaoConferirDto from '../../dto/expedicao/expedicao.conferir.dto';
+import ConferirRepository from './conferir.repository';
 
-export default class SepararEvent {
-  private repository = new SepararRepository();
+export default class ConferirEvent {
+  private repository = new ConferirRepository();
 
   constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
 
-    socket.on(`${client} separar.consulta`, async (data) => {
+    socket.on(`${client} conferir.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.consulta`;
+      const resposeIn = json['resposeIn'] ?? `${client} conferir.consulta`;
       const params = json['where'] ?? '';
 
       try {
@@ -34,10 +34,33 @@ export default class SepararEvent {
       }
     });
 
-    socket.on(`${client} separar.select`, async (data) => {
+    socket.on(`${client} carrinho.conferir.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.select`;
+      const resposeIn = json['resposeIn'] ?? `${client} carrinho.conferir.consulta`;
+      const params = json['where'] ?? '';
+
+      try {
+        if (params != '') {
+          const result = await this.repository.carrinhoConferirConsulta(params);
+          const json = result.map((item) => item.toJson());
+          socket.emit(resposeIn, JSON.stringify(json));
+          return;
+        }
+
+        const result = await this.repository.select();
+
+        const json = result.map((item) => item.toJson());
+        socket.emit(resposeIn, JSON.stringify(json));
+      } catch (error) {
+        socket.emit(resposeIn, JSON.stringify(error));
+      }
+    });
+
+    socket.on(`${client} conferir.select`, async (data) => {
+      const json = JSON.parse(data);
+      const session = json['session'] ?? '';
+      const resposeIn = json['resposeIn'] ?? `${client} conferir.select`;
       const params = json['where'] ?? '';
 
       try {
@@ -56,27 +79,27 @@ export default class SepararEvent {
       }
     });
 
-    socket.on(`${client} separar.insert`, async (data) => {
+    socket.on(`${client} conferir.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.insert`;
+      const resposeIn = json['resposeIn'] ?? `${client} conferir.insert`;
       const mutation = json['mutation'];
 
       try {
         const itens = this.convert(mutation);
         for (const item of itens) {
           const sequence = await this.repository.sequence();
-          item.CodSepararEstoque = sequence?.Valor ?? 0;
+          item.CodConferir = sequence?.Valor ?? 0;
           await this.repository.insert([item]);
         }
 
-        const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
+        const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodSepararEstoque = ${item.CodSepararEstoque}`,
+            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
           );
 
-          separarConsulta.push(...result);
+          conferirConsulta.push(...result);
         }
 
         const basicEvent = new ExpedicaoBasicEventDto({
@@ -85,37 +108,37 @@ export default class SepararEvent {
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventConferirConsulta = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: separarConsulta.map((item) => item.toJson()),
+          Mutation: conferirConsulta.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.insert', JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.insert.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+        socket.broadcast.emit('conferir.insert', JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.insert.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
+      } catch (err: any) {
+        socket.emit(resposeIn, JSON.stringify(err.message));
       }
     });
 
-    socket.on(`${client} separar.update`, async (data) => {
+    socket.on(`${client} conferir.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.update`;
+      const resposeIn = json['resposeIn'] ?? `${client} conferir.update`;
       const mutation = json['mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
-        const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
+        const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodSepararEstoque = ${item.CodSepararEstoque}`,
+            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
           );
 
-          separarConsulta.push(...result);
+          conferirConsulta.push(...result);
         }
 
         const basicEvent = new ExpedicaoBasicEventDto({
@@ -124,36 +147,36 @@ export default class SepararEvent {
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventConferirConsulta = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: separarConsulta.map((item) => item.toJson()),
+          Mutation: conferirConsulta.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.update', JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.update.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
+        socket.broadcast.emit('conferir.update', JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.update.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} separar.delete`, async (data) => {
+    socket.on(`${client} conferir.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.delete`;
+      const resposeIn = json['resposeIn'] ?? `${client} Conferir.delete`;
       const mutation = json['mutation'];
 
       try {
         const itens = this.convert(mutation);
 
-        const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
+        const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodSepararEstoque = ${item.CodSepararEstoque}`,
+            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
           );
 
-          separarConsulta.push(...result);
+          conferirConsulta.push(...result);
         }
 
         await this.repository.delete(itens);
@@ -164,26 +187,26 @@ export default class SepararEvent {
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventConferirConsulta = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: separarConsulta.map((item) => item.toJson()),
+          Mutation: conferirConsulta.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.delete', JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.delete.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
+        socket.broadcast.emit('conferir.delete', JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.delete.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoSepararDto[] {
+  private convert(mutations: any[] | any): ExpedicaoConferirDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoSepararDto.fromObject(mutation);
+        return ExpedicaoConferirDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

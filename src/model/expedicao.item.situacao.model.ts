@@ -1,4 +1,4 @@
-abstract class ExpedicaoItemSituacaoModel {
+export default abstract class ExpedicaoItemSituacaoModel {
   static readonly separado: string = 'SP';
   static readonly cancelado: string = 'CA';
   static readonly pendente: string = 'PE';

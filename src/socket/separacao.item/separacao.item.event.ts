@@ -6,6 +6,7 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
+import ExpedicaoItemSituacaoModel from '../../model/expedicao.item.situacao.model';
 
 type ProdutoSeparar = {
   CodEmpresa: number;
@@ -99,7 +100,7 @@ export default class SeparacaoItemEvent {
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {
-            return cur.Situacao != 'CA' ? acc + cur.Quantidade : acc;
+            return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const separarItemRepository = new SepararItemRepository();
@@ -185,7 +186,7 @@ export default class SeparacaoItemEvent {
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {
-            return cur.Situacao != 'CA' ? acc + cur.Quantidade : acc;
+            return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const separarItemRepository = new SepararItemRepository();

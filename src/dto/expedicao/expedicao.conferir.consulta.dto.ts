@@ -1,9 +1,10 @@
-export default class ExpedicaoConferirDto {
+export default class ExpedicaoConferirConsultaDto {
   CodEmpresa: number;
   CodConferir: number;
   Origem: string;
   CodOrigem: number;
   CodPrioridade: number;
+  NomePrioridade: string;
   Situacao: string;
   Data: Date;
   Hora: string;
@@ -22,6 +23,7 @@ export default class ExpedicaoConferirDto {
     Origem: string;
     CodOrigem: number;
     CodPrioridade: number;
+    NomePrioridade: string;
     Situacao: string;
     Data: Date;
     Hora: string;
@@ -39,6 +41,7 @@ export default class ExpedicaoConferirDto {
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.CodPrioridade = params.CodPrioridade;
+    this.NomePrioridade = params.NomePrioridade;
     this.Situacao = params.Situacao;
     this.Data = params.Data;
     this.Hora = params.Hora;
@@ -58,6 +61,7 @@ export default class ExpedicaoConferirDto {
     Origem?: string;
     CodOrigem?: number;
     CodPrioridade?: number;
+    NomePrioridade?: string;
     Situacao?: string;
     Data?: Date;
     Hora?: string;
@@ -70,12 +74,13 @@ export default class ExpedicaoConferirDto {
     NomeUsuarioCancelamento?: string;
     ObservacaoCancelamento?: string;
   }) {
-    return new ExpedicaoConferirDto({
+    return new ExpedicaoConferirConsultaDto({
       CodEmpresa: params?.CodEmpresa ?? this.CodEmpresa,
       CodConferir: params?.CodConferir ?? this.CodConferir,
       Origem: params?.Origem ?? this.Origem,
       CodOrigem: params?.CodOrigem ?? this.CodOrigem,
       CodPrioridade: params?.CodPrioridade ?? this.CodPrioridade,
+      NomePrioridade: params?.NomePrioridade ?? this.NomePrioridade,
       Situacao: params?.Situacao ?? this.Situacao,
       Data: params?.Data ?? this.Data,
       Hora: params?.Hora ?? this.Hora,
@@ -90,13 +95,14 @@ export default class ExpedicaoConferirDto {
     });
   }
 
-  static fromObject(object: any): ExpedicaoConferirDto {
-    return new ExpedicaoConferirDto({
+  static fromObject(object: any): ExpedicaoConferirConsultaDto {
+    return new ExpedicaoConferirConsultaDto({
       CodEmpresa: object.CodEmpresa,
       CodConferir: object.CodConferir,
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
       CodPrioridade: object.CodPrioridade,
+      NomePrioridade: object.NomePrioridade,
       Situacao: object.Situacao,
       Data: object.Data,
       Hora: object.Hora,
