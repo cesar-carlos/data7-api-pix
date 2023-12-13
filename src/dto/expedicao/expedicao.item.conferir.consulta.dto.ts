@@ -16,6 +16,8 @@ export default class ExpedicaoItemConferirConsultaDto {
   NomeGrupoProduto: string;
   CodMarca?: number;
   NomeMarca?: string;
+  CodSetorEstoque?: number;
+  nomeSetorEstoque?: string;
   NCM: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
@@ -45,6 +47,8 @@ export default class ExpedicaoItemConferirConsultaDto {
     NomeGrupoProduto: string;
     CodMarca?: number;
     NomeMarca?: string;
+    CodSetorEstoque?: number;
+    nomeSetorEstoque?: string;
     NCM: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
@@ -73,6 +77,8 @@ export default class ExpedicaoItemConferirConsultaDto {
     this.NomeGrupoProduto = params.NomeGrupoProduto;
     this.CodMarca = params.CodMarca;
     this.NomeMarca = params.NomeMarca;
+    this.CodSetorEstoque = params.CodSetorEstoque;
+    this.nomeSetorEstoque = params.nomeSetorEstoque;
     this.NCM = params.NCM;
     this.CodigoBarras = params.CodigoBarras;
     this.CodigoBarras2 = params.CodigoBarras2;
@@ -103,6 +109,8 @@ export default class ExpedicaoItemConferirConsultaDto {
     NomeGrupoProduto?: string;
     CodMarca?: number;
     NomeMarca?: string;
+    CodSetorEstoque?: number;
+    nomeSetorEstoque?: string;
     NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
@@ -132,6 +140,8 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeGrupoProduto: params.NomeGrupoProduto ?? this.NomeGrupoProduto,
       CodMarca: params.CodMarca ?? this.CodMarca,
       NomeMarca: params.NomeMarca ?? this.NomeMarca,
+      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
+      nomeSetorEstoque: params.nomeSetorEstoque ?? this.nomeSetorEstoque,
       NCM: params.NCM ?? this.NCM,
       CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodigoBarras2: params.CodigoBarras2 ?? this.CodigoBarras2,
@@ -164,6 +174,8 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeGrupoProduto: object.NomeGrupoProduto,
       CodMarca: object.CodMarca,
       NomeMarca: object.NomeMarca,
+      CodSetorEstoque: object.CodSetorEstoque,
+      nomeSetorEstoque: object.nomeSetorEstoque,
       NCM: object.NCM,
       CodigoBarras: object.CodigoBarras,
       CodigoBarras2: object.CodigoBarras2,
@@ -196,6 +208,8 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeGrupoProduto: this.NomeGrupoProduto,
       CodMarca: this.CodMarca,
       NomeMarca: this.NomeMarca,
+      CodSetorEstoque: this.CodSetorEstoque,
+      nomeSetorEstoque: this.nomeSetorEstoque,
       NCM: this.NCM,
       CodigoBarras: this.CodigoBarras,
       CodigoBarras2: this.CodigoBarras2,

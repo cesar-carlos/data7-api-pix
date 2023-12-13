@@ -17,6 +17,8 @@ FROM(
       gp.Nome NomeGrupoProduto,
       prod.CodMarca,
       m.Nome NomeMarca,
+      prod.CodSetorEstoque,
+      se.Descricao nomeSetorEstoque,
       prod.NCM,
       prod.CodigoBarras1 CodigoBarras,
       prod.CodigoBarras2 CodigoBarras2,
@@ -34,4 +36,5 @@ FROM(
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ice.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
+      LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = prod.CodSetorEstoque
   ) ConferirItemConsulta

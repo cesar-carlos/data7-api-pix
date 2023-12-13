@@ -124,6 +124,7 @@ export default class ExpedicaoConferirConsultaDto {
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       CodPrioridade: this.CodPrioridade,
+      NomePrioridade: this.NomePrioridade,
       Situacao: this.Situacao,
       Data: this.Data,
       Hora: this.Hora,
