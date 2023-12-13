@@ -240,7 +240,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       CodigoFabricante: this.CodigoFabricante,
       CodigoOriginal: this.CodigoOriginal,
       Endereco: this.Endereco,
-      QuantidadeSeparacao: this.QuantidadeSeparacao.toFixed(4),
+      QuantidadeSeparacao: Number(this.QuantidadeSeparacao).toFixed(4),
     };
   }
 }

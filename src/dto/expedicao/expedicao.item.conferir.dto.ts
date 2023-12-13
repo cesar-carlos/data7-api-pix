@@ -1,3 +1,5 @@
+import ExpedicaoItemConferirConsultaDto from './expedicao.item.conferir.consulta.dto';
+
 export default class ExpedicaoItemConferirDto {
   CodEmpresa: number;
   CodConferir: number;
@@ -55,6 +57,20 @@ export default class ExpedicaoItemConferirDto {
     });
   }
 
+  static fromConsulta(item: ExpedicaoItemConferirConsultaDto): ExpedicaoItemConferirDto {
+    return new ExpedicaoItemConferirDto({
+      CodEmpresa: item.CodEmpresa,
+      CodConferir: item.CodConferir,
+      Item: item.Item,
+      CodCarrinhoPercurso: item.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: item.ItemCarrinhoPercurso,
+      CodProduto: item.CodProduto,
+      CodUnidadeMedida: item.CodUnidadeMedida,
+      Quantidade: item.Quantidade,
+      QuantidadeConferida: item.QuantidadeConferida,
+    });
+  }
+
   static fromObject(object: any): ExpedicaoItemConferirDto {
     return new ExpedicaoItemConferirDto({
       CodEmpresa: object.CodEmpresa,
@@ -78,8 +94,8 @@ export default class ExpedicaoItemConferirDto {
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      Quantidade: this.Quantidade.toFixed(4),
-      QuantidadeConferida: this.QuantidadeConferida.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
+      QuantidadeConferida: Number(this.QuantidadeConferida).toFixed(4),
     };
   }
 }

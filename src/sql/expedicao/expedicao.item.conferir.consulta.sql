@@ -7,6 +7,7 @@ FROM(
       cf.CodOrigem,
       ice.CodCarrinhoPercurso,
       ice.ItemCarrinhoPercurso,
+      cpe.CodCarrinho,
       ice.CodProduto,
       prod.Nome NomeProduto,
       prod.Ativo,
@@ -32,6 +33,11 @@ FROM(
     FROM Expedicao.ItemConferir ice
       INNER JOIN Expedicao.Conferir cf ON cf.CodEmpresa = ice.CodEmpresa
       AND cf.CodConferir = ice.CodConferir
+      INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = ice.CodEmpresa
+      AND cp.CodCarrinhoPercurso = ice.CodCarrinhoPercurso
+      LEFT JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = ice.CodEmpresa
+      AND cpe.CodCarrinhoPercurso = ice.CodCarrinhoPercurso
+      AND cpe.Item = ice.ItemCarrinhoPercurso
       INNER JOIN Produto prod ON prod.CodProduto = ice.CodProduto
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ice.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto

@@ -6,6 +6,7 @@ export default class ExpedicaoItemConferirConsultaDto {
   CodOrigem: number;
   CodCarrinhoPercurso: number;
   ItemCarrinhoPercurso: string;
+  CodCarrinho: number;
   CodProduto: number;
   NomeProduto: string;
   Ativo: string;
@@ -37,6 +38,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodOrigem: number;
     CodCarrinhoPercurso: number;
     ItemCarrinhoPercurso: string;
+    CodCarrinho: number;
     CodProduto: number;
     NomeProduto: string;
     Ativo: string;
@@ -67,6 +69,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     this.CodOrigem = params.CodOrigem;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
+    this.CodCarrinho = params.CodCarrinho;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.Ativo = params.Ativo;
@@ -99,6 +102,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodOrigem?: number;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
+    CodCarrinho?: number;
     CodProduto?: number;
     NomeProduto?: string;
     Ativo?: string;
@@ -130,6 +134,7 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
+      CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       Ativo: params.Ativo ?? this.Ativo,
@@ -164,6 +169,7 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: object.CodOrigem,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
+      CodCarrinho: object.CodCarrinho,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       Ativo: object.Ativo,
@@ -198,6 +204,7 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: this.CodOrigem,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
+      CodCarrinho: this.CodCarrinho,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       Ativo: this.Ativo,
@@ -218,8 +225,8 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodigoFabricante: this.CodigoFabricante,
       CodigoOriginal: this.CodigoOriginal,
       Endereco: this.Endereco,
-      Quantidade: this.Quantidade.toFixed(4),
-      QuantidadeConferida: this.QuantidadeConferida.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
+      QuantidadeConferida: Number(this.QuantidadeConferida).toFixed(4),
     };
   }
 }

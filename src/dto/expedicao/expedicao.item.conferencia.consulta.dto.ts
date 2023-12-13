@@ -25,8 +25,8 @@ export default class ExpedicaoItemConferenciaConsultaDto {
   CodigoFabricante?: string;
   CodigoOriginal?: string;
   Endereco?: string;
-  CodConferente?: number;
-  NomeConferente?: string;
+  CodConferente: number;
+  NomeConferente: string;
   DataConferencia: Date;
   HoraConferencia: string;
   Quantidade: number;
@@ -58,8 +58,8 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
-    CodConferente?: number;
-    NomeConferente?: string;
+    CodConferente: number;
+    NomeConferente: string;
     DataConferencia: Date;
     HoraConferencia: string;
     Quantidade: number;
@@ -90,8 +90,8 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     this.CodigoFabricante = params?.CodigoFabricante;
     this.CodigoOriginal = params?.CodigoOriginal;
     this.Endereco = params?.Endereco;
-    this.CodConferente = params?.CodConferente;
-    this.NomeConferente = params?.NomeConferente;
+    this.CodConferente = params.CodConferente;
+    this.NomeConferente = params.NomeConferente;
     this.DataConferencia = params.DataConferencia;
     this.HoraConferencia = params.HoraConferencia;
     this.Quantidade = params.Quantidade;
@@ -193,8 +193,8 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       CodigoFabricante: object?.CodigoFabricante,
       CodigoOriginal: object?.CodigoOriginal,
       Endereco: object?.Endereco,
-      CodConferente: object?.CodConferente,
-      NomeConferente: object?.NomeConferente,
+      CodConferente: object.CodConferente,
+      NomeConferente: object.NomeConferente,
       DataConferencia: object.DataConferencia,
       HoraConferencia: object.HoraConferencia,
       Quantidade: object.Quantidade,
@@ -233,7 +233,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       NomeConferente: this.NomeConferente,
       DataConferencia: this.DataConferencia,
       HoraConferencia: this.HoraConferencia,
-      Quantidade: this.Quantidade.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
     };
   }
 }

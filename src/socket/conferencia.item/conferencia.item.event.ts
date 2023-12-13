@@ -7,11 +7,21 @@ import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item
 import ExpedicaoItemConferenciaDto from '../../dto/expedicao/expedicao.item.conferencia.dto';
 import ConferirItemRepository from '../conferir.item/conferir.item.repository';
 import ExpedicaoItemSituacaoModel from '../../model/expedicao.item.situacao.model';
+import CarrinhoPercursoEstagioRepository from '../carrinho.percurso.estagio/carrinho.percurso.estagio.repository';
+import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
+import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 
 type ProdutoConferir = {
   CodEmpresa: number;
   CodConferir: number;
+  CodCarrinho: number;
   CodProduto: number;
+};
+
+type CarrinhoPercursoEstagioParams = {
+  CodEmpresa: number;
+  CodCarrinhoPercurso: number;
+  ItemCarrinhoPercurso: string;
 };
 
 export default class ConferenciaItemEvent {
@@ -77,16 +87,25 @@ export default class ConferenciaItemEvent {
         for (const el of itensMutation) {
           el.Item = await this.lestItem(el.CodEmpresa, el.CodConferir);
           await this.repository.insert([el]);
+          const codCarrinho = await this.getCodCarrinho({
+            CodEmpresa: el.CodEmpresa,
+            CodCarrinhoPercurso: el.CodCarrinhoPercurso,
+            ItemCarrinhoPercurso: el.ItemCarrinhoPercurso,
+          });
 
           const isExist = produtoConferir.findIndex(
             (sel) =>
-              sel.CodEmpresa == el.CodEmpresa && sel.CodConferir == el.CodConferir && sel.CodProduto == el.CodProduto,
+              sel.CodEmpresa == el.CodEmpresa &&
+              sel.CodConferir == el.CodConferir &&
+              sel.CodCarrinho == codCarrinho &&
+              sel.CodProduto == el.CodProduto,
           );
 
           if (isExist == -1) {
             produtoConferir.push({
               CodEmpresa: el.CodEmpresa,
               CodConferir: el.CodConferir,
+              CodCarrinho: codCarrinho,
               CodProduto: el.CodProduto,
             });
           }
@@ -94,20 +113,27 @@ export default class ConferenciaItemEvent {
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND CodProduto = ${el.CodProduto}`;
-          const conferidos = await this.repository.select(params);
+          const params = `
+              CodEmpresa = ${el.CodEmpresa}
+            AND CodConferir = ${el.CodConferir}
+            AND CodCarrinho = ${el.CodCarrinho}
+            AND CodProduto = '${el.CodProduto}'
 
-          const sumQtdConferida = conferidos.reduce((acc, cur) => {
+          `;
+
+          const itensConferenciaConsulta = await this.repository.consulta(params);
+
+          const sumQtdConferida = itensConferenciaConsulta.reduce((acc, cur) => {
             return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const conferirItemRepository = new ConferirItemRepository();
-          const conferirItem = await conferirItemRepository.select(params);
+          const itensConferirConsulta = await conferirItemRepository.consulta(params);
 
-          if (conferirItem.length > 0) {
-            const item = conferirItem.shift()!;
-            item.QuantidadeConferida = sumQtdConferida;
-            await conferirItemRepository.update([item]);
+          if (itensConferirConsulta.length > 0) {
+            const itemConferir = ExpedicaoItemConferirDto.fromConsulta(itensConferirConsulta.shift()!);
+            itemConferir.QuantidadeConferida = sumQtdConferida;
+            await conferirItemRepository.update([itemConferir]);
           }
 
           const conferirItensConsulta = await conferirItemRepository.consulta(params);
@@ -116,7 +142,13 @@ export default class ConferenciaItemEvent {
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+          AND CodConferir = ${el.CodConferir}
+          AND Item = '${el.Item}'
+
+          `;
+
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
         }
@@ -144,7 +176,6 @@ export default class ConferenciaItemEvent {
         io.emit('conferencia.item.insert.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error) {
-        console.log(error);
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
@@ -156,42 +187,58 @@ export default class ConferenciaItemEvent {
       const mutation = json['mutation'];
 
       try {
-        const produtosConferido: ProdutoConferir[] = [];
+        const produtoConferir: ProdutoConferir[] = [];
         const itensMutation = this.convert(mutation);
 
         for (const el of itensMutation) {
           await this.repository.update([el]);
+          const codCarrinho = await this.getCodCarrinho({
+            CodEmpresa: el.CodEmpresa,
+            CodCarrinhoPercurso: el.CodCarrinhoPercurso,
+            ItemCarrinhoPercurso: el.ItemCarrinhoPercurso,
+          });
 
-          const isExist = produtosConferido.findIndex(
+          const isExist = produtoConferir.findIndex(
             (sel) =>
-              sel.CodEmpresa == el.CodEmpresa && sel.CodConferir == el.CodConferir && sel.CodProduto == el.CodProduto,
+              sel.CodEmpresa == el.CodEmpresa &&
+              sel.CodConferir == el.CodConferir &&
+              sel.CodCarrinho == codCarrinho &&
+              sel.CodProduto == el.CodProduto,
           );
 
           if (isExist == -1) {
-            produtosConferido.push({
+            produtoConferir.push({
               CodEmpresa: el.CodEmpresa,
               CodConferir: el.CodConferir,
+              CodCarrinho: codCarrinho,
               CodProduto: el.CodProduto,
             });
           }
         }
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
-        for (const el of produtosConferido) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND CodProduto = ${el.CodProduto}`;
-          const conferidos = await this.repository.select(params);
+        for (const el of produtoConferir) {
+          const params = `
+              CodEmpresa = ${el.CodEmpresa}
+            AND CodConferir = ${el.CodConferir}
+            AND CodCarrinho = ${el.CodCarrinho}
+            AND CodProduto = '${el.CodProduto}'
 
-          const sumQtdConferida = conferidos.reduce((acc, cur) => {
+          `;
+
+          const itensConferenciaConsulta = await this.repository.consulta(params);
+
+          const sumQtdConferida = itensConferenciaConsulta.reduce((acc, cur) => {
             return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const conferirItemRepository = new ConferirItemRepository();
-          const conferirItem = await conferirItemRepository.select(params);
+          const itensConferirConsulta = await conferirItemRepository.consulta(params);
 
-          if (conferirItem.length > 0) {
-            const item = conferirItem.shift()!;
-            item.QuantidadeConferida = sumQtdConferida;
-            await conferirItemRepository.update([item]);
+          if (itensConferirConsulta.length > 0) {
+            const itemConferir = ExpedicaoItemConferirDto.fromConsulta(itensConferirConsulta.shift()!);
+            itemConferir.QuantidadeConferida = sumQtdConferida;
+            await conferirItemRepository.update([itemConferir]);
           }
 
           const conferirItensConsulta = await conferirItemRepository.consulta(params);
@@ -200,7 +247,13 @@ export default class ConferenciaItemEvent {
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+          AND CodConferir = ${el.CodConferir}
+          AND Item = '${el.Item}'
+
+          `;
+
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
         }
@@ -239,49 +292,68 @@ export default class ConferenciaItemEvent {
       const mutation = json['mutation'];
 
       try {
-        const produtosConferido: ProdutoConferir[] = [];
+        const produtoConferir: ProdutoConferir[] = [];
         const itensMutation = this.convert(mutation);
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+          AND CodConferir = ${el.CodConferir}
+          AND Item = '${el.Item}'`;
+
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
         }
 
         for (const el of itensMutation) {
           await this.repository.delete([el]);
+          const codCarrinho = await this.getCodCarrinho({
+            CodEmpresa: el.CodEmpresa,
+            CodCarrinhoPercurso: el.CodCarrinhoPercurso,
+            ItemCarrinhoPercurso: el.ItemCarrinhoPercurso,
+          });
 
-          const isExist = produtosConferido.findIndex(
+          const isExist = produtoConferir.findIndex(
             (sel) =>
-              sel.CodEmpresa == el.CodEmpresa && sel.CodConferir == el.CodConferir && sel.CodProduto == el.CodProduto,
+              sel.CodEmpresa == el.CodEmpresa &&
+              sel.CodConferir == el.CodConferir &&
+              sel.CodCarrinho == codCarrinho &&
+              sel.CodProduto == el.CodProduto,
           );
 
           if (isExist == -1) {
-            produtosConferido.push({
+            produtoConferir.push({
               CodEmpresa: el.CodEmpresa,
               CodConferir: el.CodConferir,
+              CodCarrinho: codCarrinho,
               CodProduto: el.CodProduto,
             });
           }
         }
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
-        for (const el of produtosConferido) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodConferir = ${el.CodConferir} AND CodProduto = ${el.CodProduto}`;
-          const conferidos = await this.repository.select(params);
+        for (const el of produtoConferir) {
+          const params = `
+              CodEmpresa = ${el.CodEmpresa}
+            AND CodConferir = ${el.CodConferir}
+            AND CodCarrinho = ${el.CodCarrinho}
+            AND CodProduto = '${el.CodProduto}'
 
-          const sumQtdConferida = conferidos.reduce((acc, cur) => {
-            return cur.Situacao != 'CA' ? acc + cur.Quantidade : acc;
+          `;
+
+          const itensConferenciaConsulta = await this.repository.consulta(params);
+          const sumQtdConferida = itensConferenciaConsulta.reduce((acc, cur) => {
+            return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const conferirItemRepository = new ConferirItemRepository();
-          const conferirItem = await conferirItemRepository.select(params);
+          const itensConferirConsulta = await conferirItemRepository.consulta(params);
 
-          if (conferirItem.length > 0) {
-            const item = conferirItem.shift()!;
-            item.QuantidadeConferida = sumQtdConferida;
-            await conferirItemRepository.update([item]);
+          if (itensConferirConsulta.length > 0) {
+            const itemConferir = ExpedicaoItemConferirDto.fromConsulta(itensConferirConsulta.shift()!);
+            itemConferir.QuantidadeConferida = sumQtdConferida;
+            await conferirItemRepository.update([itemConferir]);
           }
 
           const conferirItensConsulta = await conferirItemRepository.consulta(params);
@@ -337,5 +409,16 @@ export default class ConferenciaItemEvent {
     const list = itens.map((item) => item.Item);
     const max = Math.max(...list.map((item) => Number(item)));
     return String(max + 1).padStart(5, '0');
+  }
+
+  private async getCodCarrinho(params: CarrinhoPercursoEstagioParams): Promise<number> {
+    const repository = new CarrinhoPercursoEstagioRepository();
+    const result = await repository.select([
+      { key: 'CodEmpresa', value: params.CodEmpresa },
+      { key: 'CodCarrinhoPercurso', value: params.CodCarrinhoPercurso },
+      { key: 'Item', value: params.ItemCarrinhoPercurso },
+    ]);
+
+    return result?.shift()?.CodCarrinho ?? 0;
   }
 }

@@ -1,3 +1,5 @@
+import ExpedicaoItemConferenciaConsultaDto from './expedicao.item.conferencia.consulta.dto';
+
 export default class ExpedicaoItemConferenciaDto {
   CodEmpresa: number;
   CodConferir: number;
@@ -80,6 +82,25 @@ export default class ExpedicaoItemConferenciaDto {
     });
   }
 
+  static fromConsulta(item: ExpedicaoItemConferenciaConsultaDto): ExpedicaoItemConferenciaDto {
+    return new ExpedicaoItemConferenciaDto({
+      CodEmpresa: item.CodEmpresa,
+      CodConferir: item.CodConferir,
+      Item: item.Item,
+      SessionId: item.SessionId,
+      Situacao: item.Situacao,
+      CodCarrinhoPercurso: item.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: item.ItemCarrinhoPercurso,
+      CodConferente: item.CodConferente,
+      NomeConferente: item.NomeConferente,
+      DataConferencia: item.DataConferencia,
+      HoraConferencia: item.HoraConferencia,
+      CodProduto: item.CodProduto,
+      CodUnidadeMedida: item.CodUnidadeMedida,
+      Quantidade: item.Quantidade,
+    });
+  }
+
   static fromObject(object: any): ExpedicaoItemConferenciaDto {
     return new ExpedicaoItemConferenciaDto({
       CodEmpresa: object.CodEmpresa,
@@ -114,7 +135,7 @@ export default class ExpedicaoItemConferenciaDto {
       HoraConferencia: this.HoraConferencia,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      Quantidade: this.Quantidade.toFixed(4),
+      Quantidade: Number(this.Quantidade).toFixed(4),
     };
   }
 }
