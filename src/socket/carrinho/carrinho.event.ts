@@ -3,6 +3,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import CarrinhoRepository from './carrinho.repository';
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoCarrinhoConsultaDto from '../../dto/expedicao/expedicao.carrinho.consulta.dto';
 
 export default class CarrinhoEvent {
   private repository = new CarrinhoRepository();
@@ -68,14 +69,27 @@ export default class CarrinhoEvent {
           await this.repository.insert([item]);
         }
 
+        const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
+        for (const item of itens) {
+          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          carrinhosConsulta.push(...result);
+        }
+
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
+        const basicEventCarrinhoConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: carrinhosConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('carrinho.insert', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.insert.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -91,14 +105,27 @@ export default class CarrinhoEvent {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
+        const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
+        for (const item of itens) {
+          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          carrinhosConsulta.push(...result);
+        }
+
         const basicEvent = new ExpedicaoBasicEventDto({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
+        const basicEventCarrinhoConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: carrinhosConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('carrinho.update', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.update.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -112,6 +139,12 @@ export default class CarrinhoEvent {
 
       try {
         const itens = this.convert(mutation);
+        const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
+        for (const item of itens) {
+          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          carrinhosConsulta.push(...result);
+        }
+
         await this.repository.delete(itens);
 
         const basicEvent = new ExpedicaoBasicEventDto({
@@ -120,8 +153,15 @@ export default class CarrinhoEvent {
           Mutation: itens.map((item) => item.toJson()),
         });
 
+        const basicEventCarrinhoConsulta = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: carrinhosConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('carrinho.delete', JSON.stringify(basicEvent.toJson()));
+        io.emit('carrinho.delete.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }

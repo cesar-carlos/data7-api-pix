@@ -24,6 +24,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
   NomeUsuarioFinalizacaoEstagio: string;
   DataFinalizacaoEstagio: Date;
   HoraFinalizacaoEstagio: string;
+  TotalItemConferir: number;
+  TotalItemConferido: number;
 
   constructor(params: {
     CodEmpresa: number;
@@ -51,6 +53,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     NomeUsuarioFinalizacaoEstagio: string;
     DataFinalizacaoEstagio: Date;
     HoraFinalizacaoEstagio: string;
+    TotalItemConferir: number;
+    TotalItemConferido: number;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodConferir = params.CodConferir;
@@ -77,6 +81,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     this.NomeUsuarioFinalizacaoEstagio = params.NomeUsuarioFinalizacaoEstagio;
     this.DataFinalizacaoEstagio = params.DataFinalizacaoEstagio;
     this.HoraFinalizacaoEstagio = params.HoraFinalizacaoEstagio;
+    this.TotalItemConferir = params.TotalItemConferir;
+    this.TotalItemConferido = params.TotalItemConferido;
   }
 
   public copyWith(params: {
@@ -105,6 +111,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     NomeUsuarioFinalizacaoEstagio?: string;
     DataFinalizacaoEstagio?: Date;
     HoraFinalizacaoEstagio?: string;
+    TotalItemConferir?: number;
+    TotalItemConferido?: number;
   }): ExpedicaoCarrinhoConferirConsultaDto {
     return new ExpedicaoCarrinhoConferirConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
@@ -132,6 +140,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeUsuarioFinalizacaoEstagio: params.NomeUsuarioFinalizacaoEstagio ?? this.NomeUsuarioFinalizacaoEstagio,
       DataFinalizacaoEstagio: params.DataFinalizacaoEstagio ?? this.DataFinalizacaoEstagio,
       HoraFinalizacaoEstagio: params.HoraFinalizacaoEstagio ?? this.HoraFinalizacaoEstagio,
+      TotalItemConferir: params.TotalItemConferir ?? this.TotalItemConferir,
+      TotalItemConferido: params.TotalItemConferido ?? this.TotalItemConferido,
     });
   }
 
@@ -162,6 +172,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeUsuarioFinalizacaoEstagio: object.NomeUsuarioFinalizacaoEstagio,
       DataFinalizacaoEstagio: object.DataFinalizacaoEstagio,
       HoraFinalizacaoEstagio: object.HoraFinalizacaoEstagio,
+      TotalItemConferir: object.TotalItemConferir,
+      TotalItemConferido: object.TotalItemConferido,
     });
   }
 
@@ -192,6 +204,8 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeUsuarioFinalizacaoEstagio: this.NomeUsuarioFinalizacaoEstagio,
       DataFinalizacaoEstagio: this.DataFinalizacaoEstagio,
       HoraFinalizacaoEstagio: this.HoraFinalizacaoEstagio,
+      TotalItemConferir: Number(this.TotalItemConferir).toFixed(4),
+      TotalItemConferido: Number(this.TotalItemConferido).toFixed(4),
     };
   }
 }

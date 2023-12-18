@@ -24,7 +24,9 @@ FROM (
       cpe.CodUsuarioFinalizacao CodUsuarioFinalizacaoEstagio,
       cpe.NomeUsuarioFinalizacao NomeUsuarioFinalizacaoEstagio,
       cpe.DataFinalizacao DataFinalizacaoEstagio,
-      cpe.HoraFinalizacao HoraFinalizacaoEstagio
+      cpe.HoraFinalizacao HoraFinalizacaoEstagio,
+      sum(ic.Quantidade) TotalItemConferir,
+      sum(ic.QuantidadeConferida) TotalItemConferido
     FROM Expedicao.ItemConferir ic
       INNER JOIN Expedicao.Conferir cf ON cf.CodEmpresa = ic.CodEmpresa
       AND cf.CodConferir = ic.CodConferir
