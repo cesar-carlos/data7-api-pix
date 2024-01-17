@@ -199,13 +199,13 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
       CodCancelamento: this.CodCancelamento,
-      CodMotivoCancelamento: this.CodMotivoCancelamento,
-      DescricaoMotivoCancelamento: this.DescricaoMotivoCancelamento,
-      DataCancelamento: this.DataCancelamento,
-      HoraCancelamento: this.HoraCancelamento,
-      CodUsuarioCancelamento: this.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: this.ObservacaoCancelamento,
+      CodMotivoCancelamento: this.CodMotivoCancelamento ?? null,
+      DescricaoMotivoCancelamento: this.DescricaoMotivoCancelamento ?? null,
+      DataCancelamento: this.DataCancelamento ?? null,
+      HoraCancelamento: this.HoraCancelamento ?? null,
+      CodUsuarioCancelamento: this.CodUsuarioCancelamento ?? null,
+      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento ?? null,
+      ObservacaoCancelamento: this.ObservacaoCancelamento ?? null,
     };
   }
 }

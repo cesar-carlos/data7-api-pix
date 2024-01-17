@@ -22,7 +22,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
   NomeMarca?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
-  NCM: string;
+  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -30,6 +30,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
   CodigoFabricante?: string;
   CodigoOriginal?: string;
   Endereco?: string;
+  EnderecoDescricao?: string;
   QuantidadeSeparacao: number;
 
   constructor(params: {
@@ -56,7 +57,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     NomeMarca?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    NCM: string;
+    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -64,6 +65,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     QuantidadeSeparacao: number;
   }) {
     this.CodEmpresa = params.CodEmpresa;
@@ -97,6 +99,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao;
     this.QuantidadeSeparacao = params.QuantidadeSeparacao;
   }
 
@@ -132,6 +135,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     QuantidadeSeparacao?: number;
   }) {
     return new ExpedicaoItemSeparacaoConferirConsultaDto({
@@ -166,6 +170,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       CodigoFabricante: params.CodigoFabricante ?? this.CodigoFabricante,
       CodigoOriginal: params.CodigoOriginal ?? this.CodigoOriginal,
       Endereco: params.Endereco ?? this.Endereco,
+      EnderecoDescricao: params.EnderecoDescricao ?? this.EnderecoDescricao,
       QuantidadeSeparacao: params.QuantidadeSeparacao ?? this.QuantidadeSeparacao,
     });
   }
@@ -203,6 +208,7 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       CodigoFabricante: object.CodigoFabricante,
       CodigoOriginal: object.CodigoOriginal,
       Endereco: object.Endereco,
+      EnderecoDescricao: object.EnderecoDescricao,
       QuantidadeSeparacao: object.QuantidadeSeparacao,
     });
   }
@@ -228,18 +234,19 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NomeSetorEstoque: this.NomeSetorEstoque,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
+      NomeSetorEstoque: this.NomeSetorEstoque ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
       QuantidadeSeparacao: Number(this.QuantidadeSeparacao).toFixed(4),
     };
   }

@@ -18,9 +18,11 @@ FROM (
       prod.CodigoFornecedor,
       prod.CodigoFabricante,
       prod.CodigoOriginal,
-      prod.Endereco
+      prod.Endereco,
+      pe.Descricao EnderecoDescricao
     FROM Produto prod
       LEFT JOIN GrupoProduto gp ON gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = prod.CodUnidadeMedida
+      LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
   ) ProdutoConsulta

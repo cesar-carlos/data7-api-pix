@@ -54,11 +54,12 @@ export default class ExpedicaoCarrinhoPercursoController {
 
       const expedicaoCarrinhoPercursoDto = new ExpedicaoCarrinhoPercursoDto({
         CodEmpresa: CodEmpresa,
-        CodCarrinhoPercurso: sequence.valor,
+        CodCarrinhoPercurso: sequence.Valor,
         Origem: Origem,
-        CodOrigem: CodOrigem,
-        CodCarrinho: CodCarrinho,
+        CodOrigem: CodCarrinho,
         Situacao: Situacao,
+        DataInicio: new Date(),
+        HoraInicio: new Date().toLocaleTimeString(),
       });
 
       repository.insert(expedicaoCarrinhoPercursoDto);
@@ -90,8 +91,9 @@ export default class ExpedicaoCarrinhoPercursoController {
     const newCarrinhoPercurso = carrinhoPercurso.shift()!.copyWith({
       Origem: Origem,
       CodOrigem: CodOrigem,
-      CodCarrinho: CodCarrinho,
       Situacao: Situacao,
+      DataInicio: new Date(),
+      HoraInicio: new Date().toLocaleTimeString(),
     });
 
     repository.update(newCarrinhoPercurso);

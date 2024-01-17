@@ -9,7 +9,7 @@ export default class ConnectionSqlServerMssql implements ConnectionBaseSqlContra
 
   async getConnection(): Promise<ConnectionPool> {
     try {
-      const pool = await sql.connect(config);
+      const pool = sql.connect(config as sql.config);
       return pool;
     } catch (error: any) {
       throw new Error(error.message);

@@ -7,27 +7,27 @@ export default class EstoqueProdutoDto {
   CodUnidadeMedida: string;
   DataCadastro: Date;
   CodGrupoProduto: number;
-  CodMarca: number;
-  CodClasseProduto: string;
-  CodConceitoProduto: string;
+  CodMarca?: number;
+  CodClasseProduto?: string;
+  CodConceitoProduto?: string;
   ProdutoComposto: string;
-  CodigoReferencia: string;
-  CodigoOriginal: string;
-  CodigoFabricante: string;
-  CodLocalArmazenagem: number;
-  CodSetorEstoque: number;
+  CodigoReferencia?: string;
+  CodigoOriginal?: string;
+  CodigoFabricante?: string;
+  CodLocalArmazenagem?: number;
+  CodSetorEstoque?: number;
   MovimentaEstoque: string;
   OrigemMercadoria: string;
   PontoPedido: number;
-  Endereco: string;
+  Endereco?: string;
   Pesavel: string;
   PesoBruto: number;
   PesoLiquido: number;
   PossuiNumeroSerie: string;
   ControlaLote: string;
-  NCM: string;
+  NCM?: string;
   PermiteVenda: string;
-  CodGrupoTributacao: number;
+  CodGrupoTributacao?: number;
   PermiteNotaFiscal: string;
   PermiteDesconto: string;
   MargemLucro: number;
@@ -42,27 +42,27 @@ export default class EstoqueProdutoDto {
     CodUnidadeMedida: string;
     DataCadastro: Date;
     CodGrupoProduto: number;
-    CodMarca: number;
-    CodClasseProduto: string;
-    CodConceitoProduto: string;
+    CodMarca?: number;
+    CodClasseProduto?: string;
+    CodConceitoProduto?: string;
     ProdutoComposto: string;
-    CodigoReferencia: string;
-    CodigoOriginal: string;
-    CodigoFabricante: string;
-    CodLocalArmazenagem: number;
-    CodSetorEstoque: number;
+    CodigoReferencia?: string;
+    CodigoOriginal?: string;
+    CodigoFabricante?: string;
+    CodLocalArmazenagem?: number;
+    CodSetorEstoque?: number;
     MovimentaEstoque: string;
     OrigemMercadoria: string;
     PontoPedido: number;
-    Endereco: string;
+    Endereco?: string;
     Pesavel: string;
     PesoBruto: number;
     PesoLiquido: number;
     PossuiNumeroSerie: string;
     ControlaLote: string;
-    NCM: string;
+    NCM?: string;
     PermiteVenda: string;
-    CodGrupoTributacao: number;
+    CodGrupoTributacao?: number;
     PermiteNotaFiscal: string;
     PermiteDesconto: string;
     MargemLucro: number;
@@ -223,31 +223,31 @@ export default class EstoqueProdutoDto {
       CodUnidadeMedida: this.CodUnidadeMedida,
       DataCadastro: this.DataCadastro,
       CodGrupoProduto: this.CodGrupoProduto,
-      CodMarca: this.CodMarca,
-      CodClasseProduto: this.CodClasseProduto,
-      CodConceitoProduto: this.CodConceitoProduto,
+      CodMarca: this.CodMarca ?? null,
+      CodClasseProduto: this.CodClasseProduto ?? null,
+      CodConceitoProduto: this.CodConceitoProduto ?? null,
       ProdutoComposto: this.ProdutoComposto,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoOriginal: this.CodigoOriginal,
-      CodigoFabricante: this.CodigoFabricante,
-      CodLocalArmazenagem: this.CodLocalArmazenagem,
-      CodSetorEstoque: this.CodSetorEstoque,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodLocalArmazenagem: this.CodLocalArmazenagem ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
       MovimentaEstoque: this.MovimentaEstoque,
       OrigemMercadoria: this.OrigemMercadoria,
-      PontoPedido: this.PontoPedido.toFixed(2),
-      Endereco: this.Endereco,
+      PontoPedido: this.PontoPedido.toFixed(4),
+      Endereco: this.Endereco ?? null,
       Pesavel: this.Pesavel,
-      PesoBruto: this.PesoBruto.toFixed(2),
-      PesoLiquido: this.PesoLiquido.toFixed(2),
+      PesoBruto: this.PesoBruto.toFixed(4),
+      PesoLiquido: this.PesoLiquido.toFixed(4),
       PossuiNumeroSerie: this.PossuiNumeroSerie,
       ControlaLote: this.ControlaLote,
-      NCM: this.NCM,
+      NCM: this.NCM ?? null,
       PermiteVenda: this.PermiteVenda,
-      CodGrupoTributacao: this.CodGrupoTributacao,
+      CodGrupoTributacao: this.CodGrupoTributacao ?? null,
       PermiteNotaFiscal: this.PermiteNotaFiscal,
       PermiteDesconto: this.PermiteDesconto,
       MargemLucro: this.MargemLucro,
-      PrecoVenda: Number(this.PrecoVenda).toFixed(2),
+      PrecoVenda: Number(this.PrecoVenda).toFixed(4),
     };
   }
 }

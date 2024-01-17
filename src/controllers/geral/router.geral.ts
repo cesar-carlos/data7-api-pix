@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 
+import GeralHealth from './geral.health';
 import GeralSequenciaController from './geral.sequencia.controller';
 import GeralProcessoExecutavelController from './geral.processo.executavel.controller';
 
@@ -9,6 +10,7 @@ export default class RouterGeral {
 
   constructor() {
     this.index();
+    this.health();
     this.sequenciaRegistro();
     this.processoExecutavel();
   }
@@ -21,6 +23,10 @@ export default class RouterGeral {
     this._router.get('/', (req: Request, res: Response) => {
       res.send('Data7 geral');
     });
+  }
+
+  private health() {
+    this._router.get('/health', GeralHealth.get);
   }
 
   private sequenciaRegistro() {

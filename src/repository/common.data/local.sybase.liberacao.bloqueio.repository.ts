@@ -131,8 +131,8 @@ export default class LocalSybaseLiberacaoBloqueioRepository
 
   public async delete(entity: LiberacaoBloqueioDto): Promise<void> {
     try {
-      const patch = path.resolve(__dirname, '..', 'sql', 'liberacao.bloqueio.delete.sql');
-      const delet = fs.readFileSync(patch).toString();
+      const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
+      const delet = fs.readFileSync(patchSQL).toString();
 
       for (const itemLiberacao of entity.itemLiberacaoBloqueio) {
         await this.itemLiberacaoBloqueioRepository.delete(itemLiberacao);

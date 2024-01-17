@@ -15,18 +15,19 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
   NomeUnidadeMedida: string;
   CodGrupoProduto: number;
   NomeGrupoProduto: string;
-  CodMarca: number;
-  NomeMarca: string;
+  CodMarca?: number;
+  NomeMarca?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
-  NCM: string;
+  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
   CodigoFornecedor?: string;
   CodigoFabricante?: string;
   CodigoOriginal?: string;
-  Endereco: string;
+  Endereco?: string;
+  EnderecoDescricao?: string;
   CodSeparador: number;
   NomeSeparador: string;
   DataSeparacao: Date;
@@ -50,18 +51,19 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     NomeUnidadeMedida: string;
     CodGrupoProduto: number;
     NomeGrupoProduto: string;
-    CodMarca: number;
-    NomeMarca: string;
+    CodMarca?: number;
+    NomeMarca?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    NCM: string;
+    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
     CodigoFornecedor?: string;
     CodigoFabricante?: string;
     CodigoOriginal?: string;
-    Endereco: string;
+    Endereco?: string;
+    EnderecoDescricao?: string;
     CodSeparador: number;
     NomeSeparador: string;
     DataSeparacao: Date;
@@ -96,6 +98,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao;
     this.CodSeparador = params.CodSeparador;
     this.NomeSeparador = params.NomeSeparador;
     this.DataSeparacao = params.DataSeparacao;
@@ -132,6 +135,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     CodSeparador?: number;
     NomeSeparador?: string;
     DataSeparacao?: Date;
@@ -167,6 +171,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodigoFabricante: params.CodigoFabricante ?? this.CodigoFabricante,
       CodigoOriginal: params.CodigoOriginal ?? this.CodigoOriginal,
       Endereco: params.Endereco ?? this.Endereco,
+      EnderecoDescricao: params.EnderecoDescricao ?? this.EnderecoDescricao,
       CodSeparador: params.CodSeparador ?? this.CodSeparador,
       NomeSeparador: params.NomeSeparador ?? this.NomeSeparador,
       DataSeparacao: params.DataSeparacao ?? this.DataSeparacao,
@@ -205,6 +210,7 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       CodigoFabricante: object?.CodigoFabricante,
       CodigoOriginal: object?.CodigoOriginal,
       Endereco: object.Endereco,
+      EnderecoDescricao: object?.EnderecoDescricao,
       CodSeparador: object.CodSeparador,
       NomeSeparador: object.NomeSeparador,
       DataSeparacao: object.DataSeparacao,
@@ -231,18 +237,19 @@ export default class ExpedicaoItemSeparacaoConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NomeSetorEstoque: this.NomeSetorEstoque,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
+      NomeSetorEstoque: this.NomeSetorEstoque ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
       CodSeparador: this.CodSeparador,
       NomeSeparador: this.NomeSeparador,
       DataSeparacao: this.DataSeparacao,

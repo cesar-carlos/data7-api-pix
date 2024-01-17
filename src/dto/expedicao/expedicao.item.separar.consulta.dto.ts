@@ -4,7 +4,7 @@ export default class ExpedicaoItemSepararConsultaDto {
   Item: string;
   Origem: string;
   CodOrigem: number;
-  ItemOrigem: string;
+  ItemOrigem?: string;
   CodProduto: number;
   NomeProduto: string;
   Ativo: string;
@@ -13,11 +13,11 @@ export default class ExpedicaoItemSepararConsultaDto {
   NomeUnidadeMedida: string;
   CodGrupoProduto: number;
   NomeGrupoProduto: string;
-  CodMarca: number;
-  NomeMarca: string;
+  CodMarca?: number;
+  NomeMarca?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
-  NCM: string;
+  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -25,6 +25,7 @@ export default class ExpedicaoItemSepararConsultaDto {
   CodigoFabricante?: string;
   CodigoOriginal?: string;
   Endereco?: string;
+  EnderecoDescricao?: string;
   CodLocaArmazenagem: number;
   NomeLocaArmazenagem: string;
   Quantidade: number;
@@ -38,7 +39,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     Item: string;
     Origem: string;
     CodOrigem: number;
-    ItemOrigem: string;
+    ItemOrigem?: string;
     CodProduto: number;
     NomeProduto: string;
     Ativo: string;
@@ -47,11 +48,11 @@ export default class ExpedicaoItemSepararConsultaDto {
     NomeUnidadeMedida: string;
     CodGrupoProduto: number;
     NomeGrupoProduto: string;
-    CodMarca: number;
-    NomeMarca: string;
+    CodMarca?: number;
+    NomeMarca?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    NCM: string;
+    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -59,6 +60,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     CodLocaArmazenagem: number;
     NomeLocaArmazenagem: string;
     Quantidade: number;
@@ -92,6 +94,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao;
     this.CodLocaArmazenagem = params.CodLocaArmazenagem;
     this.NomeLocaArmazenagem = params.NomeLocaArmazenagem;
     this.Quantidade = params.Quantidade;
@@ -127,6 +130,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     CodLocaArmazenagem?: number;
     NomeLocaArmazenagem?: string;
     Quantidade?: number;
@@ -160,6 +164,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante ?? this.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal ?? this.CodigoOriginal;
     this.Endereco = params.Endereco ?? this.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao ?? this.EnderecoDescricao;
     this.CodLocaArmazenagem = params.CodLocaArmazenagem ?? this.CodLocaArmazenagem;
     this.NomeLocaArmazenagem = params.NomeLocaArmazenagem ?? this.NomeLocaArmazenagem;
     this.Quantidade = params.Quantidade ?? this.Quantidade;
@@ -196,12 +201,13 @@ export default class ExpedicaoItemSepararConsultaDto {
       CodigoFabricante: object.CodigoFabricante,
       CodigoOriginal: object.CodigoOriginal,
       Endereco: object.Endereco,
+      EnderecoDescricao: object.EnderecoDescricao,
       CodLocaArmazenagem: object.CodLocaArmazenagem,
       NomeLocaArmazenagem: object.NomeLocaArmazenagem,
-      Quantidade: object.Quantidade,
-      QuantidadeInterna: object.QuantidadeInterna,
-      QuantidadeExterna: object.QuantidadeExterna,
-      QuantidadeSeparacao: object.QuantidadeSeparacao,
+      Quantidade: object.Quantidade ?? 0.0,
+      QuantidadeInterna: object.QuantidadeInterna ?? 0.0,
+      QuantidadeExterna: object.QuantidadeExterna ?? 0.0,
+      QuantidadeSeparacao: object.QuantidadeSeparacao ?? 0.0,
     });
   }
 
@@ -212,7 +218,7 @@ export default class ExpedicaoItemSepararConsultaDto {
       Item: this.Item,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
-      ItemOrigem: this.ItemOrigem,
+      ItemOrigem: this.ItemOrigem ?? null,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       Ativo: this.Ativo,
@@ -221,18 +227,19 @@ export default class ExpedicaoItemSepararConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NomeSetorEstoque: this.NomeSetorEstoque,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
+      NomeSetorEstoque: this.NomeSetorEstoque ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
       CodLocaArmazenagem: this.CodLocaArmazenagem,
       NomeLocaArmazenagem: this.NomeLocaArmazenagem,
       Quantidade: Number(this.Quantidade).toFixed(4),

@@ -88,8 +88,8 @@ export default class ExpedicaoCarrinhoPercursoDto {
       Situacao: this.Situacao,
       DataInicio: this.DataInicio,
       HoraInicio: this.HoraInicio,
-      DataFinalizacao: this.DataFinalizacao,
-      HoraFinalizacao: this.HoraFinalizacao,
+      DataFinalizacao: this.DataFinalizacao ?? null,
+      HoraFinalizacao: this.HoraFinalizacao ?? null,
     };
   }
 }

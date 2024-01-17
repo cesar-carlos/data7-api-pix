@@ -9,7 +9,6 @@ export default class CobrancaDigitalConfigDto {
     readonly certificado: string,
   ) {}
 
-  //create method from json
   static fromJson(json: any): CobrancaDigitalConfigDto {
     return new CobrancaDigitalConfigDto(
       json.codEmpresa || json.CodEmpresa,
@@ -22,7 +21,6 @@ export default class CobrancaDigitalConfigDto {
     );
   }
 
-  //create method to json
   toJson(): any {
     return {
       codEmpresa: this.codEmpresa,

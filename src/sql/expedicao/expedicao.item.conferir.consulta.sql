@@ -8,6 +8,7 @@ FROM(
       ice.CodCarrinhoPercurso,
       ice.ItemCarrinhoPercurso,
       cpe.CodCarrinho,
+      cart.Descricao NomeCarrinho,
       ice.CodProduto,
       prod.Nome NomeProduto,
       prod.Ativo,
@@ -19,7 +20,7 @@ FROM(
       prod.CodMarca,
       m.Nome NomeMarca,
       prod.CodSetorEstoque,
-      se.Descricao nomeSetorEstoque,
+      se.Descricao NomeSetorEstoque,
       prod.NCM,
       prod.CodigoBarras1 CodigoBarras,
       prod.CodigoBarras2 CodigoBarras2,
@@ -28,6 +29,7 @@ FROM(
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
+      pe.Descricao EnderecoDescricao,
       ice.Quantidade,
       ice.QuantidadeConferida
     FROM Expedicao.ItemConferir ice
@@ -38,7 +40,10 @@ FROM(
       LEFT JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = ice.CodEmpresa
       AND cpe.CodCarrinhoPercurso = ice.CodCarrinhoPercurso
       AND cpe.Item = ice.ItemCarrinhoPercurso
+      LEFT JOIN Expedicao.Carrinho cart ON cart.CodEmpresa = cpe.CodEmpresa
+      AND cart.CodCarrinho = cpe.CodCarrinho
       INNER JOIN Produto prod ON prod.CodProduto = ice.CodProduto
+      LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ice.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca

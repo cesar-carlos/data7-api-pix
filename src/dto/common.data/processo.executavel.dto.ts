@@ -6,13 +6,14 @@ export default class ProcessoExecutavelDto {
   Contexto: string;
   Origem: string;
   CodOrigem: number;
-  ItemOrigem: string;
+  ItemOrigem?: string;
   DataAbertura: Date;
   CodUsuario: number;
   NomeUsuario: string;
-  CodContaFinanceira: string;
-  CodPeriodoCaixa: number;
-  StatusPeriodoCaixa: string;
+  CodSetorEstoque?: number;
+  CodContaFinanceira?: string;
+  CodPeriodoCaixa?: number;
+  StatusPeriodoCaixa?: string;
   UsuarioWindows: string;
   NomeComputador: string;
   BancoDados: string;
@@ -25,13 +26,14 @@ export default class ProcessoExecutavelDto {
     Contexto: string;
     Origem: string;
     CodOrigem: number;
-    ItemOrigem: string;
+    ItemOrigem?: string;
     DataAbertura: Date;
     CodUsuario: number;
     NomeUsuario: string;
-    CodContaFinanceira: string;
-    CodPeriodoCaixa: number;
-    StatusPeriodoCaixa: string;
+    CodSetorEstoque?: number;
+    CodContaFinanceira?: string;
+    CodPeriodoCaixa?: number;
+    StatusPeriodoCaixa?: string;
     UsuarioWindows: string;
     NomeComputador: string;
     BancoDados: string;
@@ -47,12 +49,55 @@ export default class ProcessoExecutavelDto {
     this.DataAbertura = params.DataAbertura;
     this.CodUsuario = params.CodUsuario;
     this.NomeUsuario = params.NomeUsuario;
+    this.CodSetorEstoque = params.CodSetorEstoque;
     this.CodContaFinanceira = params.CodContaFinanceira;
     this.CodPeriodoCaixa = params.CodPeriodoCaixa;
     this.StatusPeriodoCaixa = params.StatusPeriodoCaixa;
     this.UsuarioWindows = params.UsuarioWindows;
     this.NomeComputador = params.NomeComputador;
     this.BancoDados = params.BancoDados;
+  }
+
+  copyWith(params: {
+    CodProcessoExecutavel?: number;
+    CodEmpresa?: number;
+    CodFilial?: number;
+    Status?: string;
+    Contexto?: string;
+    Origem?: string;
+    CodOrigem?: number;
+    ItemOrigem?: string;
+    DataAbertura?: Date;
+    CodUsuario?: number;
+    NomeUsuario?: string;
+    CodSetorEstoque?: number;
+    CodContaFinanceira?: string;
+    CodPeriodoCaixa?: number;
+    StatusPeriodoCaixa?: string;
+    UsuarioWindows?: string;
+    NomeComputador?: string;
+    BancoDados?: string;
+  }): ProcessoExecutavelDto {
+    return new ProcessoExecutavelDto({
+      CodProcessoExecutavel: params.CodProcessoExecutavel ?? this.CodProcessoExecutavel,
+      CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
+      CodFilial: params.CodFilial ?? this.CodFilial,
+      Status: params.Status ?? this.Status,
+      Contexto: params.Contexto ?? this.Contexto,
+      Origem: params.Origem ?? this.Origem,
+      CodOrigem: params.CodOrigem ?? this.CodOrigem,
+      ItemOrigem: params.ItemOrigem ?? this.ItemOrigem,
+      DataAbertura: params.DataAbertura ?? this.DataAbertura,
+      CodUsuario: params.CodUsuario ?? this.CodUsuario,
+      NomeUsuario: params.NomeUsuario ?? this.NomeUsuario,
+      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
+      CodContaFinanceira: params.CodContaFinanceira ?? this.CodContaFinanceira,
+      CodPeriodoCaixa: params.CodPeriodoCaixa ?? this.CodPeriodoCaixa,
+      StatusPeriodoCaixa: params.StatusPeriodoCaixa ?? this.StatusPeriodoCaixa,
+      UsuarioWindows: params.UsuarioWindows ?? this.UsuarioWindows,
+      NomeComputador: params.NomeComputador ?? this.NomeComputador,
+      BancoDados: params.BancoDados ?? this.BancoDados,
+    });
   }
 
   static fromObject(object: any): ProcessoExecutavelDto {
@@ -68,6 +113,7 @@ export default class ProcessoExecutavelDto {
       DataAbertura: object.DataAbertura,
       CodUsuario: object.CodUsuario,
       NomeUsuario: object.NomeUsuario,
+      CodSetorEstoque: object.CodSetorEstoque,
       CodContaFinanceira: object.CodContaFinanceira,
       CodPeriodoCaixa: object.CodPeriodoCaixa,
       StatusPeriodoCaixa: object.StatusPeriodoCaixa,
@@ -90,6 +136,7 @@ export default class ProcessoExecutavelDto {
       DataAbertura: this.DataAbertura,
       CodUsuario: this.CodUsuario,
       NomeUsuario: this.NomeUsuario,
+      CodSetorEstoque: this.CodSetorEstoque,
       CodContaFinanceira: this.CodContaFinanceira,
       CodPeriodoCaixa: this.CodPeriodoCaixa,
       StatusPeriodoCaixa: this.StatusPeriodoCaixa,

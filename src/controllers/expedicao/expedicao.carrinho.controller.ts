@@ -60,7 +60,7 @@ export default class ExpedicaoCarrinhoController {
 
       const expedicaoCarrinhoDto = new ExpedicaoCarrinhoDto({
         CodEmpresa: CodEmpresa,
-        CodCarrinho: sequence.valor,
+        CodCarrinho: sequence.Valor,
         CodigoBarras: CodigoBarras,
         Descricao: Descricao,
         Situacao: Situacao,

@@ -31,6 +31,7 @@ FROM (
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
+      pe.Descricao EnderecoDescricao,
       SUM(COALESCE(ise.Quantidade, 0)) QuantidadeSeparacao
     FROM Expedicao.ItemSeparacaoEstoque ise
       INNER JOIN Expedicao.SepararEstoque se ON se.CodEmpresa = ise.CodEmpresa
@@ -44,6 +45,7 @@ FROM (
       INNER JOIN Expedicao.Carrinho cart ON cart.CodEmpresa = cpe.CodEmpresa
       AND cart.CodCarrinho = cpe.CodCarrinho
       INNER JOIN Produto prod ON prod.CodProduto = ise.CodProduto
+      LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
       INNER JOIN UnidadeMedida und ON und.CodUnidadeMedida = prod.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
@@ -78,5 +80,6 @@ FROM (
       prod.CodigoFornecedor,
       prod.CodigoFabricante,
       prod.CodigoOriginal,
-      prod.Endereco
+      prod.Endereco,
+      pe.Descricao
   ) ConferirSeparacaoItemConsulta

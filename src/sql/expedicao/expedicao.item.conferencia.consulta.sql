@@ -18,7 +18,6 @@ FROM (
       gp.Nome NomeGrupoProduto,
       prod.CodMarca,
       m.Nome NomeMarca,
-      prod.NCM,
       prod.CodigoBarras1 CodigoBarras,
       prod.CodigoBarras2 CodigoBarras2,
       prod.CodigoReferencia,
@@ -26,6 +25,7 @@ FROM (
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
+      pe.Descricao EnderecoDescricao,
       ic.CodConferente,
       ic.NomeConferente,
       ic.DataConferencia,
@@ -37,6 +37,7 @@ FROM (
       AND cpe.Item = ic.ItemCarrinhoPercurso
       LEFT JOIN Expedicao.Carrinho car ON car.CodCarrinho = cpe.CodCarrinho
       LEFT JOIN Produto prod ON prod.CodProduto = ic.CodProduto
+      LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ic.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca

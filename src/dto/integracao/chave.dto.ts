@@ -9,7 +9,6 @@ export default class ChaveDto {
     readonly chave: string,
   ) {}
 
-  //create method from json
   static fromJson(json: any): ChaveDto {
     return new ChaveDto(
       json.codEmpresa || json.CodEmpresa,
@@ -22,20 +21,6 @@ export default class ChaveDto {
     );
   }
 
-  //create method to json
-  toJson(): any {
-    return {
-      codEmpresa: this.codEmpresa,
-      codFilial: this.codFilial,
-      codCobrancaDigital: this.codCobrancaDigital,
-      uuid: this.uuid,
-      status: this.status,
-      dataCriacao: this.dataCriacao,
-      chave: this.chave,
-    };
-  }
-
-  //create method from object
   static fromObject(object: any): ChaveDto {
     return new ChaveDto(
       object.codEmpresa || object.CodEmpresa,
@@ -46,5 +31,17 @@ export default class ChaveDto {
       new Date(object.dataCriacao || object.DataCriacao),
       object.chave,
     );
+  }
+
+  toJson(): any {
+    return {
+      codEmpresa: this.codEmpresa,
+      codFilial: this.codFilial,
+      codCobrancaDigital: this.codCobrancaDigital,
+      uuid: this.uuid,
+      status: this.status,
+      dataCriacao: this.dataCriacao,
+      chave: this.chave,
+    };
   }
 }

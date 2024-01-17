@@ -7,17 +7,18 @@ export default class EstoqueProdutoConsultaDto {
   NomeUnidadeMedida: string;
   CodGrupoProduto: number;
   NomeGrupoProduto: string;
-  CodMarca: number;
-  NomeMarca: string;
-  CodSetorEstoque: number;
-  NCM: string;
-  CodigoBarras: string;
-  CodigoBarras2: string;
-  CodigoReferencia: string;
-  CodigoFornecedor: string;
-  CodigoFabricante: string;
-  CodigoOriginal: string;
-  Endereco: string;
+  CodMarca?: number;
+  NomeMarca?: string;
+  CodSetorEstoque?: number;
+  NCM?: string;
+  CodigoBarras?: string;
+  CodigoBarras2?: string;
+  CodigoReferencia?: string;
+  CodigoFornecedor?: string;
+  CodigoFabricante?: string;
+  CodigoOriginal?: string;
+  Endereco?: string;
+  EnderecoDescricao?: string;
 
   constructor(params: {
     CodProduto: number;
@@ -28,17 +29,18 @@ export default class EstoqueProdutoConsultaDto {
     NomeUnidadeMedida: string;
     CodGrupoProduto: number;
     NomeGrupoProduto: string;
-    CodMarca: number;
-    NomeMarca: string;
-    CodSetorEstoque: number;
-    NCM: string;
-    CodigoBarras: string;
-    CodigoBarras2: string;
-    CodigoReferencia: string;
-    CodigoFornecedor: string;
-    CodigoFabricante: string;
-    CodigoOriginal: string;
-    Endereco: string;
+    CodMarca?: number;
+    NomeMarca?: string;
+    CodSetorEstoque?: number;
+    NCM?: string;
+    CodigoBarras?: string;
+    CodigoBarras2?: string;
+    CodigoReferencia?: string;
+    CodigoFornecedor?: string;
+    CodigoFabricante?: string;
+    CodigoOriginal?: string;
+    Endereco?: string;
+    EnderecoDescricao?: string;
   }) {
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
@@ -59,6 +61,7 @@ export default class EstoqueProdutoConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao;
   }
 
   public copyWith(params: {
@@ -81,6 +84,7 @@ export default class EstoqueProdutoConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
   }): EstoqueProdutoConsultaDto {
     return new EstoqueProdutoConsultaDto({
       CodProduto: params.CodProduto ?? this.CodProduto,
@@ -102,6 +106,7 @@ export default class EstoqueProdutoConsultaDto {
       CodigoFabricante: params.CodigoFabricante ?? this.CodigoFabricante,
       CodigoOriginal: params.CodigoOriginal ?? this.CodigoOriginal,
       Endereco: params.Endereco ?? this.Endereco,
+      EnderecoDescricao: params.EnderecoDescricao ?? this.EnderecoDescricao,
     });
   }
 
@@ -126,6 +131,7 @@ export default class EstoqueProdutoConsultaDto {
       CodigoFabricante: object.CodigoFabricante,
       CodigoOriginal: object.CodigoOriginal,
       Endereco: object.Endereco,
+      EnderecoDescricao: object.EnderecoDescricao,
     });
   }
 
@@ -139,17 +145,18 @@ export default class EstoqueProdutoConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
     };
   }
 }

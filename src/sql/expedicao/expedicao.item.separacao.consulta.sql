@@ -8,8 +8,8 @@ FROM (
       car.CodCarrinho,
       car.Descricao NomeCarrinho,
       car.CodigoBarras CodigoBarrasCarrinho,
-      cpe.CodCarrinhoPercurso,
-      cpe.Item ItemCarrinhoPercurso,
+      ise.CodCarrinhoPercurso,
+      ise.ItemCarrinhoPercurso,
       ise.CodProduto,
       prod.Nome NomeProduto,
       ise.CodUnidadeMedida,
@@ -28,6 +28,7 @@ FROM (
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
+      pe.Descricao EnderecoDescricao,
       ise.CodSeparador,
       ise.NomeSeparador,
       ise.DataSeparacao,
@@ -39,6 +40,7 @@ FROM (
       AND cpe.Item = ise.ItemCarrinhoPercurso
       LEFT JOIN Expedicao.Carrinho car ON car.CodCarrinho = cpe.CodCarrinho
       LEFT JOIN Produto prod ON prod.CodProduto = ise.CodProduto
+      LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ise.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca

@@ -128,14 +128,14 @@ export default class ExpedicaoConferirConsultaDto {
       Situacao: this.Situacao,
       Data: this.Data,
       Hora: this.Hora,
-      Historico: this.Historico,
-      Observacao: this.Observacao,
-      CodMotivoCancelamento: this.CodMotivoCancelamento,
-      DataCancelamento: this.DataCancelamento,
-      HoraCancelamento: this.HoraCancelamento,
-      CodUsuarioCancelamento: this.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: this.ObservacaoCancelamento,
+      Historico: this.Historico ?? null,
+      Observacao: this.Observacao ?? null,
+      CodMotivoCancelamento: this.CodMotivoCancelamento ?? null,
+      DataCancelamento: this.DataCancelamento ?? null,
+      HoraCancelamento: this.HoraCancelamento ?? null,
+      CodUsuarioCancelamento: this.CodUsuarioCancelamento ?? null,
+      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento ?? null,
+      ObservacaoCancelamento: this.ObservacaoCancelamento ?? null,
     };
   }
 }

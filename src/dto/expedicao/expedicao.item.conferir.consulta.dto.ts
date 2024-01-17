@@ -19,7 +19,7 @@ export default class ExpedicaoItemConferirConsultaDto {
   NomeMarca?: string;
   CodSetorEstoque?: number;
   nomeSetorEstoque?: string;
-  NCM: string;
+  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -27,6 +27,7 @@ export default class ExpedicaoItemConferirConsultaDto {
   CodigoFabricante?: string;
   CodigoOriginal?: string;
   Endereco?: string;
+  EnderecoDescricao?: string;
   Quantidade: number;
   QuantidadeConferida: number;
 
@@ -51,7 +52,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     NomeMarca?: string;
     CodSetorEstoque?: number;
     nomeSetorEstoque?: string;
-    NCM: string;
+    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -59,6 +60,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     Quantidade: number;
     QuantidadeConferida: number;
   }) {
@@ -90,6 +92,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     this.CodigoFabricante = params.CodigoFabricante;
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
+    this.EnderecoDescricao = params.EnderecoDescricao;
     this.Quantidade = params.Quantidade;
     this.QuantidadeConferida = params.QuantidadeConferida;
   }
@@ -123,6 +126,7 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     Quantidade?: number;
     QuantidadeConferida?: number;
   }) {
@@ -155,6 +159,7 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodigoFabricante: params.CodigoFabricante ?? this.CodigoFabricante,
       CodigoOriginal: params.CodigoOriginal ?? this.CodigoOriginal,
       Endereco: params.Endereco ?? this.Endereco,
+      EnderecoDescricao: params.EnderecoDescricao ?? this.EnderecoDescricao,
       Quantidade: params.Quantidade ?? this.Quantidade,
       QuantidadeConferida: params.QuantidadeConferida ?? this.QuantidadeConferida,
     });
@@ -190,6 +195,7 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodigoFabricante: object.CodigoFabricante,
       CodigoOriginal: object.CodigoOriginal,
       Endereco: object.Endereco,
+      EnderecoDescricao: object.EnderecoDescricao,
       Quantidade: object.Quantidade,
       QuantidadeConferida: object.QuantidadeConferida,
     });
@@ -213,18 +219,19 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      CodSetorEstoque: this.CodSetorEstoque,
-      nomeSetorEstoque: this.nomeSetorEstoque,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      CodSetorEstoque: this.CodSetorEstoque ?? null,
+      nomeSetorEstoque: this.nomeSetorEstoque ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
       Quantidade: Number(this.Quantidade).toFixed(4),
       QuantidadeConferida: Number(this.QuantidadeConferida).toFixed(4),
     };

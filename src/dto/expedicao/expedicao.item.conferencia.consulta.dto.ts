@@ -17,7 +17,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
   NomeGrupoProduto: string;
   CodMarca?: number;
   NomeMarca?: string;
-  NCM: string;
+  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -25,6 +25,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
   CodigoFabricante?: string;
   CodigoOriginal?: string;
   Endereco?: string;
+  EnderecoDescricao?: string;
   CodConferente: number;
   NomeConferente: string;
   DataConferencia: Date;
@@ -50,7 +51,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     NomeGrupoProduto: string;
     CodMarca?: number;
     NomeMarca?: string;
-    NCM: string;
+    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -58,6 +59,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     CodConferente: number;
     NomeConferente: string;
     DataConferencia: Date;
@@ -90,6 +92,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     this.CodigoFabricante = params?.CodigoFabricante;
     this.CodigoOriginal = params?.CodigoOriginal;
     this.Endereco = params?.Endereco;
+    this.EnderecoDescricao = params?.EnderecoDescricao;
     this.CodConferente = params.CodConferente;
     this.NomeConferente = params.NomeConferente;
     this.DataConferencia = params.DataConferencia;
@@ -124,6 +127,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     CodigoFabricante?: string;
     CodigoOriginal?: string;
     Endereco?: string;
+    EnderecoDescricao?: string;
     CodConferente?: number;
     NomeConferente?: string;
     DataConferencia?: Date;
@@ -157,6 +161,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       CodigoFabricante: params?.CodigoFabricante ?? this.CodigoFabricante,
       CodigoOriginal: params?.CodigoOriginal ?? this.CodigoOriginal,
       Endereco: params?.Endereco ?? this.Endereco,
+      EnderecoDescricao: params?.EnderecoDescricao ?? this.EnderecoDescricao,
       CodConferente: params?.CodConferente ?? this.CodConferente,
       NomeConferente: params?.NomeConferente ?? this.NomeConferente,
       DataConferencia: params?.DataConferencia ?? this.DataConferencia,
@@ -193,6 +198,7 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       CodigoFabricante: object?.CodigoFabricante,
       CodigoOriginal: object?.CodigoOriginal,
       Endereco: object?.Endereco,
+      EnderecoDescricao: object?.EnderecoDescricao,
       CodConferente: object.CodConferente,
       NomeConferente: object.NomeConferente,
       DataConferencia: object.DataConferencia,
@@ -219,16 +225,17 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
       NomeGrupoProduto: this.NomeGrupoProduto,
-      CodMarca: this.CodMarca,
-      NomeMarca: this.NomeMarca,
-      NCM: this.NCM,
-      CodigoBarras: this.CodigoBarras,
-      CodigoBarras2: this.CodigoBarras2,
-      CodigoReferencia: this.CodigoReferencia,
-      CodigoFornecedor: this.CodigoFornecedor,
-      CodigoFabricante: this.CodigoFabricante,
-      CodigoOriginal: this.CodigoOriginal,
-      Endereco: this.Endereco,
+      CodMarca: this.CodMarca ?? null,
+      NomeMarca: this.NomeMarca ?? null,
+      NCM: this.NCM ?? null,
+      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras2: this.CodigoBarras2 ?? null,
+      CodigoReferencia: this.CodigoReferencia ?? null,
+      CodigoFornecedor: this.CodigoFornecedor ?? null,
+      CodigoFabricante: this.CodigoFabricante ?? null,
+      CodigoOriginal: this.CodigoOriginal ?? null,
+      Endereco: this.Endereco ?? null,
+      EnderecoDescricao: this.EnderecoDescricao ?? null,
       CodConferente: this.CodConferente,
       NomeConferente: this.NomeConferente,
       DataConferencia: this.DataConferencia,

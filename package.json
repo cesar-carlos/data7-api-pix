@@ -1,21 +1,21 @@
 {
-  "name": "server-api-pix",
+  "name": "server-api-data7",
+  "author": "cesar carlos",
   "version": "1.0.0",
-  "description": "",
+  "description": "Servidor data7 para integração com lojas",
   "main": "server.js",
+  "bin": "./dist.loja/src/server.js",
+  "keywords": [],
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "dev:nodemon": "cls && nodemon --watch 'src/' --exec 'ts-node --files --transpile-only src/server.ts' -e ts",
-    "format": "npx prettier './src/**/*.ts' './src/**/*.js' --write",
-    "build": "tsc",
     "build:wind": "tsc && copyfiles ./.env ./dist/src/ && copyfiles ./src/certificates/**/* ./dist/ && copyfiles ./src/sql/**/* ./dist/",
-    "build:wind:fabrica": "tsc --outDir ./dist.fabrica && copyfiles ./.env ./dist.fabrica/src/ && copyfiles ./src/certificates/**/* ./dist.fabrica/ && copyfiles ./src/sql/**/* ./dist.fabrica/",
+    "build:wind:fabrica": "tsc --outDir ./dist.fabrica && copyfiles ./.env ./dist.fabrica/ && copyfiles ./src/certificates/**/* ./dist.fabrica/ && copyfiles ./src/sql/**/* ./dist.fabrica/",
     "build:wind:loja": "tsc --outDir ./dist.loja && copyfiles ./.env ./dist.loja/src/ && copyfiles ./src/certificates/**/* ./dist.loja/ && copyfiles ./src/sql/**/* ./dist.loja/",
-    "start": "node ./dist/server.js",
-    "test": "jest --watchAll --config ./jest.config.js"
+    "format": "npx prettier './src/**/*.ts' './src/**/*.js' --write",
+    "test": "jest --watchAll --config ./jest.config.js",
+    "start": "node ./dist.loja/src/server.js"
   },
-  "keywords": [],
-  "author": "cesar carlos",
   "license": "MIT",
   "dependencies": {
     "@types/socket.io": "^3.0.2",

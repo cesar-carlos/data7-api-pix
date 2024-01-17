@@ -3,7 +3,7 @@ export default class ExpedicaoCancelamentoDto {
   CodCancelamento: number;
   Origem: string;
   CodOrigem: number;
-  ItemOrigem: string;
+  ItemOrigem?: string;
   CodMotivoCancelamento: number;
   DataCancelamento: Date;
   HoraCancelamento: string;
@@ -16,7 +16,7 @@ export default class ExpedicaoCancelamentoDto {
     CodCancelamento: number;
     Origem: string;
     CodOrigem: number;
-    ItemOrigem: string;
+    ItemOrigem?: string;
     CodMotivoCancelamento: number;
     DataCancelamento: Date;
     HoraCancelamento: string;
@@ -87,13 +87,13 @@ export default class ExpedicaoCancelamentoDto {
       CodCancelamento: this.CodCancelamento,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
-      ItemOrigem: this.ItemOrigem,
+      ItemOrigem: this.ItemOrigem ?? null,
       CodMotivoCancelamento: this.CodMotivoCancelamento,
       DataCancelamento: this.DataCancelamento,
       HoraCancelamento: this.HoraCancelamento,
       CodUsuarioCancelamento: this.CodUsuarioCancelamento,
       NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: this.ObservacaoCancelamento,
+      ObservacaoCancelamento: this.ObservacaoCancelamento ?? null,
     };
   }
 }
