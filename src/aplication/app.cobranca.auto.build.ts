@@ -4,12 +4,12 @@ import util from 'util';
 
 import { STATUS } from '../type/status';
 
+import AppCobrancaPix from './app.cobranca.pix';
 import ProcessInfo from '../entities/process.info';
 import AppAbortCharge from './app.cancelar.cobranca';
-import AppTestDatabeses from './app.test.databeses';
-import AppCobrancaPix from './app.cobranca.pix';
-import AppCobrancaPixValidar from './app.cobranca.pix.validar';
 import AppRegraStatusCobrancaPix from './app.regra.status.cobranca.pix';
+import AppCobrancaPixValidar from './app.cobranca.pix.validar';
+import AppTestDatabeses from './app.test.databeses';
 
 export default class AppCobrancaAutoBuild {
   async execute(patth: string): Promise<ProcessInfo> {

@@ -7,9 +7,9 @@ import AppDependencys from './app.dependencys';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import CobrancaDigitalPagamentoDto from '../dto/integracao/cobranca.digital.pagamento.dto';
+import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
 import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
-import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
 
 export default class AppLinstens {
   execute() {

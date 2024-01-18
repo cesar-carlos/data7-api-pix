@@ -5,26 +5,26 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
+import ExpedicaoItemSepararUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.separar.unidade.medida.consulta.dto';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoSepararItemConsultaRepository
-  implements LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararConsultaDto>
+export default class SqlServerExpedicaoItemSepararUnidadeMedidaConsultaRepository
+  implements LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararUnidadeMedidaConsultaDto>
 {
   private connect = new ConnectionSqlServerMssql();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(page: pagination): Promise<ExpedicaoItemSepararConsultaDto[]> {
+  public async select(page: pagination): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.consulta.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.unidade.medida.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
       pool.close();
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoItemSepararConsultaDto.fromObject(item);
+        return ExpedicaoItemSepararUnidadeMedidaConsultaDto.fromObject(item);
       });
 
       return entity;
@@ -33,10 +33,10 @@ export default class SqlServerExpedicaoSepararItemConsultaRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemSepararConsultaDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
     try {
       const pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.consulta.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.unidade.medida.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -46,7 +46,7 @@ export default class SqlServerExpedicaoSepararItemConsultaRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoItemSepararConsultaDto.fromObject(item);
+        return ExpedicaoItemSepararUnidadeMedidaConsultaDto.fromObject(item);
       });
 
       return entitys;

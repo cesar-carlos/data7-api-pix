@@ -2,9 +2,9 @@ import { STATUS } from '../type/status';
 import { requestCreatePixDTO } from '../dto/api.requets/request.create.pix.dto';
 import { responseCreatePixDto } from '../dto/api.responses/response.create.pix.dto';
 
-import GerencianetBase from './gerencianet.base';
 import CreatePixApiContract from '../contracts/create.pix.api.contract';
 import GerencianetCreateQrcodePixAdapter from './gerencianet.create.qrcode.pix.adapter';
+import GerencianetBase from './gerencianet.base';
 
 export default class GerencianetCreatePixAdapter extends GerencianetBase implements CreatePixApiContract {
   public async execute(request: requestCreatePixDTO): Promise<responseCreatePixDto> {

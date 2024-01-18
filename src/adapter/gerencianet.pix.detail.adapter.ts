@@ -1,7 +1,8 @@
-import AppAlert from '../entities/app.alert';
 import GerencianetBase from './gerencianet.base';
 import PagamentoSituacao from '../entities/pagamento.situacao';
 import SituacaoPixContract from '../contracts/situacao.pix.contract';
+import AppAlert from '../entities/app.alert';
+
 export default class GerencianetPixDetailAdapter extends GerencianetBase implements SituacaoPixContract {
   public async execute(txid: string): Promise<PagamentoSituacao | AppAlert> {
     try {

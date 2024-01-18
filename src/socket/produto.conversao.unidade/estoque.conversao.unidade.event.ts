@@ -1,19 +1,19 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
-import SepararItemRepository from './separar.item.repository';
-import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import EstoqueConversaoUnidadeRepository from './estoque.conversao.unidade.repository';
+import EstoqueConversaoUnidadeDto from '../../dto/common.data/estoque.conversao.unidade.dto';
 
-export default class SepararItemEvent {
-  private repository = new SepararItemRepository();
+export default class EstoqueConversaoUnidadeEvent {
+  private repository = new EstoqueConversaoUnidadeRepository();
 
   constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
-
-    socket.on(`${client} separar.item.consulta`, async (data) => {
+    socket.on(`${client} produto.conversao.unidade.consulta`, async (data) => {
       const json = JSON.parse(data);
+
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.consulta`;
+      const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.conversao.unidade.consulta`;
       const params = json['where'] ?? '';
 
       try {
@@ -24,7 +24,7 @@ export default class SepararItemEvent {
           return;
         }
 
-        const result = await this.repository.consulta();
+        const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
@@ -32,32 +32,10 @@ export default class SepararItemEvent {
       }
     });
 
-    socket.on(`${client} separar.item.unidade.medida.consulta`, async (data) => {
+    socket.on(`${client} produto.conversao.unidade.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.unidade.medida.consulta`;
-      const params = json['where'] ?? '';
-
-      try {
-        if (params != '') {
-          const result = await this.repository.consultaUnidadeMedida(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
-
-        const result = await this.repository.consultaUnidadeMedida();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
-      }
-    });
-
-    socket.on(`${client} separar.item.select`, async (data) => {
-      const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.select`;
+      const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.conversao.unidade.select`;
       const params = json['where'] ?? '';
 
       try {
@@ -76,17 +54,19 @@ export default class SepararItemEvent {
       }
     });
 
-    socket.on(`${client} separar.item.insert`, async (data) => {
+    socket.on(`${client} produto.conversao.unidade.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.insert`;
+      const resposeIn = json['resposeIn'] ?? (`${client} estoque.produto.conversao.unidade.insert` as string);
       const mutation = json['mutation'];
 
       try {
         const itens = this.convert(mutation);
-        for (const item of itens) {
-          item.Item = await this.lestItem(item.CodEmpresa, item.CodSepararEstoque);
-          await this.repository.insert([item]);
+        for (const el of itens) {
+          const sequence = await this.repository.sequence();
+          el.CodProduto = sequence?.Valor ?? 0;
+          el.Item = await this.lestItem(el.CodProduto);
+          await this.repository.insert([el]);
         }
 
         const basicEvent = new ExpedicaoBasicEventDto({
@@ -96,16 +76,16 @@ export default class SepararItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.conversao.unidade.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} separar.item.update`, async (data) => {
+    socket.on(`${client} produto.conversao.unidade.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.update`;
+      const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.conversao.unidade.update`;
       const mutation = json['mutation'];
 
       try {
@@ -119,16 +99,16 @@ export default class SepararItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.conversao.unidade.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} separar.item.delete`, async (data) => {
+    socket.on(`${client} produto.conversao.unidade.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.delete`;
+      const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.conversao.unidade.delete`;
       const mutation = json['mutation'];
 
       try {
@@ -142,33 +122,29 @@ export default class SepararItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('produto.conversao.unidade.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoItemSepararDto[] {
+  private convert(mutations: any[] | any): EstoqueConversaoUnidadeDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoItemSepararDto.fromObject(mutation);
+        return EstoqueConversaoUnidadeDto.fromObject(mutation);
       });
     } catch (error) {
       return [];
     }
   }
 
-  private async lestItem(codEmpresa: number, CodSepararEstoque: number): Promise<string> {
-    const itens = await this.repository.select([
-      { key: 'CodEmpresa', value: codEmpresa },
-      { key: 'CodSepararEstoque', value: CodSepararEstoque },
-    ]);
-
-    if (itens.length == 0) return '00001';
+  private async lestItem(codProduto: number): Promise<string> {
+    const itens = await this.repository.select([{ key: 'CodProduto', value: codProduto }]);
+    if (itens.length == 0) return '001';
     const list = itens.map((item) => item.Item);
     const max = Math.max(...list.map((item) => Number(item)));
-    return String(max + 1).padStart(5, '0');
+    return String(max + 1).padStart(3, '0');
   }
 }

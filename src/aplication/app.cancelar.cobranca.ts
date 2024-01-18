@@ -4,8 +4,8 @@ import LocalBaseRepositoryContract from '../contracts/local.base.repository.cont
 import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import CancelamentoPixService from '../services/cancelamento.pix.service';
-import AppDependencys from './app.dependencys';
 import CobrancaPix from '../entities/cobranca.pix';
+import AppDependencys from './app.dependencys';
 
 export default class AppCancelarCobranca {
   private sysId: string;

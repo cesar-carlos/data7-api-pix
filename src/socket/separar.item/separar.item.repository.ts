@@ -4,6 +4,7 @@ import { params } from '../../contracts/local.base.params';
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
+import ExpedicaoItemSepararUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.separar.unidade.medida.consulta.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 
@@ -12,6 +13,14 @@ export default class SepararItemRepository {
     const repository = this.repositoryConsulta();
     const result = await repository.selectWhere(params);
     return result as ExpedicaoItemSepararConsultaDto[];
+  }
+
+  public async consultaUnidadeMedida(
+    params: params[] | string = [],
+  ): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
+    const repository = this.repositoryUnidadeMedidaConsulta();
+    const result = await repository.selectWhere(params);
+    return result as ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemSepararDto[]> {
@@ -44,6 +53,13 @@ export default class SepararItemRepository {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararConsultaDto>',
+    });
+  }
+
+  private repositoryUnidadeMedidaConsulta() {
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararUnidadeMedidaConsultaDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemSepararUnidadeMedidaConsultaDto>',
     });
   }
 

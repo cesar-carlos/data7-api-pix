@@ -1,12 +1,12 @@
 import { eContext } from '../dependency/container.dependency';
 
 import CobrancaPix from '../entities/cobranca.pix';
-import AppDependencys from './app.dependencys';
-import CobrancaDigitalDto from '../dto/integracao/cobranca.digital.dto';
 import ContractBaseRepository from '../contracts/base.repository.contract';
 import ItemLiberacaoBloqueioDto from '../dto/common.data/item.liberacao.bloqueio.dto';
 import LocalBaseRepositoryContract from '../contracts/local.base.repository.contract';
 import RegraStatusCobrancaPixService from '../services/regra.status.cobranca.pix.service';
+import CobrancaDigitalDto from '../dto/integracao/cobranca.digital.dto';
+import AppDependencys from './app.dependencys';
 
 export default class AppRegraStatusCobrancaPix {
   private localRepositoryLiberacao = AppDependencys.resolve<LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>>({

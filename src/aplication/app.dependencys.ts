@@ -1,9 +1,9 @@
 import { FindDepedecy } from '../dependency/container.dependency';
 
+import AppDependencysGeral from './app.dependencys.geral';
 import AppDependencysIntegracaoPix from './app.dependencys.integracao.pix';
 import ContainerDependency from '../dependency/container.dependency';
 import AppDependencysExpedicao from './app.dependencys.expedicao';
-import AppDependencysGeral from './app.dependencys.geral';
 
 export default class AppDependencys {
   public static load() {

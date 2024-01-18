@@ -2,8 +2,8 @@ import { STATUS } from '../type/status';
 import { eContext } from '../dependency/container.dependency';
 import { requestCobrancaDTO } from '../dto/api.requets/request.cobranca.dto';
 
-import CobrancaPix from '../entities/cobranca.pix';
 import ContractBaseRepository from '../contracts/base.repository.contract';
+import CobrancaPix from '../entities/cobranca.pix';
 
 import Filial from '../entities/filial';
 import Cliente from '../entities/cliente';

@@ -32,7 +32,7 @@ export default class EstoqueProdutoEvent {
       }
     });
 
-    socket.on(`${client} produto.select`, async (data) => {
+    socket.on(`${client} estoque.produto.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.select`;
@@ -54,7 +54,7 @@ export default class EstoqueProdutoEvent {
       }
     });
 
-    socket.on(`${client} produto.insert`, async (data) => {
+    socket.on(`${client} estoque.produto.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? (`${client} estoque.produto.insert` as string);
@@ -75,13 +75,13 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('estoque.produto.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} produto.update`, async (data) => {
+    socket.on(`${client} estoque.produto.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.update`;
@@ -98,13 +98,13 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('estoque.estoque.produto.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
     });
 
-    socket.on(`${client} produto.delete`, async (data) => {
+    socket.on(`${client} estoque.produto.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
       const resposeIn = json['resposeIn'] ?? `${client} estoque.produto.delete`;
@@ -121,7 +121,7 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('estoque.produto.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
