@@ -7,12 +7,21 @@ import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.cons
 import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item.conferir.consulta.dto';
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 import ExpedicaoItemSeparacaoConferirConsultaDto from '../../dto/expedicao/expedicao.item.separacao.conferir.consulta.dto';
+import ExpedicaoItemConferirUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.conferir.unidade.medida.consulta.dto';
 
 export default class ConferirItemRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemConferirConsultaDto[]> {
     const repository = this.repositoryConsulta();
     const result = await repository.selectWhere(params);
     return result as ExpedicaoItemConferirConsultaDto[];
+  }
+
+  public async consultaUnidadeMedida(
+    params: params[] | string = [],
+  ): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
+    const repository = this.repositoryUnidadeMedidaConsulta();
+    const result = await repository.selectWhere(params);
+    return result as ExpedicaoItemConferirUnidadeMedidaConsultaDto[];
   }
 
   public async consultaConferirSeparacao(
@@ -60,6 +69,13 @@ export default class ConferirItemRepository {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoConferirConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoConferirConsultaDto>',
+    });
+  }
+
+  private repositoryUnidadeMedidaConsulta() {
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemConferirUnidadeMedidaConsultaDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemConferirUnidadeMedidaConsultaDto>',
     });
   }
 

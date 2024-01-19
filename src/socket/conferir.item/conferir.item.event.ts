@@ -32,6 +32,28 @@ export default class ConferirItemEvent {
       }
     });
 
+    socket.on(`${client} conferir.item.unidade.medida.consulta`, async (data) => {
+      const json = JSON.parse(data);
+      const session = json['session'] ?? '';
+      const resposeIn = json['resposeIn'] ?? `${client} conferir.item.unidade.medida.consulta`;
+      const params = json['where'] ?? '';
+
+      try {
+        if (params != '') {
+          const result = await this.repository.consultaUnidadeMedida(params);
+          const json = result.map((item) => item.toJson());
+          socket.emit(resposeIn, JSON.stringify(json));
+          return;
+        }
+
+        const result = await this.repository.consultaUnidadeMedida();
+        const json = result.map((item) => item.toJson());
+        socket.emit(resposeIn, JSON.stringify(json));
+      } catch (error) {
+        socket.emit(resposeIn, JSON.stringify(error));
+      }
+    });
+
     socket.on(`${client} conferir.separacao.item.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
