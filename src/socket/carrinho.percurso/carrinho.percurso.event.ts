@@ -77,7 +77,7 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.insert', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -100,7 +100,7 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.update', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.update', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }
@@ -123,7 +123,7 @@ export default class CarrinhoPercursoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.estagio.delete', JSON.stringify(basicEvent.toJson()));
+        socket.broadcast.emit('carrinho.percurso.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error) {
         socket.emit(resposeIn, JSON.stringify(error));
       }

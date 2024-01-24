@@ -55,6 +55,7 @@ export default class SepararRepository {
       bind: 'LocalBaseRepositoryContract<ExpedicaoSepararDto>',
     });
   }
+
   private repositoryConsulta() {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,

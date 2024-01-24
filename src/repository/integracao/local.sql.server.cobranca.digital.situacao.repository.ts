@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -12,16 +12,18 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalSituacaoDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalSituacaoDto[]> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.situacao.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
-      pool.close();
 
       if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
@@ -31,19 +33,22 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
       return logs;
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalSituacaoDto[]> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.situacao.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
       const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
-      pool.close();
 
       if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
@@ -53,6 +58,8 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
       return logs;
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 
@@ -83,8 +90,10 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalSituacaoDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -98,9 +107,10 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

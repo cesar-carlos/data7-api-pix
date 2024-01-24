@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -12,16 +12,18 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerCobrancaDigitalAdicionaisRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalAdicionaisDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalAdicionaisDto[]> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.adicionais.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(select);
-      pool.close();
 
       if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
@@ -31,19 +33,22 @@ export default class LocalSqlServerCobrancaDigitalAdicionaisRepository
       return logs;
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalAdicionaisDto[]> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.adicionais.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
       const sql = _params ? `${select} WHERE ${_params}` : select;
       const result = await pool.request().query(sql);
-      pool.close();
 
       if (result.recordset.length === 0) return [];
       const logs = result.recordset.map((item: any) => {
@@ -53,6 +58,8 @@ export default class LocalSqlServerCobrancaDigitalAdicionaisRepository
       return logs;
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 
@@ -83,8 +90,10 @@ export default class LocalSqlServerCobrancaDigitalAdicionaisRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalAdicionaisDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -97,9 +106,10 @@ export default class LocalSqlServerCobrancaDigitalAdicionaisRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import sql from 'mssql';
+import sql, { ConnectionPool } from 'mssql';
 
 import { params, pagination } from '../../contracts/local.base.params';
 
@@ -12,39 +12,52 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 export default class LocalSqlServerProcessoExecutavelRepository
   implements LocalBaseRepositoryContract<ProcessoExecutavelDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   async select(): Promise<ProcessoExecutavelDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
-    const sql = fs.readFileSync(patchSQL).toString();
-    const result = await pool.request().query(sql);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const itensLiberacoes = result.recordset.map((item: any) => {
-      return ProcessoExecutavelDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
+      const sql = fs.readFileSync(patchSQL).toString();
+      const result = await pool.request().query(sql);
 
-    return itensLiberacoes;
+      if (result.recordset.length === 0) return [];
+      const itensLiberacoes = result.recordset.map((item: any) => {
+        return ProcessoExecutavelDto.fromObject(item);
+      });
+
+      return itensLiberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   async selectWhere(params: params[]): Promise<ProcessoExecutavelDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const _params = ParamsCommonRepository.build(params);
-    const sql = `${select} WHERE ${_params}`;
-    const result = await pool.request().query(sql);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const itensLiberacoes = result.recordset.map((item: any) => {
-      return ProcessoExecutavelDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const _params = ParamsCommonRepository.build(params);
+      const sql = `${select} WHERE ${_params}`;
+      const result = await pool.request().query(sql);
 
-    return itensLiberacoes;
+      if (result.recordset.length === 0) return [];
+      const itensLiberacoes = result.recordset.map((item: any) => {
+        return ProcessoExecutavelDto.fromObject(item);
+      });
+
+      return itensLiberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   async insert(entity: ProcessoExecutavelDto): Promise<void> {
@@ -74,8 +87,10 @@ export default class LocalSqlServerProcessoExecutavelRepository
   }
 
   private async actonEntity(entity: ProcessoExecutavelDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -100,9 +115,10 @@ export default class LocalSqlServerProcessoExecutavelRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

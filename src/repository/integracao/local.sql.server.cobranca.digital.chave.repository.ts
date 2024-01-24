@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ChaveDto from '../../dto/integracao/chave.dto';
@@ -10,40 +10,55 @@ import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSqlServerCobrancaDigitalChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<ChaveDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.chaves.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const result = await pool.request().query(select);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const chaves = result.recordset.map((item: any) => {
-      return ChaveDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.chaves.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const result = await pool.request().query(select);
 
-    return chaves;
+      if (result.recordset.length === 0) return [];
+      const chaves = result.recordset.map((item: any) => {
+        return ChaveDto.fromObject(item);
+      });
+
+      return chaves;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ChaveDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.chaves.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
+    let pool: ConnectionPool | null = null;
 
-    const _params = ParamsCommonRepository.build(params);
-    const sql = _params ? `${select} WHERE ${_params}` : select;
-    const result = await pool.request().query(sql);
-    pool.close();
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.chaves.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
 
-    if (result.recordset.length === 0) return [];
-    const chaves = result.recordset.map((item: any) => {
-      return ChaveDto.fromObject(item);
-    });
+      const _params = ParamsCommonRepository.build(params);
+      const sql = _params ? `${select} WHERE ${_params}` : select;
+      const result = await pool.request().query(sql);
 
-    return chaves;
+      if (result.recordset.length === 0) return [];
+      const chaves = result.recordset.map((item: any) => {
+        return ChaveDto.fromObject(item);
+      });
+
+      return chaves;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   public async insert(entity: ChaveDto): Promise<void> {
@@ -73,8 +88,10 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
   }
 
   private async actonEntity(entity: ChaveDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -89,9 +106,10 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

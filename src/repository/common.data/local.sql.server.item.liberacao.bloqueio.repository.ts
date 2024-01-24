@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import sql from 'mssql';
+import sql, { ConnectionPool } from 'mssql';
 
 import { params, pagination } from '../../contracts/local.base.params';
 
@@ -12,39 +12,54 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerItemLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   async select(): Promise<ItemLiberacaoBloqueioDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'item.liberacao.bloqueio.select.sql');
-    const sql = fs.readFileSync(patchSQL).toString();
-    const result = await pool.request().query(sql);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const itensLiberacoes = result.recordset.map((item: any) => {
-      return ItemLiberacaoBloqueioDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'item.liberacao.bloqueio.select.sql');
+      const sql = fs.readFileSync(patchSQL).toString();
+      const result = await pool.request().query(sql);
 
-    return itensLiberacoes;
+      if (result.recordset.length === 0) return [];
+      const itensLiberacoes = result.recordset.map((item: any) => {
+        return ItemLiberacaoBloqueioDto.fromObject(item);
+      });
+
+      return itensLiberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'item.liberacao.bloqueio.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const _params = ParamsCommonRepository.build(params);
-    const sql = `${select} WHERE ${_params}`;
-    const result = await pool.request().query(sql);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const itensLiberacoes = result.recordset.map((item: any) => {
-      return ItemLiberacaoBloqueioDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'item.liberacao.bloqueio.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const _params = ParamsCommonRepository.build(params);
+      const sql = `${select} WHERE ${_params}`;
+      const result = await pool.request().query(sql);
 
-    return itensLiberacoes;
+      if (result.recordset.length === 0) return [];
+      const itensLiberacoes = result.recordset.map((item: any) => {
+        return ItemLiberacaoBloqueioDto.fromObject(item);
+      });
+
+      return itensLiberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   async insert(entity: ItemLiberacaoBloqueioDto): Promise<void> {
@@ -74,8 +89,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
   }
 
   private async actonEntity(entity: ItemLiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -101,9 +118,10 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

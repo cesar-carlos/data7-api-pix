@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -12,40 +12,55 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerCobrancaDigitalDataBaseRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalDataBaseDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalDataBaseDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const result = await pool.request().query(select);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset.length === 0) return [];
-    const dataConfgs = result.recordset.map((item: any) => {
-      return CobrancaDigitalDataBaseDto.fromObject(item);
-    });
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const result = await pool.request().query(select);
 
-    return dataConfgs;
+      if (result.recordset.length === 0) return [];
+      const dataConfgs = result.recordset.map((item: any) => {
+        return CobrancaDigitalDataBaseDto.fromObject(item);
+      });
+
+      return dataConfgs;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalDataBaseDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
+    let pool: ConnectionPool | null = null;
 
-    const _params = ParamsCommonRepository.build(params);
-    const sql = _params ? `${select} WHERE ${_params}` : select;
-    const result = await pool.request().query(sql);
-    pool.close();
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
 
-    if (result.recordset.length === 0) return [];
-    const dataConfgs = result.recordset.map((item: any) => {
-      return CobrancaDigitalDataBaseDto.fromObject(item);
-    });
+      const _params = ParamsCommonRepository.build(params);
+      const sql = _params ? `${select} WHERE ${_params}` : select;
+      const result = await pool.request().query(sql);
 
-    return dataConfgs;
+      if (result.recordset.length === 0) return [];
+      const dataConfgs = result.recordset.map((item: any) => {
+        return CobrancaDigitalDataBaseDto.fromObject(item);
+      });
+
+      return dataConfgs;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
+    }
   }
 
   public async insert(entity: CobrancaDigitalDataBaseDto): Promise<void> {
@@ -75,8 +90,10 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalDataBaseDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -91,9 +108,10 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }

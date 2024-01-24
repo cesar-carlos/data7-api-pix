@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
+import sql, { ConnectionPool } from 'mssql';
 
 import { params, pagination } from '../../contracts/local.base.params';
 
@@ -14,82 +14,97 @@ import LiberacaoBloqueioDto from '../../dto/common.data/liberacao.bloqueio.dto';
 export default class LocalSqlServerLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<LiberacaoBloqueioDto>
 {
-  private connect = new ConnectionSqlServerMssql();
+  //private connect = new ConnectionSqlServerMssql();
+  private connect = ConnectionSqlServerMssql.getInstance();
   private itemLiberacaoBloqueioRepository = new LocalSqlServerItemLiberacaoBloqueioRepository();
   private itemLiberacaoBloqueioSituacaoRepository = new LocalSqlServerItemLiberacaoBloqueioSituacaoRepository();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   public async select(): Promise<LiberacaoBloqueioDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const result = await pool.request().query(select);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset?.length === 0) return [];
-    const liberacoes: LiberacaoBloqueioDto[] = [];
-    for (const item of result.recordset) {
-      const params = [{ key: 'CodLiberacaoBloqueio', value: item.CodLiberacaoBloqueio }];
-      const itemLiberacaoBloqueio = await this.itemLiberacaoBloqueioRepository.selectWhere(params);
-      const itemLiberacaoBloqueioSituacao = await this.itemLiberacaoBloqueioSituacaoRepository.selectWhere(params);
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const result = await pool.request().query(select);
 
-      const liberacao = new LiberacaoBloqueioDto({
-        codEmpresa: item.codEmpresa,
-        codFilial: item.Codfilial,
-        codLiberacaoBloqueio: item.CodLiberacaoBloqueio,
-        origem: item.Origem,
-        codOrigem: item.CodOrigem,
-        codCliente: item.CodCliente,
-        dataHoraBloqueio: item.DataHoraBloqueio,
-        codUsuarioBloqueio: item.CodUsuarioBloqueio,
-        nomeUsuarioBloqueio: item.NomeUsuarioBloqueio,
-        estacaoTrabalhoBloqueio: item.EstacaoTrabalhoBloqueio,
-        itemLiberacaoBloqueio: itemLiberacaoBloqueio ? itemLiberacaoBloqueio : [],
-        itemLiberacaoBloqueioSituacao: itemLiberacaoBloqueioSituacao ? itemLiberacaoBloqueioSituacao : [],
-      });
+      if (result.recordset?.length === 0) return [];
+      const liberacoes: LiberacaoBloqueioDto[] = [];
+      for (const item of result.recordset) {
+        const params = [{ key: 'CodLiberacaoBloqueio', value: item.CodLiberacaoBloqueio }];
+        const itemLiberacaoBloqueio = await this.itemLiberacaoBloqueioRepository.selectWhere(params);
+        const itemLiberacaoBloqueioSituacao = await this.itemLiberacaoBloqueioSituacaoRepository.selectWhere(params);
 
-      liberacoes.push(liberacao);
+        const liberacao = new LiberacaoBloqueioDto({
+          codEmpresa: item.codEmpresa,
+          codFilial: item.Codfilial,
+          codLiberacaoBloqueio: item.CodLiberacaoBloqueio,
+          origem: item.Origem,
+          codOrigem: item.CodOrigem,
+          codCliente: item.CodCliente,
+          dataHoraBloqueio: item.DataHoraBloqueio,
+          codUsuarioBloqueio: item.CodUsuarioBloqueio,
+          nomeUsuarioBloqueio: item.NomeUsuarioBloqueio,
+          estacaoTrabalhoBloqueio: item.EstacaoTrabalhoBloqueio,
+          itemLiberacaoBloqueio: itemLiberacaoBloqueio ? itemLiberacaoBloqueio : [],
+          itemLiberacaoBloqueioSituacao: itemLiberacaoBloqueioSituacao ? itemLiberacaoBloqueioSituacao : [],
+        });
+
+        liberacoes.push(liberacao);
+      }
+
+      return liberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
-
-    return liberacoes;
   }
 
   public async selectWhere(params: params[]): Promise<LiberacaoBloqueioDto[]> {
-    const pool = await this.connect.getConnection();
-    const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
-    const select = fs.readFileSync(patchSQL).toString();
-    const _params = ParamsCommonRepository.build(params);
-    const sql = `${select} WHERE ${_params}`;
-    const result = await pool.request().query(sql);
-    pool.close();
+    let pool: ConnectionPool | null = null;
 
-    if (result.recordset?.length === 0) return [];
-    const liberacoes: LiberacaoBloqueioDto[] = [];
+    try {
+      pool = await this.connect.getConnection();
+      const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
+      const select = fs.readFileSync(patchSQL).toString();
+      const _params = ParamsCommonRepository.build(params);
+      const sql = `${select} WHERE ${_params}`;
+      const result = await pool.request().query(sql);
 
-    for (const item of result.recordset) {
-      const params = [{ key: 'CodLiberacaoBloqueio', value: item.CodLiberacaoBloqueio }];
-      const itemLiberacaoBloqueio = await this.itemLiberacaoBloqueioRepository.selectWhere(params);
-      const itemLiberacaoBloqueioSituacao = await this.itemLiberacaoBloqueioSituacaoRepository.selectWhere(params);
+      if (result.recordset?.length === 0) return [];
+      const liberacoes: LiberacaoBloqueioDto[] = [];
 
-      const liberacao = new LiberacaoBloqueioDto({
-        codEmpresa: item.CodEmpresa,
-        codFilial: item.CodFilial,
-        codLiberacaoBloqueio: item.CodLiberacaoBloqueio,
-        origem: item.Origem,
-        codOrigem: item.CodOrigem,
-        codCliente: item.CodCliente,
-        dataHoraBloqueio: item.DataHoraBloqueio,
-        codUsuarioBloqueio: item.CodUsuarioBloqueio,
-        nomeUsuarioBloqueio: item.NomeUsuarioBloqueio,
-        estacaoTrabalhoBloqueio: item.EstacaoTrabalhoBloqueio,
-        itemLiberacaoBloqueio: itemLiberacaoBloqueio ? itemLiberacaoBloqueio : [],
-        itemLiberacaoBloqueioSituacao: itemLiberacaoBloqueioSituacao ? itemLiberacaoBloqueioSituacao : [],
-      });
+      for (const item of result.recordset) {
+        const params = [{ key: 'CodLiberacaoBloqueio', value: item.CodLiberacaoBloqueio }];
+        const itemLiberacaoBloqueio = await this.itemLiberacaoBloqueioRepository.selectWhere(params);
+        const itemLiberacaoBloqueioSituacao = await this.itemLiberacaoBloqueioSituacaoRepository.selectWhere(params);
 
-      liberacoes.push(liberacao);
+        const liberacao = new LiberacaoBloqueioDto({
+          codEmpresa: item.CodEmpresa,
+          codFilial: item.CodFilial,
+          codLiberacaoBloqueio: item.CodLiberacaoBloqueio,
+          origem: item.Origem,
+          codOrigem: item.CodOrigem,
+          codCliente: item.CodCliente,
+          dataHoraBloqueio: item.DataHoraBloqueio,
+          codUsuarioBloqueio: item.CodUsuarioBloqueio,
+          nomeUsuarioBloqueio: item.NomeUsuarioBloqueio,
+          estacaoTrabalhoBloqueio: item.EstacaoTrabalhoBloqueio,
+          itemLiberacaoBloqueio: itemLiberacaoBloqueio ? itemLiberacaoBloqueio : [],
+          itemLiberacaoBloqueioSituacao: itemLiberacaoBloqueioSituacao ? itemLiberacaoBloqueioSituacao : [],
+        });
+
+        liberacoes.push(liberacao);
+      }
+
+      return liberacoes;
+    } catch (error: any) {
+      throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
-
-    return liberacoes;
   }
 
   public async insert(entity: LiberacaoBloqueioDto): Promise<void> {
@@ -144,8 +159,10 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
   }
 
   private async actonEntity(entity: LiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
+    let pool: ConnectionPool | null = null;
+
     try {
-      const pool = await this.connect.getConnection();
+      pool = await this.connect.getConnection();
       const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
@@ -163,9 +180,10 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      if (pool) pool.close();
     }
   }
 }
