@@ -11,6 +11,7 @@ export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseA
   //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
+
   public async getDataBaseInfo(): Promise<DatabaseOnlineDto | string> {
     let pool: ConnectionPool | null = null;
 

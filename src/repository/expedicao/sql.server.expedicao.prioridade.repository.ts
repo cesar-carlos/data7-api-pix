@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { ConnectionPool } from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -105,7 +105,6 @@ export default class SqlServerExpedicaoPrioridadeRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
     } finally {

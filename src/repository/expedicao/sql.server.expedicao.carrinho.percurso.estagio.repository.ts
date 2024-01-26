@@ -117,7 +117,6 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
         .query(sqlCommand);
 
       await transaction.commit();
-      pool.close();
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
