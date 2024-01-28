@@ -12,7 +12,6 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerCobrancaDigitalConfigRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalConfigDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
@@ -34,7 +33,7 @@ export default class LocalSqlServerCobrancaDigitalConfigRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -59,7 +58,7 @@ export default class LocalSqlServerCobrancaDigitalConfigRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -111,7 +110,7 @@ export default class LocalSqlServerCobrancaDigitalConfigRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

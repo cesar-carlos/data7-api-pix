@@ -8,7 +8,6 @@ import DataBaseActiveContract from '../../contracts/data.base.active.contract';
 import DatabaseOnlineDto from '../../dto/common.data/database.online.dto';
 
 export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseActiveContract<DatabaseOnlineDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
@@ -30,7 +29,7 @@ export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseA
     } catch (error: any) {
       return `Falha ao obter informacoes da base de dados (Local SQL-SERVER). ${error.message}`;
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

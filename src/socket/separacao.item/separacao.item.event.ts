@@ -75,7 +75,8 @@ export default class SeparacaoItemEvent {
         const itensMutation = this.convert(mutation);
 
         for (const el of itensMutation) {
-          el.Item = await this.lestItem(el.CodEmpresa, el.CodSepararEstoque);
+          if (el.Item == '') el.Item = await this.lestItem(el.CodEmpresa, el.CodSepararEstoque);
+
           await this.repository.insert([el]);
 
           const isExist = produtosSeparado.findIndex(

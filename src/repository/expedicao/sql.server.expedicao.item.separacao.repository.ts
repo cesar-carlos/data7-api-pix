@@ -12,7 +12,6 @@ import ParamsCommonRepository from '../common/params.common';
 export default class SqlServerExpedicaoItemSeparacaoRepository
   implements LocalBaseRepositoryContract<ExpedicaoItemSeparacaoDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -34,7 +33,7 @@ export default class SqlServerExpedicaoItemSeparacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -59,7 +58,7 @@ export default class SqlServerExpedicaoItemSeparacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -118,7 +117,7 @@ export default class SqlServerExpedicaoItemSeparacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

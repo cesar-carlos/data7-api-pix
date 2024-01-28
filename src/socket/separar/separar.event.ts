@@ -73,7 +73,8 @@ export default class SepararEvent {
         const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodSepararEstoque = ${item.CodSepararEstoque}`,
+            ` CodEmpresa = ${item.CodEmpresa}
+            AND CodSepararEstoque = ${item.CodSepararEstoque}`,
           );
 
           separarConsulta.push(...result);

@@ -11,6 +11,7 @@ export default class ProcessoExecutavelDto {
   CodUsuario: number;
   NomeUsuario: string;
   CodSetorEstoque?: number;
+  CodSetorConferencia?: number;
   CodContaFinanceira?: string;
   CodPeriodoCaixa?: number;
   StatusPeriodoCaixa?: string;
@@ -31,6 +32,7 @@ export default class ProcessoExecutavelDto {
     CodUsuario: number;
     NomeUsuario: string;
     CodSetorEstoque?: number;
+    CodSetorConferencia?: number;
     CodContaFinanceira?: string;
     CodPeriodoCaixa?: number;
     StatusPeriodoCaixa?: string;
@@ -50,6 +52,7 @@ export default class ProcessoExecutavelDto {
     this.CodUsuario = params.CodUsuario;
     this.NomeUsuario = params.NomeUsuario;
     this.CodSetorEstoque = params.CodSetorEstoque;
+    this.CodSetorConferencia = params.CodSetorConferencia;
     this.CodContaFinanceira = params.CodContaFinanceira;
     this.CodPeriodoCaixa = params.CodPeriodoCaixa;
     this.StatusPeriodoCaixa = params.StatusPeriodoCaixa;
@@ -71,6 +74,7 @@ export default class ProcessoExecutavelDto {
     CodUsuario?: number;
     NomeUsuario?: string;
     CodSetorEstoque?: number;
+    CodSetorConferencia?: number;
     CodContaFinanceira?: string;
     CodPeriodoCaixa?: number;
     StatusPeriodoCaixa?: string;
@@ -91,6 +95,7 @@ export default class ProcessoExecutavelDto {
       CodUsuario: params.CodUsuario ?? this.CodUsuario,
       NomeUsuario: params.NomeUsuario ?? this.NomeUsuario,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
+      CodSetorConferencia: params.CodSetorConferencia ?? this.CodSetorConferencia,
       CodContaFinanceira: params.CodContaFinanceira ?? this.CodContaFinanceira,
       CodPeriodoCaixa: params.CodPeriodoCaixa ?? this.CodPeriodoCaixa,
       StatusPeriodoCaixa: params.StatusPeriodoCaixa ?? this.StatusPeriodoCaixa,
@@ -114,6 +119,7 @@ export default class ProcessoExecutavelDto {
       CodUsuario: object.CodUsuario,
       NomeUsuario: object.NomeUsuario,
       CodSetorEstoque: object.CodSetorEstoque,
+      CodSetorConferencia: object.CodSetorConferencia,
       CodContaFinanceira: object.CodContaFinanceira,
       CodPeriodoCaixa: object.CodPeriodoCaixa,
       StatusPeriodoCaixa: object.StatusPeriodoCaixa,
@@ -137,6 +143,7 @@ export default class ProcessoExecutavelDto {
       CodUsuario: this.CodUsuario,
       NomeUsuario: this.NomeUsuario,
       CodSetorEstoque: this.CodSetorEstoque,
+      CodSetorConferencia: this.CodSetorConferencia,
       CodContaFinanceira: this.CodContaFinanceira,
       CodPeriodoCaixa: this.CodPeriodoCaixa,
       StatusPeriodoCaixa: this.StatusPeriodoCaixa,

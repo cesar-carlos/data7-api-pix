@@ -5,6 +5,7 @@
   "description": "Servidor data7 para integração com lojas",
   "main": "server.js",
   "bin": "./dist.loja/src/server.js",
+  "license": "MIT",
   "keywords": [],
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
@@ -16,7 +17,6 @@
     "test": "jest --watchAll --config ./jest.config.js",
     "start": "node ./dist.loja/src/server.js"
   },
-  "license": "MIT",
   "dependencies": {
     "@types/socket.io": "^3.0.2",
     "axios": "^0.27.2",
@@ -32,7 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "morgan": "^1.10.0",
-    "mssql": "^8.1.2",
+    "mssql": "^10.0.2",
     "node-localstorage": "^2.2.1",
     "promisify": "^0.0.3",
     "socket.io": "^4.7.2",

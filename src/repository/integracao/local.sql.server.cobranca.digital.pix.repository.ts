@@ -12,7 +12,6 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 export default class LocalSqlServerCobrancaDigitalPixRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalPixDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
@@ -34,7 +33,7 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -59,7 +58,7 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -113,7 +112,7 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

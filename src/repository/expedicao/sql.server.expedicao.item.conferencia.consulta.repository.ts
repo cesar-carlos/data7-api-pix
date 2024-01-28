@@ -12,7 +12,6 @@ import ParamsCommonRepository from '../common/params.common';
 export default class SqlServerExpedicaoItemConferenciaConsultaRepository
   implements LocalBaseConsultaRepositoryContract<ExpedicaoItemConferenciaConsultaDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -34,7 +33,7 @@ export default class SqlServerExpedicaoItemConferenciaConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -59,7 +58,7 @@ export default class SqlServerExpedicaoItemConferenciaConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

@@ -10,7 +10,6 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRepositoryContract<ExpedicaoCarrinhoDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -32,7 +31,7 @@ export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRe
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -57,7 +56,7 @@ export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRe
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -108,7 +107,7 @@ export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRe
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

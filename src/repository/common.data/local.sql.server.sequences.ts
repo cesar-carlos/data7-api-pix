@@ -5,7 +5,6 @@ import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repo
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class LocalSqlServerSequences implements LocalBaseRepositorySequenceContract<SequenceDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
 
   public async select(name: string): Promise<SequenceDto | undefined> {
@@ -26,7 +25,7 @@ export default class LocalSqlServerSequences implements LocalBaseRepositorySeque
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

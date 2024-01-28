@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import AppApi from './app.api';
 import AppLinstens from './app.linstens';
+import ConnectionSqlServerMssql from '../infra/connection.sql.server.mssql';
 import AppDependencys from './app.dependencys';
 import AppFirebase from './app.firebase';
 
@@ -15,6 +16,20 @@ export default class App {
     dotenv.config();
     AppFirebase.load();
     AppDependencys.load();
+    App.registerClose();
+  }
+
+  private static registerClose() {
+    const connectionInstance = ConnectionSqlServerMssql.getInstance();
+    process.on('SIGINT', async () => {
+      await connectionInstance.closePool();
+      process.exit();
+    });
+
+    process.on('SIGTERM', async () => {
+      await connectionInstance.closePool();
+      process.exit();
+    });
   }
 
   public async execute() {

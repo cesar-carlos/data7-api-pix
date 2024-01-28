@@ -1,12 +1,18 @@
-import sql from 'mssql';
-import { ConnectionPool } from 'mssql';
+import sql, { ConnectionPool } from 'mssql';
 
-import ConnectionBaseSqlContract from '../contracts/connection.base.sql.contract';
 import config from '../assets/config.msql';
 
-export default class ConnectionSqlServerMssql implements ConnectionBaseSqlContract<ConnectionPool> {
+export default class ConnectionSqlServerMssql {
   private static instance: ConnectionSqlServerMssql;
-  private constructor() {}
+  private pool: ConnectionPool | null = null;
+
+  private interval: number = 700;
+  private retryInterval: number = 1000;
+  private maxAttempts: number = 5;
+
+  private constructor() {
+    this.initPool();
+  }
 
   public static getInstance(): ConnectionSqlServerMssql {
     if (!ConnectionSqlServerMssql.instance) {
@@ -16,27 +22,38 @@ export default class ConnectionSqlServerMssql implements ConnectionBaseSqlContra
     return ConnectionSqlServerMssql.instance;
   }
 
-  async getConnection(maxAttempts: number = 10, interval: number = 600): Promise<sql.ConnectionPool> {
-    let lastError;
-
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      try {
-        const pool = await sql.connect(config as sql.config);
-        return pool;
-      } catch (error) {
-        lastError = error;
-        console.error(`Tentativa ${attempt} falhou:`, error);
-        if (attempt < maxAttempts) {
-          await new Promise((resolve) => setTimeout(resolve, interval));
-        }
-      }
+  private async initPool(attempt: number = 5): Promise<void> {
+    if (attempt > this.maxAttempts) {
+      throw new Error('Erro ao estabelecer o pool de conexões');
     }
 
-    console.error('Todas as tentativas falharam');
-    throw new Error('Erro na conexão com o banco de dados');
+    try {
+      this.pool = new sql.ConnectionPool(config as sql.config);
+      await this.pool.connect();
+    } catch (error) {
+      console.error(`Tentativa ${attempt} falhou:`, error);
+      await new Promise((resolve) => setTimeout(resolve, this.interval));
+      await this.initPool(attempt + 1);
+    }
   }
 
-  async closeConnection(pool: sql.ConnectionPool): Promise<void> {
-    await pool.close();
+  async getConnection(attempt: number = 5): Promise<ConnectionPool> {
+    if (this.pool) {
+      return this.pool;
+    }
+
+    if (attempt < this.maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, this.retryInterval));
+      return this.getConnection(attempt + 1);
+    } else {
+      throw new Error('Não foi possível obter uma conexão após várias tentativas');
+    }
+  }
+
+  async closePool(): Promise<void> {
+    if (this.pool) {
+      await this.pool.close();
+      this.pool = null;
+    }
   }
 }

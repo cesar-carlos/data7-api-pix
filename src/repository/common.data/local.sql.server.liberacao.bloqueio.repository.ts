@@ -14,7 +14,6 @@ import LiberacaoBloqueioDto from '../../dto/common.data/liberacao.bloqueio.dto';
 export default class LocalSqlServerLiberacaoBloqueioRepository
   implements LocalBaseRepositoryContract<LiberacaoBloqueioDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private itemLiberacaoBloqueioRepository = new LocalSqlServerItemLiberacaoBloqueioRepository();
   private itemLiberacaoBloqueioSituacaoRepository = new LocalSqlServerItemLiberacaoBloqueioSituacaoRepository();
@@ -58,7 +57,7 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -103,7 +102,7 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -183,7 +182,7 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

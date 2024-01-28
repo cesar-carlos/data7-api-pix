@@ -10,7 +10,6 @@ import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerExpedicaoSepararRepository implements LocalBaseRepositoryContract<ExpedicaoSepararDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -32,7 +31,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -57,7 +56,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -120,7 +119,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

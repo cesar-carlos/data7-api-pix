@@ -108,7 +108,10 @@ export default class ConferirItemEvent {
       try {
         const itens = this.convert(mutation);
         for (const el of itens) {
-          el.Item = await this.lestItem(el.CodEmpresa, el.CodConferir);
+          if (el.Item == '') {
+            el.Item = await this.lestItem(el.CodEmpresa, el.CodConferir);
+          }
+
           await this.repository.insert([el]);
         }
 

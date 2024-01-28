@@ -12,7 +12,6 @@ import ParamsCommonRepository from '../common/params.common';
 export default class SqlServerExpedicaoMotivoRecusaRepository
   implements LocalBaseRepositoryContract<ExpedicaoMotivoRecusaDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -34,7 +33,7 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -58,7 +57,7 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -106,7 +105,7 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

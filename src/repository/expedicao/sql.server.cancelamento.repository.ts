@@ -10,7 +10,6 @@ import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento
 import ParamsCommonRepository from '../common/params.common';
 
 export default class SqlServerCancelamentoRepository implements LocalBaseRepositoryContract<ExpedicaoCancelamentoDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
@@ -32,7 +31,7 @@ export default class SqlServerCancelamentoRepository implements LocalBaseReposit
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -57,7 +56,7 @@ export default class SqlServerCancelamentoRepository implements LocalBaseReposit
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -113,7 +112,7 @@ export default class SqlServerCancelamentoRepository implements LocalBaseReposit
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

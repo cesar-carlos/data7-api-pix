@@ -32,6 +32,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
   Endereco?: string;
   EnderecoDescricao?: string;
   QuantidadeSeparacao: number;
+  Historico?: string;
+  Observacao?: string;
 
   constructor(params: {
     CodEmpresa: number;
@@ -67,6 +69,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     Endereco?: string;
     EnderecoDescricao?: string;
     QuantidadeSeparacao: number;
+    Historico?: string;
+    Observacao?: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodSepararEstoque = params.CodSepararEstoque;
@@ -101,6 +105,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     this.Endereco = params.Endereco;
     this.EnderecoDescricao = params.EnderecoDescricao;
     this.QuantidadeSeparacao = params.QuantidadeSeparacao;
+    this.Historico = params.Historico;
+    this.Observacao = params.Observacao;
   }
 
   public copyWith(params: {
@@ -137,6 +143,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
     Endereco?: string;
     EnderecoDescricao?: string;
     QuantidadeSeparacao?: number;
+    Historico?: string;
+    Observacao?: string;
   }) {
     return new ExpedicaoItemSeparacaoConferirConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
@@ -172,6 +180,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       Endereco: params.Endereco ?? this.Endereco,
       EnderecoDescricao: params.EnderecoDescricao ?? this.EnderecoDescricao,
       QuantidadeSeparacao: params.QuantidadeSeparacao ?? this.QuantidadeSeparacao,
+      Historico: params.Historico ?? this.Historico,
+      Observacao: params.Observacao ?? this.Observacao,
     });
   }
 
@@ -210,6 +220,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       Endereco: object.Endereco,
       EnderecoDescricao: object.EnderecoDescricao,
       QuantidadeSeparacao: object.QuantidadeSeparacao,
+      Historico: object.Historico,
+      Observacao: object.Observacao,
     });
   }
 
@@ -248,6 +260,8 @@ export default class ExpedicaoItemSeparacaoConferirConsultaDto {
       Endereco: this.Endereco ?? null,
       EnderecoDescricao: this.EnderecoDescricao ?? null,
       QuantidadeSeparacao: Number(this.QuantidadeSeparacao).toFixed(4),
+      Historico: this.Historico ?? null,
+      Observacao: this.Observacao ?? null,
     };
   }
 }

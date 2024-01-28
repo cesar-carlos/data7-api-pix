@@ -10,7 +10,6 @@ import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
 import ParamsCommonRepository from '../common/params.common';
 
 export default class LocalSqlServerEstoqueProdutoRepository implements LocalBaseRepositoryContract<EstoqueProdutoDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
@@ -32,7 +31,7 @@ export default class LocalSqlServerEstoqueProdutoRepository implements LocalBase
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -56,7 +55,7 @@ export default class LocalSqlServerEstoqueProdutoRepository implements LocalBase
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -134,7 +133,7 @@ export default class LocalSqlServerEstoqueProdutoRepository implements LocalBase
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

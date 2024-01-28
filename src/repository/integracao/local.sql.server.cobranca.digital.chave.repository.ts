@@ -10,7 +10,6 @@ import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSqlServerCobrancaDigitalChaveRepository implements LocalBaseRepositoryContract<ChaveDto> {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
@@ -32,7 +31,7 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -57,7 +56,7 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -109,7 +108,7 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 }

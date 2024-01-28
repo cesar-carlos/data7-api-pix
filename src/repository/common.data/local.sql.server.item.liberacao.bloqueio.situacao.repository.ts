@@ -12,7 +12,6 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioSituacaoDto>
 {
-  //private connect = new ConnectionSqlServerMssql();
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
@@ -34,7 +33,7 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -58,7 +57,7 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 
@@ -105,7 +104,7 @@ export default class LocalSqlServerItemLiberacaoBloqueioSituacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      if (pool) pool.close();
+      //if (pool) pool.close();
     }
   }
 

@@ -32,7 +32,15 @@ FROM (
       prod.CodigoOriginal,
       prod.Endereco,
       pe.Descricao EnderecoDescricao,
-      SUM(COALESCE(ise.Quantidade, 0)) QuantidadeSeparacao
+      SUM(COALESCE(ise.Quantidade, 0)) QuantidadeSeparacao,
+      CASE
+        WHEN se.Historico = 'null' THEN NULL
+        ELSE se.Historico
+      END Historico,
+      CASE
+        WHEN se.Observacao = 'null' THEN NULL
+        ELSE se.Observacao
+      END Observacao
     FROM Expedicao.ItemSeparacaoEstoque ise
       INNER JOIN Expedicao.SepararEstoque se ON se.CodEmpresa = ise.CodEmpresa
       AND se.CodSepararEstoque = ise.CodSepararEstoque
@@ -40,14 +48,14 @@ FROM (
       INNER JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = ise.CodEmpresa
       AND cpe.CodCarrinhoPercurso = ise.CodCarrinhoPercurso
       AND cpe.Item = ise.ItemCarrinhoPercurso
-      INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = ise.CodEmpresa
-      AND cp.CodCarrinhoPercurso = ise.CodCarrinhoPercurso
+      INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = cpe.CodEmpresa
+      AND cp.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
       INNER JOIN Expedicao.Carrinho cart ON cart.CodEmpresa = cpe.CodEmpresa
       AND cart.CodCarrinho = cpe.CodCarrinho
       INNER JOIN Produto prod ON prod.CodProduto = ise.CodProduto
       LEFT JOIN ProdutoEndereco pe ON pe.CodProdutoEndereco = prod.Endereco
       INNER JOIN UnidadeMedida und ON und.CodUnidadeMedida = prod.CodUnidadeMedida
-      LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
+      LEFT JOIN GrupoProduto gp ON gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
       LEFT JOIN Expedicao.SetorEstoque st ON st.CodSetorEstoque = prod.CodSetorEstoque
     GROUP BY ise.CodEmpresa,
@@ -81,5 +89,7 @@ FROM (
       prod.CodigoFabricante,
       prod.CodigoOriginal,
       prod.Endereco,
-      pe.Descricao
+      pe.Descricao,
+      se.Historico,
+      se.Observacao
   ) ConferirSeparacaoItemConsulta
