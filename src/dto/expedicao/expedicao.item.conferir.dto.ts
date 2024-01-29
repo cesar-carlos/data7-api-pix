@@ -80,8 +80,8 @@ export default class ExpedicaoItemConferirDto {
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
       CodProduto: object.CodProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
-      Quantidade: object.Quantidade,
-      QuantidadeConferida: object.QuantidadeConferida,
+      Quantidade: Number.parseFloat(object.Quantidade),
+      QuantidadeConferida: Number.parseFloat(object.QuantidadeConferida),
     });
   }
 

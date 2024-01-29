@@ -14,14 +14,6 @@ export default class ConnectionSqlServerMssql {
     this.initPool();
   }
 
-  public static getInstance(): ConnectionSqlServerMssql {
-    if (!ConnectionSqlServerMssql.instance) {
-      ConnectionSqlServerMssql.instance = new ConnectionSqlServerMssql();
-    }
-
-    return ConnectionSqlServerMssql.instance;
-  }
-
   private async initPool(attempt: number = 5): Promise<void> {
     if (attempt > this.maxAttempts) {
       throw new Error('Erro ao estabelecer o pool de conexões');
@@ -37,16 +29,26 @@ export default class ConnectionSqlServerMssql {
     }
   }
 
-  async getConnection(attempt: number = 5): Promise<ConnectionPool> {
-    if (this.pool) {
-      return this.pool;
+  public static getInstance(): ConnectionSqlServerMssql {
+    if (!ConnectionSqlServerMssql.instance) {
+      ConnectionSqlServerMssql.instance = new ConnectionSqlServerMssql();
     }
 
-    if (attempt < this.maxAttempts) {
-      await new Promise((resolve) => setTimeout(resolve, this.retryInterval));
-      return this.getConnection(attempt + 1);
-    } else {
-      throw new Error('Não foi possível obter uma conexão após várias tentativas');
+    return ConnectionSqlServerMssql.instance;
+  }
+
+  async getConnection(attempt: number = 5): Promise<ConnectionPool> {
+    try {
+      if (this.pool) return this.pool;
+
+      if (attempt < this.maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, this.retryInterval));
+        return this.getConnection(attempt + 1);
+      } else {
+        throw new Error('Não foi possível obter uma conexão após várias tentativas');
+      }
+    } catch (error: any) {
+      throw new Error(`Erro ao obter conexão: ${error.message}`);
     }
   }
 
