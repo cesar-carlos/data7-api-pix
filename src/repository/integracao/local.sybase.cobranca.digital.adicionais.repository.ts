@@ -12,7 +12,7 @@ import LocalBaseRepositoryContract from '../../contracts/local.base.repository.c
 export default class LocalSybaseCobrancaDigitalAdicionaisRepository
   implements LocalBaseRepositoryContract<CobrancaDigitalAdicionaisDto>
 {
-  private connect = new ConnectionSybase();
+  private connect = ConnectionSybase.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalAdicionaisDto[]> {

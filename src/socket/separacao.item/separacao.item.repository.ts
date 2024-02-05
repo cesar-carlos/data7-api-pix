@@ -15,28 +15,44 @@ export default class SeparacaoItemRepository {
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error) {
+      throw error;
+    }
   }
 
   public async insert(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemSeparacao) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemSeparacao) {
+        await repository.insert(el);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
   public async update(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemSeparacao) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemSeparacao) {
+        await repository.update(el);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
   public async delete(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemSeparacao) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemSeparacao) {
+        await repository.delete(el);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 

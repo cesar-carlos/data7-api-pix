@@ -15,21 +15,33 @@ export default class ConferenciaItemRepository {
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemConferenciaDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error) {
+      throw error;
+    }
   }
 
   public async insert(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemConferencia) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemConferencia) {
+        await repository.insert(el);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
   public async update(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemConferencia) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemConferencia) {
+        await repository.update(el);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 

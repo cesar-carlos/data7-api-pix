@@ -76,7 +76,6 @@ export default class SeparacaoItemEvent {
 
         for (const el of itensMutation) {
           if (el.Item == '') el.Item = await this.lestItem(el.CodEmpresa, el.CodSepararEstoque);
-
           await this.repository.insert([el]);
 
           const isExist = produtosSeparado.findIndex(
@@ -97,7 +96,11 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND CodProduto = ${el.CodProduto}`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND CodProduto = ${el.CodProduto} `;
+
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {
@@ -119,7 +122,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND Item = '${el.Item}' `;
+
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
         }
@@ -146,9 +153,16 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.insert.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
-        socket.emit(resposeIn, JSON.stringify(error));
+        const basicEvent = new ExpedicaoBasicEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Mutation: [],
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
       }
     });
 
@@ -183,7 +197,11 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND CodProduto = ${el.CodProduto}`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND CodProduto = ${el.CodProduto}`;
+
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {
@@ -205,7 +223,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND Item = '${el.Item}'`;
+
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
         }
@@ -249,7 +271,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND Item = '${el.Item}'`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND Item = '${el.Item}'`;
+
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
         }
@@ -275,7 +301,11 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `CodEmpresa = ${el.CodEmpresa} AND CodSepararEstoque = ${el.CodSepararEstoque} AND CodProduto = ${el.CodProduto}`;
+          const params = `
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND CodProduto = ${el.CodProduto}`;
+
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {

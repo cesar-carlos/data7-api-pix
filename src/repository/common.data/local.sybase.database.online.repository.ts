@@ -10,7 +10,7 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSybaseDatabaseOnlineRepository<DatabaseOnlineDto>
   implements DataBaseActiveContract<DatabaseOnlineDto | string>
 {
-  private connect = new ConnectionSybase();
+  private connect = ConnectionSybase.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   public async getDataBaseInfo(): Promise<DatabaseOnlineDto | string> {

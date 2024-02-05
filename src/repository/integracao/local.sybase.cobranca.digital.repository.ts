@@ -10,7 +10,7 @@ import ParamsCommonRepository from '../common/params.common';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 
 export default class LocalSybaseCobrancaDigitalRepository implements LocalBaseRepositoryContract<CobrancaDigitalDto> {
-  private connect = new ConnectionSybase();
+  private connect = ConnectionSybase.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalDto[]> {

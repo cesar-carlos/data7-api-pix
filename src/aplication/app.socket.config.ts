@@ -1,5 +1,6 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
+import UsuarioEvent from '../socket/usuario/usuario.event';
 import CarrinhoEvent from '../socket/carrinho/carrinho.event';
 import CancelamentoEvent from '../socket/cancelamento/cancelamento.event';
 import SeparacaoItemEvent from '../socket/separacao.item/separacao.item.event';
@@ -25,6 +26,7 @@ export default class AppSocket {
     this.io.on('connection', (socket: Socket) => {
       console.log('Cliente conectado');
 
+      new UsuarioEvent(this.io, socket);
       new ProcessoExecutavelEvent(this.io, socket);
       new SepararEvent(this.io, socket);
       new CarrinhoEvent(this.io, socket);

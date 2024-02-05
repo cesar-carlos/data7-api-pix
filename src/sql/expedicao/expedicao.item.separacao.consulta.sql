@@ -18,7 +18,7 @@ FROM (
       gp.Nome NomeGrupoProduto,
       prod.CodMarca,
       m.Nome NomeMarca,
-      COALESCE(eise.CodSetorEstoque, prod.CodSetorEstoque) CodSetorEstoque,
+      eise.CodSetorEstoque,
       se.Descricao NomeSetorEstoque,
       prod.NCM,
       prod.CodigoBarras1 CodigoBarras,
@@ -47,5 +47,5 @@ FROM (
       LEFT JOIN UnidadeMedida und ON und.CodUnidadeMedida = ise.CodUnidadeMedida
       LEFT JOIN GrupoProduto gp on gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
-      LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = COALESCE(eise.CodSetorEstoque, prod.CodSetorEstoque)
+      LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = eise.CodSetorEstoque
   ) SeparacaoItemConsulta

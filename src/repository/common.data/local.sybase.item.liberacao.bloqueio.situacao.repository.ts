@@ -12,7 +12,7 @@ import ParamsCommonRepository from '../common/params.common';
 export default class LocalSybaseItemLiberacaoBloqueioSituacaoRepository
   implements LocalBaseRepositoryContract<ItemLiberacaoBloqueioSituacaoDto>
 {
-  private connect = new ConnectionSybase();
+  private connect = ConnectionSybase.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   async select(): Promise<ItemLiberacaoBloqueioSituacaoDto[]> {
