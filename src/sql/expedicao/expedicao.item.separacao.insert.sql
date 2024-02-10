@@ -17,7 +17,16 @@ INSERT INTO Expedicao.ItemSeparacaoEstoque(
 VALUES (
     @CodEmpresa,
     @CodSepararEstoque,
-    @Item,
+    CASE
+      WHEN @Item = '00000'
+      OR @Item = '' THEN (
+        SELECT FORMAT(ISNULL(MAX(CAST(Item AS INT)), 0) + 1, '00000')
+        FROM Expedicao.ItemSeparacaoEstoque
+        WHERE CodEmpresa = @CodEmpresa
+          AND CodSepararEstoque = @CodSepararEstoque
+      )
+      ELSE @Item
+    END,
     @SessionId,
     @Situacao,
     @CodCarrinhoPercurso,

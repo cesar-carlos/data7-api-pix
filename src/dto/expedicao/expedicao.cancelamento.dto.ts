@@ -87,13 +87,13 @@ export default class ExpedicaoCancelamentoDto {
       CodCancelamento: this.CodCancelamento,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
-      ItemOrigem: this.ItemOrigem ?? null,
+      ItemOrigem: this.ItemOrigem,
       CodMotivoCancelamento: this.CodMotivoCancelamento,
       DataCancelamento: this.DataCancelamento,
       HoraCancelamento: this.HoraCancelamento,
       CodUsuarioCancelamento: this.CodUsuarioCancelamento,
       NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: this.ObservacaoCancelamento ?? null,
+      ObservacaoCancelamento: this.ObservacaoCancelamento,
     };
   }
 }

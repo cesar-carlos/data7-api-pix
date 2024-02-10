@@ -31,7 +31,6 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -56,7 +55,6 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -119,7 +117,6 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

@@ -25,7 +25,7 @@ export default class CarrinhoEvent {
           return;
         }
 
-        const result = await this.repository.select();
+        const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {

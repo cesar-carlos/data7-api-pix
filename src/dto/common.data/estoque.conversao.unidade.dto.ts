@@ -101,13 +101,13 @@ export default class EstoqueConversaoUnidadeDto {
       UnidadeMedidaPadrao: this.UnidadeMedidaPadrao,
       TipoFatorConversao: this.TipoFatorConversao,
       FatorConversao: Number(this.FatorConversao).toFixed(4),
-      CodigoBarras: this.CodigoBarras ?? null,
+      CodigoBarras: this.CodigoBarras,
       PrecoVenda: Number(this.PrecoVenda).toFixed(4),
       PrecoVenda2: Number(this.PrecoVenda2).toFixed(4),
       PrecoVenda3: Number(this.PrecoVenda3).toFixed(4),
       PrecoVenda4: Number(this.PrecoVenda4).toFixed(4),
       PrecoVenda5: Number(this.PrecoVenda5).toFixed(4),
-      Observacao: this.Observacao ?? null,
+      Observacao: this.Observacao,
     };
   }
 }

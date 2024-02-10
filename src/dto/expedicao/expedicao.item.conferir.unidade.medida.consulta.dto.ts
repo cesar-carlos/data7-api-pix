@@ -99,8 +99,8 @@ export default class ExpedicaoItemConferirUnidadeMedidaConsultaDto {
       UnidadeMedidaPadrao: this.UnidadeMedidaPadrao,
       TipoFatorConversao: this.TipoFatorConversao,
       FatorConversao: Number(this.FatorConversao).toFixed(4),
-      CodigoBarras: this.CodigoBarras ?? null,
-      Observacao: this.Observacao ?? null,
+      CodigoBarras: this.CodigoBarras,
+      Observacao: this.Observacao,
     };
   }
 }

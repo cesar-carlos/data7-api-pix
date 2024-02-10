@@ -79,8 +79,8 @@ export default class ExpedicaoSepararConsultaDto {
       NomeEntidade: this.NomeEntidade,
       CodPrioridade: this.CodPrioridade,
       NomePrioridade: this.NomePrioridade,
-      Historico: this.Historico ?? null,
-      Observacao: this.Observacao ?? null,
+      Historico: this.Historico,
+      Observacao: this.Observacao,
     };
   }
 }

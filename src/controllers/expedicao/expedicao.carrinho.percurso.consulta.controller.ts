@@ -41,7 +41,7 @@ export default class ExpedicaoCarrinhoPercursoConsultaController {
   public static getRepository() {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemEstoqueDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>',
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoEstagioConsultaDto>',
     });
   }
 

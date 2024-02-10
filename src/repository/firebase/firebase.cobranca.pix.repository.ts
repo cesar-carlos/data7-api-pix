@@ -147,8 +147,8 @@ export default class FirebaseCobrancaPixRepository
       linkQrCode: data.linkQrCode,
       imagemQrcode: data.imagemQrcode,
       nomeCliente: data.nomeCliente,
-      telefone: data.telefone ?? null,
-      eMail: data.eMail ?? null,
+      telefone: data.telefone,
+      eMail: data.eMail,
       liberacaoKey: liberacao,
     });
 

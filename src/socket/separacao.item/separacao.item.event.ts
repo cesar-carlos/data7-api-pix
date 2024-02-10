@@ -34,7 +34,7 @@ export default class SeparacaoItemEvent {
           return;
         }
 
-        const result = await this.repository.select();
+        const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
@@ -75,8 +75,20 @@ export default class SeparacaoItemEvent {
         const itensMutation = this.convert(mutation);
 
         for (const el of itensMutation) {
-          if (el.Item == '') el.Item = await this.lestItem(el.CodEmpresa, el.CodSepararEstoque);
           await this.repository.insert([el]);
+
+          const inerted = await this.repository.select(`
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodSepararEstoque = ${el.CodSepararEstoque}
+              AND SessionId = '${el.SessionId}'
+              AND CodSeparador = ${el.CodSeparador}
+            ORDER BY Item `);
+
+          try {
+            el.Item = inerted[inerted.length - 1].Item;
+          } catch (error: any) {
+            throw new Error('Erro ao inserir ' + error.message);
+          }
 
           const isExist = produtosSeparado.findIndex(
             (sel) =>
@@ -362,17 +374,5 @@ export default class SeparacaoItemEvent {
     } catch (error) {
       return [];
     }
-  }
-
-  private async lestItem(codEmpresa: number, CodSepararEstoque: number): Promise<string> {
-    const itens = await this.repository.select([
-      { key: 'CodEmpresa', value: codEmpresa },
-      { key: 'CodSepararEstoque', value: CodSepararEstoque },
-    ]);
-
-    if (itens.length == 0) return '00001';
-    const list = itens.map((item) => item.Item);
-    const max = Math.max(...list.map((item) => Number(item)));
-    return String(max + 1).padStart(5, '0');
   }
 }

@@ -16,7 +16,7 @@ export default class ExpedicaoBasicEventDto {
       session: this.Session,
       resposeIn: this.ResposeIn,
       mutation: this.Mutation,
-      error: this.Error ? this.Error : null,
+      error: this.Error,
     };
   }
 }

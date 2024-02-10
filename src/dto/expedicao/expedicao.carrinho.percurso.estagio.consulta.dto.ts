@@ -1,4 +1,4 @@
-export default class ExpedicaoCarrinhoPercursoConsultaDto {
+export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
   CodEmpresa: number;
   CodCarrinhoPercurso: number;
   Item: string;
@@ -10,22 +10,16 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
   Ativo: string;
-  DataInicio: Date;
-  HoraInicio: string;
   CodUsuarioInicio: number;
   NomeUsuarioInicio: string;
+  DataInicio: Date;
+  HoraInicio: string;
+  CodUsuarioFinalizacao?: number;
+  NomeUsuarioFinalizacao?: string;
   DataFinalizacao?: Date;
   HoraFinalizacao?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
-  CodCancelamento?: number;
-  CodMotivoCancelamento?: number;
-  DescricaoMotivoCancelamento?: string;
-  DataCancelamento?: Date;
-  HoraCancelamento?: string;
-  CodUsuarioCancelamento?: number;
-  NomeUsuarioCancelamento?: string;
-  ObservacaoCancelamento?: string;
 
   constructor(params: {
     CodEmpresa: number;
@@ -39,22 +33,16 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
     Ativo: string;
-    DataInicio: Date;
-    HoraInicio: string;
     CodUsuarioInicio: number;
     NomeUsuarioInicio: string;
+    DataInicio: Date;
+    HoraInicio: string;
+    CodUsuarioFinalizacao?: number;
+    NomeUsuarioFinalizacao?: string;
     DataFinalizacao?: Date;
     HoraFinalizacao?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    CodCancelamento?: number;
-    CodMotivoCancelamento?: number;
-    DescricaoMotivoCancelamento?: string;
-    DataCancelamento?: Date;
-    HoraCancelamento?: string;
-    CodUsuarioCancelamento?: number;
-    NomeUsuarioCancelamento?: string;
-    ObservacaoCancelamento?: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
@@ -67,22 +55,16 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     this.NomeCarrinho = params.NomeCarrinho;
     this.CodigoBarrasCarrinho = params.CodigoBarrasCarrinho;
     this.Ativo = params.Ativo;
-    this.DataInicio = params.DataInicio;
-    this.HoraInicio = params.HoraInicio;
     this.CodUsuarioInicio = params.CodUsuarioInicio;
     this.NomeUsuarioInicio = params.NomeUsuarioInicio;
+    this.DataInicio = params.DataInicio;
+    this.HoraInicio = params.HoraInicio;
+    this.CodUsuarioFinalizacao = params.CodUsuarioFinalizacao;
+    this.NomeUsuarioFinalizacao = params.NomeUsuarioFinalizacao;
     this.DataFinalizacao = params.DataFinalizacao;
     this.HoraFinalizacao = params.HoraFinalizacao;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.NomeSetorEstoque = params.NomeSetorEstoque;
-    this.CodCancelamento = params.CodCancelamento;
-    this.CodMotivoCancelamento = params.CodMotivoCancelamento;
-    this.DescricaoMotivoCancelamento = params.DescricaoMotivoCancelamento;
-    this.DataCancelamento = params.DataCancelamento;
-    this.HoraCancelamento = params.HoraCancelamento;
-    this.CodUsuarioCancelamento = params.CodUsuarioCancelamento;
-    this.NomeUsuarioCancelamento = params.NomeUsuarioCancelamento;
-    this.ObservacaoCancelamento = params.ObservacaoCancelamento;
   }
 
   public copyWith(params: {
@@ -97,24 +79,18 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
     NomeCarrinho?: string;
     CodigoBarrasCarrinho?: string;
     Ativo?: string;
-    DataInicio?: Date;
-    HoraInicio?: string;
     CodUsuarioInicio?: number;
     NomeUsuarioInicio?: string;
+    DataInicio?: Date;
+    HoraInicio?: string;
+    CodUsuarioFinalizacao?: number;
+    NomeUsuarioFinalizacao?: string;
     DataFinalizacao?: Date;
     HoraFinalizacao?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    CodCancelamento?: number;
-    CodMotivoCancelamento?: number;
-    DescricaoMotivoCancelamento?: string;
-    DataCancelamento?: Date;
-    HoraCancelamento?: string;
-    CodUsuarioCancelamento?: number;
-    NomeUsuarioCancelamento?: string;
-    ObservacaoCancelamento?: string;
   }) {
-    return new ExpedicaoCarrinhoPercursoConsultaDto({
+    return new ExpedicaoCarrinhoPercursoEstagioConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       Item: params.Item ?? this.Item,
@@ -126,27 +102,21 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeCarrinho: params.NomeCarrinho ?? this.NomeCarrinho,
       CodigoBarrasCarrinho: params.CodigoBarrasCarrinho ?? this.CodigoBarrasCarrinho,
       Ativo: params.Ativo ?? this.Ativo,
-      DataInicio: params.DataInicio ?? this.DataInicio,
-      HoraInicio: params.HoraInicio ?? this.HoraInicio,
       CodUsuarioInicio: params.CodUsuarioInicio ?? this.CodUsuarioInicio,
       NomeUsuarioInicio: params.NomeUsuarioInicio ?? this.NomeUsuarioInicio,
+      DataInicio: params.DataInicio ?? this.DataInicio,
+      HoraInicio: params.HoraInicio ?? this.HoraInicio,
+      CodUsuarioFinalizacao: params.CodUsuarioFinalizacao ?? this.CodUsuarioFinalizacao,
+      NomeUsuarioFinalizacao: params.NomeUsuarioFinalizacao ?? this.NomeUsuarioFinalizacao,
       DataFinalizacao: params.DataFinalizacao ?? this.DataFinalizacao,
       HoraFinalizacao: params.HoraFinalizacao ?? this.HoraFinalizacao,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
       NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
-      CodCancelamento: params.CodCancelamento ?? this.CodCancelamento,
-      CodMotivoCancelamento: params.CodMotivoCancelamento ?? this.CodMotivoCancelamento,
-      DescricaoMotivoCancelamento: params.DescricaoMotivoCancelamento ?? this.DescricaoMotivoCancelamento,
-      DataCancelamento: params.DataCancelamento ?? this.DataCancelamento,
-      HoraCancelamento: params.HoraCancelamento ?? this.HoraCancelamento,
-      CodUsuarioCancelamento: params.CodUsuarioCancelamento ?? this.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: params.NomeUsuarioCancelamento ?? this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: params.ObservacaoCancelamento ?? this.ObservacaoCancelamento,
     });
   }
 
-  static fromObject(object: any): ExpedicaoCarrinhoPercursoConsultaDto {
-    return new ExpedicaoCarrinhoPercursoConsultaDto({
+  static fromObject(object: any): ExpedicaoCarrinhoPercursoEstagioConsultaDto {
+    return new ExpedicaoCarrinhoPercursoEstagioConsultaDto({
       CodEmpresa: object.CodEmpresa,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       Item: object.Item,
@@ -158,22 +128,16 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeCarrinho: object.NomeCarrinho,
       CodigoBarrasCarrinho: object.CodigoBarrasCarrinho,
       Ativo: object.Ativo,
-      DataInicio: object.DataInicio,
-      HoraInicio: object.HoraInicio,
       CodUsuarioInicio: object.CodUsuarioInicio,
       NomeUsuarioInicio: object.NomeUsuarioInicio,
+      DataInicio: object.DataInicio,
+      HoraInicio: object.HoraInicio,
+      CodUsuarioFinalizacao: object.CodUsuarioFinalizacao,
+      NomeUsuarioFinalizacao: object.NomeUsuarioFinalizacao,
       DataFinalizacao: object.DataFinalizacao,
       HoraFinalizacao: object.HoraFinalizacao,
       CodSetorEstoque: object.CodSetorEstoque,
       NomeSetorEstoque: object.NomeSetorEstoque,
-      CodCancelamento: object.CodCancelamento,
-      CodMotivoCancelamento: object.CodMotivoCancelamento,
-      DescricaoMotivoCancelamento: object.DescricaoMotivoCancelamento,
-      DataCancelamento: object.DataCancelamento,
-      HoraCancelamento: object.HoraCancelamento,
-      CodUsuarioCancelamento: object.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: object.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: object.ObservacaoCancelamento,
     });
   }
 
@@ -190,22 +154,16 @@ export default class ExpedicaoCarrinhoPercursoConsultaDto {
       NomeCarrinho: this.NomeCarrinho,
       CodigoBarrasCarrinho: this.CodigoBarrasCarrinho,
       Ativo: this.Ativo,
-      DataInicio: this.DataInicio,
-      HoraInicio: this.HoraInicio,
       CodUsuarioInicio: this.CodUsuarioInicio,
       NomeUsuarioInicio: this.NomeUsuarioInicio,
+      DataInicio: this.DataInicio,
+      HoraInicio: this.HoraInicio,
+      CodUsuarioFinalizacao: this.CodUsuarioFinalizacao,
+      NomeUsuarioFinalizacao: this.NomeUsuarioFinalizacao,
       DataFinalizacao: this.DataFinalizacao,
       HoraFinalizacao: this.HoraFinalizacao,
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
-      CodCancelamento: this.CodCancelamento,
-      CodMotivoCancelamento: this.CodMotivoCancelamento ?? null,
-      DescricaoMotivoCancelamento: this.DescricaoMotivoCancelamento ?? null,
-      DataCancelamento: this.DataCancelamento ?? null,
-      HoraCancelamento: this.HoraCancelamento ?? null,
-      CodUsuarioCancelamento: this.CodUsuarioCancelamento ?? null,
-      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento ?? null,
-      ObservacaoCancelamento: this.ObservacaoCancelamento ?? null,
     };
   }
 }

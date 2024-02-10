@@ -6,6 +6,7 @@ import CancelamentoEvent from '../socket/cancelamento/cancelamento.event';
 import SeparacaoItemEvent from '../socket/separacao.item/separacao.item.event';
 import SequenciaRegistroEvent from '../socket/sequencia.registro/sequencia.registro.event';
 import CarrinhoPercursoEstagioEvent from '../socket/carrinho.percurso.estagio/carrinho.percurso.estagio.event';
+import CarrinhoPercursoAgrupamentoEvent from '../socket/carrinho.percurso.agrupamento/carrinho.percurso.agrupamento.event';
 import EstoqueConversaoUnidadeEvent from '../socket/produto.conversao.unidade/estoque.conversao.unidade.event';
 import ProcessoExecutavelEvent from '../socket/processo.executavel/processo.executavel.event';
 import CarrinhoPercursoEvent from '../socket/carrinho.percurso/carrinho.percurso.event';
@@ -42,6 +43,7 @@ export default class AppSocket {
       new ConferirEvent(this.io, socket);
       new ConferirItemEvent(this.io, socket);
       new ConferenciaItemEvent(this.io, socket);
+      new CarrinhoPercursoAgrupamentoEvent(this.io, socket);
 
       socket.on('disconnect', () => {
         console.log('Cliente desconectado');

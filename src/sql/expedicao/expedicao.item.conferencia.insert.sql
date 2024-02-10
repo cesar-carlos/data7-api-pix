@@ -17,7 +17,16 @@ INSERT INTO Expedicao.ItemConferencia(
 VALUES (
     @CodEmpresa,
     @CodConferir,
-    @Item,
+    CASE
+      WHEN @Item = '00000'
+      OR @Item = '' THEN (
+        SELECT FORMAT(ISNULL(MAX(CAST(Item AS INT)), 0) + 1, '00000')
+        FROM Expedicao.ItemConferencia
+        WHERE CodEmpresa = @CodEmpresa
+          AND CodConferir = @CodConferir
+      )
+      ELSE @Item
+    END,
     @SessionId,
     @Situacao,
     @CodCarrinhoPercurso,

@@ -5,44 +5,43 @@ import sql, { ConnectionPool } from 'mssql';
 import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
-import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
+import ExpedicaoCarrinhoPercursoAgrupamento from '../../dto/expedicao/expedicao.carrinho.percurso.agrupamento';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoItemConferirRepository
-  implements LocalBaseRepositoryContract<ExpedicaoItemConferirDto>
+export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository
+  implements LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamento>
 {
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoItemConferirDto[]> {
+  public async select(): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
     let pool: ConnectionPool | null = null;
 
     try {
       pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoItemConferirDto.fromObject(item);
+        return ExpedicaoCarrinhoPercursoAgrupamento.fromObject(item);
       });
 
       return entity;
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemConferirDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
     let pool: ConnectionPool | null = null;
 
     try {
       pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -51,20 +50,19 @@ export default class SqlServerExpedicaoItemConferirRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoItemConferirDto.fromObject(item);
+        return ExpedicaoCarrinhoPercursoAgrupamento.fromObject(item);
       });
 
       return entitys;
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
-  public async insert(entity: ExpedicaoItemConferirDto): Promise<void> {
+  public async insert(entity: ExpedicaoCarrinhoPercursoAgrupamento): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -72,9 +70,9 @@ export default class SqlServerExpedicaoItemConferirRepository
     }
   }
 
-  public async update(entity: ExpedicaoItemConferirDto): Promise<void> {
+  public async update(entity: ExpedicaoCarrinhoPercursoAgrupamento): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.update.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.update.sql');
       const update = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -82,13 +80,13 @@ export default class SqlServerExpedicaoItemConferirRepository
     }
   }
 
-  public async delete(entity: ExpedicaoItemConferirDto): Promise<void> {
-    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.delete.sql');
+  public async delete(entity: ExpedicaoCarrinhoPercursoAgrupamento): Promise<void> {
+    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.delete.sql');
     const delet = fs.readFileSync(patchSQL).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: ExpedicaoItemConferirDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: ExpedicaoCarrinhoPercursoAgrupamento, sqlCommand: string): Promise<void> {
     let pool: ConnectionPool | null = null;
 
     try {
@@ -98,14 +96,16 @@ export default class SqlServerExpedicaoItemConferirRepository
       await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
-        .input('CodConferir', sql.Int, entity.CodConferir)
-        .input('Item', sql.VarChar(5), entity.Item)
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('Item', sql.VarChar(5), entity.Item)
+        .input('Origem', sql.VarChar(6), entity.Origem)
         .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
-        .input('CodProduto', sql.Int, entity.CodProduto)
-        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
-        .input('Quantidade', sql.Float, entity.Quantidade)
-        .input('QuantidadeConferida', sql.Float, entity.QuantidadeConferida)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
+        .input('CodCarrinhoAgrupador', sql.Int, entity.CodCarrinhoAgrupador)
+        .input('DataLancamento', sql.Date, entity.DataLancamento)
+        .input('HoraLancamento', sql.VarChar(8), entity.HoraLancamento)
+        .input('CodUsuarioLancamento', sql.Int, entity.CodUsuarioLancamento)
+        .input('NomeUsuarioLancamento', sql.VarChar(100), entity.NomeUsuarioLancamento)
         .query(sqlCommand);
 
       await transaction.commit();

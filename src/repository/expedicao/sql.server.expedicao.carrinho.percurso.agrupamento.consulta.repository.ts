@@ -6,27 +6,27 @@ import { params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import ExpedicaoCarrinhoPercursoAgrupamentoConsulta from '../../dto/expedicao/expedicao.carrinho.percurso.agrupamento.consulta';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoCarrinhoPercursoConsultaRepository
-  implements LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>
+export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository
+  implements LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamentoConsulta>
 {
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(page: pagination): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {
+  public async select(page: pagination): Promise<ExpedicaoCarrinhoPercursoAgrupamentoConsulta[]> {
     let pool: ConnectionPool | null = null;
 
     try {
       pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.consulta.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoCarrinhoPercursoConsultaDto.fromObject(item);
+        return ExpedicaoCarrinhoPercursoAgrupamentoConsulta.fromObject(item);
       });
 
       return entity;
@@ -37,12 +37,12 @@ export default class SqlServerExpedicaoCarrinhoPercursoConsultaRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {
+  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoAgrupamentoConsulta[]> {
     let pool: ConnectionPool | null = null;
 
     try {
       pool = await this.connect.getConnection();
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.consulta.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -51,7 +51,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoConsultaRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoCarrinhoPercursoConsultaDto.fromObject(item);
+        return ExpedicaoCarrinhoPercursoAgrupamentoConsulta.fromObject(item);
       });
 
       return entitys;

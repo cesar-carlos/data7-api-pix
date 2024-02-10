@@ -5,15 +5,15 @@ import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import ExpedicaoCarrinhoPercursoEstagioConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.consulta.dto';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {
+  public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
     const repository = this.repositoryConsulta();
     const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoPercursoConsultaDto[];
+    return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
@@ -42,7 +42,6 @@ export default class CarrinhoPercursoRepository {
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
     const name = 'CarrinhoPercurso_Sequencia_1';
     const repository = this.sequenceRepository();
@@ -50,9 +49,9 @@ export default class CarrinhoPercursoRepository {
   }
 
   private repositoryConsulta() {
-    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>>({
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoEstagioConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoConsultaDto>',
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoEstagioConsultaDto>',
     });
   }
 

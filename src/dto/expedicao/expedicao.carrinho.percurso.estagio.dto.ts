@@ -125,10 +125,10 @@ export default class ExpedicaoCarrinhoPercursoEstagioDto {
       HoraInicio: this.HoraInicio,
       CodUsuarioInicio: this.CodUsuarioInicio,
       NomeUsuarioInicio: this.NomeUsuarioInicio,
-      DataFinalizacao: this.DataFinalizacao ?? null,
-      HoraFinalizacao: this.HoraFinalizacao ?? null,
-      CodUsuarioFinalizacao: this.CodUsuarioFinalizacao ?? null,
-      NomeUsuarioFinalizacao: this.NomeUsuarioFinalizacao ?? null,
+      DataFinalizacao: this.DataFinalizacao,
+      HoraFinalizacao: this.HoraFinalizacao,
+      CodUsuarioFinalizacao: this.CodUsuarioFinalizacao,
+      NomeUsuarioFinalizacao: this.NomeUsuarioFinalizacao,
     };
   }
 }

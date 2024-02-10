@@ -2,7 +2,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import CarrinhoPercursoEstagioRepository from './carrinho.percurso.estagio.repository';
 import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
-import ExpedicaoCarrinhoPercursoConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.consulta.dto';
+import ExpedicaoCarrinhoPercursoEstagioConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.consulta.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 
 export default class CarrinhoPercursoEstagioEvent {
@@ -10,6 +10,7 @@ export default class CarrinhoPercursoEstagioEvent {
 
   constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
     const client = socket.id;
+
     socket.on(`${client} carrinho.percurso.estagio.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
@@ -24,7 +25,7 @@ export default class CarrinhoPercursoEstagioEvent {
           return;
         }
 
-        const result = await this.repository.select();
+        const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
@@ -62,9 +63,19 @@ export default class CarrinhoPercursoEstagioEvent {
 
       try {
         const itens = this.convert(mutation);
-        for (const item of itens) {
-          item.Item = await this.lestItem(item.CodEmpresa, item.CodCarrinhoPercurso);
-          await this.repository.insert([item]);
+        for (const el of itens) {
+          await this.repository.insert([el]);
+          const inerted = await this.repository.select(`
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodCarrinhoPercurso = ${el.CodCarrinhoPercurso}
+              AND CodCarrinho = ${el.CodCarrinho}
+            ORDER BY Item `);
+
+          try {
+            el.Item = inerted[inerted.length - 1].Item;
+          } catch (error: any) {
+            throw new Error('Erro ao inserir ' + error.message);
+          }
         }
 
         const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
@@ -154,8 +165,8 @@ export default class CarrinhoPercursoEstagioEvent {
 
   private async carrinhoPercursoConsulta(
     carrinhoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[],
-  ): Promise<ExpedicaoCarrinhoPercursoConsultaDto[]> {
-    const carrinhoPercursoConsulta: ExpedicaoCarrinhoPercursoConsultaDto[] = [];
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
+    const carrinhoPercursoConsulta: ExpedicaoCarrinhoPercursoEstagioConsultaDto[] = [];
 
     for (const el of carrinhoEstagios) {
       const params = [
@@ -182,17 +193,5 @@ export default class CarrinhoPercursoEstagioEvent {
     } catch (error) {
       return [];
     }
-  }
-
-  private async lestItem(codEmpresa: number, codCarrinhoPercurso: number): Promise<string> {
-    const itens = await this.repository.select([
-      { key: 'CodEmpresa', value: codEmpresa },
-      { key: 'CodCarrinhoPercurso', value: codCarrinhoPercurso },
-    ]);
-
-    if (itens.length == 0) return '00001';
-    const list = itens.map((item) => item.Item);
-    const max = Math.max(...list.map((item) => Number(item)));
-    return String(max + 1).padStart(5, '0');
   }
 }

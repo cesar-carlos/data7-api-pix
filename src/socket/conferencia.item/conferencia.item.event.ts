@@ -43,7 +43,7 @@ export default class ConferenciaItemEvent {
           return;
         }
 
-        const result = await this.repository.select();
+        const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
       } catch (error) {
@@ -84,8 +84,20 @@ export default class ConferenciaItemEvent {
         const itensMutation = this.convert(mutation);
 
         for (const el of itensMutation) {
-          el.Item = await this.lestItem(el.CodEmpresa, el.CodConferir);
           await this.repository.insert([el]);
+
+          const inerted = await this.repository.select(`
+            CodEmpresa = ${el.CodEmpresa}
+              AND CodConferir = ${el.CodConferir}
+              AND SessionId = '${el.SessionId}'
+              AND CodConferente = ${el.CodConferente}
+            ORDER BY Item `);
+
+          try {
+            el.Item = inerted[inerted.length - 1].Item;
+          } catch (error: any) {
+            throw new Error('Erro ao inserir ' + error.message);
+          }
 
           const codCarrinho = await this.getCodCarrinho({
             CodEmpresa: el.CodEmpresa,
@@ -117,9 +129,7 @@ export default class ConferenciaItemEvent {
               CodEmpresa = ${el.CodEmpresa}
             AND CodConferir = ${el.CodConferir}
             AND CodCarrinho = ${el.CodCarrinho}
-            AND CodProduto = '${el.CodProduto}'
-
-          `;
+            AND CodProduto = '${el.CodProduto}' `;
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
           const sumQtdConferida = itensConferenciaConsultaProdutoCarrinho.reduce((acc, cur) => {
@@ -147,9 +157,7 @@ export default class ConferenciaItemEvent {
           const params = `
             CodEmpresa = ${el.CodEmpresa}
           AND CodConferir = ${el.CodConferir}
-          AND Item = '${el.Item}'
-
-          `;
+          AND Item = '${el.Item}' `;
 
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
@@ -406,18 +414,6 @@ export default class ConferenciaItemEvent {
     } catch (error) {
       return [];
     }
-  }
-
-  private async lestItem(codEmpresa: number, codConferir: number): Promise<string> {
-    const itens = await this.repository.select([
-      { key: 'CodEmpresa', value: codEmpresa },
-      { key: 'CodConferir', value: codConferir },
-    ]);
-
-    if (itens.length == 0) return '00001';
-    const list = itens.map((item) => item.Item);
-    const max = Math.max(...list.map((item) => Number(item)));
-    return String(max + 1).padStart(5, '0');
   }
 
   private async getCodCarrinho(params: CarrinhoPercursoEstagioParams): Promise<number> {
