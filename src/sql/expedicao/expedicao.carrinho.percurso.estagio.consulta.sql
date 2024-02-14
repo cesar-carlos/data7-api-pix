@@ -7,6 +7,26 @@ FROM (
       cpe.Origem,
       cpe.CodOrigem,
       cpe.Situacao,
+      (
+        SELECT CASE
+            WHEN COUNT(CodCarrinhoAgrupador) > 0 THEN 'S'
+            ELSE 'N'
+          END
+        FROM Expedicao.CarrinhoPercursoAgrupamento cpa
+        WHERE cpa.CodEmpresa = cpe.CodEmpresa
+          AND cpa.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
+          AND cpa.CodCarrinhoAgrupador = cpe.CodCarrinho
+          AND cpa.Origem = cpe.Origem
+          AND cpa.Situacao NOT IN ('CANCELADA')
+      ) CarrinhoAgrupador,
+      (
+        SELECT TOP 1 CodCarrinhoAgrupador
+        FROM Expedicao.CarrinhoPercursoAgrupamento cpa
+        WHERE cpa.CodEmpresa = cpe.CodEmpresa
+          AND cpa.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
+          AND cpa.ItemCarrinhoPercurso = cpe.Item
+          AND cpa.Situacao NOT IN ('CANCELADA')
+      ) CodCarrinhoAgrupador,
       cpe.CodCarrinho,
       cart.Descricao NomeCarrinho,
       cart.CodigoBarras CodigoBarrasCarrinho,

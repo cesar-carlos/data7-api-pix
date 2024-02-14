@@ -6,6 +6,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
   Origem: string;
   CodOrigem: number;
   Situacao: string;
+  CarrinhoAgrupador: string;
+  CodCarrinhoAgrupador?: number;
   CodCarrinho: number;
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
@@ -29,6 +31,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
     Origem: string;
     CodOrigem: number;
     Situacao: string;
+    CarrinhoAgrupador: string;
+    CodCarrinhoAgrupador?: number;
     CodCarrinho: number;
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
@@ -51,6 +55,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.Situacao = params.Situacao;
+    this.CarrinhoAgrupador = params.CarrinhoAgrupador;
+    this.CodCarrinhoAgrupador = params.CodCarrinhoAgrupador;
     this.CodCarrinho = params.CodCarrinho;
     this.NomeCarrinho = params.NomeCarrinho;
     this.CodigoBarrasCarrinho = params.CodigoBarrasCarrinho;
@@ -75,6 +81,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
     Origem?: string;
     CodOrigem?: number;
     Situacao?: string;
+    CarrinhoAgrupador?: string;
+    CodCarrinhoAgrupador?: number;
     CodCarrinho?: number;
     NomeCarrinho?: string;
     CodigoBarrasCarrinho?: string;
@@ -98,6 +106,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       Situacao: params.Situacao ?? this.Situacao,
+      CarrinhoAgrupador: params.CarrinhoAgrupador ?? this.CarrinhoAgrupador,
+      CodCarrinhoAgrupador: params.CodCarrinhoAgrupador ?? this.CodCarrinhoAgrupador,
       CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
       NomeCarrinho: params.NomeCarrinho ?? this.NomeCarrinho,
       CodigoBarrasCarrinho: params.CodigoBarrasCarrinho ?? this.CodigoBarrasCarrinho,
@@ -124,6 +134,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
       Situacao: object.Situacao,
+      CarrinhoAgrupador: object.CarrinhoAgrupador,
+      CodCarrinhoAgrupador: object.CodCarrinhoAgrupador,
       CodCarrinho: object.CodCarrinho,
       NomeCarrinho: object.NomeCarrinho,
       CodigoBarrasCarrinho: object.CodigoBarrasCarrinho,
@@ -150,6 +162,8 @@ export default class ExpedicaoCarrinhoPercursoEstagioConsultaDto {
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       Situacao: this.Situacao,
+      CarrinhoAgrupador: this.CarrinhoAgrupador,
+      CodCarrinhoAgrupador: this.CodCarrinhoAgrupador,
       CodCarrinho: this.CodCarrinho,
       NomeCarrinho: this.NomeCarrinho,
       CodigoBarrasCarrinho: this.CodigoBarrasCarrinho,
