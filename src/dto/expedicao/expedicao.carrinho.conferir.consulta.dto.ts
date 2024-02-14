@@ -12,6 +12,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
   NomeCarrinho: string;
   CodigoBarrasCarrinho: string;
   SituacaoCarrinho: string;
+  SituacaoCarrinhoConferencia: string;
   DataInicioPercurso: Date;
   HoraInicioPercurso: string;
   CodPercursoEstagio: number;
@@ -41,6 +42,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     NomeCarrinho: string;
     CodigoBarrasCarrinho: string;
     SituacaoCarrinho: string;
+    SituacaoCarrinhoConferencia: string;
     DataInicioPercurso: Date;
     HoraInicioPercurso: string;
     CodPercursoEstagio: number;
@@ -69,6 +71,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     this.NomeCarrinho = params.NomeCarrinho;
     this.CodigoBarrasCarrinho = params.CodigoBarrasCarrinho;
     this.SituacaoCarrinho = params.SituacaoCarrinho;
+    this.SituacaoCarrinhoConferencia = params.SituacaoCarrinhoConferencia;
     this.DataInicioPercurso = params.DataInicioPercurso;
     this.HoraInicioPercurso = params.HoraInicioPercurso;
     this.CodPercursoEstagio = params.CodPercursoEstagio;
@@ -99,6 +102,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
     NomeCarrinho?: string;
     CodigoBarrasCarrinho?: string;
     SituacaoCarrinho?: string;
+    SituacaoCarrinhoConferencia?: string;
     DataInicioPercurso?: Date;
     HoraInicioPercurso?: string;
     CodPercursoEstagio?: number;
@@ -128,6 +132,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeCarrinho: params.NomeCarrinho ?? this.NomeCarrinho,
       CodigoBarrasCarrinho: params.CodigoBarrasCarrinho ?? this.CodigoBarrasCarrinho,
       SituacaoCarrinho: params.SituacaoCarrinho ?? this.SituacaoCarrinho,
+      SituacaoCarrinhoConferencia: params.SituacaoCarrinhoConferencia ?? this.SituacaoCarrinhoConferencia,
       DataInicioPercurso: params.DataInicioPercurso ?? this.DataInicioPercurso,
       HoraInicioPercurso: params.HoraInicioPercurso ?? this.HoraInicioPercurso,
       CodPercursoEstagio: params.CodPercursoEstagio ?? this.CodPercursoEstagio,
@@ -160,6 +165,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeCarrinho: object.NomeCarrinho,
       CodigoBarrasCarrinho: object.CodigoBarrasCarrinho,
       SituacaoCarrinho: object.SituacaoCarrinho,
+      SituacaoCarrinhoConferencia: object.SituacaoCarrinhoConferencia,
       DataInicioPercurso: object.DataInicioPercurso,
       HoraInicioPercurso: object.HoraInicioPercurso,
       CodPercursoEstagio: object.CodPercursoEstagio,
@@ -192,6 +198,7 @@ export default class ExpedicaoCarrinhoConferirConsultaDto {
       NomeCarrinho: this.NomeCarrinho,
       CodigoBarrasCarrinho: this.CodigoBarrasCarrinho,
       SituacaoCarrinho: this.SituacaoCarrinho,
+      SituacaoCarrinhoConferencia: this.SituacaoCarrinhoConferencia,
       DataInicioPercurso: this.DataInicioPercurso,
       HoraInicioPercurso: this.HoraInicioPercurso,
       CodPercursoEstagio: this.CodPercursoEstagio,

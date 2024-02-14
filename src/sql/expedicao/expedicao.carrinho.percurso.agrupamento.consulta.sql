@@ -2,14 +2,15 @@ SELECT *
 FROM (
     SELECT cpe.CodEmpresa,
       cpe.CodCarrinhoPercurso,
-      cpe.Item ItemCarrinhoPercurso,
       cpa.Item ItemAgrupamento,
+      cpe.Item ItemCarrinhoPercurso,
       cpe.Origem,
       COALESCE(cpa.Situacao, cpe.Situacao) Situacao,
       CodCarrinhoAgrupador,
       carta.Descricao NomeCarrinhoAgrupador,
       cpe.CodCarrinho,
       cart.Descricao NomeCarrinho,
+      cart.CodigoBarras CodigoBarrasCarrinho,
       cpe.DataInicio,
       cpe.HoraInicio,
       cpe.CodUsuarioInicio,
@@ -21,6 +22,7 @@ FROM (
       AND cpa.Origem = cpe.Origem
       AND cpa.CodCarrinhoPercurso = cpe.CodCarrinhoPercurso
       AND cpa.ItemCarrinhoPercurso = cpe.Item
+      AND cpa.Situacao NOT IN ('CANCELADA')
       LEFT JOIN Expedicao.Carrinho carta ON carta.CodEmpresa = cpa.CodEmpresa
       AND carta.CodCarrinho = cpa.CodCarrinhoAgrupador
   ) CarrinhoPercursoAgrupamentoConsulta

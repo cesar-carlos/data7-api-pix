@@ -64,7 +64,6 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         const itens = this.convert(mutation);
         for (const el of itens) {
           const sequence = await this.repository.sequence();
-          el.CodCarrinhoPercurso = sequence?.Valor ?? 0;
           await this.repository.insert([el]);
 
           const inerted = await this.repository.select(`

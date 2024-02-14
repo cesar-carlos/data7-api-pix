@@ -17,7 +17,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
   NomeGrupoProduto: string;
   CodMarca?: number;
   NomeMarca?: string;
-  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -51,7 +50,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     NomeGrupoProduto: string;
     CodMarca?: number;
     NomeMarca?: string;
-    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -84,7 +82,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     this.NomeGrupoProduto = params.NomeGrupoProduto;
     this.CodMarca = params?.CodMarca;
     this.NomeMarca = params?.NomeMarca;
-    this.NCM = params.NCM;
     this.CodigoBarras = params?.CodigoBarras;
     this.CodigoBarras2 = params?.CodigoBarras2;
     this.CodigoReferencia = params?.CodigoReferencia;
@@ -119,7 +116,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
     NomeGrupoProduto?: string;
     CodMarca?: number;
     NomeMarca?: string;
-    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -153,7 +149,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       NomeGrupoProduto: params?.NomeGrupoProduto ?? this.NomeGrupoProduto,
       CodMarca: params?.CodMarca ?? this.CodMarca,
       NomeMarca: params?.NomeMarca ?? this.NomeMarca,
-      NCM: params?.NCM ?? this.NCM,
       CodigoBarras: params?.CodigoBarras ?? this.CodigoBarras,
       CodigoBarras2: params?.CodigoBarras2 ?? this.CodigoBarras2,
       CodigoReferencia: params?.CodigoReferencia ?? this.CodigoReferencia,
@@ -190,7 +185,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       NomeGrupoProduto: object.NomeGrupoProduto,
       CodMarca: object?.CodMarca,
       NomeMarca: object?.NomeMarca,
-      NCM: object.NCM,
       CodigoBarras: object?.CodigoBarras,
       CodigoBarras2: object?.CodigoBarras2,
       CodigoReferencia: object?.CodigoReferencia,
@@ -227,7 +221,6 @@ export default class ExpedicaoItemConferenciaConsultaDto {
       NomeGrupoProduto: this.NomeGrupoProduto,
       CodMarca: this.CodMarca,
       NomeMarca: this.NomeMarca,
-      NCM: this.NCM,
       CodigoBarras: this.CodigoBarras,
       CodigoBarras2: this.CodigoBarras2,
       CodigoReferencia: this.CodigoReferencia,

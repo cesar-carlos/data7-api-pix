@@ -13,6 +13,19 @@ FROM (
       cart.Descricao NomeCarrinho,
       cart.CodigoBarras CodigoBarrasCarrinho,
       cart.Situacao SituacaoCarrinho,
+      COALESCE(
+        (
+          SELECT TOP 1 scpe.Situacao
+          FROM Expedicao.CarrinhoPercursoEstagio scpe
+          WHERE scpe.CodEmpresa = ic.CodEmpresa
+            AND scpe.CodCarrinhoPercurso = ic.CodCarrinhoPercurso
+            AND scpe.CodCarrinho = cpe.CodCarrinho
+            AND scpe.Origem IN ('CO')
+            AND scpe.Situacao NOT IN ('CANCELADA')
+          ORDER BY scpe.CodCarrinhoPercurso DESC
+        ),
+        'AGUARDANDO'
+      ) SituacaoCarrinhoConferencia,
       cp.DataInicio DataInicioPercurso,
       cp.HoraInicio HoraInicioPercurso,
       cpe.CodPercursoEstagio,
@@ -24,16 +37,14 @@ FROM (
       cpe.CodUsuarioFinalizacao CodUsuarioFinalizacaoEstagio,
       cpe.NomeUsuarioFinalizacao NomeUsuarioFinalizacaoEstagio,
       cpe.DataFinalizacao DataFinalizacaoEstagio,
-      cpe.HoraFinalizacao HoraFinalizacaoEstagio,
-      sum(ic.Quantidade) TotalItemConferir,
-      sum(ic.QuantidadeConferida) TotalItemConferido
+      cpe.HoraFinalizacao HoraFinalizacaoEstagio
     FROM Expedicao.ItemConferir ic
       INNER JOIN Expedicao.Conferir cf ON cf.CodEmpresa = ic.CodEmpresa
       AND cf.CodConferir = ic.CodConferir
-      LEFT JOIN Expedicao.Prioridade prio ON prio.CodPrioridade = cf.CodPrioridade
       INNER JOIN Expedicao.CarrinhoPercursoEstagio cpe ON cpe.CodEmpresa = ic.CodEmpresa
       AND cpe.CodCarrinhoPercurso = ic.CodCarrinhoPercurso
       AND cpe.Item = ic.ItemCarrinhoPercurso
+      LEFT JOIN Expedicao.Prioridade prio ON prio.CodPrioridade = cf.CodPrioridade
       LEFT JOIN Expedicao.PercursoEstagio est ON est.CodPercursoEstagio = cpe.CodPercursoEstagio
       INNER JOIN Expedicao.CarrinhoPercurso cp ON cp.CodEmpresa = ic.CodEmpresa
       AND cp.CodCarrinhoPercurso = ic.CodCarrinhoPercurso
