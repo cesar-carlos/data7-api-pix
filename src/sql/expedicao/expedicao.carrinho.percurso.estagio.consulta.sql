@@ -9,7 +9,8 @@ FROM (
       cpe.Situacao,
       (
         SELECT CASE
-            WHEN COUNT(CodCarrinhoAgrupador) > 0 THEN 'S'
+            WHEN COUNT(CodCarrinhoAgrupador) > 0
+            AND cpe.Situacao NOT IN ('CANCELADA') THEN 'S'
             ELSE 'N'
           END
         FROM Expedicao.CarrinhoPercursoAgrupamento cpa

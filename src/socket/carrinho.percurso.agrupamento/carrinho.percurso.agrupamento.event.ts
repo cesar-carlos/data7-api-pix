@@ -63,7 +63,6 @@ export default class CarrinhoPercursoAgrupamentoEvent {
       try {
         const itens = this.convert(mutation);
         for (const el of itens) {
-          const sequence = await this.repository.sequence();
           await this.repository.insert([el]);
 
           const inerted = await this.repository.select(`
