@@ -19,7 +19,16 @@ INSERT INTO integracao.CobrancaDigitalTitulo (
 VALUES (
     @CodEmpresa,
     @CodCobrancaDigital,
-    @Item,
+    CASE
+      WHEN @Item = '00000'
+      OR @Item = '' THEN (
+        SELECT FORMAT(ISNULL(MAX(CAST(Item AS INT)), 0) + 1, '00000')
+        FROM integracao.CobrancaDigitalTitulo
+        WHERE CodEmpresa = @CodEmpresa
+          AND CodCobrancaDigital = @CodCobrancaDigital
+      )
+      ELSE @Item
+    END,
     @SysId,
     @Status,
     @TipoCobranca,

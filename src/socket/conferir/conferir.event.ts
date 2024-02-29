@@ -95,7 +95,8 @@ export default class ConferirEvent {
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
+            ` CodEmpresa = ${item.CodEmpresa}
+            AND CodConferir = ${item.CodConferir} `,
           );
 
           conferirConsulta.push(...result);
@@ -134,7 +135,8 @@ export default class ConferirEvent {
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
+            ` CodEmpresa = ${item.CodEmpresa}
+             AND CodConferir = ${item.CodConferir} `,
           );
 
           conferirConsulta.push(...result);

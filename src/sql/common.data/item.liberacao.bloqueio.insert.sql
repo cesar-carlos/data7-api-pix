@@ -16,7 +16,15 @@ INSERT INTO ItemLiberacaoBloqueio (
   )
 VALUES (
     @CodLiberacaoBloqueio,
-    @Item,
+    CASE
+      WHEN @Item = '00000'
+      OR @Item = '' THEN (
+        SELECT FORMAT(ISNULL(MAX(CAST(Item AS INT)), 0) + 1, '00000')
+        FROM ItemLiberacaoBloqueio
+        WHERE CodLiberacaoBloqueio = @CodLiberacaoBloqueio
+      )
+      ELSE @Item
+    END,
     @Status,
     @CodRegra,
     @Regra,
