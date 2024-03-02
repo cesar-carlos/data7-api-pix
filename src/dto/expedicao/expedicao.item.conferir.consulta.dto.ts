@@ -6,11 +6,10 @@ export default class ExpedicaoItemConferirConsultaDto {
   CodOrigem: number;
   CodCarrinhoPercurso: number;
   ItemCarrinhoPercurso: string;
+  SituacaoCarrinhoPercurso: string;
   CodCarrinho: number;
   CodProduto: number;
   NomeProduto: string;
-  Ativo: string;
-  CodTipoProduto: string;
   CodUnidadeMedida: string;
   NomeUnidadeMedida: string;
   CodGrupoProduto: number;
@@ -19,7 +18,6 @@ export default class ExpedicaoItemConferirConsultaDto {
   NomeMarca?: string;
   CodSetorEstoque?: number;
   NomeSetorEstoque?: string;
-  NCM?: string;
   CodigoBarras?: string;
   CodigoBarras2?: string;
   CodigoReferencia?: string;
@@ -39,11 +37,10 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodOrigem: number;
     CodCarrinhoPercurso: number;
     ItemCarrinhoPercurso: string;
+    SituacaoCarrinhoPercurso: string;
     CodCarrinho: number;
     CodProduto: number;
     NomeProduto: string;
-    Ativo: string;
-    CodTipoProduto: string;
     CodUnidadeMedida: string;
     NomeUnidadeMedida: string;
     CodGrupoProduto: number;
@@ -52,7 +49,6 @@ export default class ExpedicaoItemConferirConsultaDto {
     NomeMarca?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -71,11 +67,10 @@ export default class ExpedicaoItemConferirConsultaDto {
     this.CodOrigem = params.CodOrigem;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
+    this.SituacaoCarrinhoPercurso = params.SituacaoCarrinhoPercurso;
     this.CodCarrinho = params.CodCarrinho;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
-    this.Ativo = params.Ativo;
-    this.CodTipoProduto = params.CodTipoProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
     this.NomeUnidadeMedida = params.NomeUnidadeMedida;
     this.CodGrupoProduto = params.CodGrupoProduto;
@@ -84,7 +79,6 @@ export default class ExpedicaoItemConferirConsultaDto {
     this.NomeMarca = params.NomeMarca;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.NomeSetorEstoque = params.NomeSetorEstoque;
-    this.NCM = params.NCM;
     this.CodigoBarras = params.CodigoBarras;
     this.CodigoBarras2 = params.CodigoBarras2;
     this.CodigoReferencia = params.CodigoReferencia;
@@ -105,10 +99,10 @@ export default class ExpedicaoItemConferirConsultaDto {
     CodOrigem?: number;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
+    SituacaoCarrinhoPercurso?: string;
     CodCarrinho?: number;
     CodProduto?: number;
     NomeProduto?: string;
-    Ativo?: string;
     CodTipoProduto?: string;
     CodUnidadeMedida?: string;
     NomeUnidadeMedida?: string;
@@ -118,7 +112,6 @@ export default class ExpedicaoItemConferirConsultaDto {
     NomeMarca?: string;
     CodSetorEstoque?: number;
     NomeSetorEstoque?: string;
-    NCM?: string;
     CodigoBarras?: string;
     CodigoBarras2?: string;
     CodigoReferencia?: string;
@@ -138,11 +131,10 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
+      SituacaoCarrinhoPercurso: params.SituacaoCarrinhoPercurso ?? this.SituacaoCarrinhoPercurso,
       CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
-      Ativo: params.Ativo ?? this.Ativo,
-      CodTipoProduto: params.CodTipoProduto ?? this.CodTipoProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
       NomeUnidadeMedida: params.NomeUnidadeMedida ?? this.NomeUnidadeMedida,
       CodGrupoProduto: params.CodGrupoProduto ?? this.CodGrupoProduto,
@@ -151,7 +143,6 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeMarca: params.NomeMarca ?? this.NomeMarca,
       CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
       NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
-      NCM: params.NCM ?? this.NCM,
       CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodigoBarras2: params.CodigoBarras2 ?? this.CodigoBarras2,
       CodigoReferencia: params.CodigoReferencia ?? this.CodigoReferencia,
@@ -174,11 +165,10 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: object.CodOrigem,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
+      SituacaoCarrinhoPercurso: object.SituacaoCarrinhoPercurso,
       CodCarrinho: object.CodCarrinho,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
-      Ativo: object.Ativo,
-      CodTipoProduto: object.CodTipoProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
       NomeUnidadeMedida: object.NomeUnidadeMedida,
       CodGrupoProduto: object.CodGrupoProduto,
@@ -187,7 +177,6 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeMarca: object.NomeMarca,
       CodSetorEstoque: object.CodSetorEstoque,
       NomeSetorEstoque: object.NomeSetorEstoque,
-      NCM: object.NCM,
       CodigoBarras: object.CodigoBarras,
       CodigoBarras2: object.CodigoBarras2,
       CodigoReferencia: object.CodigoReferencia,
@@ -210,11 +199,10 @@ export default class ExpedicaoItemConferirConsultaDto {
       CodOrigem: this.CodOrigem,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
+      SituacaoCarrinhoPercurso: this.SituacaoCarrinhoPercurso,
       CodCarrinho: this.CodCarrinho,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
-      Ativo: this.Ativo,
-      CodTipoProduto: this.CodTipoProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
       NomeUnidadeMedida: this.NomeUnidadeMedida,
       CodGrupoProduto: this.CodGrupoProduto,
@@ -223,7 +211,6 @@ export default class ExpedicaoItemConferirConsultaDto {
       NomeMarca: this.NomeMarca,
       CodSetorEstoque: this.CodSetorEstoque,
       NomeSetorEstoque: this.NomeSetorEstoque,
-      NCM: this.NCM,
       CodigoBarras: this.CodigoBarras,
       CodigoBarras2: this.CodigoBarras2,
       CodigoReferencia: this.CodigoReferencia,
