@@ -3,56 +3,50 @@ export default class ExpedicaoConferirConsultaDto {
   CodConferir: number;
   Origem: string;
   CodOrigem: number;
+  CodCarrinhoPercurso: number;
+  Situacao: string;
+  DataLancamento: Date;
+  HoraLancamento: string;
+  TipoEntidade: string;
+  CodEntidade: number;
+  NomeEntidade: string;
   CodPrioridade: number;
   NomePrioridade: string;
-  Situacao: string;
-  Data: Date;
-  Hora: string;
-  Historico?: string;
-  Observacao?: string;
-  CodMotivoCancelamento?: number;
-  DataCancelamento?: Date;
-  HoraCancelamento?: string;
-  CodUsuarioCancelamento?: number;
-  NomeUsuarioCancelamento?: string;
-  ObservacaoCancelamento?: string;
+  Historico: string;
+  Observacao: string;
 
   constructor(params: {
     CodEmpresa: number;
     CodConferir: number;
     Origem: string;
     CodOrigem: number;
+    CodCarrinhoPercurso: number;
+    Situacao: string;
+    DataLancamento: Date;
+    HoraLancamento: string;
+    TipoEntidade: string;
+    CodEntidade: number;
+    NomeEntidade: string;
     CodPrioridade: number;
     NomePrioridade: string;
-    Situacao: string;
-    Data: Date;
-    Hora: string;
-    Historico?: string;
-    Observacao?: string;
-    CodMotivoCancelamento?: number;
-    DataCancelamento?: Date;
-    HoraCancelamento?: string;
-    CodUsuarioCancelamento?: number;
-    NomeUsuarioCancelamento?: string;
-    ObservacaoCancelamento?: string;
+    Historico: string;
+    Observacao: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodConferir = params.CodConferir;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
+    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
+    this.Situacao = params.Situacao;
+    this.DataLancamento = params.DataLancamento;
+    this.HoraLancamento = params.HoraLancamento;
+    this.TipoEntidade = params.TipoEntidade;
+    this.CodEntidade = params.CodEntidade;
+    this.NomeEntidade = params.NomeEntidade;
     this.CodPrioridade = params.CodPrioridade;
     this.NomePrioridade = params.NomePrioridade;
-    this.Situacao = params.Situacao;
-    this.Data = params.Data;
-    this.Hora = params.Hora;
-    this.Historico = params?.Historico;
-    this.Observacao = params?.Observacao;
-    this.CodMotivoCancelamento = params?.CodMotivoCancelamento;
-    this.DataCancelamento = params?.DataCancelamento;
-    this.HoraCancelamento = params?.HoraCancelamento;
-    this.CodUsuarioCancelamento = params?.CodUsuarioCancelamento;
-    this.NomeUsuarioCancelamento = params?.NomeUsuarioCancelamento;
-    this.ObservacaoCancelamento = params?.ObservacaoCancelamento;
+    this.Historico = params.Historico;
+    this.Observacao = params.Observacao;
   }
 
   public copyWith(params: {
@@ -60,38 +54,34 @@ export default class ExpedicaoConferirConsultaDto {
     CodConferir?: number;
     Origem?: string;
     CodOrigem?: number;
+    CodCarrinhoPercurso?: number;
+    Situacao?: string;
+    DataLancamento?: Date;
+    HoraLancamento?: string;
+    TipoEntidade?: string;
+    CodEntidade?: number;
+    NomeEntidade?: string;
     CodPrioridade?: number;
     NomePrioridade?: string;
-    Situacao?: string;
-    Data?: Date;
-    Hora?: string;
     Historico?: string;
     Observacao?: string;
-    CodMotivoCancelamento?: number;
-    DataCancelamento?: Date;
-    HoraCancelamento?: string;
-    CodUsuarioCancelamento?: number;
-    NomeUsuarioCancelamento?: string;
-    ObservacaoCancelamento?: string;
   }) {
     return new ExpedicaoConferirConsultaDto({
-      CodEmpresa: params?.CodEmpresa ?? this.CodEmpresa,
-      CodConferir: params?.CodConferir ?? this.CodConferir,
-      Origem: params?.Origem ?? this.Origem,
-      CodOrigem: params?.CodOrigem ?? this.CodOrigem,
-      CodPrioridade: params?.CodPrioridade ?? this.CodPrioridade,
-      NomePrioridade: params?.NomePrioridade ?? this.NomePrioridade,
-      Situacao: params?.Situacao ?? this.Situacao,
-      Data: params?.Data ?? this.Data,
-      Hora: params?.Hora ?? this.Hora,
-      Historico: params?.Historico ?? this.Historico,
-      Observacao: params?.Observacao ?? this.Observacao,
-      CodMotivoCancelamento: params?.CodMotivoCancelamento ?? this.CodMotivoCancelamento,
-      DataCancelamento: params?.DataCancelamento ?? this.DataCancelamento,
-      HoraCancelamento: params?.HoraCancelamento ?? this.HoraCancelamento,
-      CodUsuarioCancelamento: params?.CodUsuarioCancelamento ?? this.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: params?.NomeUsuarioCancelamento ?? this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: params?.ObservacaoCancelamento ?? this.ObservacaoCancelamento,
+      CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
+      CodConferir: params.CodConferir ?? this.CodConferir,
+      Origem: params.Origem ?? this.Origem,
+      CodOrigem: params.CodOrigem ?? this.CodOrigem,
+      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
+      Situacao: params.Situacao ?? this.Situacao,
+      DataLancamento: params.DataLancamento ?? this.DataLancamento,
+      HoraLancamento: params.HoraLancamento ?? this.HoraLancamento,
+      TipoEntidade: params.TipoEntidade ?? this.TipoEntidade,
+      CodEntidade: params.CodEntidade ?? this.CodEntidade,
+      NomeEntidade: params.NomeEntidade ?? this.NomeEntidade,
+      CodPrioridade: params.CodPrioridade ?? this.CodPrioridade,
+      NomePrioridade: params.NomePrioridade ?? this.NomePrioridade,
+      Historico: params.Historico ?? this.Historico,
+      Observacao: params.Observacao ?? this.Observacao,
     });
   }
 
@@ -101,19 +91,17 @@ export default class ExpedicaoConferirConsultaDto {
       CodConferir: object.CodConferir,
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
+      Situacao: object.Situacao,
+      DataLancamento: object.DataLancamento,
+      HoraLancamento: object.HoraLancamento,
+      TipoEntidade: object.TipoEntidade,
+      CodEntidade: object.CodEntidade,
+      NomeEntidade: object.NomeEntidade,
       CodPrioridade: object.CodPrioridade,
       NomePrioridade: object.NomePrioridade,
-      Situacao: object.Situacao,
-      Data: object.Data,
-      Hora: object.Hora,
-      Historico: object?.Historico,
-      Observacao: object?.Observacao,
-      CodMotivoCancelamento: object?.CodMotivoCancelamento,
-      DataCancelamento: object?.DataCancelamento,
-      HoraCancelamento: object?.HoraCancelamento,
-      CodUsuarioCancelamento: object?.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: object?.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: object?.ObservacaoCancelamento,
+      Historico: object.Historico,
+      Observacao: object.Observacao,
     });
   }
 
@@ -123,19 +111,17 @@ export default class ExpedicaoConferirConsultaDto {
       CodConferir: this.CodConferir,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
+      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
+      Situacao: this.Situacao,
+      DataLancamento: this.DataLancamento,
+      HoraLancamento: this.HoraLancamento,
+      TipoEntidade: this.TipoEntidade,
+      CodEntidade: this.CodEntidade,
+      NomeEntidade: this.NomeEntidade,
       CodPrioridade: this.CodPrioridade,
       NomePrioridade: this.NomePrioridade,
-      Situacao: this.Situacao,
-      Data: this.Data,
-      Hora: this.Hora,
       Historico: this.Historico,
       Observacao: this.Observacao,
-      CodMotivoCancelamento: this.CodMotivoCancelamento,
-      DataCancelamento: this.DataCancelamento,
-      HoraCancelamento: this.HoraCancelamento,
-      CodUsuarioCancelamento: this.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: this.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: this.ObservacaoCancelamento,
     };
   }
 }

@@ -53,9 +53,6 @@ export default class ConnectionSqlServerMssql {
   }
 
   async closePool(): Promise<void> {
-    if (this.pool) {
-      await this.pool.close();
-      this.pool = null;
-    }
+    if (this.pool) await this.pool.close();
   }
 }
