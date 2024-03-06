@@ -7,7 +7,10 @@ import ProcessoExecutavelRepository from './processo.executavel.repository';
 export default class ProcessoExecutavelEvent {
   private repository = new ProcessoExecutavelRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} processo.executavel.select`, async (data) => {

@@ -9,17 +9,21 @@ import AppDependencys from '../../aplication/app.dependencys';
 
 export default class SeparacaoItemRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoItemSeparacaoConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoItemSeparacaoConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoDto[]> {
     try {
       const repository = this.repository();
       return await repository.selectWhere(params);
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -29,8 +33,8 @@ export default class SeparacaoItemRepository {
       for (const el of itemSeparacao) {
         await repository.insert(el);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -40,8 +44,8 @@ export default class SeparacaoItemRepository {
       for (const el of itemSeparacao) {
         await repository.update(el);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -51,8 +55,8 @@ export default class SeparacaoItemRepository {
       for (const el of itemSeparacao) {
         await repository.delete(el);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 

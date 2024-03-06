@@ -11,41 +11,65 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(carrinhoPercursos: ExpedicaoCarrinhoPercursoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursos) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursos) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(carrinhoPercursos: ExpedicaoCarrinhoPercursoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursos) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursos) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(carrinhoPercursos: ExpedicaoCarrinhoPercursoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursos) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursos) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'CarrinhoPercurso_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'CarrinhoPercurso_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private repositoryConsulta() {

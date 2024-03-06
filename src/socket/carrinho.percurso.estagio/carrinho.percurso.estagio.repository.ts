@@ -9,34 +9,54 @@ import AppDependencys from '../../aplication/app.dependencys';
 
 export default class CarrinhoPercursoEstagioRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursoEstagios) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursoEstagios) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursoEstagios) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursoEstagios) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhoPercursoEstagios) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhoPercursoEstagios) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 

@@ -7,7 +7,10 @@ import EstoqueConversaoUnidadeDto from '../../dto/common.data/estoque.conversao.
 export default class EstoqueConversaoUnidadeEvent {
   private repository = new EstoqueConversaoUnidadeRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
     socket.on(`${client} produto.conversao.unidade.consulta`, async (data) => {
       const json = JSON.parse(data);

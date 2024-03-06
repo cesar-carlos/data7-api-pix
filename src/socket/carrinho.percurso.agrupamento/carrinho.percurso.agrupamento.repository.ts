@@ -11,20 +11,32 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoAgrupamentoRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoAgrupamentoConsulta[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoPercursoAgrupamentoConsulta[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoCarrinhoPercursoAgrupamentoConsulta[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(separars: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of separars) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of separars) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -36,16 +48,31 @@ export default class CarrinhoPercursoAgrupamentoRepository {
   }
 
   public async delete(separars: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of separars) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of separars) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Expedicao.CarrinhoPercursoAgrupamento_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Expedicao.CarrinhoPercursoAgrupamento_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
   }
 
   private repositoryConsulta() {
@@ -59,13 +86,6 @@ export default class CarrinhoPercursoAgrupamentoRepository {
     return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamento>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamento>',
-    });
-  }
-
-  private sequenceRepository() {
-    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

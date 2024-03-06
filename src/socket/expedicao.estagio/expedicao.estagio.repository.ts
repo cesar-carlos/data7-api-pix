@@ -9,49 +9,68 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class ExpedicaoEstagioRepository {
   public async select(params: params[] | string = []): Promise<ExpedicaoEstagioDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of percursoEstagios) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of percursoEstagios) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of percursoEstagios) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of percursoEstagios) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of percursoEstagios) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of percursoEstagios) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Expedicao.PercursoEstagio_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
-  }
-
-  private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoEstagioDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
-    });
+    try {
+      const name = 'Expedicao.PercursoEstagio_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private sequenceRepository() {
     return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
+  }
+
+  private repository() {
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoEstagioDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
     });
   }
 }

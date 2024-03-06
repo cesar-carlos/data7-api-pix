@@ -7,8 +7,12 @@ import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repo
 
 export default class SequenciaRegistroRepository {
   public async select(name: string): Promise<SequenceDto | undefined> {
-    const repository = this.repository();
-    return await repository.select(name);
+    try {
+      const repository = this.repository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private repository() {

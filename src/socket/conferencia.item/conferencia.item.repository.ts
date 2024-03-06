@@ -18,8 +18,8 @@ export default class ConferenciaItemRepository {
     try {
       const repository = this.repository();
       return await repository.selectWhere(params);
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -29,8 +29,8 @@ export default class ConferenciaItemRepository {
       for (const el of itemConferencia) {
         await repository.insert(el);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -40,15 +40,19 @@ export default class ConferenciaItemRepository {
       for (const el of itemConferencia) {
         await repository.update(el);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itemConferencia) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of itemConferencia) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 

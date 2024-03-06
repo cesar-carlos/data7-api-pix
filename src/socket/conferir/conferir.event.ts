@@ -8,7 +8,10 @@ import ConferirRepository from './conferir.repository';
 export default class ConferirEvent {
   private repository = new ConferirRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} conferir.consulta`, async (data) => {

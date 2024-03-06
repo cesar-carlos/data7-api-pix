@@ -19,42 +19,66 @@ export default class ConferirItemRepository {
   public async consultaUnidadeMedida(
     params: params[] | string = [],
   ): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
-    const repository = this.repositoryUnidadeMedidaConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoItemConferirUnidadeMedidaConsultaDto[];
+    try {
+      const repository = this.repositoryUnidadeMedidaConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoItemConferirUnidadeMedidaConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async consultaConferirSeparacao(
     params: params[] | string = [],
   ): Promise<ExpedicaoItemSeparacaoConferirConsultaDto[]> {
-    const repository = this.repositoryConferirSeparacaoConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoItemSeparacaoConferirConsultaDto[];
+    try {
+      const repository = this.repositoryConferirSeparacaoConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoItemSeparacaoConferirConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemConferirDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensConferir) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensConferir) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensConferir) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensConferir) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensConferir) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensConferir) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 

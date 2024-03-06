@@ -12,50 +12,77 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class ConferirRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoConferirConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoConferirConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoConferirConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async carrinhoConferirConsulta(
     params: params[] | string = [],
   ): Promise<ExpedicaoCarrinhoConferirConsultaDto[]> {
-    const repository = this.repositoryCarrinhoConferirConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoConferirConsultaDto[];
+    try {
+      const repository = this.repositoryCarrinhoConferirConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoCarrinhoConferirConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoConferirDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(conferirs: ExpedicaoConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of conferirs) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of conferirs) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(conferirs: ExpedicaoConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of conferirs) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of conferirs) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(conferirs: ExpedicaoConferirDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of conferirs) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of conferirs) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Expedicao.ConferirEstoque_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Expedicao.ConferirEstoque_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private repository() {

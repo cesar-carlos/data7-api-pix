@@ -83,16 +83,17 @@ export default class AppDependencysIntegracaoPix {
       instance: new FirebasePagamentoPixRepository(),
     });
 
-    ContainerDependency.instance.register({
-      context: eContext.gerencianet,
-      bind: 'CreatePixApiContract',
-      instance: new GerencianetCreatePixAdapter(),
-    });
+    //TODO:> Implementar a injeção de dependência para os adapters
+    // ContainerDependency.instance.register({
+    //   context: eContext.gerencianet,
+    //   bind: 'CreatePixApiContract',
+    //   instance: new GerencianetCreatePixAdapter(),
+    // });
 
-    ContainerDependency.instance.register({
-      context: eContext.sicredi,
-      bind: 'CreatePixApiContract',
-      instance: new SicrediCreatePixAdapter(),
-    });
+    // ContainerDependency.instance.register({
+    //   context: eContext.sicredi,
+    //   bind: 'CreatePixApiContract',
+    //   instance: new SicrediCreatePixAdapter(),
+    // });
   }
 }

@@ -8,7 +8,10 @@ import ExpedicaoCarrinhoConsultaDto from '../../dto/expedicao/expedicao.carrinho
 export default class CarrinhoEvent {
   private repository = new CarrinhoRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} carrinho.consulta`, async (data) => {

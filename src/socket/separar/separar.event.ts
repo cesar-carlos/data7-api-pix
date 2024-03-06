@@ -8,7 +8,10 @@ import SepararRepository from './separar.repository';
 export default class SepararEvent {
   private repository = new SepararRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} separar.consulta`, async (data) => {

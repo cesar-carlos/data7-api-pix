@@ -17,36 +17,62 @@ export default class SepararRepository {
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoSepararDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(separars: ExpedicaoSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of separars) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of separars) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(separars: ExpedicaoSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of separars) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of separars) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(separars: ExpedicaoSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of separars) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of separars) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Expedicao.SepararEstoque_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Expedicao.SepararEstoque_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
   }
 
   private repository() {
@@ -60,13 +86,6 @@ export default class SepararRepository {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>',
-    });
-  }
-
-  private sequenceRepository() {
-    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

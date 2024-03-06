@@ -5,7 +5,10 @@ import SequenciaRegistroRepository from './sequencia.registro.repository';
 export default class SequenciaRegistroEvent {
   private repository = new SequenciaRegistroRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} sequencia.consulta`, async (data) => {

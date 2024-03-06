@@ -11,41 +11,72 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class EstoqueProdutoRepository {
   public async consulta(params: params[] | string = []): Promise<EstoqueProdutoConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as EstoqueProdutoConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as EstoqueProdutoConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<EstoqueProdutoDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(produtos: EstoqueProdutoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of produtos) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of produtos) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(produtos: EstoqueProdutoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of produtos) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of produtos) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(produtos: EstoqueProdutoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of produtos) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of produtos) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Produto_Sequencia';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Produto_Sequencia';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
   }
 
   private repositoryConsulta() {
@@ -59,13 +90,6 @@ export default class EstoqueProdutoRepository {
     return AppDependencys.resolve<LocalBaseRepositoryContract<EstoqueProdutoDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<EstoqueProdutoDto>',
-    });
-  }
-
-  private sequenceRepository() {
-    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }

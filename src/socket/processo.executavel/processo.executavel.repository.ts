@@ -9,49 +9,68 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class ProcessoExecutavelRepository {
   public async select(params: params[] | string = []): Promise<ProcessoExecutavelDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of processoExecutavel) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of processoExecutavel) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of processoExecutavel) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of processoExecutavel) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of processoExecutavel) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of processoExecutavel) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'ProcessoExecutavel_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
-  }
-
-  private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ProcessoExecutavelDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ProcessoExecutavelDto>',
-    });
+    try {
+      const name = 'ProcessoExecutavel_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private sequenceRepository() {
     return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
+  }
+
+  private repository() {
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ProcessoExecutavelDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ProcessoExecutavelDto>',
     });
   }
 }

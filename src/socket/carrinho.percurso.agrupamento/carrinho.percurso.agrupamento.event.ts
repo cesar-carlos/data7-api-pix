@@ -7,7 +7,10 @@ import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dt
 export default class CarrinhoPercursoAgrupamentoEvent {
   private repository = new CarrinhoPercursoAgrupamentoRepository();
 
-  constructor(private readonly io: SocketIOServer, private readonly socket: Socket) {
+  constructor(
+    private readonly io: SocketIOServer,
+    private readonly socket: Socket,
+  ) {
     const client = socket.id;
 
     socket.on(`${client} carrinho.percurso.agrupamento.consulta`, async (data) => {

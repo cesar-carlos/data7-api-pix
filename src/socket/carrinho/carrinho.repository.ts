@@ -11,42 +11,65 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoConsultaDto[]> {
-    const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoCarrinhoConsultaDto[];
+    try {
+      const repository = this.repositoryConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoCarrinhoConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhos) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhos) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhos) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhos) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of carrinhos) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of carrinhos) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  //TODO:: CRIAR SEQUNCIA PARA REMOVER UNDEFINED
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Carrinho_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Carrinho_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private repositoryConsulta() {

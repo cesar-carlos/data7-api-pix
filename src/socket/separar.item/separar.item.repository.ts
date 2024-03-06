@@ -18,34 +18,54 @@ export default class SepararItemRepository {
   public async consultaUnidadeMedida(
     params: params[] | string = [],
   ): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
-    const repository = this.repositoryUnidadeMedidaConsulta();
-    const result = await repository.selectWhere(params);
-    return result as ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
+    try {
+      const repository = this.repositoryUnidadeMedidaConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async select(params: params[] | string = []): Promise<ExpedicaoItemSepararDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(itensSeparar: ExpedicaoItemSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensSeparar) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensSeparar) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(itensSeparar: ExpedicaoItemSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensSeparar) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensSeparar) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(itensSeparar: ExpedicaoItemSepararDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of itensSeparar) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of itensSeparar) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 

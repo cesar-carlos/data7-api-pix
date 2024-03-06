@@ -9,35 +9,55 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CancelamentoRepository {
   public async select(params: params[] | string = []): Promise<ExpedicaoCancelamentoDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of cancelamentos) {
-      await repository.insert(el);
+    try {
+      const repository = this.repository();
+      for (const el of cancelamentos) {
+        await repository.insert(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async update(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of cancelamentos) {
-      await repository.update(el);
+    try {
+      const repository = this.repository();
+      for (const el of cancelamentos) {
+        await repository.update(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async delete(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
-    const repository = this.repository();
-    for (const el of cancelamentos) {
-      await repository.delete(el);
+    try {
+      const repository = this.repository();
+      for (const el of cancelamentos) {
+        await repository.delete(el);
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
   public async sequence(): Promise<SequenceDto | undefined> {
-    const name = 'Cancelamento_Sequencia_1';
-    const repository = this.sequenceRepository();
-    return await repository.select(name);
+    try {
+      const name = 'Cancelamento_Sequencia_1';
+      const repository = this.sequenceRepository();
+      return await repository.select(name);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   private sequenceRepository() {

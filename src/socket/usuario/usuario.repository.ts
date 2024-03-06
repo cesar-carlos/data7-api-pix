@@ -17,8 +17,12 @@ export default class UsuarioRepository {
   }
 
   public async select(params: params[] | string = []): Promise<UsuarioDto[]> {
-    const repository = this.repository();
-    return await repository.selectWhere(params);
+    try {
+      const repository = this.repository();
+      return await repository.selectWhere(params);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async insert(separars: UsuarioDto[]): Promise<void> {
@@ -39,6 +43,13 @@ export default class UsuarioRepository {
     return await repository.select(name);
   }
 
+  private sequenceRepository() {
+    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
+    });
+  }
+
   private repository() {
     return AppDependencys.resolve<LocalBaseRepositoryContract<UsuarioDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
@@ -50,13 +61,6 @@ export default class UsuarioRepository {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<UsuarioConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseConsultaRepositoryContract<UsuarioConsultaDto>',
-    });
-  }
-
-  private sequenceRepository() {
-    return AppDependencys.resolve<LocalBaseRepositorySequenceContract<SequenceDto>>({
-      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositorySequenceContract<SequenceDto>',
     });
   }
 }
