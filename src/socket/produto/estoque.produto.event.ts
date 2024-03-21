@@ -2,6 +2,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import EstoqueProdutoRepository from './estoque.produto.repository';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 import EstoqueProdutoDto from '../../dto/common.data/estoque.produto.dto';
 
 export default class EstoqueProdutoEvent {
@@ -52,8 +53,14 @@ export default class EstoqueProdutoEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -79,8 +86,14 @@ export default class EstoqueProdutoEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('estoque.produto.insert', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -102,8 +115,14 @@ export default class EstoqueProdutoEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('estoque.estoque.produto.update', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -125,8 +144,14 @@ export default class EstoqueProdutoEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('estoque.produto.delete', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
   }

@@ -91,24 +91,28 @@ export default class ExpedicaoConferirDto {
   }
 
   static fromObject(object: any): ExpedicaoConferirDto {
-    return new ExpedicaoConferirDto({
-      CodEmpresa: object.CodEmpresa,
-      CodConferir: object.CodConferir,
-      Origem: object.Origem,
-      CodOrigem: object.CodOrigem,
-      CodPrioridade: object.CodPrioridade,
-      Situacao: object.Situacao,
-      Data: object.Data,
-      Hora: object.Hora,
-      Historico: object?.Historico,
-      Observacao: object?.Observacao,
-      CodMotivoCancelamento: object?.CodMotivoCancelamento,
-      DataCancelamento: object?.DataCancelamento,
-      HoraCancelamento: object?.HoraCancelamento,
-      CodUsuarioCancelamento: object?.CodUsuarioCancelamento,
-      NomeUsuarioCancelamento: object?.NomeUsuarioCancelamento,
-      ObservacaoCancelamento: object?.ObservacaoCancelamento,
-    });
+    try {
+      return new ExpedicaoConferirDto({
+        CodEmpresa: object.CodEmpresa,
+        CodConferir: object.CodConferir,
+        Origem: object.Origem,
+        CodOrigem: object.CodOrigem,
+        CodPrioridade: object.CodPrioridade,
+        Situacao: object.Situacao,
+        Data: object.Data,
+        Hora: object.Hora,
+        Historico: object?.Historico,
+        Observacao: object?.Observacao,
+        CodMotivoCancelamento: object?.CodMotivoCancelamento,
+        DataCancelamento: object?.DataCancelamento,
+        HoraCancelamento: object?.HoraCancelamento,
+        CodUsuarioCancelamento: object?.CodUsuarioCancelamento,
+        NomeUsuarioCancelamento: object?.NomeUsuarioCancelamento,
+        ObservacaoCancelamento: object?.ObservacaoCancelamento,
+      });
+    } catch (error) {
+      throw new Error('Error parsing object to ExpedicaoConferirDto');
+    }
   }
 
   toJson(): any {

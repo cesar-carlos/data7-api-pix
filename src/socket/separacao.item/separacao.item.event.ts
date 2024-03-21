@@ -5,6 +5,7 @@ import SepararItemRepository from '../separar.item/separar.item.repository';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
+import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 import ExpedicaoItemSituacaoModel from '../../model/expedicao.item.situacao.model';
 
@@ -40,8 +41,14 @@ export default class SeparacaoItemEvent {
         const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -62,8 +69,14 @@ export default class SeparacaoItemEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -168,16 +181,14 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.insert.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (error: any) {
-        console.log(error);
-        const basicEvent = new ExpedicaoBasicEventDto({
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
           Session: session,
           ResposeIn: resposeIn,
-          Mutation: [],
-          Error: error.message,
+          Error: [err.message],
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -269,8 +280,14 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.update', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.update.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -362,8 +379,14 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.delete.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
   }

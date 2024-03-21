@@ -6,26 +6,17 @@ export default class ConnectionSqlServerMssql {
   private static instance: ConnectionSqlServerMssql;
   private pool: ConnectionPool | null = null;
 
-  private interval: number = 700;
-  private retryInterval: number = 1000;
-  private maxAttempts: number = 5;
-
   private constructor() {
     this.initPool();
   }
 
-  private async initPool(attempt: number = 5): Promise<void> {
-    if (attempt > this.maxAttempts) {
-      throw new Error('Erro ao estabelecer o pool de conexões');
-    }
+  private async initPool(): Promise<void> {
+    this.pool = new sql.ConnectionPool(config as sql.config);
 
     try {
-      this.pool = new sql.ConnectionPool(config as sql.config);
       await this.pool.connect();
-    } catch (error) {
-      console.error(`Tentativa ${attempt} falhou:`, error);
-      await new Promise((resolve) => setTimeout(resolve, this.interval));
-      await this.initPool(attempt + 1);
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
@@ -37,18 +28,13 @@ export default class ConnectionSqlServerMssql {
     return ConnectionSqlServerMssql.instance;
   }
 
-  async getConnection(attempt: number = 5): Promise<ConnectionPool> {
+  async getConnection(): Promise<ConnectionPool> {
     try {
       if (this.pool) return this.pool;
 
-      if (attempt < this.maxAttempts) {
-        await new Promise((resolve) => setTimeout(resolve, this.retryInterval));
-        return this.getConnection(attempt + 1);
-      } else {
-        throw new Error('Não foi possível obter uma conexão após várias tentativas');
-      }
+      throw new Error(`Erro ao obter conexão: pool não inicializado.`);
     } catch (error: any) {
-      throw new Error(`Erro ao obter conexão: ${error.message}`);
+      throw new Error(error.message);
     }
   }
 

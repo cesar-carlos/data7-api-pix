@@ -2,6 +2,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import ConferirItemRepository from './conferir.item.repository';
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
+import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 
 export default class ConferirItemEvent {
@@ -30,8 +31,14 @@ export default class ConferirItemEvent {
         const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -52,8 +59,14 @@ export default class ConferirItemEvent {
         const result = await this.repository.consultaUnidadeMedida();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -75,8 +88,14 @@ export default class ConferirItemEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -97,8 +116,14 @@ export default class ConferirItemEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -121,8 +146,14 @@ export default class ConferirItemEvent {
 
           try {
             el.Item = inerted[inerted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
+          } catch (err: any) {
+            const basicEventErro = new ExpedicaoBasicErrorEventDto({
+              Session: session,
+              ResposeIn: resposeIn,
+              Error: [err.message],
+            });
+
+            socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
           }
         }
 
@@ -134,8 +165,14 @@ export default class ConferirItemEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('conferir.item.insert', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -157,8 +194,14 @@ export default class ConferirItemEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('conferir.item.update', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -180,8 +223,14 @@ export default class ConferirItemEvent {
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('conferir.item.delete', JSON.stringify(basicEvent.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
   }

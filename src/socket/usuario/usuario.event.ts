@@ -2,6 +2,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import UsuarioDto from '../../dto/common.data/usuario';
 import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 import UsuarioConsultaDto from '../../dto/common.data/usuario.consulta.dto';
 import UsuarioRepository from './usuario.repository';
 
@@ -53,8 +54,14 @@ export default class UsuarioEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -93,8 +100,14 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.insert.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -129,8 +142,14 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.update', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.update.listen', JSON.stringify(basicEventUsuaroConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -166,8 +185,14 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.delete.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
   }

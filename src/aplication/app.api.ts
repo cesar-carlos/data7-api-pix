@@ -3,18 +3,20 @@ import logger from 'morgan';
 import cors from 'cors';
 import path from 'path';
 
-import { Server as SocketIOServer, Socket } from 'socket.io';
 import http from 'http';
+import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import ApiRoute from '../route/api.router';
 import AppSocket from './app.socket.config';
 
 export default class AppApi {
+  private port: number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
+  private static instance: AppApi;
   private app: express.Application;
   private httpServer: http.Server;
-  private io: SocketIOServer;
+  readonly io: SocketIOServer;
 
-  constructor(private readonly port: number = 3000) {
+  private constructor() {
     this.app = express();
     this.httpServer = http.createServer(this.app);
     this.io = new SocketIOServer(this.httpServer, {
@@ -32,11 +34,14 @@ export default class AppApi {
     this.app.use(express.static(path.join(__dirname, '..', '..', 'www')));
     this.app.use(ApiRoute.router);
     new AppSocket(this.io);
-  }
 
-  public execute() {
     this.httpServer.listen(this.port, () => {
       console.log(`server started http://localhost:${this.port}`);
     });
+  }
+
+  public static getInstance(): AppApi {
+    if (!AppApi.instance) AppApi.instance = new AppApi();
+    return AppApi.instance;
   }
 }

@@ -34,6 +34,6 @@ export default class App {
 
   public async execute() {
     new AppLinstens().execute();
-    new AppApi(this.port).execute();
+    AppApi.getInstance();
   }
 }

@@ -1,8 +1,9 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
+import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
 import CarrinhoPercursoAgrupamentoRepository from './carrinho.percurso.agrupamento.repository';
 import ExpedicaoCarrinhoPercursoAgrupamento from '../../dto/expedicao/expedicao.carrinho.percurso.agrupamento';
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 
 export default class CarrinhoPercursoAgrupamentoEvent {
   private repository = new CarrinhoPercursoAgrupamentoRepository();
@@ -30,8 +31,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         const result = await this.repository.consulta();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -52,8 +59,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         const result = await this.repository.select();
         const json = result.map((item) => item.toJson());
         socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -100,8 +113,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.insert.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -133,8 +152,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.update.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
 
@@ -167,8 +192,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.delete.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+      } catch (err: any) {
+        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: [err.message],
+        });
+
+        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
       }
     });
   }

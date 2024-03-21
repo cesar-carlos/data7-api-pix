@@ -3,8 +3,8 @@ export default class ExpedicaoConferirConsultaDto {
   CodConferir: number;
   Origem: string;
   CodOrigem: number;
-  CodCarrinhoPercurso: number;
   Situacao: string;
+  CodCarrinhoPercurso: number;
   DataLancamento: Date;
   HoraLancamento: string;
   TipoEntidade: string;
@@ -19,8 +19,8 @@ export default class ExpedicaoConferirConsultaDto {
     CodEmpresa: number;
     CodConferir: number;
     Origem: string;
-    CodOrigem: number;
     CodCarrinhoPercurso: number;
+    CodOrigem: number;
     Situacao: string;
     DataLancamento: Date;
     HoraLancamento: string;
@@ -36,8 +36,8 @@ export default class ExpedicaoConferirConsultaDto {
     this.CodConferir = params.CodConferir;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
-    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.Situacao = params.Situacao;
+    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.DataLancamento = params.DataLancamento;
     this.HoraLancamento = params.HoraLancamento;
     this.TipoEntidade = params.TipoEntidade;
@@ -54,8 +54,8 @@ export default class ExpedicaoConferirConsultaDto {
     CodConferir?: number;
     Origem?: string;
     CodOrigem?: number;
-    CodCarrinhoPercurso?: number;
     Situacao?: string;
+    CodCarrinhoPercurso?: number;
     DataLancamento?: Date;
     HoraLancamento?: string;
     TipoEntidade?: string;
@@ -71,8 +71,8 @@ export default class ExpedicaoConferirConsultaDto {
       CodConferir: params.CodConferir ?? this.CodConferir,
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
-      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       Situacao: params.Situacao ?? this.Situacao,
+      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       DataLancamento: params.DataLancamento ?? this.DataLancamento,
       HoraLancamento: params.HoraLancamento ?? this.HoraLancamento,
       TipoEntidade: params.TipoEntidade ?? this.TipoEntidade,
@@ -91,8 +91,8 @@ export default class ExpedicaoConferirConsultaDto {
       CodConferir: object.CodConferir,
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
-      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       Situacao: object.Situacao,
+      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       DataLancamento: object.DataLancamento,
       HoraLancamento: object.HoraLancamento,
       TipoEntidade: object.TipoEntidade,

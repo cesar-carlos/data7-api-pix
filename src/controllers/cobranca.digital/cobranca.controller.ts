@@ -9,7 +9,6 @@ import AppCobrancaAutoBuild from '../../aplication/app.cobranca.auto.build';
 import AppRegraStatusCobrancaPix from '../../aplication/app.regra.status.cobranca.pix';
 
 export default class CobrancaController {
-  //** GET **//
   public static async get(req: Request, res: Response) {
     try {
       const path = req.headers.local_path as string;
@@ -51,7 +50,6 @@ export default class CobrancaController {
     }
   }
 
-  ///** PUT **//
   public static async put(req: Request, res: Response) {
     try {
       const { CodEmpresa, CodLiberacaoBloqueio, Item, IdLiberacao } = req.query;
@@ -67,7 +65,6 @@ export default class CobrancaController {
     }
   }
 
-  ///** DELET **//
   public static delete(req: Request, res: Response) {
     try {
       const { sysId } = req.params;
