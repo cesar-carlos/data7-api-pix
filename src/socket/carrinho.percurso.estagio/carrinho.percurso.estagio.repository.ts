@@ -27,10 +27,10 @@ export default class CarrinhoPercursoEstagioRepository {
     }
   }
 
-  public async insert(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
+  public async insert(models: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhoPercursoEstagios) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -38,10 +38,10 @@ export default class CarrinhoPercursoEstagioRepository {
     }
   }
 
-  public async update(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
+  public async update(models: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhoPercursoEstagios) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -49,10 +49,10 @@ export default class CarrinhoPercursoEstagioRepository {
     }
   }
 
-  public async delete(carrinhoPercursoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
+  public async delete(models: ExpedicaoCarrinhoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhoPercursoEstagios) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

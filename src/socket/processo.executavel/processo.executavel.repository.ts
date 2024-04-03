@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -17,10 +17,10 @@ export default class ProcessoExecutavelRepository {
     }
   }
 
-  public async insert(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
+  public async insert(models: ProcessoExecutavelDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of processoExecutavel) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -28,10 +28,10 @@ export default class ProcessoExecutavelRepository {
     }
   }
 
-  public async update(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
+  public async update(models: ProcessoExecutavelDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of processoExecutavel) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -39,10 +39,10 @@ export default class ProcessoExecutavelRepository {
     }
   }
 
-  public async delete(processoExecutavel: ProcessoExecutavelDto[]): Promise<void> {
+  public async delete(models: ProcessoExecutavelDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of processoExecutavel) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

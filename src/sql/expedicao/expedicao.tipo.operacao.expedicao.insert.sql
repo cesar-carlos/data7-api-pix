@@ -4,10 +4,14 @@ INSERT INTO Expedicao.TipoOperacaoExpedicao(
     Descricao,
     Ativo,
     Tipo,
+    CodSetorConferencia,
+    CodPrioridade,
     CodRelatorio,
     CodLocalArmazenagem,
     MovimentaEstoque,
     CodTipoMovimentoEstoque,
+    FazerConferencia,
+    FazerArmazenamento,
     ControlaLote,
     ControlaNumeroSerie
   )
@@ -17,10 +21,14 @@ VALUES (
     @Descricao,
     @Ativo,
     @Tipo,
+    @CodSetorConferencia,
+    @CodPrioridade,
     @CodRelatorio,
     @CodLocalArmazenagem,
     @MovimentaEstoque,
     @CodTipoMovimentoEstoque,
+    @FazerConferencia,
+    @FazerArmazenamento,
     @ControlaLote,
     @ControlaNumeroSerie
   )

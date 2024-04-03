@@ -25,10 +25,10 @@ export default class SepararRepository {
     }
   }
 
-  public async insert(separars: ExpedicaoSepararDto[]): Promise<void> {
+  public async insert(models: ExpedicaoSepararDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of separars) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -36,10 +36,10 @@ export default class SepararRepository {
     }
   }
 
-  public async update(separars: ExpedicaoSepararDto[]): Promise<void> {
+  public async update(models: ExpedicaoSepararDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of separars) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -47,10 +47,10 @@ export default class SepararRepository {
     }
   }
 
-  public async delete(separars: ExpedicaoSepararDto[]): Promise<void> {
+  public async delete(models: ExpedicaoSepararDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of separars) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

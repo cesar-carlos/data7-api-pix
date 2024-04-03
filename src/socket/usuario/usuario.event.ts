@@ -1,8 +1,9 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import UsuarioDto from '../../dto/common.data/usuario';
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
-import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
+import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
+import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 import UsuarioConsultaDto from '../../dto/common.data/usuario.consulta.dto';
 import UsuarioRepository from './usuario.repository';
 
@@ -17,59 +18,65 @@ export default class UsuarioEvent {
 
     socket.on(`${client} usuario.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} usuario.consulta`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} usuario.consulta`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.consulta(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.consulta(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.consulta();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (error) {
-        socket.emit(resposeIn, JSON.stringify(error));
+        const event = new ExpedicaoBasicSelectEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Data: jsonData,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} usuario.select`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} usuario.select`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} usuario.select`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.select(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.select(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.select();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} usuario.insert`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} usuario.insert`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} usuario.insert`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
@@ -85,13 +92,13 @@ export default class UsuarioEvent {
           usuarioConsulta.push(...result);
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventUsuarioConsulta = new ExpedicaoBasicEventDto({
+        const basicEventUsuarioConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: usuarioConsulta.map((item) => item.toJson()),
@@ -100,22 +107,22 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.insert.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} usuario.update`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} usuario.update`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} usuario.update`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
@@ -127,13 +134,13 @@ export default class UsuarioEvent {
           usuarioConsulta.push(...result);
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventUsuaroConsulta = new ExpedicaoBasicEventDto({
+        const basicEventUsuaroConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: usuarioConsulta.map((item) => item.toJson()),
@@ -142,22 +149,22 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.update', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.update.listen', JSON.stringify(basicEventUsuaroConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} usuario.delete`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} usuario.delete`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} usuario.delete`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
@@ -170,13 +177,13 @@ export default class UsuarioEvent {
 
         await this.repository.delete(itens);
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventUsuarioConsulta = new ExpedicaoBasicEventDto({
+        const basicEventUsuarioConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: usuarioConsulta.map((item) => item.toJson()),
@@ -185,14 +192,14 @@ export default class UsuarioEvent {
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
         socket.broadcast.emit('usuario.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.delete.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
   }

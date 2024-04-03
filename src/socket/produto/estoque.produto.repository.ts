@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -29,10 +29,10 @@ export default class EstoqueProdutoRepository {
     }
   }
 
-  public async insert(produtos: EstoqueProdutoDto[]): Promise<void> {
+  public async insert(models: EstoqueProdutoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of produtos) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -40,10 +40,10 @@ export default class EstoqueProdutoRepository {
     }
   }
 
-  public async update(produtos: EstoqueProdutoDto[]): Promise<void> {
+  public async update(models: EstoqueProdutoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of produtos) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -51,10 +51,10 @@ export default class EstoqueProdutoRepository {
     }
   }
 
-  public async delete(produtos: EstoqueProdutoDto[]): Promise<void> {
+  public async delete(models: EstoqueProdutoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of produtos) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

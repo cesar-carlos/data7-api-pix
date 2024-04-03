@@ -1,5 +1,4 @@
 import { eContext } from '../dependency/container.dependency';
-
 import ContainerDependency from '../dependency/container.dependency';
 
 import SqlServerExpedicaoEstagioRepository from '../repository/expedicao/sql.server.expedicao.estagio.repository';
@@ -12,6 +11,7 @@ import SqlServerExpedicaoCarrinhoPercursoRepository from '../repository/expedica
 import SqlServerExpedicaoCarrinhoConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.consulta.repository';
 import SqlServerExpedicaoSepararItemConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separar.consulta.repository';
 import SqlServerExpedicaoItemConferenciaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferencia.consulta.repository';
+import SqlServerExpedicaoItemArmazenagemConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.armazenagem.consulta.repository';
 import SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.agrupamento.consulta.repository';
 import SqlServerExpedicaoItemConferirUnidadeMedidaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.unidade.medida.consulta.repository';
 import SqlServerExpedicaoItemSepararUnidadeMedidaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separar.unidade.medida.consulta.repository';
@@ -20,16 +20,18 @@ import SqlServerExpedicaoItemConferirSeparacaoConsultaRepository from '../reposi
 import SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.agrupamento.repository';
 import SqlServerExpedicaoCarrinhoConferirConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.conferir.consulta.repository';
 import SqlServerExpedicaoCarrinhoPercursoEstagioRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.estagio.repository';
+import SqlServerExpedicaoTipoOperacaoArmazenagemRepository from '../repository/expedicao/sql.server.expedicao.tipo.operacao.armazenagem.repository';
 import SqlServerExpedicaoTipoOperacaoExpedicaoRepository from '../repository/expedicao/sql.server.expedicao.tipo.operacao.expedicao.repository';
 import SqlServerExpedicaoItemSeparacaoConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.consulta.repository';
 import SqlServerExpedicaoItemConferirConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.consulta.repository';
 import SqlServerExpedicaoConferirConsultaRepository from '../repository/expedicao/sql.server.expedicao.conferir.consulta.repository';
 import SqlServerExpedicaoItemConferenciaRepository from '../repository/expedicao/sql.server.expedicao.item.conferencia.repository';
-import SqlServerExpedicaoTipoSolicitacaoRepository from '../repository/expedicao/sql.server.expedicao.tipo.solicitacao.repository';
+import SqlServerExpedicaoItemArmazenagemRepository from '../repository/expedicao/sql.server.expedicao.item.armazenagem.repository';
 import SqlServerExpedicaoItemSeparacaoRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.repository';
 import SqlServerExpedicaoItemConferirRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.repository';
 import SqlServerExpedicaoSetorEstoqueRepository from '../repository/expedicao/sql.server.expedicao.setor.estoque.repository';
 import SqlServerExpedicaoItemSepararRepository from '../repository/expedicao/sql.server.expedicao.item.separar.repository';
+import SqlServerExpedicaoArmazenagemRepository from '../repository/expedicao/sql.server.expedicao.armazenagem.repository';
 import SqlServerExpedicaoCarrinhoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.repository';
 import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.server.expedicao.separar.repository';
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
@@ -68,8 +70,8 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoTipoSolicitacaoDto>',
-      instance: new SqlServerExpedicaoTipoSolicitacaoRepository(),
+      bind: 'LocalBaseRepositoryContract<ExpedicaoTipoDto>',
+      instance: new SqlServerExpedicaoEstagioRepository(),
     });
 
     ContainerDependency.instance.register({
@@ -82,6 +84,24 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseRepositoryContract<ExpedicaoTipoOperacaoExpedicaoDto>',
       instance: new SqlServerExpedicaoTipoOperacaoExpedicaoRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoTipoOperacaoArmazenagemDto>',
+      instance: new SqlServerExpedicaoTipoOperacaoArmazenagemRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenagemDto>>',
+      instance: new SqlServerExpedicaoArmazenagemRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenagemDto>>',
+      instance: new SqlServerExpedicaoItemArmazenagemRepository(),
     });
 
     ContainerDependency.instance.register({
@@ -220,6 +240,12 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamentoConsulta>',
       instance: new SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenagemConsultaDto>',
+      instance: new SqlServerExpedicaoItemArmazenagemConsultaRepository(),
     });
   }
 }

@@ -5,10 +5,6 @@ import { expect, test, describe, beforeAll } from 'vitest';
 import App from '../../../../src/aplication/app';
 import ConferirRepository from '../../../../src/socket/conferir/conferir.repository';
 import ExpedicaoConferirDto from '../../../../src/dto/expedicao/expedicao.conferir.dto';
-import AppFirebase from '../../../../src/aplication/app.firebase';
-import AppDependencys from '../../../../src/aplication/app.dependencys';
-import AppLinstens from '../../../../src/aplication/app.linstens';
-import AppApi from '../../../../src/aplication/app.api';
 
 describe('Teste conferencia de pedidos repository', () => {
   beforeAll(() => async () => {});

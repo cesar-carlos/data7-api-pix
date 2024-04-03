@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -23,10 +23,10 @@ export default class ConferenciaItemRepository {
     }
   }
 
-  public async insert(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemConferenciaDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemConferencia) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -34,10 +34,10 @@ export default class ConferenciaItemRepository {
     }
   }
 
-  public async update(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
+  public async update(models: ExpedicaoItemConferenciaDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemConferencia) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -45,10 +45,10 @@ export default class ConferenciaItemRepository {
     }
   }
 
-  public async delete(itemConferencia: ExpedicaoItemConferenciaDto[]): Promise<void> {
+  public async delete(models: ExpedicaoItemConferenciaDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemConferencia) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

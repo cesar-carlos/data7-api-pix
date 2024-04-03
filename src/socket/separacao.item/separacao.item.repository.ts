@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -27,10 +27,10 @@ export default class SeparacaoItemRepository {
     }
   }
 
-  public async insert(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemSeparacaoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemSeparacao) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -38,10 +38,10 @@ export default class SeparacaoItemRepository {
     }
   }
 
-  public async update(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
+  public async update(models: ExpedicaoItemSeparacaoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemSeparacao) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -49,10 +49,10 @@ export default class SeparacaoItemRepository {
     }
   }
 
-  public async delete(itemSeparacao: ExpedicaoItemSeparacaoDto[]): Promise<void> {
+  public async delete(models: ExpedicaoItemSeparacaoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itemSeparacao) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

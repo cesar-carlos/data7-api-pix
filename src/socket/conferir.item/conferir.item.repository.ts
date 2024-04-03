@@ -1,13 +1,13 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item.conferir.consulta.dto';
-import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 import ExpedicaoItemSeparacaoConferirConsultaDto from '../../dto/expedicao/expedicao.item.separacao.conferir.consulta.dto';
 import ExpedicaoItemConferirUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.conferir.unidade.medida.consulta.dto';
+import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item.conferir.consulta.dto';
+import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 
 export default class ConferirItemRepository {
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemConferirConsultaDto[]> {
@@ -49,10 +49,10 @@ export default class ConferirItemRepository {
     }
   }
 
-  public async insert(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemConferirDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itensConferir) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -60,10 +60,10 @@ export default class ConferirItemRepository {
     }
   }
 
-  public async update(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
+  public async update(models: ExpedicaoItemConferirDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itensConferir) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -71,10 +71,10 @@ export default class ConferirItemRepository {
     }
   }
 
-  public async delete(itensConferir: ExpedicaoItemConferirDto[]): Promise<void> {
+  public async delete(models: ExpedicaoItemConferirDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of itensConferir) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

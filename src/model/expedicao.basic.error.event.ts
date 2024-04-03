@@ -1,4 +1,4 @@
-export default class ExpedicaoBasicErrorEventDto {
+export default class ExpedicaoBasicErrorEvent {
   Session: string;
   ResposeIn: string;
   Error: string[];
@@ -11,9 +11,9 @@ export default class ExpedicaoBasicErrorEventDto {
 
   public toJson(): any {
     return {
-      session: this.Session,
-      resposeIn: this.ResposeIn,
-      error: this.Error,
+      Session: this.Session,
+      ResposeIn: this.ResposeIn,
+      Error: this.Error,
     };
   }
 }

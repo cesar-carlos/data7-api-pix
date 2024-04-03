@@ -2,8 +2,9 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
-import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
+import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
+import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 
 export default class SepararItemEvent {
   private repository = new SepararItemRepository();
@@ -16,93 +17,93 @@ export default class SepararItemEvent {
 
     socket.on(`${client} separar.item.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.consulta`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.consulta`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.consulta(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.consulta(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.consulta();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.item.unidade.medida.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.unidade.medida.consulta`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.unidade.medida.consulta`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.consultaUnidadeMedida(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.consultaUnidadeMedida(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.consultaUnidadeMedida();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.item.select`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.select`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.select`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.select(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.select(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.select();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.item.insert`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.insert`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.insert`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
@@ -122,80 +123,80 @@ export default class SepararItemEvent {
           }
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.insert', JSON.stringify(basicEvent.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        io.emit('separar.item.insert', JSON.stringify(basicEvent.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.item.update`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.update`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.update`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.update', JSON.stringify(basicEvent.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        io.emit('separar.item.update', JSON.stringify(basicEvent.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.item.delete`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separar.item.delete`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separar.item.delete`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.delete(itens);
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.item.delete', JSON.stringify(basicEvent.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        io.emit('separar.item.delete', JSON.stringify(basicEvent.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
   }

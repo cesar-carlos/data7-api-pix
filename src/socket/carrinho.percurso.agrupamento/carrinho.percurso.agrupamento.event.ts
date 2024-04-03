@@ -1,9 +1,10 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import CarrinhoPercursoAgrupamentoRepository from './carrinho.percurso.agrupamento.repository';
 import ExpedicaoCarrinhoPercursoAgrupamento from '../../dto/expedicao/expedicao.carrinho.percurso.agrupamento';
-import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
+import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 
 export default class CarrinhoPercursoAgrupamentoEvent {
   private repository = new CarrinhoPercursoAgrupamentoRepository();
@@ -16,65 +17,65 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
     socket.on(`${client} carrinho.percurso.agrupamento.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.agrupamento.consulta`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.consulta`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.consulta(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.consulta(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.consulta();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.select`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.agrupamento.select`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.select`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.select(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.select(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.select();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.insert`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.agrupamento.insert`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.insert`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
@@ -95,13 +96,13 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           }
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
@@ -113,34 +114,34 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.insert.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.update`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.agrupamento.update`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.update`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
@@ -152,35 +153,35 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.update.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.delete`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} carrinho.percurso.agrupamento.delete`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.delete`;
+      const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
 
         await this.repository.delete(itens);
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itens.map((item) => item.toJson()),
@@ -192,14 +193,14 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           'carrinho.percurso.agrupamento.delete.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
         );
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import AppApi from '../../aplication/app.api';
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoConferirConsultaDto from '../../dto/expedicao/expedicao.conferir.consulta.dto';
 
 export default class ConferirNotifyExpedicaoController {
@@ -19,7 +19,7 @@ export default class ConferirNotifyExpedicaoController {
       const conferir = ExpedicaoConferirConsultaDto.fromObject(req.body);
       const conferirs = [conferir];
 
-      const basicEventConferirConsulta = new ExpedicaoBasicEventDto({
+      const basicEventConferirConsulta = new ExpedicaoMutationBasicEvent({
         Session: '',
         ResposeIn: '',
         Mutation: conferirs.map((item) => item.toJson()),

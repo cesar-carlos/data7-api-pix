@@ -33,7 +33,6 @@ export default class SqlServerExpedicaoItemConferirSeparacaoConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -57,7 +56,6 @@ export default class SqlServerExpedicaoItemConferirSeparacaoConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

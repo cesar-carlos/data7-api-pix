@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -29,10 +29,10 @@ export default class CarrinhoPercursoAgrupamentoRepository {
     }
   }
 
-  public async insert(separars: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
+  public async insert(models: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of separars) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -40,17 +40,17 @@ export default class CarrinhoPercursoAgrupamentoRepository {
     }
   }
 
-  public async update(separars: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
+  public async update(models: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
     const repository = this.repository();
-    for (const el of separars) {
+    for (const el of models) {
       await repository.update(el);
     }
   }
 
-  public async delete(separars: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
+  public async delete(models: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of separars) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

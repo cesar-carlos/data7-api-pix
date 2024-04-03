@@ -17,10 +17,10 @@ export default class CancelamentoRepository {
     }
   }
 
-  public async insert(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
+  public async insert(models: ExpedicaoCancelamentoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of cancelamentos) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -28,10 +28,10 @@ export default class CancelamentoRepository {
     }
   }
 
-  public async update(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
+  public async update(models: ExpedicaoCancelamentoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of cancelamentos) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -39,10 +39,10 @@ export default class CancelamentoRepository {
     }
   }
 
-  public async delete(cancelamentos: ExpedicaoCancelamentoDto[]): Promise<void> {
+  public async delete(models: ExpedicaoCancelamentoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of cancelamentos) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

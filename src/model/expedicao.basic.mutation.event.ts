@@ -1,4 +1,4 @@
-export default class ExpedicaoBasicEventDto {
+export default class ExpedicaoMutationBasicEvent {
   Session: string;
   ResposeIn: string;
   Mutation: string[];
@@ -11,9 +11,9 @@ export default class ExpedicaoBasicEventDto {
 
   public toJson(): any {
     return {
-      session: this.Session,
-      resposeIn: this.ResposeIn,
-      mutation: this.Mutation,
+      Session: this.Session,
+      ResposeIn: this.ResposeIn,
+      Mutation: this.Mutation,
     };
   }
 }

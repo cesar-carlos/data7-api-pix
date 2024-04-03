@@ -1,13 +1,14 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 
-import SeparacaoItemRepository from './separacao.item.repository';
 import SepararItemRepository from '../separar.item/separar.item.repository';
-import ExpedicaoBasicEventDto from '../../dto/expedicao/expedicao.basic.event.dto';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
-import ExpedicaoBasicErrorEventDto from '../../dto/expedicao/expedicao.basic.error.event.dto';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 import ExpedicaoItemSituacaoModel from '../../model/expedicao.item.situacao.model';
+import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
+import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
+import SeparacaoItemRepository from './separacao.item.repository';
 
 type ProdutoSeparar = {
   CodEmpresa: number;
@@ -26,65 +27,65 @@ export default class SeparacaoItemEvent {
 
     socket.on(`${client} separacao.item.consulta`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separacao.item.consulta`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.consulta`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.consulta(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.consulta(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.consulta();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separacao.item.select`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separacao.item.select`;
-      const params = json['where'] ?? '';
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.select`;
+      const params = json['Where'] ?? '';
 
       try {
-        if (params != '') {
-          const result = await this.repository.select(params);
-          const json = result.map((item) => item.toJson());
-          socket.emit(resposeIn, JSON.stringify(json));
-          return;
-        }
+        const result = await this.repository.select(params);
+        const jsonData = result.map((item) => item.toJson());
 
-        const result = await this.repository.select();
-        const json = result.map((item) => item.toJson());
-        socket.emit(resposeIn, JSON.stringify(json));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+        const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separacao.item.insert`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separacao.item.insert`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.insert`;
+      const mutation = json['Mutation'];
 
       try {
         const produtosSeparado: ProdutoSeparar[] = [];
@@ -159,19 +160,19 @@ export default class SeparacaoItemEvent {
           itensSeparacaoConsulta.push(...result);
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
-        const basicEventItensSeparacaoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSeparacaoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSeparacaoConsulta.map((item) => item.toJson()),
         });
 
-        const basicEventItensSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSepararConsulta.map((item) => item.toJson()),
@@ -181,22 +182,22 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.insert.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separacao.item.update`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separacao.item.update`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.update`;
+      const mutation = json['Mutation'];
 
       try {
         const produtosSeparado: ProdutoSeparar[] = [];
@@ -258,19 +259,19 @@ export default class SeparacaoItemEvent {
           itensSeparacaoConsulta.push(...result);
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
-        const basicEventItensSeparacaoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSeparacaoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSeparacaoConsulta.map((item) => item.toJson()),
         });
 
-        const basicEventItensSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSepararConsulta.map((item) => item.toJson()),
@@ -280,22 +281,22 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.update', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.update.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separacao.item.delete`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
-      const resposeIn = json['resposeIn'] ?? `${client} separacao.item.delete`;
-      const mutation = json['mutation'];
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.delete`;
+      const mutation = json['Mutation'];
 
       try {
         const produtosSeparado: ProdutoSeparar[] = [];
@@ -357,19 +358,19 @@ export default class SeparacaoItemEvent {
           itensSepararConsulta.push(...separarItensConsulta);
         }
 
-        const basicEvent = new ExpedicaoBasicEventDto({
+        const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
-        const basicEventItensSeparacaoConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSeparacaoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSeparacaoConsulta.map((item) => item.toJson()),
         });
 
-        const basicEventItensSepararConsulta = new ExpedicaoBasicEventDto({
+        const basicEventItensSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResposeIn: resposeIn,
           Mutation: itensSepararConsulta.map((item) => item.toJson()),
@@ -379,14 +380,14 @@ export default class SeparacaoItemEvent {
         socket.broadcast.emit('separacao.item.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.delete.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
-      } catch (err: any) {
-        const basicEventErro = new ExpedicaoBasicErrorEventDto({
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
           Session: session,
           ResposeIn: resposeIn,
-          Error: [err.message],
+          Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEventErro.toJson()));
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
       }
     });
   }

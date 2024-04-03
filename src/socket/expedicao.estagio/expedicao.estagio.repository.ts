@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import ExpedicaoEstagioDto from '../../dto/expedicao/expedicao.estagio.dto';
@@ -17,10 +17,10 @@ export default class ExpedicaoEstagioRepository {
     }
   }
 
-  public async insert(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
+  public async insert(models: ExpedicaoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of percursoEstagios) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -28,10 +28,10 @@ export default class ExpedicaoEstagioRepository {
     }
   }
 
-  public async update(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
+  public async update(models: ExpedicaoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of percursoEstagios) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -39,10 +39,10 @@ export default class ExpedicaoEstagioRepository {
     }
   }
 
-  public async delete(percursoEstagios: ExpedicaoEstagioDto[]): Promise<void> {
+  public async delete(models: ExpedicaoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of percursoEstagios) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {

@@ -22,6 +22,7 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
       pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.tipo.operacao.expedicao.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
+
       const result = await pool.request().query(sql);
 
       if (result.recordset.length === 0) return [];
@@ -33,7 +34,6 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -58,7 +58,6 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -102,10 +101,14 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
         .input('Descricao', sql.VarChar(100), entity.Descricao)
         .input('Ativo', sql.VarChar(1), entity.Ativo)
         .input('Tipo', sql.VarChar(20), entity.Tipo)
+        .input('CodSetorConferencia', sql.Int, entity.CodSetorConferencia)
+        .input('CodPrioridade', sql.Int, entity.CodPrioridade)
         .input('CodRelatorio', sql.Int, entity.CodRelatorio)
         .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
         .input('MovimentaEstoque', sql.VarChar(1), entity.MovimentaEstoque)
         .input('CodTipoMovimentoEstoque', sql.Int, entity.CodTipoMovimentoEstoque)
+        .input('FazerConferencia', sql.VarChar(1), entity.FazerConferencia)
+        .input('FazerArmazenamento', sql.VarChar(1), entity.FazerArmazenamento)
         .input('ControlaLote', sql.VarChar(1), entity.ControlaLote)
         .input('ControlaNumeroSerie', sql.VarChar(1), entity.ControlaNumeroSerie)
         .query(sqlCommand);
@@ -114,7 +117,6 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

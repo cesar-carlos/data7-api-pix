@@ -1,13 +1,13 @@
 import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
 
+import UsuarioDto from '../../dto/common.data/usuario';
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import UsuarioConsultaDto from '../../dto/common.data/usuario.consulta.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
-import UsuarioDto from '../../dto/common.data/usuario';
 
 export default class UsuarioRepository {
   public async consulta(params: params[] | string = []): Promise<UsuarioConsultaDto[]> {

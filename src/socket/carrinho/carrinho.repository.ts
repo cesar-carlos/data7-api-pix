@@ -1,5 +1,5 @@
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
@@ -29,10 +29,10 @@ export default class CarrinhoRepository {
     }
   }
 
-  public async insert(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
+  public async insert(models: ExpedicaoCarrinhoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhos) {
+      for (const el of models) {
         await repository.insert(el);
       }
     } catch (error: any) {
@@ -40,10 +40,10 @@ export default class CarrinhoRepository {
     }
   }
 
-  public async update(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
+  public async update(models: ExpedicaoCarrinhoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhos) {
+      for (const el of models) {
         await repository.update(el);
       }
     } catch (error: any) {
@@ -51,10 +51,10 @@ export default class CarrinhoRepository {
     }
   }
 
-  public async delete(carrinhos: ExpedicaoCarrinhoDto[]): Promise<void> {
+  public async delete(models: ExpedicaoCarrinhoDto[]): Promise<void> {
     try {
       const repository = this.repository();
-      for (const el of carrinhos) {
+      for (const el of models) {
         await repository.delete(el);
       }
     } catch (error: any) {
