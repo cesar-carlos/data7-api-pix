@@ -2,12 +2,12 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
-import ExpedicaoArmazenagemDto from '../../dto/expedicao/expedicao.armazenagem.dto';
+import ExpedicaoArmazenarDto from '../../dto/expedicao/expedicao.armazenar.dto';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
-import ArmazenagemRepository from './armazenagem.repository';
+import ArmazenarRepository from './armazenar.repository';
 
-export default class ArmazenagemEvent {
-  private repository = new ArmazenagemRepository();
+export default class ArmazenarEvent {
+  private repository = new ArmazenarRepository();
 
   constructor(
     private readonly io: SocketIOServer,
@@ -15,10 +15,10 @@ export default class ArmazenagemEvent {
   ) {
     const client = socket.id;
 
-    socket.on(`${client} armazenagem.select`, async (data) => {
+    socket.on(`${client} armazenar.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} armazenagem.select`;
+      const resposeIn = json['ResposeIn'] ?? `${client} armazenar.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -43,17 +43,17 @@ export default class ArmazenagemEvent {
       }
     });
 
-    socket.on(`${client} armazenagem.insert`, async (data) => {
+    socket.on(`${client} armazenar.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} armazenagem.insert`;
+      const resposeIn = json['ResposeIn'] ?? `${client} armazenar.insert`;
       const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         for (const item of itens) {
           const sequence = await this.repository.sequence();
-          item.CodArmazenagem = sequence?.Valor ?? 0;
+          item.CodArmazenar = sequence?.Valor ?? 0;
           await this.repository.insert([item]);
         }
 
@@ -64,8 +64,7 @@ export default class ArmazenagemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('armazenagem.insert', JSON.stringify(basicEvent.toJson()));
-        io.emit('armazenagem.insert.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -77,10 +76,10 @@ export default class ArmazenagemEvent {
       }
     });
 
-    socket.on(`${client} armazenagem.update`, async (data) => {
+    socket.on(`${client} armazenar.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} .armazenagem.update`;
+      const resposeIn = json['ResposeIn'] ?? `${client} armazenar.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -94,8 +93,7 @@ export default class ArmazenagemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('armazenagem.update', JSON.stringify(basicEvent.toJson()));
-        io.emit('armazenagem.update.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -107,10 +105,10 @@ export default class ArmazenagemEvent {
       }
     });
 
-    socket.on(`${client} armazenagem.delete`, async (data) => {
+    socket.on(`${client} armazenar.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} armazenagem.delete`;
+      const resposeIn = json['ResposeIn'] ?? `${client} armazenar.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -125,8 +123,7 @@ export default class ArmazenagemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('armazenagem.delete', JSON.stringify(basicEvent.toJson()));
-        io.emit('armazenagem.delete.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -139,11 +136,11 @@ export default class ArmazenagemEvent {
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoArmazenagemDto[] {
+  private convert(mutations: any[] | any): ExpedicaoArmazenarDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoArmazenagemDto.fromObject(mutation);
+        return ExpedicaoArmazenarDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

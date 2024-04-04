@@ -199,7 +199,6 @@ export default class ConferenciaItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferencia.item.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.insert.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {
@@ -313,7 +312,6 @@ export default class ConferenciaItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferencia.item.update', JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.update.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {
@@ -425,7 +423,6 @@ export default class ConferenciaItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferencia.item.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.delete.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {

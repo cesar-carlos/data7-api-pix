@@ -105,7 +105,6 @@ export default class UsuarioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('usuario.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.insert.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -147,7 +146,6 @@ export default class UsuarioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('usuario.update', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.update.listen', JSON.stringify(basicEventUsuaroConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -190,7 +188,6 @@ export default class UsuarioEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('usuario.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('usuario.delete.listen', JSON.stringify(basicEventUsuarioConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({

@@ -109,7 +109,6 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.agrupamento.insert', JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.insert.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
@@ -148,7 +147,6 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.agrupamento.update', JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.update.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
@@ -188,7 +186,6 @@ export default class CarrinhoPercursoAgrupamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.percurso.agrupamento.delete', JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.delete.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),

@@ -92,7 +92,6 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('estoque.produto.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -121,7 +120,6 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('estoque.estoque.produto.update', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -150,7 +148,6 @@ export default class EstoqueProdutoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('estoque.produto.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

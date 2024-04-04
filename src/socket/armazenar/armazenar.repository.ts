@@ -4,11 +4,11 @@ import { eContext } from '../../dependency/container.dependency';
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
-import ExpedicaoArmazenagemDto from '../../dto/expedicao/expedicao.armazenagem.dto';
+import ExpedicaoArmazenarDto from '../../dto/expedicao/expedicao.armazenar.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
-export default class ArmazenagemRepository {
-  public async select(params: params[] | string = []): Promise<ExpedicaoArmazenagemDto[]> {
+export default class ArmazenarRepository {
+  public async select(params: params[] | string = []): Promise<ExpedicaoArmazenarDto[]> {
     try {
       const repository = this.repository();
       return await repository.selectWhere(params);
@@ -17,7 +17,7 @@ export default class ArmazenagemRepository {
     }
   }
 
-  public async insert(models: ExpedicaoArmazenagemDto[]): Promise<void> {
+  public async insert(models: ExpedicaoArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -28,7 +28,7 @@ export default class ArmazenagemRepository {
     }
   }
 
-  public async update(models: ExpedicaoArmazenagemDto[]): Promise<void> {
+  public async update(models: ExpedicaoArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -39,7 +39,7 @@ export default class ArmazenagemRepository {
     }
   }
 
-  public async delete(models: ExpedicaoArmazenagemDto[]): Promise<void> {
+  public async delete(models: ExpedicaoArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -52,7 +52,7 @@ export default class ArmazenagemRepository {
 
   public async sequence(): Promise<SequenceDto | undefined> {
     try {
-      const name = 'Expedicao.Armazenagem_Sequencia_1';
+      const name = 'Expedicao.Armazenar_Sequencia_1';
       const repository = this.sequenceRepository();
       return await repository.select(name);
     } catch (error: any) {
@@ -68,9 +68,9 @@ export default class ArmazenagemRepository {
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoArmazenagemDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoArmazenarDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenagemDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenarDto>',
     });
   }
 }

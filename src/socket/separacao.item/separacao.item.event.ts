@@ -179,7 +179,6 @@ export default class SeparacaoItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separacao.item.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.insert.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
       } catch (error: any) {
@@ -278,7 +277,6 @@ export default class SeparacaoItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separacao.item.update', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.update.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
       } catch (error: any) {
@@ -377,7 +375,6 @@ export default class SeparacaoItemEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separacao.item.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('separacao.item.delete.listen', JSON.stringify(basicEventItensSeparacaoConsulta.toJson()));
         io.emit('separar.item.update.listen', JSON.stringify(basicEventItensSepararConsulta.toJson()));
       } catch (error: any) {

@@ -1,6 +1,6 @@
-INSERT INTO Expedicao.Armazenagem(
+INSERT INTO Expedicao.Armazenar(
 	CodEmpresa,
-	CodArmazenagem,
+	CodArmazenar,
 	NumeroDocumento,
 	Situacao,
 	Origem,
@@ -15,7 +15,7 @@ INSERT INTO Expedicao.Armazenagem(
   )
 VALUES (
 	@CodEmpresa,
-	@CodArmazenagem,
+	@CodArmazenar,
 	@NumeroDocumento,
 	@Situacao,
 	@Origem,

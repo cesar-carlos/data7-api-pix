@@ -1,14 +1,11 @@
-INSERT INTO Expedicao.ItemArmazenagem(
+INSERT INTO Expedicao.ItemArmazenar(
 	CodEmpresa,
-	CodArmazenagem,
+	CodArmazenar,
 	Item,
-	CodCarrinhoPercurso,
-	ItemCarrinhoPercurso,
-	CodLocalArmazenagem,
-	CodSetorEstoque,
 	CodProduto,
 	NomeProduto,
 	CodUnidadeMedida,
+  CodSetorEstoque,
 	CodigoBarras,
 	CodProdutoEndereco,
 	Quantidade,
@@ -16,26 +13,23 @@ INSERT INTO Expedicao.ItemArmazenagem(
   )
 VALUES (
 	@CodEmpresa,
-	@CodArmazenagem,
+	@CodArmazenar,
     CASE
       WHEN @Item = '00000'
       OR @Item = '' THEN (
         SELECT FORMAT(ISNULL(MAX(CAST(Item AS INT)), 0) + 1, '00000')
-        FROM Expedicao.ItemSolicitacaoArmazenagem
+        FROM Expedicao.ItemSolicitacaoArmazenar
         WHERE CodEmpresa = @CodEmpresa
-          AND CodArmazenagem = @CodArmazenagem
+          AND CodArmazenar = @CodArmazenar
       )
       ELSE @Item
     END,
-  @CodCarrinhoPercurso,
-  @ItemCarrinhoPercurso,
-	@CodLocalArmazenagem,
-  @CodSetorEstoque,
 	@CodProduto,
 	@NomeProduto,
 	@CodUnidadeMedida,
+  @CodSetorEstoque,
 	@CodigoBarras,
-	@EnderecoArmazenagem,
+	@EnderecoArmazenar,
 	@Quantidade,
   @QuantidadeReservada
   )

@@ -2,12 +2,8 @@ SELECT *
 FROM (
 	SELECT
 		ia.CodEmpresa,
-		ia.CodArmazenagem,
+		ia.CodArmazenar,
 		ia.Item,
-		ia.CodCarrinhoPercurso,
-		ia.ItemCarrinhoPercurso,
-		ia.CodLocalArmazenagem,
-		la.Nome NomeLocalArmazenagem,
 		ia.CodSetorEstoque,
 		se.Descricao NomeSetorEstoque,
 		ia.CodProduto,
@@ -18,14 +14,14 @@ FROM (
 		ia.CodProdutoEndereco,
 		pe.Descricao NomeProdutoEndereco,
 		ia.Quantidade,
-    ia.QuantidadeReservada
-	FROM Expedicao.ItemArmazenagem ia
+        ia.QuantidadeArmazenada
+	FROM Expedicao.ItemArmazenar ia
 	LEFT JOIN UnidadeMedida und ON
 		und.CodUnidadeMedida = ia.CodUnidadeMedida
 	LEFT JOIN LocalArmazenagem la ON
-		la.CodLocalArmazenagem = ia.CodLocalArmazenagem
+		la.CodLocalArmazenagem = ia.CodLocalArmazenar
 	LEFT JOIN Expedicao.SetorEstoque se ON
 		se.CodSetorEstoque = ia.CodSetorEstoque
 	LEFT JOIN ProdutoEndereco pe ON
 		pe.CodProdutoEndereco = ia.CodProdutoEndereco
- ) ItemArmazenagemConsulta
+ ) ItemArmazenarConsulta

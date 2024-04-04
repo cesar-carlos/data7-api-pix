@@ -105,7 +105,6 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('carrinho.insert.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -147,7 +146,6 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.update', JSON.stringify(basicEvent.toJson()));
         io.emit('carrinho.update.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -189,7 +187,6 @@ export default class CarrinhoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('carrinho.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('carrinho.delete.listen', JSON.stringify(basicEventCarrinhoConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({

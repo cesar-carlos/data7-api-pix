@@ -10,8 +10,8 @@ import LocalSqlServerProcessoExecutavelRepository from '../repository/common.dat
 import SqlServerExpedicaoCarrinhoPercursoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.repository';
 import SqlServerExpedicaoCarrinhoConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.consulta.repository';
 import SqlServerExpedicaoSepararItemConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separar.consulta.repository';
+import SqlServerExpedicaoItemArmazenarConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.armazenar.consulta.repository';
 import SqlServerExpedicaoItemConferenciaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferencia.consulta.repository';
-import SqlServerExpedicaoItemArmazenagemConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.armazenagem.consulta.repository';
 import SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository from '../repository/expedicao/sql.server.expedicao.carrinho.percurso.agrupamento.consulta.repository';
 import SqlServerExpedicaoItemConferirUnidadeMedidaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.unidade.medida.consulta.repository';
 import SqlServerExpedicaoItemSepararUnidadeMedidaConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.separar.unidade.medida.consulta.repository';
@@ -26,12 +26,12 @@ import SqlServerExpedicaoItemSeparacaoConsultaRepository from '../repository/exp
 import SqlServerExpedicaoItemConferirConsultaRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.consulta.repository';
 import SqlServerExpedicaoConferirConsultaRepository from '../repository/expedicao/sql.server.expedicao.conferir.consulta.repository';
 import SqlServerExpedicaoItemConferenciaRepository from '../repository/expedicao/sql.server.expedicao.item.conferencia.repository';
-import SqlServerExpedicaoItemArmazenagemRepository from '../repository/expedicao/sql.server.expedicao.item.armazenagem.repository';
+import SqlServerExpedicaoItemArmazenarRepository from '../repository/expedicao/sql.server.expedicao.item.armazenar.repository';
 import SqlServerExpedicaoItemSeparacaoRepository from '../repository/expedicao/sql.server.expedicao.item.separacao.repository';
 import SqlServerExpedicaoItemConferirRepository from '../repository/expedicao/sql.server.expedicao.item.conferir.repository';
 import SqlServerExpedicaoSetorEstoqueRepository from '../repository/expedicao/sql.server.expedicao.setor.estoque.repository';
 import SqlServerExpedicaoItemSepararRepository from '../repository/expedicao/sql.server.expedicao.item.separar.repository';
-import SqlServerExpedicaoArmazenagemRepository from '../repository/expedicao/sql.server.expedicao.armazenagem.repository';
+import SqlServerExpedicaoArmazenarRepository from '../repository/expedicao/sql.server.expedicao.armazenar.repository';
 import SqlServerExpedicaoCarrinhoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.repository';
 import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.server.expedicao.separar.repository';
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
@@ -94,14 +94,20 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenagemDto>>',
-      instance: new SqlServerExpedicaoArmazenagemRepository(),
+      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenarDto>>',
+      instance: new SqlServerExpedicaoArmazenarRepository(),
     });
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenagemDto>>',
-      instance: new SqlServerExpedicaoItemArmazenagemRepository(),
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>>',
+      instance: new SqlServerExpedicaoItemArmazenarRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenarConsultaDto>',
+      instance: new SqlServerExpedicaoItemArmazenarConsultaRepository(),
     });
 
     ContainerDependency.instance.register({
@@ -240,12 +246,6 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamentoConsulta>',
       instance: new SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository(),
-    });
-
-    ContainerDependency.instance.register({
-      context: eContext.sql_server,
-      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenagemConsultaDto>',
-      instance: new SqlServerExpedicaoItemArmazenagemConsultaRepository(),
     });
   }
 }

@@ -93,7 +93,6 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.conversao.unidade.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -122,7 +121,6 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.conversao.unidade.update', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -151,7 +149,6 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('produto.conversao.unidade.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

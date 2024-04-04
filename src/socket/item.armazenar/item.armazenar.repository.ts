@@ -3,18 +3,18 @@ import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
-import ExpedicaoItemArmazenagemConsultaDto from '../../dto/expedicao/expedicao.item.armazenagem.consulta.dto';
-import ExpedicaoItemArmazenagemDto from '../../dto/expedicao/expedicao.item.armazenagem.dto';
+import ExpedicaoItemArmazenarConsultaDto from '../../dto/expedicao/expedicao.item.armazenar.consulta.dto';
+import ExpedicaoItemArmazenarDto from '../../dto/expedicao/expedicao.item.armazenar.dto';
 import AppDependencys from '../../aplication/app.dependencys';
 
-export default class ItemArmazenagemRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoItemArmazenagemConsultaDto[]> {
+export default class ItemArmazenarRepository {
+  public async consulta(params: params[] | string = []): Promise<ExpedicaoItemArmazenarConsultaDto[]> {
     const repository = this.repositoryConsulta();
     const result = await repository.selectWhere(params);
-    return result as ExpedicaoItemArmazenagemConsultaDto[];
+    return result as ExpedicaoItemArmazenarConsultaDto[];
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoItemArmazenagemDto[]> {
+  public async select(params: params[] | string = []): Promise<ExpedicaoItemArmazenarDto[]> {
     try {
       const repository = this.repository();
       return await repository.selectWhere(params);
@@ -23,7 +23,7 @@ export default class ItemArmazenagemRepository {
     }
   }
 
-  public async insert(models: ExpedicaoItemArmazenagemDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -34,7 +34,7 @@ export default class ItemArmazenagemRepository {
     }
   }
 
-  public async update(models: ExpedicaoItemArmazenagemDto[]): Promise<void> {
+  public async update(models: ExpedicaoItemArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -45,7 +45,7 @@ export default class ItemArmazenagemRepository {
     }
   }
 
-  public async delete(models: ExpedicaoItemArmazenagemDto[]): Promise<void> {
+  public async delete(models: ExpedicaoItemArmazenarDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -57,16 +57,16 @@ export default class ItemArmazenagemRepository {
   }
 
   private repositoryConsulta() {
-    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenagemConsultaDto>>({
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenarConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenagemConsultaDto>',
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemArmazenarConsultaDto>',
     });
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoItemArmazenagemDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenagemDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>',
     });
   }
 }

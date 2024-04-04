@@ -1,17 +1,13 @@
-export default class ExpedicaoItemArmazenagemConsultaDto {
+export default class ExpedicaoItemArmazenarConsultaDto {
   CodEmpresa: number;
-  CodArmazenagem: number;
+  CodArmazenar: number;
   Item: string;
-  CodCarrinhoPercurso: number;
-  ItemCarrinhoPercurso: string;
-  CodLocalArmazenagem: number;
-  NomeLocalArmazenagem: string;
-  CodSetorEstoque?: number;
-  NomeSetorEstoque?: string;
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
   NomeUnidadeMedida: string;
+  CodSetorEstoque?: number;
+  NomeSetorEstoque?: string;
   CodigoBarras?: string;
   CodProdutoEndereco: string;
   NomeProdutoEndereco: string;
@@ -20,18 +16,14 @@ export default class ExpedicaoItemArmazenagemConsultaDto {
 
   constructor(params: {
     CodEmpresa: number;
-    CodArmazenagem: number;
+    CodArmazenar: number;
     Item: string;
-    CodCarrinhoPercurso: number;
-    ItemCarrinhoPercurso: string;
-    CodLocalArmazenagem: number;
-    NomeLocalArmazenagem: string;
-    CodSetorEstoque?: number;
-    NomeSetorEstoque?: string;
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
     NomeUnidadeMedida: string;
+    CodSetorEstoque?: number;
+    NomeSetorEstoque?: string;
     CodigoBarras?: string;
     CodProdutoEndereco: string;
     NomeProdutoEndereco: string;
@@ -39,18 +31,15 @@ export default class ExpedicaoItemArmazenagemConsultaDto {
     QuantidadeArmazenada: number;
   }) {
     this.CodEmpresa = params.CodEmpresa;
-    this.CodArmazenagem = params.CodArmazenagem;
+    this.CodArmazenar = params.CodArmazenar;
     this.Item = params.Item;
-    this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
-    this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
-    this.CodLocalArmazenagem = params.CodLocalArmazenagem;
-    this.NomeLocalArmazenagem = params.NomeLocalArmazenagem;
-    this.CodSetorEstoque = params.CodSetorEstoque;
-    this.NomeSetorEstoque = params.NomeSetorEstoque;
+
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
     this.NomeUnidadeMedida = params.NomeUnidadeMedida;
+    this.CodSetorEstoque = params.CodSetorEstoque;
+    this.NomeSetorEstoque = params.NomeSetorEstoque;
     this.CodigoBarras = params.CodigoBarras;
     this.CodProdutoEndereco = params.CodProdutoEndereco;
     this.NomeProdutoEndereco = params.NomeProdutoEndereco;
@@ -60,38 +49,31 @@ export default class ExpedicaoItemArmazenagemConsultaDto {
 
   public copyWith(params: {
     CodEmpresa?: number;
-    CodArmazenagem?: number;
+    CodArmazenar?: number;
     Item?: string;
-    CodCarrinhoPercurso?: number;
-    ItemCarrinhoPercurso?: string;
-    CodLocalArmazenagem?: number;
-    NomeLocalArmazenagem?: string;
-    CodSetorEstoque?: number;
-    NomeSetorEstoque?: string;
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
     NomeUnidadeMedida?: string;
+    CodSetorEstoque?: number;
+    NomeSetorEstoque?: string;
     CodigoBarras?: string;
     CodProdutoEndereco?: string;
     NomeProdutoEndereco?: string;
     Quantidade?: number;
     QuantidadeArmazenada?: number;
-  }): ExpedicaoItemArmazenagemConsultaDto {
-    return new ExpedicaoItemArmazenagemConsultaDto({
+  }): ExpedicaoItemArmazenarConsultaDto {
+    return new ExpedicaoItemArmazenarConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
-      CodArmazenagem: params.CodArmazenagem ?? this.CodArmazenagem,
+      CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       Item: params.Item ?? this.Item,
-      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
-      ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
-      CodLocalArmazenagem: params.CodLocalArmazenagem ?? this.CodLocalArmazenagem,
-      NomeLocalArmazenagem: params.NomeLocalArmazenagem ?? this.NomeLocalArmazenagem,
-      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
-      NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
+
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
       NomeUnidadeMedida: params.NomeUnidadeMedida ?? this.NomeUnidadeMedida,
+      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
+      NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
       CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodProdutoEndereco: params.CodProdutoEndereco ?? this.CodProdutoEndereco,
       NomeProdutoEndereco: params.NomeProdutoEndereco ?? this.NomeProdutoEndereco,
@@ -100,21 +82,17 @@ export default class ExpedicaoItemArmazenagemConsultaDto {
     });
   }
 
-  static fromObject(object: any): ExpedicaoItemArmazenagemConsultaDto {
-    return new ExpedicaoItemArmazenagemConsultaDto({
+  static fromObject(object: any): ExpedicaoItemArmazenarConsultaDto {
+    return new ExpedicaoItemArmazenarConsultaDto({
       CodEmpresa: object.CodEmpresa,
-      CodArmazenagem: object.CodArmazenagem,
+      CodArmazenar: object.CodArmazenar,
       Item: object.Item,
-      CodCarrinhoPercurso: object.CodCarrinhoPercurso,
-      ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
-      CodLocalArmazenagem: object.CodLocalArmazenagem,
-      NomeLocalArmazenagem: object.NomeLocalArmazenagem,
-      CodSetorEstoque: object.CodSetorEstoque,
-      NomeSetorEstoque: object.NomeSetorEstoque,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
       NomeUnidadeMedida: object.NomeUnidadeMedida,
+      CodSetorEstoque: object.CodSetorEstoque,
+      NomeSetorEstoque: object.NomeSetorEstoque,
       CodigoBarras: object.CodigoBarras,
       CodProdutoEndereco: object.CodProdutoEndereco,
       NomeProdutoEndereco: object.NomeProdutoEndereco,
@@ -126,18 +104,14 @@ export default class ExpedicaoItemArmazenagemConsultaDto {
   toJson(): any {
     return {
       CodEmpresa: this.CodEmpresa,
-      CodArmazenagem: this.CodArmazenagem,
+      CodArmazenar: this.CodArmazenar,
       Item: this.Item,
-      CodCarrinhoPercurso: this.CodCarrinhoPercurso,
-      ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
-      CodLocalArmazenagem: this.CodLocalArmazenagem,
-      NomeLocalArmazenagem: this.NomeLocalArmazenagem,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NomeSetorEstoque: this.NomeSetorEstoque,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
       NomeUnidadeMedida: this.NomeUnidadeMedida,
+      CodSetorEstoque: this.CodSetorEstoque,
+      NomeSetorEstoque: this.NomeSetorEstoque,
       CodigoBarras: this.CodigoBarras,
       CodProdutoEndereco: this.CodProdutoEndereco,
       NomeProdutoEndereco: this.NomeProdutoEndereco,

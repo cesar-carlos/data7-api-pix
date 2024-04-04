@@ -1,4 +1,4 @@
-UPDATE Expedicao.Armazenagem SET
+UPDATE Expedicao.Armazenar SET
 	NumeroDocumento = @NumeroDocumento,
 	Situacao = @Situacao,
 	Origem = @Origem,
@@ -11,4 +11,4 @@ UPDATE Expedicao.Armazenagem SET
 	EstacaoLancamento = @EstacaoLancamento,
 	Observacao = @Observacao
 WHERE CodEmpresa = @CodEmpresa
-  AND CodArmazenagem = @CodArmazenagem
+  AND CodArmazenar = @CodArmazenar

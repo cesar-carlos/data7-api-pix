@@ -2,7 +2,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 
 import UsuarioEvent from '../socket/usuario/usuario.event';
 import CarrinhoEvent from '../socket/carrinho/carrinho.event';
-import ArmazenagemEvent from '../socket/armazenagem/armazenagem.event';
+import ArmazenarEvent from '../socket/armazenar/armazenar.event';
 import CancelamentoEvent from '../socket/cancelamento/cancelamento.event';
 import SeparacaoItemEvent from '../socket/separacao.item/separacao.item.event';
 import SequenciaRegistroEvent from '../socket/sequencia.registro/sequencia.registro.event';
@@ -15,7 +15,7 @@ import ProcessoExecutavelEvent from '../socket/processo.executavel/processo.exec
 import CarrinhoPercursoEvent from '../socket/carrinho.percurso/carrinho.percurso.event';
 import PercursoEstagioEvent from '../socket/expedicao.estagio/expedicao.estagio.event';
 import ConferenciaItemEvent from '../socket/conferencia.item/conferencia.item.event';
-import ItemArmazenagemEvent from '../socket/item.armazenagem/item.armazenagem.event';
+import ItemArmazenagemEvent from '../socket/item.armazenar/item.armazenar.event';
 import ConferirItemEvent from '../socket/conferir.item/conferir.item.event';
 import EstoqueProdutoEvent from '../socket/produto/estoque.produto.event';
 import SepararItemEvent from '../socket/separar.item/separar.item.event';
@@ -52,7 +52,7 @@ export default class AppSocket {
       new TipoOperacaoArmazenagemEvent(this.io, socket);
       new TipoOperacaoExpedicaoEvent(this.io, socket);
       new ItemArmazenagemEvent(this.io, socket);
-      new ArmazenagemEvent(this.io, socket);
+      new ArmazenarEvent(this.io, socket);
 
       socket.on('disconnect', () => {
         console.log('Cliente desconectado');

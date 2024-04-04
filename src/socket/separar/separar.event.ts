@@ -109,7 +109,6 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('separar.insert.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -155,7 +154,6 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.update', JSON.stringify(basicEvent.toJson()));
         io.emit('separar.update.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -202,7 +200,6 @@ export default class SepararEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('separar.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('separar.delete.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({

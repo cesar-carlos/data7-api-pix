@@ -166,7 +166,6 @@ export default class ConferirEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferir.insert', JSON.stringify(basicEvent.toJson()));
         io.emit('conferir.insert.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -212,7 +211,6 @@ export default class ConferirEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferir.update', JSON.stringify(basicEvent.toJson()));
         io.emit('conferir.update.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -258,7 +256,6 @@ export default class ConferirEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('conferir.delete', JSON.stringify(basicEvent.toJson()));
         io.emit('conferir.delete.listen', JSON.stringify(basicEventConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({

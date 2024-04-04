@@ -64,7 +64,6 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.cancelamento.insert', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -93,7 +92,6 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.cancelamento.update', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -122,7 +120,6 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
-        socket.broadcast.emit('broadcast.cancelamento.delete', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

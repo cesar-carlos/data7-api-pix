@@ -1,6 +1,6 @@
-export default class ExpedicaoArmazenagemDto {
+export default class ExpedicaoArmazenarDto {
   CodEmpresa: number;
-  CodArmazenagem: number;
+  CodArmazenar: number;
   NumeroDocumento?: string;
   Situacao: string;
   Origem: string;
@@ -15,7 +15,7 @@ export default class ExpedicaoArmazenagemDto {
 
   constructor(params: {
     CodEmpresa: number;
-    CodArmazenagem: number;
+    CodArmazenar: number;
     NumeroDocumento?: string;
     Situacao: string;
     Origem: string;
@@ -29,7 +29,7 @@ export default class ExpedicaoArmazenagemDto {
     Observacao: string;
   }) {
     this.CodEmpresa = params.CodEmpresa;
-    this.CodArmazenagem = params.CodArmazenagem;
+    this.CodArmazenar = params.CodArmazenar;
     this.NumeroDocumento = params.NumeroDocumento;
     this.Situacao = params.Situacao;
     this.Origem = params.Origem;
@@ -45,8 +45,8 @@ export default class ExpedicaoArmazenagemDto {
 
   public copyWith(params: {
     CodEmpresa?: number;
-    CodArmazenagem?: number;
-    CodTipoOperacaoArmazenagem?: number;
+    CodArmazenar?: number;
+    CodTipoOperacaoArmazenar?: number;
     NumeroDocumento?: string;
     Situacao?: string;
     Origem?: string;
@@ -58,10 +58,10 @@ export default class ExpedicaoArmazenagemDto {
     NomeUsuarioLancamento?: string;
     EstacaoLancamento?: string;
     Observacao?: string;
-  }): ExpedicaoArmazenagemDto {
-    return new ExpedicaoArmazenagemDto({
+  }): ExpedicaoArmazenarDto {
+    return new ExpedicaoArmazenarDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
-      CodArmazenagem: params.CodArmazenagem ?? this.CodArmazenagem,
+      CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       NumeroDocumento: params.NumeroDocumento ?? this.NumeroDocumento,
       Situacao: params.Situacao ?? this.Situacao,
       Origem: params.Origem ?? this.Origem,
@@ -78,8 +78,8 @@ export default class ExpedicaoArmazenagemDto {
 
   public static fromObject(params: {
     CodEmpresa: number;
-    CodArmazenagem: number;
-    CodTipoOperacaoArmazenagem: number;
+    CodArmazenar: number;
+    CodTipoOperacaoArmazenar: number;
     NumeroDocumento?: string;
     Situacao: string;
     Origem: string;
@@ -91,10 +91,10 @@ export default class ExpedicaoArmazenagemDto {
     NomeUsuarioLancamento: string;
     EstacaoLancamento: string;
     Observacao: string;
-  }): ExpedicaoArmazenagemDto {
-    return new ExpedicaoArmazenagemDto({
+  }): ExpedicaoArmazenarDto {
+    return new ExpedicaoArmazenarDto({
       CodEmpresa: params.CodEmpresa,
-      CodArmazenagem: params.CodArmazenagem,
+      CodArmazenar: params.CodArmazenar,
       NumeroDocumento: params.NumeroDocumento,
       Situacao: params.Situacao,
       Origem: params.Origem,
@@ -112,7 +112,7 @@ export default class ExpedicaoArmazenagemDto {
   public toJson(): any {
     return {
       CodEmpresa: this.CodEmpresa,
-      CodArmazenagem: this.CodArmazenagem,
+      CodArmazenar: this.CodArmazenar,
       NumeroDocumento: this.NumeroDocumento,
       Situacao: this.Situacao,
       Origem: this.Origem,

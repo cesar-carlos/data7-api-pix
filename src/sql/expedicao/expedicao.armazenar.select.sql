@@ -1,6 +1,6 @@
 SELECT
 	CodEmpresa,
-	CodArmazenagem,
+	CodArmazenar,
 	NumeroDocumento,
 	Situacao,
 	Origem,
@@ -12,4 +12,4 @@ SELECT
 	NomeUsuarioLancamento,
 	EstacaoLancamento,
 	Observacao
-FROM Expedicao.Armazenagem
+FROM Expedicao.Armazenar
