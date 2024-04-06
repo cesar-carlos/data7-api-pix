@@ -94,13 +94,13 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenarDto>>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoArmazenarDto>',
       instance: new SqlServerExpedicaoArmazenarRepository(),
     });
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>',
       instance: new SqlServerExpedicaoItemArmazenarRepository(),
     });
 

@@ -101,11 +101,9 @@ export default class SqlServerExpedicaoItemArmazenarRepository
         .input('CodProduto', sql.Int, entity.CodProduto)
         .input('NomeProduto', sql.VarChar(120), entity.NomeProduto)
         .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
-        .input('CodSetorEstoque', sql.Int, entity.CodSetorEstoque)
-        .input('CodigoBarras', sql.VarChar(30), entity.CodigoBarras)
         .input('CodProdutoEndereco', sql.VarChar(60), entity.CodProdutoEndereco)
+        .input('CodigoBarras', sql.VarChar(30), entity.CodigoBarras)
         .input('Quantidade', sql.Float, entity.Quantidade)
-        .input('QuantidadeArmazenada', sql.Float, entity.QuantidadeArmazenada)
         .query(sqlCommand);
 
       await transaction.commit();

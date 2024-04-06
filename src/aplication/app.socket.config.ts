@@ -15,7 +15,7 @@ import ProcessoExecutavelEvent from '../socket/processo.executavel/processo.exec
 import CarrinhoPercursoEvent from '../socket/carrinho.percurso/carrinho.percurso.event';
 import PercursoEstagioEvent from '../socket/expedicao.estagio/expedicao.estagio.event';
 import ConferenciaItemEvent from '../socket/conferencia.item/conferencia.item.event';
-import ItemArmazenagemEvent from '../socket/item.armazenar/item.armazenar.event';
+import ItemArmazenarEvent from '../socket/item.armazenar/item.armazenar.event';
 import ConferirItemEvent from '../socket/conferir.item/conferir.item.event';
 import EstoqueProdutoEvent from '../socket/produto/estoque.produto.event';
 import SepararItemEvent from '../socket/separar.item/separar.item.event';
@@ -51,7 +51,7 @@ export default class AppSocket {
       new CarrinhoPercursoAgrupamentoEvent(this.io, socket);
       new TipoOperacaoArmazenagemEvent(this.io, socket);
       new TipoOperacaoExpedicaoEvent(this.io, socket);
-      new ItemArmazenagemEvent(this.io, socket);
+      new ItemArmazenarEvent(this.io, socket);
       new ArmazenarEvent(this.io, socket);
 
       socket.on('disconnect', () => {

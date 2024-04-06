@@ -103,6 +103,7 @@ export default class SqlServerExpedicaoTipoOperacaoArmazenagemRepository
         .input('CodPrioridade', sql.Int, entity.CodPrioridade)
         .input('CodRelatorio', sql.Int, entity.CodRelatorio)
         .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
+        .input('CodSetorArmazenagem', sql.Int, entity.CodSetorArmazenagem)
         .input('MovimentaEstoque', sql.VarChar(1), entity.MovimentaEstoque)
         .input('CodTipoMovimentoEstoque', sql.Int, entity.CodTipoMovimentoEstoque)
         .input('ControlaLote', sql.VarChar(1), entity.ControlaLote)

@@ -5,11 +5,9 @@ export default class ExpedicaoItemArmazenarDto {
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
-  CodSetorEstoque?: number;
-  CodigoBarras?: string;
   CodProdutoEndereco: string;
+  CodigoBarras?: string;
   Quantidade: number;
-  QuantidadeArmazenada: number;
 
   constructor(params: {
     CodEmpresa: number;
@@ -18,11 +16,9 @@ export default class ExpedicaoItemArmazenarDto {
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
-    CodSetorEstoque?: number;
-    CodigoBarras?: string;
     CodProdutoEndereco: string;
+    CodigoBarras?: string;
     Quantidade: number;
-    QuantidadeArmazenada: number;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
@@ -30,11 +26,9 @@ export default class ExpedicaoItemArmazenarDto {
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
-    this.CodSetorEstoque = params.CodSetorEstoque;
-    this.CodigoBarras = params.CodigoBarras;
     this.CodProdutoEndereco = params.CodProdutoEndereco;
+    this.CodigoBarras = params.CodigoBarras;
     this.Quantidade = params.Quantidade;
-    this.QuantidadeArmazenada = params.QuantidadeArmazenada;
   }
 
   public copyWith(params: {
@@ -44,11 +38,9 @@ export default class ExpedicaoItemArmazenarDto {
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
-    CodSetorEstoque?: number;
-    CodigoBarras?: string;
     CodProdutoEndereco?: string;
+    CodigoBarras?: string;
     Quantidade?: number;
-    QuantidadeArmazenada?: number;
   }): ExpedicaoItemArmazenarDto {
     return new ExpedicaoItemArmazenarDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
@@ -57,11 +49,9 @@ export default class ExpedicaoItemArmazenarDto {
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
-      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
-      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodProdutoEndereco: params.CodProdutoEndereco ?? this.CodProdutoEndereco,
+      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       Quantidade: params.Quantidade ?? this.Quantidade,
-      QuantidadeArmazenada: params.QuantidadeArmazenada ?? this.QuantidadeArmazenada,
     });
   }
 
@@ -73,11 +63,9 @@ export default class ExpedicaoItemArmazenarDto {
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
-      CodSetorEstoque: object.CodSetorEstoque,
-      CodigoBarras: object.CodigoBarras,
       CodProdutoEndereco: object.CodProdutoEndereco,
+      CodigoBarras: object.CodigoBarras,
       Quantidade: object.Quantidade,
-      QuantidadeArmazenada: object.QuantidadeArmazenada,
     });
   }
 
@@ -89,11 +77,9 @@ export default class ExpedicaoItemArmazenarDto {
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
-      CodSetorEstoque: this.CodSetorEstoque,
-      CodigoBarras: this.CodigoBarras,
       CodProdutoEndereco: this.CodProdutoEndereco,
+      CodigoBarras: this.CodigoBarras,
       Quantidade: Number(this.Quantidade).toFixed(4),
-      QuantidadeArmazenada: Number(this.QuantidadeArmazenada).toFixed(4),
     };
   }
 }

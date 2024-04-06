@@ -5,9 +5,7 @@ SELECT
 	CodProduto,
 	NomeProduto,
 	CodUnidadeMedida,
-  CodSetorEstoque,
+  CodProdutoEndereco,
 	CodigoBarras,
-	CodProdutoEndereco,
-	Quantidade,
-  QuantidadeReservada
+	Quantidade
 FROM Expedicao.ItemArmazenar

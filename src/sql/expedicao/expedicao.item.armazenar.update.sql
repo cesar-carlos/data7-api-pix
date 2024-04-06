@@ -2,11 +2,9 @@ UPDATE Expedicao.ItemArmazenar SET
 	CodProduto = @CodProduto,
 	NomeProduto = @NomeProduto,
 	CodUnidadeMedida = @CodUnidadeMedida,
-  CodSetorEstoque = @CodSetorEstoque,
+  CodProdutoEndereco = @CodProdutoEndereco,
 	CodigoBarras = @CodigoBarras,
-	CodProdutoEndereco = @CodProdutoEndereco,
-	Quantidade = @Quantidade,
-  QuantidadeReservada = @QuantidadeReservada
+	Quantidade = @Quantidade
 WHERE CodEmpresa = @CodEmpresa
   AND CodArmazenar = @CodArmazenar
   AND Item = @Item

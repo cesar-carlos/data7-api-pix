@@ -6,13 +6,10 @@ export default class ExpedicaoItemArmazenarConsultaDto {
   NomeProduto: string;
   CodUnidadeMedida: string;
   NomeUnidadeMedida: string;
-  CodSetorEstoque?: number;
-  NomeSetorEstoque?: string;
-  CodigoBarras?: string;
   CodProdutoEndereco: string;
   NomeProdutoEndereco: string;
+  CodigoBarras?: string;
   Quantidade: number;
-  QuantidadeArmazenada: number;
 
   constructor(params: {
     CodEmpresa: number;
@@ -22,13 +19,10 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     NomeProduto: string;
     CodUnidadeMedida: string;
     NomeUnidadeMedida: string;
-    CodSetorEstoque?: number;
-    NomeSetorEstoque?: string;
-    CodigoBarras?: string;
     CodProdutoEndereco: string;
     NomeProdutoEndereco: string;
+    CodigoBarras?: string;
     Quantidade: number;
-    QuantidadeArmazenada: number;
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
@@ -38,13 +32,10 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
     this.NomeUnidadeMedida = params.NomeUnidadeMedida;
-    this.CodSetorEstoque = params.CodSetorEstoque;
-    this.NomeSetorEstoque = params.NomeSetorEstoque;
-    this.CodigoBarras = params.CodigoBarras;
     this.CodProdutoEndereco = params.CodProdutoEndereco;
     this.NomeProdutoEndereco = params.NomeProdutoEndereco;
+    this.CodigoBarras = params.CodigoBarras;
     this.Quantidade = params.Quantidade;
-    this.QuantidadeArmazenada = params.QuantidadeArmazenada;
   }
 
   public copyWith(params: {
@@ -55,30 +46,23 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     NomeProduto?: string;
     CodUnidadeMedida?: string;
     NomeUnidadeMedida?: string;
-    CodSetorEstoque?: number;
-    NomeSetorEstoque?: string;
-    CodigoBarras?: string;
     CodProdutoEndereco?: string;
     NomeProdutoEndereco?: string;
+    CodigoBarras?: string;
     Quantidade?: number;
-    QuantidadeArmazenada?: number;
   }): ExpedicaoItemArmazenarConsultaDto {
     return new ExpedicaoItemArmazenarConsultaDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       Item: params.Item ?? this.Item,
-
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
       NomeUnidadeMedida: params.NomeUnidadeMedida ?? this.NomeUnidadeMedida,
-      CodSetorEstoque: params.CodSetorEstoque ?? this.CodSetorEstoque,
-      NomeSetorEstoque: params.NomeSetorEstoque ?? this.NomeSetorEstoque,
-      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       CodProdutoEndereco: params.CodProdutoEndereco ?? this.CodProdutoEndereco,
       NomeProdutoEndereco: params.NomeProdutoEndereco ?? this.NomeProdutoEndereco,
+      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
       Quantidade: params.Quantidade ?? this.Quantidade,
-      QuantidadeArmazenada: params.QuantidadeArmazenada ?? this.QuantidadeArmazenada,
     });
   }
 
@@ -91,13 +75,10 @@ export default class ExpedicaoItemArmazenarConsultaDto {
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
       NomeUnidadeMedida: object.NomeUnidadeMedida,
-      CodSetorEstoque: object.CodSetorEstoque,
-      NomeSetorEstoque: object.NomeSetorEstoque,
-      CodigoBarras: object.CodigoBarras,
       CodProdutoEndereco: object.CodProdutoEndereco,
       NomeProdutoEndereco: object.NomeProdutoEndereco,
+      CodigoBarras: object.CodigoBarras,
       Quantidade: object.Quantidade,
-      QuantidadeArmazenada: object.QuantidadeArmazenada,
     });
   }
 
@@ -110,13 +91,10 @@ export default class ExpedicaoItemArmazenarConsultaDto {
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
       NomeUnidadeMedida: this.NomeUnidadeMedida,
-      CodSetorEstoque: this.CodSetorEstoque,
-      NomeSetorEstoque: this.NomeSetorEstoque,
-      CodigoBarras: this.CodigoBarras,
       CodProdutoEndereco: this.CodProdutoEndereco,
       NomeProdutoEndereco: this.NomeProdutoEndereco,
+      CodigoBarras: this.CodigoBarras,
       Quantidade: Number(this.Quantidade).toFixed(4),
-      QuantidadeArmazenada: Number(this.QuantidadeArmazenada).toFixed(4),
     };
   }
 }

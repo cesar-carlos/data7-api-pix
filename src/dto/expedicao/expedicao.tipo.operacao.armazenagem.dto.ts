@@ -6,6 +6,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
   CodPrioridade: number;
   CodRelatorio: number;
   CodLocalArmazenagem: number;
+  CodSetorArmazenagem?: number;
   MovimentaEstoque: string;
   CodTipoMovimentoEstoque: number;
   ControlaLote: string;
@@ -19,6 +20,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
     CodPrioridade: number;
     CodRelatorio: number;
     CodLocalArmazenagem: number;
+    CodSetorArmazenagem?: number;
     MovimentaEstoque: string;
     CodTipoMovimentoEstoque: number;
     ControlaLote: string;
@@ -31,6 +33,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
     this.CodPrioridade = params.CodPrioridade;
     this.CodRelatorio = params.CodRelatorio;
     this.CodLocalArmazenagem = params.CodLocalArmazenagem;
+    this.CodSetorArmazenagem = params.CodSetorArmazenagem;
     this.MovimentaEstoque = params.MovimentaEstoque;
     this.CodTipoMovimentoEstoque = params.CodTipoMovimentoEstoque;
     this.ControlaLote = params.ControlaLote;
@@ -45,6 +48,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
     CodPrioridade: number;
     CodRelatorio: number;
     CodLocalArmazenagem: number;
+    CodSetorArmazenagem: number;
     MovimentaEstoque: string;
     CodTipoMovimentoEstoque: number;
     ControlaLote: string;
@@ -58,6 +62,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
       CodPrioridade: params.CodPrioridade ?? this.CodPrioridade,
       CodRelatorio: params.CodRelatorio ?? this.CodRelatorio,
       CodLocalArmazenagem: params.CodLocalArmazenagem ?? this.CodLocalArmazenagem,
+      CodSetorArmazenagem: params.CodSetorArmazenagem ?? this.CodSetorArmazenagem,
       MovimentaEstoque: params.MovimentaEstoque ?? this.MovimentaEstoque,
       CodTipoMovimentoEstoque: params.CodTipoMovimentoEstoque ?? this.CodTipoMovimentoEstoque,
       ControlaLote: params.ControlaLote ?? this.ControlaLote,
@@ -74,6 +79,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
       CodPrioridade: object.CodPrioridade,
       CodRelatorio: object.CodRelatorio,
       CodLocalArmazenagem: object.CodLocalArmazenagem,
+      CodSetorArmazenagem: object.CodSetorArmazenagem,
       MovimentaEstoque: object.MovimentaEstoque,
       CodTipoMovimentoEstoque: object.CodTipoMovimentoEstoque,
       ControlaLote: object.ControlaLote,
@@ -90,6 +96,7 @@ export default class ExpedicaoTipoOperacaoArmazenagemDto {
       CodPrioridade: this.CodPrioridade,
       CodRelatorio: this.CodRelatorio,
       CodLocalArmazenagem: this.CodLocalArmazenagem,
+      CodSetorArmazenagem: this.CodSetorArmazenagem,
       MovimentaEstoque: this.MovimentaEstoque,
       CodTipoMovimentoEstoque: this.CodTipoMovimentoEstoque,
       ControlaLote: this.ControlaLote,

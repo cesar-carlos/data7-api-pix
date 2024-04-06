@@ -6,6 +6,7 @@ SELECT
 	CodPrioridade,
 	CodRelatorio,
 	CodLocalArmazenagem,
+	CodSetorArmazenagem,
 	MovimentaEstoque,
 	CodTipoMovimentoEstoque,
 	ControlaLote,

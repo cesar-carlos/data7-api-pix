@@ -103,9 +103,9 @@ export default class SqlServerExpedicaoArmazenarRepository
         .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('CodPrioridade', sql.Int, entity.CodPrioridade)
         .input('DataLancamento', sql.Date, entity.DataLancamento)
-        .input('HoraLancamento', sql.VarChar(8), entity.DataLancamento)
-        .input('CodUsuarioLancamento', sql.Int, entity.DataLancamento)
-        .input('NomeUsuarioLancamento', sql.VarChar(30), entity.DataLancamento)
+        .input('HoraLancamento', sql.VarChar(8), entity.HoraLancamento)
+        .input('CodUsuarioLancamento', sql.Int, entity.CodUsuarioLancamento)
+        .input('NomeUsuarioLancamento', sql.VarChar(30), entity.NomeUsuarioLancamento)
         .input('EstacaoLancamento', sql.VarChar(30), entity.EstacaoLancamento)
         .input('Observacao', sql.VarChar(2000), entity.Observacao)
         .query(sqlCommand);
