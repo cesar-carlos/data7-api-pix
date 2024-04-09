@@ -2,6 +2,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
   CodEmpresa: number;
   CodArmazenar: number;
   Item: string;
+  CodcarrinhoPercurso?: number;
+  ItemcarrinhoPercurso?: string;
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
@@ -15,6 +17,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     CodEmpresa: number;
     CodArmazenar: number;
     Item: string;
+    CodcarrinhoPercurso?: number;
+    ItemcarrinhoPercurso?: string;
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
@@ -27,7 +31,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
     this.Item = params.Item;
-
+    this.CodcarrinhoPercurso = params.CodcarrinhoPercurso;
+    this.ItemcarrinhoPercurso = params.ItemcarrinhoPercurso;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
@@ -42,6 +47,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
     CodEmpresa?: number;
     CodArmazenar?: number;
     Item?: string;
+    CodcarrinhoPercurso?: number;
+    ItemcarrinhoPercurso?: string;
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
@@ -55,6 +62,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       Item: params.Item ?? this.Item,
+      CodcarrinhoPercurso: params.CodcarrinhoPercurso ?? this.CodcarrinhoPercurso,
+      ItemcarrinhoPercurso: params.ItemcarrinhoPercurso ?? this.ItemcarrinhoPercurso,
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
@@ -71,6 +80,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
       CodEmpresa: object.CodEmpresa,
       CodArmazenar: object.CodArmazenar,
       Item: object.Item,
+      CodcarrinhoPercurso: object.CodcarrinhoPercurso,
+      ItemcarrinhoPercurso: object.ItemcarrinhoPercurso,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
@@ -87,6 +98,8 @@ export default class ExpedicaoItemArmazenarConsultaDto {
       CodEmpresa: this.CodEmpresa,
       CodArmazenar: this.CodArmazenar,
       Item: this.Item,
+      CodcarrinhoPercurso: this.CodcarrinhoPercurso,
+      ItemcarrinhoPercurso: this.ItemcarrinhoPercurso,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,

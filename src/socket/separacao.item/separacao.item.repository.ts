@@ -3,11 +3,22 @@ import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
+import ExpedicaoItemSeparacaoResumoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.resumo.consulta.dto';
 import ExpedicaoItemSeparacaoConsultaDto from '../../dto/expedicao/expedicao.item.separacao.consulta.dto';
 import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separacao.dto';
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class SeparacaoItemRepository {
+  public async consultaResumo(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoResumoConsultaDto[]> {
+    try {
+      const repository = this.repositoryResumoConsulta();
+      const result = await repository.selectWhere(params);
+      return result as ExpedicaoItemSeparacaoResumoConsultaDto[];
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {
     try {
       const repository = this.repositoryConsulta();
@@ -64,6 +75,13 @@ export default class SeparacaoItemRepository {
     return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoConsultaDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoConsultaDto>',
+    });
+  }
+
+  private repositoryResumoConsulta() {
+    return AppDependencys.resolve<LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoResumoConsultaDto>>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoItemSeparacaoResumoConsultaDto>',
     });
   }
 

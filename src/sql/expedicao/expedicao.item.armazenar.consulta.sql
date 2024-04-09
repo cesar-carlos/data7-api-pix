@@ -4,6 +4,8 @@ FROM (
 		ia.CodEmpresa,
 		ia.CodArmazenar,
 		ia.Item,
+		ia.CodcarrinhoPercurso,
+		ia.ItemcarrinhoPercurso,
 		ia.CodProduto,
 		ia.NomeProduto,
 		ia.CodUnidadeMedida,

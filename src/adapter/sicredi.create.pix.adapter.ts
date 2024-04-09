@@ -40,7 +40,6 @@ export default class SicrediCreatePixAdapter extends SicrediBase implements Crea
 
       return result;
     } catch (error: any) {
-      console.log(error);
       throw new Error(error.mensagem);
     }
   }

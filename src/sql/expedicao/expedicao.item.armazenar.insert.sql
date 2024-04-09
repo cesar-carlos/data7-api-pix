@@ -2,6 +2,8 @@ INSERT INTO Expedicao.ItemArmazenar(
 	CodEmpresa,
 	CodArmazenar,
 	Item,
+  CodcarrinhoPercurso,
+  ItemcarrinhoPercurso,
 	CodProduto,
 	NomeProduto,
 	CodUnidadeMedida,
@@ -22,6 +24,8 @@ VALUES (
       )
       ELSE @Item
     END,
+  @CodcarrinhoPercurso,
+  @ItemcarrinhoPercurso,
 	@CodProduto,
 	@NomeProduto,
 	@CodUnidadeMedida,

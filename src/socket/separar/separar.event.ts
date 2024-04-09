@@ -23,7 +23,7 @@ export default class SepararEvent {
       const params = json['Where'] ?? '';
 
       try {
-        const result = await this.repository.consulta(params);
+        const result: ExpedicaoSepararConsultaDto[] = await this.repository.consulta(params);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({

@@ -25,6 +25,34 @@ export default class SeparacaoItemEvent {
   ) {
     const client = socket.id;
 
+    socket.on(`${client} separacao.item.resumo.consulta`, async (data) => {
+      const json = JSON.parse(data);
+      const session = json['Session'] ?? '';
+      const resposeIn = json['ResposeIn'] ?? `${client} separacao.item.resumo.consulta`;
+      const params = json['Where'] ?? '';
+
+      try {
+        const result = await this.repository.consultaResumo(params);
+        const jsonData = result.map((item) => item.toJson());
+
+        const event = new ExpedicaoBasicSelectEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Data: jsonData,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResposeIn: resposeIn,
+          Error: error.message,
+        });
+
+        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+      }
+    });
+
     socket.on(`${client} separacao.item.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
