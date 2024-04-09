@@ -16,10 +16,9 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalSituacaoDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.situacao.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -33,15 +32,13 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalSituacaoDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.situacao.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +55,6 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -89,11 +85,10 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalSituacaoDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -107,9 +102,9 @@ export default class LocalSqlServerCobrancaDigitalSituacaoRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

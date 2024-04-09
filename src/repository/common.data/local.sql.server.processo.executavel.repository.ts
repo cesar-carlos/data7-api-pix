@@ -16,10 +16,9 @@ export default class LocalSqlServerProcessoExecutavelRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   async select(): Promise<ProcessoExecutavelDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -36,10 +35,9 @@ export default class LocalSqlServerProcessoExecutavelRepository
   }
 
   async selectWhere(params: params[]): Promise<ProcessoExecutavelDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'processo.executavel.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const _params = ParamsCommonRepository.build(params);
@@ -55,7 +53,6 @@ export default class LocalSqlServerProcessoExecutavelRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -86,11 +83,10 @@ export default class LocalSqlServerProcessoExecutavelRepository
   }
 
   private async actonEntity(entity: ProcessoExecutavelDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -115,9 +111,9 @@ export default class LocalSqlServerProcessoExecutavelRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

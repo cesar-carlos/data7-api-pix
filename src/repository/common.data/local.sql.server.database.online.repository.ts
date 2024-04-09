@@ -12,10 +12,9 @@ export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseA
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   public async getDataBaseInfo(): Promise<DatabaseOnlineDto | string> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patch = path.resolve(this.basePatchSQL, 'local.database.online.select.sql');
       const select = fs.readFileSync(patch).toString();
       const result = await pool.request().query(select);
@@ -29,7 +28,6 @@ export default class LocalSqlServerDatabaseOnlineRepository implements DataBaseA
     } catch (error: any) {
       return `Falha ao obter informacoes da base de dados (Local SQL-SERVER). ${error.message}`;
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

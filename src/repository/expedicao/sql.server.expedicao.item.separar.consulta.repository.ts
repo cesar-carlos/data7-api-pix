@@ -16,10 +16,9 @@ export default class SqlServerExpedicaoSepararItemConsultaRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
   public async select(page: pagination): Promise<ExpedicaoItemSepararConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -33,15 +32,13 @@ export default class SqlServerExpedicaoSepararItemConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemSepararConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +55,6 @@ export default class SqlServerExpedicaoSepararItemConsultaRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

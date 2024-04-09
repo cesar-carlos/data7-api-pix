@@ -16,10 +16,9 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalDataBaseDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(select);
@@ -33,7 +32,6 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -41,7 +39,7 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
     let pool: ConnectionPool | null = null;
 
     try {
-      pool = await this.connect.getConnection();
+      const pool: ConnectionPool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.database.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +56,6 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -89,11 +86,10 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalDataBaseDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -108,9 +104,9 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

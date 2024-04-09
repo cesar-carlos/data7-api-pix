@@ -20,10 +20,9 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   public async select(): Promise<LiberacaoBloqueioDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(select);
@@ -57,15 +56,13 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[]): Promise<LiberacaoBloqueioDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'liberacao.bloqueio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const _params = ParamsCommonRepository.build(params);
@@ -102,7 +99,6 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -158,11 +154,10 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
   }
 
   private async actonEntity(entity: LiberacaoBloqueioDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -180,9 +175,9 @@ export default class LocalSqlServerLiberacaoBloqueioRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

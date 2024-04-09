@@ -8,10 +8,9 @@ export default class LocalSqlServerSequences implements LocalBaseRepositorySeque
   private connect = ConnectionSqlServerMssql.getInstance();
 
   public async select(name: string): Promise<SequenceDto | undefined> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const sql = `SELECT NEXT VALUE FOR ${name} value`;
       const result = await pool.request().query(sql);
 
@@ -25,7 +24,6 @@ export default class LocalSqlServerSequences implements LocalBaseRepositorySeque
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

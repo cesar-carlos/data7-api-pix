@@ -16,10 +16,9 @@ export default class LocalSqlServerCobrancaDigitalLogRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalLogDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.log.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(select);
@@ -33,15 +32,13 @@ export default class LocalSqlServerCobrancaDigitalLogRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalLogDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.log.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +55,6 @@ export default class LocalSqlServerCobrancaDigitalLogRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -89,11 +85,10 @@ export default class LocalSqlServerCobrancaDigitalLogRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalLogDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -104,9 +99,9 @@ export default class LocalSqlServerCobrancaDigitalLogRepository
 
       await transaction.commit();
     } catch (error: any) {
+      await transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

@@ -16,10 +16,9 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
   public async select(): Promise<ExpedicaoTipoOperacaoExpedicaoDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.tipo.operacao.expedicao.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
 
@@ -38,10 +37,9 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ExpedicaoTipoOperacaoExpedicaoDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.tipo.operacao.expedicao.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -88,11 +86,10 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
   }
 
   private async actonEntity(entity: ExpedicaoTipoOperacaoExpedicaoDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -115,6 +112,7 @@ export default class SqlServerExpedicaoTipoOperacaoExpedicaoRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
     }

@@ -16,10 +16,9 @@ export default class SqlServerExpedicaoItemConferirRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
   public async select(): Promise<ExpedicaoItemConferirDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -38,10 +37,9 @@ export default class SqlServerExpedicaoItemConferirRepository
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemConferirDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +56,6 @@ export default class SqlServerExpedicaoItemConferirRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -89,11 +86,10 @@ export default class SqlServerExpedicaoItemConferirRepository
   }
 
   private async actonEntity(entity: ExpedicaoItemConferirDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -110,6 +106,7 @@ export default class SqlServerExpedicaoItemConferirRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
     }

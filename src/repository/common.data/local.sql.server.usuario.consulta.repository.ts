@@ -16,10 +16,9 @@ export default class LocalSqlServerUsuarioConsultaRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
   public async select(page: pagination): Promise<UsuarioConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'usuario.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -37,10 +36,9 @@ export default class LocalSqlServerUsuarioConsultaRepository
   }
 
   public async selectWhere(params: params[] | string = []): Promise<UsuarioConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'usuario.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 

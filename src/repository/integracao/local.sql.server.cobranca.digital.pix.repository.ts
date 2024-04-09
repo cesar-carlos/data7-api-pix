@@ -16,10 +16,9 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('integracao');
 
   public async select(): Promise<CobrancaDigitalPixDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.pix.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(select);
@@ -33,15 +32,13 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
   public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalPixDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.pix.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -58,7 +55,6 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 
@@ -90,11 +86,10 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
   }
 
   private async actonEntity(entity: CobrancaDigitalPixDto, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -110,9 +105,9 @@ export default class LocalSqlServerCobrancaDigitalPixRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
-      //if (pool) pool.close();
     }
   }
 }

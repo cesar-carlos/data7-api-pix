@@ -16,10 +16,9 @@ export default class SqlServerExpedicaoItemArmazenarConsultaRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
   public async select(page: pagination): Promise<ExpedicaoItemArmazenarConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -37,10 +36,9 @@ export default class SqlServerExpedicaoItemArmazenarConsultaRepository
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ExpedicaoItemArmazenarConsultaDto[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 

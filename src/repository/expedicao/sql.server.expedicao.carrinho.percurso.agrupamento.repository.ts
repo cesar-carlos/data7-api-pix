@@ -16,10 +16,9 @@ export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
   public async select(): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
@@ -37,10 +36,9 @@ export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository
   }
 
   public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      pool = await this.connect.getConnection();
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.agrupamento.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
@@ -87,11 +85,10 @@ export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository
   }
 
   private async actonEntity(entity: ExpedicaoCarrinhoPercursoAgrupamento, sqlCommand: string): Promise<void> {
-    let pool: ConnectionPool | null = null;
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      pool = await this.connect.getConnection();
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -110,6 +107,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository
 
       await transaction.commit();
     } catch (error: any) {
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
     }
