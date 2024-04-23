@@ -1,4 +1,5 @@
 UPDATE Expedicao.ItemArmazenar SET
+  Situacao = @Situacao,
   CodcarrinhoPercurso = @CodcarrinhoPercurso,
   ItemcarrinhoPercurso = @ItemcarrinhoPercurso,
 	CodProduto = @CodProduto,

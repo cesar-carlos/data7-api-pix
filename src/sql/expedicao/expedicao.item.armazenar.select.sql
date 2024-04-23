@@ -2,6 +2,7 @@ SELECT
 	CodEmpresa,
 	CodArmazenar,
 	Item,
+  Situacao,
   CodcarrinhoPercurso,
   ItemcarrinhoPercurso,
 	CodProduto,

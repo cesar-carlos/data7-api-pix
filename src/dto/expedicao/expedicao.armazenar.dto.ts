@@ -2,7 +2,6 @@ export default class ExpedicaoArmazenarDto {
   CodEmpresa: number;
   CodArmazenar: number;
   NumeroDocumento?: string;
-  Situacao: string;
   Origem: string;
   CodOrigem: number;
   CodPrioridade: number;
@@ -17,7 +16,6 @@ export default class ExpedicaoArmazenarDto {
     CodEmpresa: number;
     CodArmazenar: number;
     NumeroDocumento?: string;
-    Situacao: string;
     Origem: string;
     CodOrigem: number;
     CodPrioridade: number;
@@ -31,7 +29,6 @@ export default class ExpedicaoArmazenarDto {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
     this.NumeroDocumento = params.NumeroDocumento;
-    this.Situacao = params.Situacao;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.CodPrioridade = params.CodPrioridade;
@@ -48,7 +45,6 @@ export default class ExpedicaoArmazenarDto {
     CodArmazenar?: number;
     CodTipoOperacaoArmazenar?: number;
     NumeroDocumento?: string;
-    Situacao?: string;
     Origem?: string;
     CodOrigem?: number;
     CodPrioridade?: number;
@@ -63,7 +59,6 @@ export default class ExpedicaoArmazenarDto {
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       NumeroDocumento: params.NumeroDocumento ?? this.NumeroDocumento,
-      Situacao: params.Situacao ?? this.Situacao,
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       CodPrioridade: params.CodPrioridade ?? this.CodPrioridade,
@@ -81,7 +76,6 @@ export default class ExpedicaoArmazenarDto {
     CodArmazenar: number;
     CodTipoOperacaoArmazenar: number;
     NumeroDocumento?: string;
-    Situacao: string;
     Origem: string;
     CodOrigem: number;
     CodPrioridade: number;
@@ -96,7 +90,6 @@ export default class ExpedicaoArmazenarDto {
       CodEmpresa: params.CodEmpresa,
       CodArmazenar: params.CodArmazenar,
       NumeroDocumento: params.NumeroDocumento,
-      Situacao: params.Situacao,
       Origem: params.Origem,
       CodOrigem: params.CodOrigem,
       CodPrioridade: params.CodPrioridade,
@@ -114,7 +107,6 @@ export default class ExpedicaoArmazenarDto {
       CodEmpresa: this.CodEmpresa,
       CodArmazenar: this.CodArmazenar,
       NumeroDocumento: this.NumeroDocumento,
-      Situacao: this.Situacao,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       CodPrioridade: this.CodPrioridade,

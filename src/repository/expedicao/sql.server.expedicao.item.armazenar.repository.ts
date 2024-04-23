@@ -95,6 +95,7 @@ export default class SqlServerExpedicaoItemArmazenarRepository
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodArmazenar', sql.Int, entity.CodArmazenar)
         .input('Item', sql.VarChar(5), entity.Item)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
         .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
         .input('CodProduto', sql.Int, entity.CodProduto)

@@ -95,7 +95,6 @@ export default class SqlServerExpedicaoArmazenarRepository
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodArmazenar', sql.Int, entity.CodArmazenar)
         .input('NumeroDocumento', sql.VarChar(60), entity.NumeroDocumento)
-        .input('Situacao', sql.VarChar(30), entity.Situacao)
         .input('Origem', sql.VarChar(6), entity.Origem)
         .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('CodPrioridade', sql.Int, entity.CodPrioridade)

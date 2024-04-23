@@ -2,6 +2,7 @@ export default class ExpedicaoItemArmazenarDto {
   CodEmpresa: number;
   CodArmazenar: number;
   Item: string;
+  Situacao: string;
   CodCarrinhoPercurso?: number;
   ItemCarrinhoPercurso?: string;
   CodProduto: number;
@@ -15,6 +16,7 @@ export default class ExpedicaoItemArmazenarDto {
     CodEmpresa: number;
     CodArmazenar: number;
     Item: string;
+    Situacao: string;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
     CodProduto: number;
@@ -27,6 +29,7 @@ export default class ExpedicaoItemArmazenarDto {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
     this.Item = params.Item;
+    this.Situacao = params.Situacao;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
     this.CodProduto = params.CodProduto;
@@ -41,6 +44,7 @@ export default class ExpedicaoItemArmazenarDto {
     CodEmpresa?: number;
     CodArmazenar?: number;
     Item?: string;
+    Situacao?: string;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
     CodProduto?: number;
@@ -54,6 +58,7 @@ export default class ExpedicaoItemArmazenarDto {
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
       Item: params.Item ?? this.Item,
+      Situacao: params.Situacao ?? this.Situacao,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
       CodProduto: params.CodProduto ?? this.CodProduto,
@@ -70,6 +75,7 @@ export default class ExpedicaoItemArmazenarDto {
       CodEmpresa: object.CodEmpresa,
       CodArmazenar: object.CodArmazenar,
       Item: object.Item,
+      Situacao: object.Situacao,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
       CodProduto: object.CodProduto,
@@ -86,6 +92,7 @@ export default class ExpedicaoItemArmazenarDto {
       CodEmpresa: this.CodEmpresa,
       CodArmazenar: this.CodArmazenar,
       Item: this.Item,
+      Situacao: this.Situacao,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
       CodProduto: this.CodProduto,

@@ -2,7 +2,6 @@ SELECT
 	CodEmpresa,
 	CodArmazenar,
 	NumeroDocumento,
-	Situacao,
 	Origem,
 	CodOrigem,
   CodPrioridade,
