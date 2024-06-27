@@ -6,7 +6,7 @@ export default class ExpedicaoItemSepararDto {
   Origem: string;
   CodOrigem: number;
   ItemOrigem: string;
-  CodLocaArmazenagem: number;
+  CodLocalArmazenagem: number;
   CodProduto: number;
   CodUnidadeMedida: string;
   Quantidade: number;
@@ -22,7 +22,7 @@ export default class ExpedicaoItemSepararDto {
     Origem: string;
     CodOrigem: number;
     ItemOrigem: string;
-    CodLocaArmazenagem: number;
+    CodLocalArmazenagem: number;
     CodProduto: number;
     CodUnidadeMedida: string;
     Quantidade: number;
@@ -37,7 +37,7 @@ export default class ExpedicaoItemSepararDto {
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.ItemOrigem = params.ItemOrigem;
-    this.CodLocaArmazenagem = params.CodLocaArmazenagem;
+    this.CodLocalArmazenagem = params.CodLocalArmazenagem;
     this.CodProduto = params.CodProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
     this.Quantidade = params.Quantidade;
@@ -54,7 +54,7 @@ export default class ExpedicaoItemSepararDto {
     Origem,
     CodOrigem,
     ItemOrigem,
-    CodLocaArmazenagem,
+    CodLocalArmazenagem,
     CodProduto,
     CodUnidadeMedida,
     Quantidade,
@@ -69,7 +69,7 @@ export default class ExpedicaoItemSepararDto {
     Origem?: string;
     CodOrigem?: number;
     ItemOrigem?: string;
-    CodLocaArmazenagem?: number;
+    CodLocalArmazenagem?: number;
     CodProduto?: number;
     CodUnidadeMedida?: string;
     Quantidade?: number;
@@ -85,7 +85,7 @@ export default class ExpedicaoItemSepararDto {
       Origem: Origem ?? this.Origem,
       CodOrigem: CodOrigem ?? this.CodOrigem,
       ItemOrigem: ItemOrigem ?? this.ItemOrigem,
-      CodLocaArmazenagem: CodLocaArmazenagem ?? this.CodLocaArmazenagem,
+      CodLocalArmazenagem: CodLocalArmazenagem ?? this.CodLocalArmazenagem,
       CodProduto: CodProduto ?? this.CodProduto,
       CodUnidadeMedida: CodUnidadeMedida ?? this.CodUnidadeMedida,
       Quantidade: Quantidade ?? this.Quantidade,
@@ -104,7 +104,7 @@ export default class ExpedicaoItemSepararDto {
       Origem: object.Origem,
       CodOrigem: object.CodOrigem,
       ItemOrigem: object.ItemOrigem,
-      CodLocaArmazenagem: object.CodLocaArmazenagem,
+      CodLocalArmazenagem: object.CodLocalArmazenagem,
       CodProduto: object.CodProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
       Quantidade: object.Quantidade,
@@ -123,7 +123,7 @@ export default class ExpedicaoItemSepararDto {
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       ItemOrigem: this.ItemOrigem,
-      CodLocaArmazenagem: this.CodLocaArmazenagem,
+      CodLocalArmazenagem: this.CodLocalArmazenagem,
       CodProduto: this.CodProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,
       Quantidade: Number(this.Quantidade).toFixed(4),

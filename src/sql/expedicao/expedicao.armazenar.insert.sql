@@ -1,9 +1,9 @@
 INSERT INTO Expedicao.Armazenar(
 	CodEmpresa,
 	CodArmazenar,
-	NumeroDocumento,
 	Origem,
 	CodOrigem,
+	NumeroDocumento,
   CodPrioridade,
 	DataLancamento,
 	HoraLancamento,
@@ -15,9 +15,9 @@ INSERT INTO Expedicao.Armazenar(
 VALUES (
 	@CodEmpresa,
 	@CodArmazenar,
-	@NumeroDocumento,
 	@Origem,
 	@CodOrigem,
+	@NumeroDocumento,
   @CodPrioridade,
 	@DataLancamento,
 	@HoraLancamento,

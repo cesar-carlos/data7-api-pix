@@ -27,7 +27,7 @@ FROM(
       prod.CodigoOriginal,
       prod.Endereco,
       pe.Descricao EnderecoDescricao,
-      ise.CodLocaArmazenagem,
+      ise.CodLocalArmazenagem,
       la.Nome NomeLocaArmazenagem,
       ise.Quantidade,
       ise.QuantidadeInterna,
@@ -40,5 +40,5 @@ FROM(
       LEFT JOIN GrupoProduto gp ON gp.CodGrupoProduto = prod.CodGrupoProduto
       LEFT JOIN Marca m ON m.CodMarca = prod.CodMarca
       LEFT JOIN Expedicao.SetorEstoque se ON se.CodSetorEstoque = ise.CodSetorEstoque
-      LEFT JOIN LocalArmazenagem la ON la.CodLocalArmazenagem = ise.CodLocaArmazenagem
+      LEFT JOIN LocalArmazenagem la ON la.CodLocalArmazenagem = ise.CodLocalArmazenagem
   ) SepararItemConsulta

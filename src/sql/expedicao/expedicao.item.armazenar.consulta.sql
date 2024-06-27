@@ -6,6 +6,7 @@ FROM (
       ia.Situacao,
       ia.CodcarrinhoPercurso,
       ia.ItemcarrinhoPercurso,
+      ia.CodLocalArmazenagem,
       ia.CodProduto,
       ia.NomeProduto,
       ia.CodUnidadeMedida,

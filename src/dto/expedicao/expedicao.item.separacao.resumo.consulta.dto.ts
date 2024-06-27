@@ -8,6 +8,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
   ItemCarrinhoPercurso: string;
   CodCarrinho: number;
   DescricaoCarrinho: string;
+  CodLocalArmazenagem: number;
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
@@ -27,6 +28,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
     ItemCarrinhoPercurso: string;
     CodCarrinho: number;
     DescricaoCarrinho: string;
+    CodLocalArmazenagem: number;
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
@@ -45,6 +47,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
     this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
     this.CodCarrinho = params.CodCarrinho;
     this.DescricaoCarrinho = params.DescricaoCarrinho;
+    this.CodLocalArmazenagem = params.CodLocalArmazenagem;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
@@ -55,25 +58,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
     this.Quantidade = params.Quantidade;
   }
 
-  public copyWith({
-    CodEmpresa,
-    CodSepararEstoque,
-    Origem,
-    CodOrigem,
-    Situacao,
-    CodCarrinhoPercurso,
-    ItemCarrinhoPercurso,
-    CodCarrinho,
-    DescricaoCarrinho,
-    CodProduto,
-    NomeProduto,
-    CodUnidadeMedida,
-    DescricaoUnidadeMedida,
-    CodigoBarras,
-    CodProdutoEndereco,
-    DescricaoProdutoEndereco,
-    Quantidade,
-  }: {
+  public copyWith(params: {
     CodEmpresa?: number;
     CodSepararEstoque?: number;
     Origem?: String;
@@ -83,6 +68,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
     ItemCarrinhoPercurso?: string;
     CodCarrinho?: number;
     DescricaoCarrinho?: string;
+    CodLocalArmazenagem?: number;
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
@@ -93,23 +79,24 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
     Quantidade?: number;
   }): ExpedicaoItemSeparacaoResumoConsultaDto {
     return new ExpedicaoItemSeparacaoResumoConsultaDto({
-      CodEmpresa: CodEmpresa ?? this.CodEmpresa,
-      CodSepararEstoque: CodSepararEstoque ?? this.CodSepararEstoque,
-      Origem: Origem ?? this.Origem,
-      CodOrigem: CodOrigem ?? this.CodOrigem,
-      Situacao: Situacao ?? this.Situacao,
-      CodCarrinhoPercurso: CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
-      ItemCarrinhoPercurso: ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
-      CodCarrinho: CodCarrinho ?? this.CodCarrinho,
-      DescricaoCarrinho: DescricaoCarrinho ?? this.DescricaoCarrinho,
-      CodProduto: CodProduto ?? this.CodProduto,
-      NomeProduto: NomeProduto ?? this.NomeProduto,
-      CodUnidadeMedida: CodUnidadeMedida ?? this.CodUnidadeMedida,
-      DescricaoUnidadeMedida: DescricaoUnidadeMedida ?? this.DescricaoUnidadeMedida,
-      CodigoBarras: CodigoBarras ?? this.CodigoBarras,
-      CodProdutoEndereco: CodProdutoEndereco ?? this.CodProdutoEndereco,
-      DescricaoProdutoEndereco: DescricaoProdutoEndereco ?? this.DescricaoProdutoEndereco,
-      Quantidade: Quantidade ?? this.Quantidade,
+      CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
+      CodSepararEstoque: params.CodSepararEstoque ?? this.CodSepararEstoque,
+      Origem: params.Origem ?? this.Origem,
+      CodOrigem: params.CodOrigem ?? this.CodOrigem,
+      Situacao: params.Situacao ?? this.Situacao,
+      CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
+      ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
+      CodCarrinho: params.CodCarrinho ?? this.CodCarrinho,
+      DescricaoCarrinho: params.DescricaoCarrinho ?? this.DescricaoCarrinho,
+      CodLocalArmazenagem: params.CodLocalArmazenagem ?? this.CodLocalArmazenagem,
+      CodProduto: params.CodProduto ?? this.CodProduto,
+      NomeProduto: params.NomeProduto ?? this.NomeProduto,
+      CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
+      DescricaoUnidadeMedida: params.DescricaoUnidadeMedida ?? this.DescricaoUnidadeMedida,
+      CodigoBarras: params.CodigoBarras ?? this.CodigoBarras,
+      CodProdutoEndereco: params.CodProdutoEndereco ?? this.CodProdutoEndereco,
+      DescricaoProdutoEndereco: params.DescricaoProdutoEndereco ?? this.DescricaoProdutoEndereco,
+      Quantidade: params.Quantidade ?? this.Quantidade,
     });
   }
 
@@ -124,6 +111,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
       CodCarrinho: object.CodCarrinho,
       DescricaoCarrinho: object.DescricaoCarrinho,
+      CodLocalArmazenagem: object.CodLocalArmazenagem,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
@@ -146,6 +134,7 @@ export default class ExpedicaoItemSeparacaoResumoConsultaDto {
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
       CodCarrinho: this.CodCarrinho,
       DescricaoCarrinho: this.DescricaoCarrinho,
+      CodLocalArmazenagem: this.CodLocalArmazenagem,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,

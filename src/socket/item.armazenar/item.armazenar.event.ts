@@ -85,8 +85,8 @@ export default class ItemArmazenarEvent {
         }
 
         const newItens = await this.repository.select(`
-            CodEmpresa = ${itens.shift()?.CodEmpresa}
-              AND CodArmazenar = ${itens.shift()?.CodArmazenar} `);
+            CodEmpresa = ${itens?.[0].CodEmpresa}
+              AND CodArmazenar = ${itens?.[0].CodArmazenar} `);
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,

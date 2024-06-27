@@ -16,6 +16,7 @@ export default class ConnectionSqlServerMssql {
     try {
       await this.pool.connect();
     } catch (error: any) {
+      console.log(error);
       throw new Error(error.message);
     }
   }

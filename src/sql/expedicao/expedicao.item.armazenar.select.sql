@@ -2,13 +2,14 @@ SELECT
 	CodEmpresa,
 	CodArmazenar,
 	Item,
-  Situacao,
-  CodcarrinhoPercurso,
-  ItemcarrinhoPercurso,
+	Situacao,
+	CodCarrinhoPercurso,
+	ItemCarrinhoPercurso,
+  CodLocalArmazenagem,
 	CodProduto,
 	NomeProduto,
 	CodUnidadeMedida,
-  CodProdutoEndereco,
+	CodProdutoEndereco,
 	CodigoBarras,
 	Quantidade
 FROM Expedicao.ItemArmazenar

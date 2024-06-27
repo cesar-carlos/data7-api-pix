@@ -1,9 +1,9 @@
 export default class ExpedicaoArmazenarDto {
   CodEmpresa: number;
   CodArmazenar: number;
-  NumeroDocumento?: string;
   Origem: string;
   CodOrigem: number;
+  NumeroDocumento?: string;
   CodPrioridade: number;
   DataLancamento: Date;
   HoraLancamento: string;
@@ -15,9 +15,9 @@ export default class ExpedicaoArmazenarDto {
   constructor(params: {
     CodEmpresa: number;
     CodArmazenar: number;
-    NumeroDocumento?: string;
     Origem: string;
     CodOrigem: number;
+    NumeroDocumento?: string;
     CodPrioridade: number;
     DataLancamento: Date;
     HoraLancamento: string;
@@ -28,9 +28,9 @@ export default class ExpedicaoArmazenarDto {
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodArmazenar = params.CodArmazenar;
-    this.NumeroDocumento = params.NumeroDocumento;
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
+    this.NumeroDocumento = params.NumeroDocumento;
     this.CodPrioridade = params.CodPrioridade;
     this.DataLancamento = params.DataLancamento;
     this.HoraLancamento = params.HoraLancamento;
@@ -43,10 +43,9 @@ export default class ExpedicaoArmazenarDto {
   public copyWith(params: {
     CodEmpresa?: number;
     CodArmazenar?: number;
-    CodTipoOperacaoArmazenar?: number;
-    NumeroDocumento?: string;
     Origem?: string;
     CodOrigem?: number;
+    NumeroDocumento?: string;
     CodPrioridade?: number;
     DataLancamento?: Date;
     HoraLancamento?: string;
@@ -58,9 +57,9 @@ export default class ExpedicaoArmazenarDto {
     return new ExpedicaoArmazenarDto({
       CodEmpresa: params.CodEmpresa ?? this.CodEmpresa,
       CodArmazenar: params.CodArmazenar ?? this.CodArmazenar,
-      NumeroDocumento: params.NumeroDocumento ?? this.NumeroDocumento,
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
+      NumeroDocumento: params.NumeroDocumento ?? this.NumeroDocumento,
       CodPrioridade: params.CodPrioridade ?? this.CodPrioridade,
       DataLancamento: params.DataLancamento ?? this.DataLancamento,
       HoraLancamento: params.HoraLancamento ?? this.HoraLancamento,
@@ -74,10 +73,9 @@ export default class ExpedicaoArmazenarDto {
   public static fromObject(params: {
     CodEmpresa: number;
     CodArmazenar: number;
-    CodTipoOperacaoArmazenar: number;
-    NumeroDocumento?: string;
     Origem: string;
     CodOrigem: number;
+    NumeroDocumento?: string;
     CodPrioridade: number;
     DataLancamento: Date;
     HoraLancamento: string;
@@ -89,9 +87,9 @@ export default class ExpedicaoArmazenarDto {
     return new ExpedicaoArmazenarDto({
       CodEmpresa: params.CodEmpresa,
       CodArmazenar: params.CodArmazenar,
-      NumeroDocumento: params.NumeroDocumento,
       Origem: params.Origem,
       CodOrigem: params.CodOrigem,
+      NumeroDocumento: params.NumeroDocumento,
       CodPrioridade: params.CodPrioridade,
       DataLancamento: params.DataLancamento,
       HoraLancamento: params.HoraLancamento,
@@ -106,9 +104,9 @@ export default class ExpedicaoArmazenarDto {
     return {
       CodEmpresa: this.CodEmpresa,
       CodArmazenar: this.CodArmazenar,
-      NumeroDocumento: this.NumeroDocumento,
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
+      NumeroDocumento: this.NumeroDocumento,
       CodPrioridade: this.CodPrioridade,
       DataLancamento: this.DataLancamento,
       HoraLancamento: this.HoraLancamento,

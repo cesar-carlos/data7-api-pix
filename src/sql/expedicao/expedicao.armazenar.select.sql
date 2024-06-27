@@ -1,9 +1,9 @@
 SELECT
 	CodEmpresa,
 	CodArmazenar,
-	NumeroDocumento,
 	Origem,
 	CodOrigem,
+	NumeroDocumento,
   CodPrioridade,
 	DataLancamento,
 	HoraLancamento,

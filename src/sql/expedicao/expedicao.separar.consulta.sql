@@ -15,7 +15,9 @@ FROM (
       se.Historico,
       se.Observacao
     FROM Expedicao.SepararEstoque se
-      INNER JOIN Expedicao.TipoOperacaoExpedicao toe ON toe.CodEmpresa = se.CodEmpresa
+    INNER JOIN Expedicao.TipoOperacaoExpedicao toe ON
+		toe.CodEmpresa = se.CodEmpresa
       AND toe.CodTipoOperacaoExpedicao = se.CodTipoOperacaoExpedicao
-      INNER JOIN Expedicao.Prioridade pri ON pri.CodPrioridade = se.CodPrioridade
+    INNER JOIN Expedicao.Prioridade pri ON
+		pri.CodPrioridade = se.CodPrioridade
   ) SepararConsulta

@@ -99,7 +99,7 @@ export default class SqlServerExpedicaoItemSepararRepository
         .input('Origem', sql.VarChar(6), entity.Origem)
         .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('ItemOrigem', sql.VarChar(5), entity.ItemOrigem)
-        .input('CodLocaArmazenagem', sql.Int, entity.CodLocaArmazenagem)
+        .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
         .input('CodProduto', sql.Int, entity.CodProduto)
         .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
         .input('Quantidade', sql.Float, entity.Quantidade)

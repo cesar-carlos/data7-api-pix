@@ -5,6 +5,7 @@ export default class ExpedicaoItemArmazenarDto {
   Situacao: string;
   CodCarrinhoPercurso?: number;
   ItemCarrinhoPercurso?: string;
+  CodLocalArmazenagem: number;
   CodProduto: number;
   NomeProduto: string;
   CodUnidadeMedida: string;
@@ -19,6 +20,7 @@ export default class ExpedicaoItemArmazenarDto {
     Situacao: string;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
+    CodLocalArmazenagem: number;
     CodProduto: number;
     NomeProduto: string;
     CodUnidadeMedida: string;
@@ -32,6 +34,7 @@ export default class ExpedicaoItemArmazenarDto {
     this.Situacao = params.Situacao;
     this.CodCarrinhoPercurso = params.CodCarrinhoPercurso;
     this.ItemCarrinhoPercurso = params.ItemCarrinhoPercurso;
+    this.CodLocalArmazenagem = params.CodLocalArmazenagem;
     this.CodProduto = params.CodProduto;
     this.NomeProduto = params.NomeProduto;
     this.CodUnidadeMedida = params.CodUnidadeMedida;
@@ -47,6 +50,7 @@ export default class ExpedicaoItemArmazenarDto {
     Situacao?: string;
     CodCarrinhoPercurso?: number;
     ItemCarrinhoPercurso?: string;
+    CodLocalArmazenagem?: number;
     CodProduto?: number;
     NomeProduto?: string;
     CodUnidadeMedida?: string;
@@ -61,6 +65,7 @@ export default class ExpedicaoItemArmazenarDto {
       Situacao: params.Situacao ?? this.Situacao,
       CodCarrinhoPercurso: params.CodCarrinhoPercurso ?? this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: params.ItemCarrinhoPercurso ?? this.ItemCarrinhoPercurso,
+      CodLocalArmazenagem: params.CodLocalArmazenagem ?? this.CodLocalArmazenagem,
       CodProduto: params.CodProduto ?? this.CodProduto,
       NomeProduto: params.NomeProduto ?? this.NomeProduto,
       CodUnidadeMedida: params.CodUnidadeMedida ?? this.CodUnidadeMedida,
@@ -78,6 +83,7 @@ export default class ExpedicaoItemArmazenarDto {
       Situacao: object.Situacao,
       CodCarrinhoPercurso: object.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: object.ItemCarrinhoPercurso,
+      CodLocalArmazenagem: object.CodLocalArmazenagem,
       CodProduto: object.CodProduto,
       NomeProduto: object.NomeProduto,
       CodUnidadeMedida: object.CodUnidadeMedida,
@@ -95,6 +101,7 @@ export default class ExpedicaoItemArmazenarDto {
       Situacao: this.Situacao,
       CodCarrinhoPercurso: this.CodCarrinhoPercurso,
       ItemCarrinhoPercurso: this.ItemCarrinhoPercurso,
+      CodLocalArmazenagem: this.CodLocalArmazenagem,
       CodProduto: this.CodProduto,
       NomeProduto: this.NomeProduto,
       CodUnidadeMedida: this.CodUnidadeMedida,

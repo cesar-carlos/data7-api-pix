@@ -10,6 +10,7 @@ SELECT
 	ise.ItemCarrinhoPercurso,
 	cpe.CodCarrinho,
 	cart.Descricao DescricaoCarrinho,
+	isee.CodLocalArmazenagem,
 	ise.CodProduto,
 	p.Nome NomeProduto,
 	ise.CodUnidadeMedida,
@@ -19,6 +20,10 @@ SELECT
 	pe.Descricao DescricaoProdutoEndereco,
 	SUM(ise.Quantidade) Quantidade
 FROM Expedicao.ItemSeparacaoEstoque ise
+INNER JOIN Expedicao.ItemSepararEstoque isee ON
+	isee.CodEmpresa = ise.CodEmpresa
+AND isee.CodSepararEstoque = ise.CodSepararEstoque
+AND isee.CodProduto = ise.CodProduto
 INNER JOIN Expedicao.SepararEstoque se ON
 	se.CodEmpresa = ise.CodEmpresa
 AND se.CodSepararEstoque = ise.CodSepararEstoque
@@ -47,6 +52,7 @@ GROUP By
 	ise.ItemCarrinhoPercurso,
 	cpe.CodCarrinho,
 	cart.Descricao,
+	isee.CodLocalArmazenagem,
 	ise.CodProduto,
 	p.Nome,
 	ise.CodUnidadeMedida,

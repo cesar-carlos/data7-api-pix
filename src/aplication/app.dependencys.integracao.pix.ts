@@ -1,8 +1,7 @@
 import { eContext } from '../dependency/container.dependency';
 
 import ContainerDependency from '../dependency/container.dependency';
-import SicrediCreatePixAdapter from '../adapter/sicredi.create.pix.adapter';
-import GerencianetCreatePixAdapter from '../adapter/gerencianet.create.pix.adapter';
+//import GerencianetCreatePixAdapter from '../adapter/gerencianet.create.pix.adapter';
 import FirebaseCobrancaPixRepository from '../repository/firebase/firebase.cobranca.pix.repository';
 import FirebasePagamentoPixRepository from '../repository/firebase/firebase.pagamento.pix.repository';
 import FirebaseDatabaseOnlineRepository from '../repository/firebase/firebase.database.online.repository';

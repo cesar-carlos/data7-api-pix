@@ -1,7 +1,7 @@
 UPDATE Expedicao.Armazenar SET
-	NumeroDocumento = @NumeroDocumento,
 	Origem = @Origem,
 	CodOrigem = @CodOrigem,
+	NumeroDocumento = @NumeroDocumento,
   CodPrioridade = @CodPrioridade,
 	DataLancamento = @DataLancamento,
 	HoraLancamento = @HoraLancamento,

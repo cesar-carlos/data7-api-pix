@@ -26,7 +26,7 @@ export default class ExpedicaoItemSepararConsultaDto {
   CodigoOriginal?: string;
   Endereco?: string;
   EnderecoDescricao?: string;
-  CodLocaArmazenagem: number;
+  CodLocalArmazenagem: number;
   NomeLocaArmazenagem: string;
   Quantidade: number;
   QuantidadeInterna: number;
@@ -61,7 +61,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     CodigoOriginal?: string;
     Endereco?: string;
     EnderecoDescricao?: string;
-    CodLocaArmazenagem: number;
+    CodLocalArmazenagem: number;
     NomeLocaArmazenagem: string;
     Quantidade: number;
     QuantidadeInterna: number;
@@ -95,7 +95,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.CodigoOriginal = params.CodigoOriginal;
     this.Endereco = params.Endereco;
     this.EnderecoDescricao = params.EnderecoDescricao;
-    this.CodLocaArmazenagem = params.CodLocaArmazenagem;
+    this.CodLocalArmazenagem = params.CodLocalArmazenagem;
     this.NomeLocaArmazenagem = params.NomeLocaArmazenagem;
     this.Quantidade = params.Quantidade;
     this.QuantidadeInterna = params.QuantidadeInterna;
@@ -131,7 +131,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     CodigoOriginal?: string;
     Endereco?: string;
     EnderecoDescricao?: string;
-    CodLocaArmazenagem?: number;
+    CodLocalArmazenagem?: number;
     NomeLocaArmazenagem?: string;
     Quantidade?: number;
     QuantidadeInterna?: number;
@@ -165,7 +165,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.CodigoOriginal = params.CodigoOriginal ?? this.CodigoOriginal;
     this.Endereco = params.Endereco ?? this.Endereco;
     this.EnderecoDescricao = params.EnderecoDescricao ?? this.EnderecoDescricao;
-    this.CodLocaArmazenagem = params.CodLocaArmazenagem ?? this.CodLocaArmazenagem;
+    this.CodLocalArmazenagem = params.CodLocalArmazenagem ?? this.CodLocalArmazenagem;
     this.NomeLocaArmazenagem = params.NomeLocaArmazenagem ?? this.NomeLocaArmazenagem;
     this.Quantidade = params.Quantidade ?? this.Quantidade;
     this.QuantidadeInterna = params.QuantidadeInterna ?? this.QuantidadeInterna;
@@ -202,7 +202,7 @@ export default class ExpedicaoItemSepararConsultaDto {
       CodigoOriginal: object.CodigoOriginal,
       Endereco: object.Endereco,
       EnderecoDescricao: object.EnderecoDescricao,
-      CodLocaArmazenagem: object.CodLocaArmazenagem,
+      CodLocalArmazenagem: object.CodLocalArmazenagem,
       NomeLocaArmazenagem: object.NomeLocaArmazenagem,
       Quantidade: object.Quantidade ?? 0.0,
       QuantidadeInterna: object.QuantidadeInterna ?? 0.0,
@@ -240,7 +240,7 @@ export default class ExpedicaoItemSepararConsultaDto {
       CodigoOriginal: this.CodigoOriginal,
       Endereco: this.Endereco,
       EnderecoDescricao: this.EnderecoDescricao,
-      CodLocaArmazenagem: this.CodLocaArmazenagem,
+      CodLocalArmazenagem: this.CodLocalArmazenagem,
       NomeLocaArmazenagem: this.NomeLocaArmazenagem,
       Quantidade: Number(this.Quantidade).toFixed(4),
       QuantidadeInterna: Number(this.QuantidadeInterna).toFixed(4),
