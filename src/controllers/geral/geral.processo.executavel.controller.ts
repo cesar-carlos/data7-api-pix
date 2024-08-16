@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { eContext } from '../../dependency/container.dependency';
 import { params } from '../../contracts/local.base.params';
+import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import ProcessoExecutavelDto from '../../dto/common.data/processo.executavel.dto';

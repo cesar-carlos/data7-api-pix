@@ -3,9 +3,9 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
+import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import SepararRepository from './separar.repository';
-import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 
 export default class SepararEvent {
   private repository = new SepararRepository();

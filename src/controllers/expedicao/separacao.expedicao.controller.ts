@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 
-import ExpedicaoConferirDto from '../../dto/expedicao/expedicao.conferir.dto';
-
-export default class ConferirExpedicaoController {
+export default class SeparacaoExpedicaoController {
   public static async get(req: Request, res: Response) {
     res.status(404).send({ message: 'not implemented get' });
   }
