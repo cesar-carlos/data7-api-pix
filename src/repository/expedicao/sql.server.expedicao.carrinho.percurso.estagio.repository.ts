@@ -35,16 +35,23 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
+  public async selectWhere(
+    params: params[] | string = [],
+    limit?: number,
+    orderBy?: string,
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.estagio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
+      const paramOrderBy = orderBy ? `ORDER BY CodCarrinhoPercurso ${orderBy}` : '';
+      const paramLimit = limit ? `TOP ${limit}` : '';
 
       const _params = ParamsCommonRepository.build(params);
-      const sql = _params ? `${select} WHERE ${_params}` : select;
-      const result = await pool.request().query(sql);
+      const _sql = (_params ? `${select} WHERE ${_params} ${paramOrderBy}` : select).replaceAll('@@TOP@@', paramLimit);
+
+      const result = await pool.request().query(_sql);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {

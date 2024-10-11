@@ -1,4 +1,4 @@
-SELECT CodEmpresa,
+SELECT @@TOP@@ CodEmpresa,
   CodCarrinhoPercurso,
   Item,
   Origem,

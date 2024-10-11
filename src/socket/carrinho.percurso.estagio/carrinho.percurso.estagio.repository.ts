@@ -18,10 +18,14 @@ export default class CarrinhoPercursoEstagioRepository {
     }
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
+  public async select(
+    params: params[] | string = [],
+    limit?: number,
+    orderBy?: string,
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, limit, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

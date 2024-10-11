@@ -49,9 +49,11 @@ export default class CarrinhoPercursoEstagioEvent {
       const session = json['Session'] ?? '';
       const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.estagio.select`;
       const params = json['Where'] ?? '';
+      const limit = json['Limit'] ?? '';
+      const orderBy = json['OrderBy'] ?? '';
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, limit, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
