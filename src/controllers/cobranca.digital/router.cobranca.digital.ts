@@ -34,7 +34,7 @@ export default class RouterCobrancaDigital {
   private cobranca() {
     this._router.get('/cobranca', CobrancaController.get);
     this._router.get('/cobranca/:id', CobrancaController.get);
-    this._router.post('/cobranca', CobrancaController.post);
+    //this._router.post('/cobranca', CobrancaController.post);
     this._router.put('/cobranca', CobrancaController.put);
     this._router.delete('/cobranca/:sysId', CobrancaController.delete);
   }
@@ -43,7 +43,7 @@ export default class RouterCobrancaDigital {
     this._router.get('/pagamento', PagamentoController.getOrigem);
     this._router.get('/pagamento/:txid', PagamentoController.get);
     this._router.post('/pagamento', PagamentoController.post);
-    this._router.put('/pagamento', PagamentoController.put);
+    //this._router.put('/pagamento', PagamentoController.put);
     this._router.delete('/pagamento/:sysId', PagamentoController.delete);
   }
 }
