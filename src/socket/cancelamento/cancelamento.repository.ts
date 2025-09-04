@@ -52,7 +52,7 @@ export default class CancelamentoRepository {
 
   public async sequence(): Promise<SequenceDto | undefined> {
     try {
-      const name = 'Cancelamento_Sequencia_1';
+      const name = 'Expedicao.Cancelamento_Sequencia_1';
       const repository = this.sequenceRepository();
       return await repository.select(name);
     } catch (error: any) {
