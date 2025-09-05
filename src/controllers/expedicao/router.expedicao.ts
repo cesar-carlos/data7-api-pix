@@ -4,6 +4,9 @@ import ConferirExpedicaoController from './conferir.notify.expedicao.controller'
 import ConferirNotifyExpedicaoController from './conferir.notify.expedicao.controller';
 import SeparacaoNotifyExpedicaoController from './separacao.notify.expedicao.controller';
 import SeparacaoExpedicaoController from './separacao.expedicao.controller';
+import CreateLoginAppController from './create.login.app.controller';
+import expedicaoCreateLoginAppRoute from '../../route/expedicao.create.login.app.route';
+import loginAppRoute from '../../route/login.app.route';
 
 export default class RouterExpedicao {
   static router = new RouterExpedicao().getRouter();
@@ -15,6 +18,9 @@ export default class RouterExpedicao {
     this.conferirNotifyExpedicaoController();
     this.sepacaoExpedicaoController();
     this.sepacaoNotifyExpedicaoController();
+    this.loginAppController();
+    this.createLoginAppRouteWithValidation();
+    this.loginAppRoute();
   }
 
   private getRouter() {
@@ -23,7 +29,7 @@ export default class RouterExpedicao {
 
   private index() {
     this._router.get('/', (req: Request, res: Response) => {
-      res.send('Data7 Expedição');
+      res.status(200).send({ message: 'Expedição API' });
     });
   }
 
@@ -53,5 +59,22 @@ export default class RouterExpedicao {
     this._router.post('/separacao/notify', SeparacaoNotifyExpedicaoController.post);
     this._router.put('/separacao/notify', SeparacaoNotifyExpedicaoController.put);
     this._router.delete('/separacao/notify', SeparacaoNotifyExpedicaoController.delete);
+  }
+
+  private loginAppController() {
+    // Rotas sem validação (legacy)
+    this._router.get('/login', CreateLoginAppController.get);
+    this._router.put('/login', CreateLoginAppController.put);
+    this._router.delete('/login', CreateLoginAppController.delete);
+  }
+
+  private createLoginAppRouteWithValidation() {
+    // Usar a rota de criação de login app com validação Zod
+    this._router.use('/', expedicaoCreateLoginAppRoute);
+  }
+
+  private loginAppRoute() {
+    // Rota para login/autenticação
+    this._router.use('/', loginAppRoute);
   }
 }

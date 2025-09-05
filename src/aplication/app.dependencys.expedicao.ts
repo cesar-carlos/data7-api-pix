@@ -36,6 +36,8 @@ import SqlServerExpedicaoArmazenarRepository from '../repository/expedicao/sql.s
 import SqlServerExpedicaoCarrinhoRepository from '../repository/expedicao/sql.server.expedicao.carrinho.repository';
 import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.server.expedicao.separar.repository';
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
+import SqlServerExpedicaoLoginAppRepository from '../repository/expedicao/sql.server.expedicao.login.app.repository';
+import SqlServerExpedicaoLoginAppConsultaRepository from '../repository/expedicao/sql.server.expedicao.login.app.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -253,6 +255,18 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamentoConsulta>',
       instance: new SqlServerExpedicaoCarrinhoPercursoAgrupamentoConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoLoginAppDto>',
+      instance: new SqlServerExpedicaoLoginAppRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoLoginAppConsultaDto>',
+      instance: new SqlServerExpedicaoLoginAppConsultaRepository(),
     });
   }
 }
