@@ -4,7 +4,6 @@ SELECT
 	lapp.CodLoginApp,
   lapp.Nome,
 	lapp.Ativo,
-	lapp.Senha,
 	lapp.CodUsuario,
 	lapp.FotoUsuario,
 	co.PermiteSepararForaSequencia,

@@ -3,9 +3,8 @@ import { Router, Request, Response } from 'express';
 import ConferirExpedicaoController from './conferir.notify.expedicao.controller';
 import ConferirNotifyExpedicaoController from './conferir.notify.expedicao.controller';
 import SeparacaoNotifyExpedicaoController from './separacao.notify.expedicao.controller';
-import SeparacaoExpedicaoController from './separacao.expedicao.controller';
-import CreateLoginAppController from './create.login.app.controller';
 import expedicaoCreateLoginAppRoute from '../../route/expedicao.create.login.app.route';
+import SeparacaoExpedicaoController from './separacao.expedicao.controller';
 import loginAppRoute from '../../route/login.app.route';
 
 export default class RouterExpedicao {
@@ -18,7 +17,6 @@ export default class RouterExpedicao {
     this.conferirNotifyExpedicaoController();
     this.sepacaoExpedicaoController();
     this.sepacaoNotifyExpedicaoController();
-    this.loginAppController();
     this.createLoginAppRouteWithValidation();
     this.loginAppRoute();
   }
@@ -61,20 +59,11 @@ export default class RouterExpedicao {
     this._router.delete('/separacao/notify', SeparacaoNotifyExpedicaoController.delete);
   }
 
-  private loginAppController() {
-    // Rotas sem validação (legacy)
-    this._router.get('/login', CreateLoginAppController.get);
-    this._router.put('/login', CreateLoginAppController.put);
-    this._router.delete('/login', CreateLoginAppController.delete);
-  }
-
   private createLoginAppRouteWithValidation() {
-    // Usar a rota de criação de login app com validação Zod
     this._router.use('/', expedicaoCreateLoginAppRoute);
   }
 
   private loginAppRoute() {
-    // Rota para login/autenticação
     this._router.use('/', loginAppRoute);
   }
 }

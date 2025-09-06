@@ -8,7 +8,7 @@ export const validateBody = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     try {
       const validatedData = schema.parse(req.body);
-      req.body = validatedData;
+      (req as any).validatedBody = validatedData;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
@@ -32,14 +32,15 @@ export const validateBody = (schema: ZodSchema) => {
  * Middleware para validação de query parameters
  */
 export const validateQuery = (schema: ZodSchema) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     try {
       const validatedData = schema.parse(req.query);
-      (req as any).query = validatedData;
+      // Adiciona os dados validados em uma propriedade customizada
+      (req as any).validatedQuery = validatedData;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        return res.status(400).json({
+        res.status(400).json({
           message: 'Parâmetros de consulta inválidos',
           errors: error.issues.map((issue: any) => ({
             field: issue.path.join('.'),
@@ -47,6 +48,7 @@ export const validateQuery = (schema: ZodSchema) => {
             received: issue.received,
           })),
         });
+        return;
       }
       next(error);
     }
@@ -60,7 +62,7 @@ export const validateParams = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const validatedData = schema.parse(req.params);
-      (req as any).params = validatedData;
+      (req as any).validatedParams = validatedData;
       next();
     } catch (error) {
       if (error instanceof ZodError) {

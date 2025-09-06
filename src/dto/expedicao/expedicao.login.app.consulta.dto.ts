@@ -2,7 +2,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
   CodLoginApp: number;
   Ativo: string;
   Nome: string;
-  Senha: string;
   CodUsuario?: number;
   PermiteSepararForaSequencia?: string;
   PermiteConferirForaSequencia?: string;
@@ -22,7 +21,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
     CodLoginApp: number;
     Ativo: string;
     Nome: string;
-    Senha: string;
     CodUsuario?: number;
     PermiteSepararForaSequencia?: string;
     PermiteConferirForaSequencia?: string;
@@ -41,7 +39,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
     this.CodLoginApp = params.CodLoginApp;
     this.Ativo = params.Ativo;
     this.Nome = params.Nome;
-    this.Senha = params.Senha;
     this.CodUsuario = params.CodUsuario;
     this.PermiteSepararForaSequencia = params.PermiteSepararForaSequencia;
     this.PermiteConferirForaSequencia = params.PermiteConferirForaSequencia;
@@ -62,7 +59,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
     CodLoginApp?: number;
     Ativo?: string;
     Nome?: string;
-    Senha?: string;
     CodUsuario?: number;
     PermiteSepararForaSequencia?: string;
     PermiteConferirForaSequencia?: string;
@@ -82,7 +78,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
       CodLoginApp: params.CodLoginApp ?? this.CodLoginApp,
       Ativo: params.Ativo ?? this.Ativo,
       Nome: params.Nome ?? this.Nome,
-      Senha: params.Senha ?? this.Senha,
       CodUsuario: params.CodUsuario ?? this.CodUsuario,
       PermiteSepararForaSequencia: params.PermiteSepararForaSequencia ?? this.PermiteSepararForaSequencia,
       PermiteConferirForaSequencia: params.PermiteConferirForaSequencia ?? this.PermiteConferirForaSequencia,
@@ -106,7 +101,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
       CodLoginApp: json.CodLoginApp,
       Ativo: json.Ativo,
       Nome: json.Nome,
-      Senha: json.Senha,
       CodUsuario: json.CodUsuario,
       PermiteSepararForaSequencia: json.PermiteSepararForaSequencia,
       PermiteConferirForaSequencia: json.PermiteConferirForaSequencia,
@@ -129,7 +123,6 @@ export default class ExpedicaoLoginAppDtoConsulta {
       CodLoginApp: this.CodLoginApp,
       Ativo: this.Ativo,
       Nome: this.Nome,
-      Senha: this.Senha,
       CodUsuario: this.CodUsuario,
       PermiteSepararForaSequencia: this.PermiteSepararForaSequencia,
       PermiteConferirForaSequencia: this.PermiteConferirForaSequencia,
