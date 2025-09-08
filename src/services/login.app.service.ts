@@ -61,6 +61,58 @@ export default class LoginAppService {
     }
   }
 
+  public async update(data: {
+    CodLoginApp: number;
+    Senha?: string;
+    Ativo?: string;
+    CodUsuario?: number;
+    FotoUsuario?: string;
+  }): Promise<ExpedicaoLoginAppDto | null> {
+    try {
+      const repository = this.repository();
+
+      const existingUser = await this.FindById(data.CodLoginApp);
+      if (!existingUser) {
+        throw new Error('Usuário não encontrado');
+      }
+
+      const updateData: Partial<ExpedicaoLoginAppDto> = {};
+
+      if (data.Ativo !== undefined) updateData.Ativo = data.Ativo;
+      if (data.CodUsuario !== undefined) updateData.CodUsuario = data.CodUsuario;
+
+      if (data.Senha !== undefined) {
+        updateData.Senha = await PasswordHelper.hashPassword(data.Senha);
+      }
+
+      if (data.FotoUsuario !== undefined) {
+        updateData.FotoUsuario = data.FotoUsuario ? Buffer.from(data.FotoUsuario, 'base64') : undefined;
+      }
+
+      const updatedUser = new ExpedicaoLoginAppDto({
+        CodLoginApp: existingUser.CodLoginApp,
+        Nome: existingUser.Nome,
+        Senha: updateData.Senha ?? existingUser.Senha,
+        Ativo: updateData.Ativo ?? existingUser.Ativo,
+        CodUsuario: updateData.CodUsuario ?? existingUser.CodUsuario,
+        FotoUsuario: updateData.FotoUsuario !== undefined ? updateData.FotoUsuario : existingUser.FotoUsuario,
+      });
+
+      await repository.update(updatedUser);
+
+      return new ExpedicaoLoginAppDto({
+        CodLoginApp: updatedUser.CodLoginApp,
+        Nome: updatedUser.Nome,
+        Senha: '',
+        Ativo: updatedUser.Ativo,
+        CodUsuario: updatedUser.CodUsuario,
+        FotoUsuario: updatedUser.FotoUsuario,
+      });
+    } catch (error: any) {
+      throw new Error(`Erro ao atualizar usuário: ${error.message}`);
+    }
+  }
+
   private repository() {
     return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoLoginAppDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,

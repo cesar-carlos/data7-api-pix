@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { LoginRequest } from '../../validation/login.validation';
 import { ConsultaLoginAppQuery } from '../../validation/consulta.login.app.validation';
+import { UpdateLoginAppRequest } from '../../validation/login.app.validation';
 import ConsultaLoginAppService from '../../services/consulta.login.app.service';
 import LoginAppService from '../../services/login.app.service';
 
@@ -88,19 +89,74 @@ export default class LoginAppController {
         return;
       }
 
-      const { Senha: _, ...userWithoutPassword } = user;
+      const userResponse = {
+        CodLoginApp: user.CodLoginApp,
+        Nome: user.Nome,
+        Ativo: user.Ativo,
+        CodUsuario: user.CodUsuario,
+        FotoUsuario: user.FotoUsuario
+          ? user.FotoUsuario instanceof Buffer
+            ? user.FotoUsuario.toString('base64')
+            : user.FotoUsuario
+          : null,
+      };
 
       res.status(200).send({
         message: 'Login realizado com sucesso',
-        user: userWithoutPassword,
+        user: userResponse,
       });
     } catch (error: any) {
       res.status(400).send({ message: error.message });
     }
   }
 
-  public static put(req: Request, res: Response): void {
-    res.status(404).send({ message: 'not implemented put' });
+  public static async put(req: Request, res: Response): Promise<void> {
+    try {
+      const loginAppService = new LoginAppService();
+      const updateData = (req as any).validatedBody as UpdateLoginAppRequest;
+
+      const updatedUser = await loginAppService.update({
+        CodLoginApp: updateData.CodLoginApp,
+        Senha: updateData.Senha,
+        Ativo: updateData.Ativo,
+        CodUsuario: updateData.CodUsuario,
+        FotoUsuario: updateData.FotoUsuario,
+      });
+
+      if (!updatedUser) {
+        res.status(404).send({
+          message: 'Usuário não encontrado para atualização',
+        });
+        return;
+      }
+
+      const userResponse = {
+        CodLoginApp: updatedUser.CodLoginApp,
+        Nome: updatedUser.Nome,
+        Ativo: updatedUser.Ativo,
+        CodUsuario: updatedUser.CodUsuario,
+        FotoUsuario: updatedUser.FotoUsuario
+          ? updatedUser.FotoUsuario instanceof Buffer
+            ? updatedUser.FotoUsuario.toString('base64')
+            : updatedUser.FotoUsuario
+          : null,
+      };
+
+      res.status(200).send({
+        message: 'Usuário atualizado com sucesso',
+        user: userResponse,
+      });
+    } catch (error: any) {
+      if (error.message.includes('não encontrado') || error.message.includes('já existe')) {
+        res.status(400).send({
+          message: error.message,
+        });
+      } else {
+        res.status(500).send({
+          message: `Erro interno: ${error.message}`,
+        });
+      }
+    }
   }
 
   public static delete(req: Request, res: Response): void {

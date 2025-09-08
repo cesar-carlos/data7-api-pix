@@ -1,6 +1,6 @@
 SELECT *
 FROM (
-    SELECT COALESCE(co.CodEmpresa, 0) CodEmpresa,
+    SELECT COALESCE(co.CodEmpresa, 1) CodEmpresa,
       usa.CodUsuario,
       usa.NomeLegivel NomeUsuario,
       COALESCE(usa.Ativo, 'S') Ativo,

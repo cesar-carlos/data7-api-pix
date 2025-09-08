@@ -3,6 +3,9 @@ import { Router, Request, Response } from 'express';
 import GeralHealth from './geral.health';
 import GeralSequenciaController from './geral.sequencia.controller';
 import GeralProcessoExecutavelController from './geral.processo.executavel.controller';
+import UsuarioConsultaController from './usuario.consulta.controller';
+import { validateQuery } from '../../middleware/validation.middleware';
+import { usuarioConsultaQuerySchema } from '../../validation/usuario.consulta.validation';
 
 export default class RouterGeral {
   static router = new RouterGeral().getRouter();
@@ -13,6 +16,7 @@ export default class RouterGeral {
     this.health();
     this.sequenciaRegistro();
     this.processoExecutavel();
+    this.usuarioConsulta();
   }
 
   private getRouter() {
@@ -42,5 +46,12 @@ export default class RouterGeral {
     this._router.post('/processoExecutavel', GeralProcessoExecutavelController.post);
     this._router.put('/processoExecutavel/:CodProcessoExecutavel', GeralProcessoExecutavelController.put);
     this._router.delete('/processoExecutavel', GeralProcessoExecutavelController.delete);
+  }
+
+  private usuarioConsulta() {
+    this._router.get('/usuarios', validateQuery(usuarioConsultaQuerySchema), UsuarioConsultaController.get);
+    this._router.post('/usuarios', UsuarioConsultaController.post);
+    this._router.put('/usuarios', UsuarioConsultaController.put);
+    this._router.delete('/usuarios', UsuarioConsultaController.delete);
   }
 }
