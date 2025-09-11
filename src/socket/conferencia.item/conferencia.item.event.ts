@@ -37,7 +37,7 @@ export default class ConferenciaItemEvent {
     socket.on(`${client} conferencia.item.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} conferencia.item.consulta`;
+      const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.consulta`;
       const params = json['Where'] ?? '';
 
       try {
@@ -46,26 +46,26 @@ export default class ConferenciaItemEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} conferencia.item.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} conferencia.item.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -74,26 +74,26 @@ export default class ConferenciaItemEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} conferencia.item.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} conferencia.item.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -182,40 +182,40 @@ export default class ConferenciaItemEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
         const basicEventItensConferenciaConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferenciaConsulta.map((item) => item.toJson()),
         });
 
         const basicEventItensConferirConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferirConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.insert.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} conferencia.item.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} conferencia.item.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -295,40 +295,40 @@ export default class ConferenciaItemEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
         const basicEventItensConferenciaConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferenciaConsulta.map((item) => item.toJson()),
         });
 
         const basicEventItensConferirConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferirConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.update.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} conferencia.item.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} conferencia.item.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -406,33 +406,33 @@ export default class ConferenciaItemEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensMutation.map((item) => item.toJson()),
         });
 
         const basicEventItensConferenciaConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferenciaConsulta.map((item) => item.toJson()),
         });
 
         const basicEventItensConferirConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itensConferirConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('conferencia.item.delete.listen', JSON.stringify(basicEventItensConferenciaConsulta.toJson()));
         io.emit('conferir.item.update.listen', JSON.stringify(basicEventItensConferirConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
   }

@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-
 import { LoginRequest } from '../../validation/login.validation';
 import { ConsultaLoginAppQuery } from '../../validation/consulta.login.app.validation';
-import { UpdateLoginAppRequest } from '../../validation/login.app.validation';
+import { UpdateLoginAppRequest, UpdateLoginAppQuery } from '../../validation/login.app.validation';
 import ConsultaLoginAppService from '../../services/consulta.login.app.service';
 import LoginAppService from '../../services/login.app.service';
 
@@ -10,15 +9,25 @@ export default class LoginAppController {
   public static async get(req: Request, res: Response): Promise<void> {
     try {
       const consultaService = new ConsultaLoginAppService();
-      const { nome, codLoginApp, ativo, page, limit } = (req as any).validatedQuery as ConsultaLoginAppQuery;
+      const { Nome, CodLoginApp, Ativo, Page, Offset, Limit } = (req as any).validatedQuery as ConsultaLoginAppQuery;
 
-      const currentPage = page;
-      const currentLimit = limit;
+      let currentPage: number;
+      let currentOffset: number;
+
+      if (Offset !== undefined) {
+        currentOffset = Offset;
+        currentPage = Math.floor(Offset / Limit) + 1;
+      } else {
+        currentPage = Page;
+        currentOffset = (Page - 1) * Limit;
+      }
+
+      const currentLimit = Limit;
 
       let resultado;
 
-      if (codLoginApp) {
-        resultado = await consultaService.consultarPorCodigo(codLoginApp);
+      if (CodLoginApp) {
+        resultado = await consultaService.consultarPorCodigo(CodLoginApp);
         if (!resultado) {
           res.status(404).send({
             message: 'Usuário não encontrado',
@@ -34,8 +43,8 @@ export default class LoginAppController {
         return;
       }
 
-      if (nome) {
-        resultado = await consultaService.consultarPorNome(nome, currentPage, currentLimit);
+      if (Nome) {
+        resultado = await consultaService.consultarPorNome(Nome, currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) encontrado(s)`,
           data: resultado.data,
@@ -43,11 +52,12 @@ export default class LoginAppController {
           page: resultado.page,
           limit: resultado.limit,
           totalPages: resultado.totalPages,
+          offset: resultado.offset,
         });
         return;
       }
 
-      if (ativo === 'S') {
+      if (Ativo === 'S') {
         resultado = await consultaService.consultarAtivos(currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) ativo(s) encontrado(s)`,
@@ -56,6 +66,7 @@ export default class LoginAppController {
           page: resultado.page,
           limit: resultado.limit,
           totalPages: resultado.totalPages,
+          offset: resultado.offset,
         });
         return;
       }
@@ -68,6 +79,7 @@ export default class LoginAppController {
         page: resultado.page,
         limit: resultado.limit,
         totalPages: resultado.totalPages,
+        offset: resultado.offset,
       });
     } catch (error: any) {
       res.status(400).send({
@@ -113,10 +125,11 @@ export default class LoginAppController {
   public static async put(req: Request, res: Response): Promise<void> {
     try {
       const loginAppService = new LoginAppService();
+      const queryData = (req as any).validatedQuery as UpdateLoginAppQuery;
       const updateData = (req as any).validatedBody as UpdateLoginAppRequest;
 
       const updatedUser = await loginAppService.update({
-        CodLoginApp: updateData.CodLoginApp,
+        CodLoginApp: queryData.CodLoginApp,
         Senha: updateData.Senha,
         Ativo: updateData.Ativo,
         CodUsuario: updateData.CodUsuario,

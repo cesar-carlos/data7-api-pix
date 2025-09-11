@@ -19,7 +19,7 @@ export default class SepararEvent {
     socket.on(`${client} separar.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} separar.consulta`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.consulta`;
       const params = json['Where'] ?? '';
 
       try {
@@ -28,26 +28,28 @@ export default class SepararEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
+        console.log('Emitido evento:', responseIn);
+        console.log('Dados do evento:', JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} separar.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -56,26 +58,26 @@ export default class SepararEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} separar.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -98,33 +100,33 @@ export default class SepararEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('separar.insert.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} separar.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -143,33 +145,33 @@ export default class SepararEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('separar.update.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} separar.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} separar.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -189,26 +191,26 @@ export default class SepararEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventSepararConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('separar.delete.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
   }

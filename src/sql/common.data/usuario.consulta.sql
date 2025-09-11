@@ -13,6 +13,7 @@ FROM (
       COALESCE(v.NomeReduzido, v.Nome) NomeVendedor,
       co.CodSetorEstoque,
       ese.Descricao DescricaoSetorEstoque,
+	  lapp.CodLoginApp,
       COALESCE(co.PermiteSepararForaSequencia, 'N') PermiteSepararForaSequencia,
       COALESCE(co.VisualizaTodasSeparacoes, 'N') VisualizaTodasSeparacoes,
       co.CodSetorConferencia,
@@ -29,4 +30,10 @@ FROM (
       LEFT JOIN Expedicao.SetorEstoque ese ON ese.CodSetorEstoque = co.CodSetorEstoque
       LEFT JOIN Expedicao.SetorConferencia esc ON esc.CodSetorConferencia = co.CodSetorConferencia
       LEFT JOIN ContaFinanceira cf ON cf.CodContaFinanceira = co.CodContaFinanceira
+	  LEFT JOIN Expedicao.LoginApp lapp ON
+		lapp.CodUsuario = usa.CodUsuario
+	WHERE usa.Grupo = 'N'
   ) UsuarioConsulta
+
+
+

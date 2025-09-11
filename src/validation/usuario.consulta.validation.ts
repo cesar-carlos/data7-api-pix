@@ -1,53 +1,61 @@
 import { z } from 'zod';
 
 export const usuarioConsultaQuerySchema = z.object({
-  codUsuario: z
+  CodUsuario: z
     .string()
     .optional()
     .transform((val) => (val ? parseInt(val, 10) : undefined))
     .refine((val) => val === undefined || (!isNaN(val) && val > 0), {
-      message: 'codUsuario deve ser um número válido maior que 0',
+      message: 'CodUsuario deve ser um número válido maior que 0',
     }),
 
-  nomeUsuario: z
+  NomeUsuario: z
     .string()
     .optional()
     .refine((val) => !val || val.trim().length > 0, {
-      message: 'nomeUsuario não pode ser uma string vazia',
+      message: 'NomeUsuario não pode ser uma string vazia',
     }),
 
-  codEmpresa: z
+  CodEmpresa: z
     .string()
     .optional()
     .transform((val) => (val ? parseInt(val, 10) : undefined))
     .refine((val) => val === undefined || (!isNaN(val) && val > 0), {
-      message: 'codEmpresa deve ser um número válido maior que 0',
+      message: 'CodEmpresa deve ser um número válido maior que 0',
     }),
 
-  ativo: z
+  Ativo: z
     .string()
     .optional()
     .refine((val) => !val || ['S', 'N'].includes(val.toUpperCase()), {
-      message: 'ativo deve ser "S" ou "N"',
+      message: 'Ativo deve ser "S" ou "N"',
     })
     .transform((val) => val?.toUpperCase()),
 
-  page: z
+  Page: z
     .string()
     .optional()
     .default('1')
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val) && val > 0, {
-      message: 'page deve ser um número válido maior que 0',
+      message: 'Page deve ser um número válido maior que 0',
     }),
 
-  limit: z
+  Offset: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : undefined))
+    .refine((val) => val === undefined || (!isNaN(val) && val >= 0), {
+      message: 'Offset deve ser um número válido maior ou igual a 0',
+    }),
+
+  Limit: z
     .string()
     .optional()
     .default('100')
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val) && val > 0 && val <= 500, {
-      message: 'limit deve ser um número válido entre 1 e 500',
+      message: 'Limit deve ser um número válido entre 1 e 500',
     }),
 });
 

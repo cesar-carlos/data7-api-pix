@@ -18,7 +18,7 @@ export default class ProcessoExecutavelEvent {
     socket.on(`${client} processo.executavel.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} processo.executavel.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} processo.executavel.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -27,26 +27,26 @@ export default class ProcessoExecutavelEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} processo.executavel.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} processo.executavel.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} processo.executavel.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -59,26 +59,26 @@ export default class ProcessoExecutavelEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} processo.executavel.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} percurso.estagio.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} percurso.estagio.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -87,26 +87,26 @@ export default class ProcessoExecutavelEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} processo.executavel.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} processo.executavel.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} processo.executavel.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -115,19 +115,19 @@ export default class ProcessoExecutavelEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
   }

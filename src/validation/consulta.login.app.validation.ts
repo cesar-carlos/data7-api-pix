@@ -1,34 +1,40 @@
 import { z } from 'zod';
 
 export const consultaLoginAppQuerySchema = z.object({
-  nome: z
+  Nome: z
     .string()
     .transform((val) => val.trim())
     .refine((val) => val.length > 0, 'Nome não pode estar vazio')
     .refine((val) => val.length <= 100, 'Nome deve ter no máximo 100 caracteres')
     .optional(),
 
-  codLoginApp: z
+  CodLoginApp: z
     .string()
     .regex(/^\d+$/, 'Código deve ser um número válido')
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val), 'Código deve ser um número válido')
     .optional(),
 
-  ativo: z
+  Ativo: z
     .enum(['S', 'N', 's', 'n'], {
       message: 'Ativo deve ser S ou N',
     })
     .transform((val) => val.toUpperCase())
     .optional(),
 
-  page: z
+  Page: z
     .union([z.string(), z.number()])
     .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
     .refine((val) => !isNaN(val) && val > 0, 'Página deve ser um número maior que 0')
     .default(1),
 
-  limit: z
+  Offset: z
+    .union([z.string(), z.number()])
+    .optional()
+    .transform((val) => (val ? (typeof val === 'string' ? parseInt(val, 10) : val) : undefined))
+    .refine((val) => val === undefined || (!isNaN(val) && val >= 0), 'Offset deve ser um número maior ou igual a 0'),
+
+  Limit: z
     .union([z.string(), z.number()])
     .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
     .refine((val) => !isNaN(val) && val > 0 && val <= 1000, 'Limit deve ser entre 1 e 1000')

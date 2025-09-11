@@ -18,7 +18,7 @@ export default class CarrinhoPercursoAgrupamentoEvent {
     socket.on(`${client} carrinho.percurso.agrupamento.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.consulta`;
+      const responseIn = json['ResponseIn'] ?? `${client} carrinho.percurso.agrupamento.consulta`;
       const params = json['Where'] ?? '';
 
       try {
@@ -27,26 +27,26 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} carrinho.percurso.agrupamento.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -55,26 +55,26 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} carrinho.percurso.agrupamento.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -98,17 +98,17 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.insert.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
@@ -116,18 +116,18 @@ export default class CarrinhoPercursoAgrupamentoEvent {
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} carrinho.percurso.agrupamento.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -136,17 +136,17 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.update.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
@@ -154,18 +154,18 @@ export default class CarrinhoPercursoAgrupamentoEvent {
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
 
     socket.on(`${client} carrinho.percurso.agrupamento.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} carrinho.percurso.agrupamento.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} carrinho.percurso.agrupamento.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -175,17 +175,17 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
         const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        socket.emit(resposeIn, JSON.stringify(basicEvent.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit(
           'carrinho.percurso.agrupamento.delete.listen',
           JSON.stringify(basicEventCarrinhoPercursoAgrupamentoConsulta.toJson()),
@@ -193,11 +193,11 @@ export default class CarrinhoPercursoAgrupamentoEvent {
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
   }

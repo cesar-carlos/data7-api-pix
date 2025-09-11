@@ -7,16 +7,26 @@ export default class UsuarioConsultaController {
   public static async get(req: Request, res: Response): Promise<void> {
     try {
       const usuarioConsultaService = new UsuarioConsultaService();
-      const { codUsuario, nomeUsuario, codEmpresa, ativo, page, limit } = (req as any)
+      const { CodUsuario, NomeUsuario, CodEmpresa, Ativo, Page, Offset, Limit } = (req as any)
         .validatedQuery as UsuarioConsultaQuery;
 
-      const currentPage = page;
-      const currentLimit = limit;
+      let currentPage: number;
+      let currentOffset: number;
+
+      if (Offset !== undefined) {
+        currentOffset = Offset;
+        currentPage = Math.floor(Offset / Limit) + 1;
+      } else {
+        currentPage = Page;
+        currentOffset = (Page - 1) * Limit;
+      }
+
+      const currentLimit = Limit;
 
       let resultado;
 
-      if (codUsuario) {
-        resultado = await usuarioConsultaService.consultarPorCodigo(codUsuario);
+      if (CodUsuario) {
+        resultado = await usuarioConsultaService.consultarPorCodigo(CodUsuario);
         if (!resultado) {
           res.status(404).send({
             message: 'Usuário não encontrado',
@@ -32,10 +42,24 @@ export default class UsuarioConsultaController {
         return;
       }
 
-      if (nomeUsuario) {
-        resultado = await usuarioConsultaService.consultarPorNome(nomeUsuario, currentPage, currentLimit);
+      if (NomeUsuario) {
+        resultado = await usuarioConsultaService.consultarPorNome(NomeUsuario, currentPage, currentLimit);
         res.status(200).send({
-          message: `${resultado.total} usuário(s) encontrado(s) com nome "${nomeUsuario}"`,
+          message: `${resultado.total} usuário(s) encontrado(s) com nome "${NomeUsuario}"`,
+          data: resultado.data,
+          total: resultado.total,
+          page: resultado.page,
+          limit: resultado.limit,
+          totalPages: resultado.totalPages,
+          offset: resultado.offset,
+        });
+        return;
+      }
+
+      if (CodEmpresa) {
+        resultado = await usuarioConsultaService.consultarPorEmpresa(CodEmpresa, currentPage, currentLimit);
+        res.status(200).send({
+          message: `${resultado.total} usuário(s) encontrado(s) na empresa ${CodEmpresa}`,
           data: resultado.data,
           total: resultado.total,
           page: resultado.page,
@@ -45,20 +69,7 @@ export default class UsuarioConsultaController {
         return;
       }
 
-      if (codEmpresa) {
-        resultado = await usuarioConsultaService.consultarPorEmpresa(codEmpresa, currentPage, currentLimit);
-        res.status(200).send({
-          message: `${resultado.total} usuário(s) encontrado(s) na empresa ${codEmpresa}`,
-          data: resultado.data,
-          total: resultado.total,
-          page: resultado.page,
-          limit: resultado.limit,
-          totalPages: resultado.totalPages,
-        });
-        return;
-      }
-
-      if (ativo === 'S') {
+      if (Ativo === 'S') {
         resultado = await usuarioConsultaService.consultarAtivos(currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) ativo(s) encontrado(s)`,
@@ -79,6 +90,7 @@ export default class UsuarioConsultaController {
         page: resultado.page,
         limit: resultado.limit,
         totalPages: resultado.totalPages,
+        offset: resultado.offset,
       });
     } catch (error: any) {
       res.status(400).send({

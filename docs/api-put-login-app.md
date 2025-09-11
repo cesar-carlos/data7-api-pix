@@ -7,7 +7,15 @@ Endpoint para atualizar dados de usuários do sistema LoginApp com validação c
 ## 🌐 **Endpoint**
 
 ```
-PUT /expedicao/login-app
+PUT /expedicao/login-app?CodLoginApp={id}
+```
+
+## 🔧 **Query Parameters**
+
+```typescript
+{
+  CodLoginApp: number; // Obrigatório - ID do usuário a ser atualizado
+}
 ```
 
 ## 🔧 **Request Body**
@@ -16,7 +24,6 @@ PUT /expedicao/login-app
 
 ```typescript
 {
-  CodLoginApp: number;      // Obrigatório - ID do usuário (não alterável)
   Senha?: string;           // Opcional - Nova senha (4-20 chars)
   Ativo?: "S" | "N";        // Opcional - Status ativo
   CodUsuario?: number;      // Opcional - Código do usuário sistema
@@ -37,10 +44,9 @@ PUT /expedicao/login-app
 ### 1. **Atualizar Status**
 
 ```bash
-curl -X PUT "http://localhost:3000/expedicao/login-app" \
+curl -X PUT "http://localhost:3000/expedicao/login-app?CodLoginApp=1" \
   -H "Content-Type: application/json" \
   -d '{
-    "CodLoginApp": 1,
     "Ativo": "S"
   }'
 ```
@@ -48,10 +54,9 @@ curl -X PUT "http://localhost:3000/expedicao/login-app" \
 ### 2. **Alterar Senha**
 
 ```bash
-curl -X PUT "http://localhost:3000/expedicao/login-app" \
+curl -X PUT "http://localhost:3000/expedicao/login-app?CodLoginApp=1" \
   -H "Content-Type: application/json" \
   -d '{
-    "CodLoginApp": 1,
     "Senha": "novaSenha123"
   }'
 ```
@@ -59,10 +64,9 @@ curl -X PUT "http://localhost:3000/expedicao/login-app" \
 ### 3. **Atualizar Foto do Usuário**
 
 ```bash
-curl -X PUT "http://localhost:3000/expedicao/login-app" \
+curl -X PUT "http://localhost:3000/expedicao/login-app?CodLoginApp=1" \
   -H "Content-Type: application/json" \
   -d '{
-    "CodLoginApp": 1,
     "FotoUsuario": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChAGA"
   }'
 ```
@@ -70,10 +74,9 @@ curl -X PUT "http://localhost:3000/expedicao/login-app" \
 ### 4. **Atualização Completa (sem Nome)**
 
 ```bash
-curl -X PUT "http://localhost:3000/expedicao/login-app" \
+curl -X PUT "http://localhost:3000/expedicao/login-app?CodLoginApp=1" \
   -H "Content-Type: application/json" \
   -d '{
-    "CodLoginApp": 1,
     "Senha": "novasenha456",
     "Ativo": "S",
     "CodUsuario": 100,
@@ -84,10 +87,9 @@ curl -X PUT "http://localhost:3000/expedicao/login-app" \
 ### 5. **Desativar Usuário**
 
 ```bash
-curl -X PUT "http://localhost:3000/expedicao/login-app" \
+curl -X PUT "http://localhost:3000/expedicao/login-app?CodLoginApp=1" \
   -H "Content-Type: application/json" \
   -d '{
-    "CodLoginApp": 1,
     "Ativo": "N"
   }'
 ```

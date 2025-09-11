@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LoginConfigService from '../services/login.config.service';
+import LoginConfigService from '../../services/login.config.service';
 
 export default class LoginController {
   public static async get(req: Request, res: Response) {

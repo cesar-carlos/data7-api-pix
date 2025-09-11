@@ -4,7 +4,7 @@ export default class ExpedicaoLoginAppDto {
   Nome: string;
   Senha: string;
   CodUsuario?: number;
-  FotoUsuario?: Buffer; // varbinary - dados binários da imagem
+  FotoUsuario?: Buffer | null; // varbinary - dados binários da imagem
 
   constructor(params: {
     CodLoginApp: number;
@@ -12,7 +12,7 @@ export default class ExpedicaoLoginAppDto {
     Nome: string;
     Senha: string;
     CodUsuario?: number;
-    FotoUsuario?: Buffer; // varbinary - dados binários da imagem
+    FotoUsuario?: Buffer | null; // varbinary - dados binários da imagem
   }) {
     this.CodLoginApp = params.CodLoginApp;
     this.Ativo = params.Ativo;
@@ -28,7 +28,7 @@ export default class ExpedicaoLoginAppDto {
     Nome?: string;
     Senha?: string;
     CodUsuario?: number;
-    FotoUsuario?: Buffer; // varbinary - dados binários da imagem
+    FotoUsuario?: Buffer | null; // varbinary - dados binários da imagem
   }) {
     return new ExpedicaoLoginAppDto({
       CodLoginApp: params.CodLoginApp ?? this.CodLoginApp,
@@ -47,7 +47,7 @@ export default class ExpedicaoLoginAppDto {
       Nome: json.Nome,
       Senha: json.Senha,
       CodUsuario: json.CodUsuario,
-      FotoUsuario: json.FotoUsuario ? Buffer.from(json.FotoUsuario) : undefined,
+      FotoUsuario: json.FotoUsuario ? Buffer.from(json.FotoUsuario) : null,
     });
   }
 
@@ -58,7 +58,7 @@ export default class ExpedicaoLoginAppDto {
       Nome: this.Nome,
       Senha: this.Senha,
       CodUsuario: this.CodUsuario,
-      FotoUsuario: this.FotoUsuario?.toString('base64'),
+      FotoUsuario: this.FotoUsuario ? this.FotoUsuario.toString('base64') : null,
     };
   }
 }

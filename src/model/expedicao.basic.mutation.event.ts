@@ -1,18 +1,18 @@
 export default class ExpedicaoMutationBasicEvent {
   Session: string;
-  ResposeIn: string;
+  ResponseIn: string;
   Mutation: string[];
 
-  constructor(params: { Session: string; ResposeIn: string; Mutation: string[] }) {
+  constructor(params: { Session: string; ResponseIn: string; Mutation: string[] }) {
     this.Session = params.Session;
-    this.ResposeIn = params.ResposeIn;
+    this.ResponseIn = params.ResponseIn;
     this.Mutation = params.Mutation;
   }
 
   public toJson(): any {
     return {
       Session: this.Session,
-      ResposeIn: this.ResposeIn,
+      ResponseIn: this.ResponseIn,
       Mutation: this.Mutation,
     };
   }

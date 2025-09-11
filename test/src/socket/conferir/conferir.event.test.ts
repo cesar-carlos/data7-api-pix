@@ -17,21 +17,21 @@ describe('Teste conferencia de pedidos socket', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const event = `${socket.id} conferir.consulta`;
-    const resposeIn = uuidv4();
+    const responseIn = uuidv4();
     const params = '';
 
     const send = {
       session: socket.id,
-      resposeIn: resposeIn,
+      responseIn: responseIn,
       where: params,
     };
 
     socket.emit(event, JSON.stringify(send));
 
     const responsePromise = new Promise((resolve) => {
-      socket.on(resposeIn, (receiver) => {
+      socket.on(responseIn, (receiver) => {
         const data = JSON.parse(receiver);
-        socket.off(resposeIn);
+        socket.off(responseIn);
         resolve(data);
       });
     });

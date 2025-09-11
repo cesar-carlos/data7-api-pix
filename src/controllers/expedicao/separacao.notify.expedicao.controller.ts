@@ -17,7 +17,7 @@ export default class SeparacaoNotifyExpedicaoController {
 
       const basicEventseparar = new ExpedicaoMutationBasicEvent({
         Session: '',
-        ResposeIn: '',
+        ResponseIn: '',
         Mutation: separars.map((item) => item.toJson()),
       });
 

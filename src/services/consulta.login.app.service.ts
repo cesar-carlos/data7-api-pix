@@ -9,6 +9,7 @@ export interface PaginatedResult {
   page: number;
   limit: number;
   totalPages: number;
+  offset: number;
 }
 
 export default class ConsultaLoginAppService {
@@ -31,6 +32,7 @@ export default class ConsultaLoginAppService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar todos os usuários: ${error.message}`);
@@ -57,6 +59,7 @@ export default class ConsultaLoginAppService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuários por nome: ${error.message}`);
@@ -99,6 +102,7 @@ export default class ConsultaLoginAppService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuários ativos: ${error.message}`);

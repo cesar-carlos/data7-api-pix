@@ -12,6 +12,7 @@ export default class UsuarioConsultaDto {
   readonly NomeVendedor?: string;
   readonly CodSetorEstoque?: number;
   readonly DescricaoSetorEstoque?: string;
+  readonly CodLoginApp?: number;
   readonly PermiteSepararForaSequencia: string;
   readonly VisualizaTodasSeparacoes: string;
   readonly CodSetorConferencia?: number;
@@ -36,6 +37,7 @@ export default class UsuarioConsultaDto {
     NomeVendedor?: string;
     CodSetorEstoque?: number;
     DescricaoSetorEstoque?: string;
+    CodLoginApp?: number;
     PermiteSepararForaSequencia: string;
     VisualizaTodasSeparacoes: string;
     CodSetorConferencia?: number;
@@ -59,6 +61,7 @@ export default class UsuarioConsultaDto {
     this.NomeVendedor = params.NomeVendedor;
     this.CodSetorEstoque = params.CodSetorEstoque;
     this.DescricaoSetorEstoque = params.DescricaoSetorEstoque;
+    this.CodLoginApp = params.CodLoginApp;
     this.PermiteSepararForaSequencia = params.PermiteSepararForaSequencia;
     this.VisualizaTodasSeparacoes = params.VisualizaTodasSeparacoes;
     this.CodSetorConferencia = params.CodSetorConferencia;
@@ -85,6 +88,7 @@ export default class UsuarioConsultaDto {
       NomeVendedor: object.NomeVendedor || object.nomeVendedor,
       CodSetorEstoque: object.CodSetorEstoque || object.codSetorEstoque,
       DescricaoSetorEstoque: object.DescricaoSetorEstoque || object.descricaoSetorEstoque,
+      CodLoginApp: object.CodLoginApp || object.codLoginApp,
       PermiteSepararForaSequencia: object.PermiteSepararForaSequencia || object.permiteSepararForaSequencia,
       VisualizaTodasSeparacoes: object.VisualizaTodasSeparacoes || object.visualizaTodasSeparacoes,
       CodSetorConferencia: object.CodSetorConferencia || object.codSetorConferencia,
@@ -112,6 +116,7 @@ export default class UsuarioConsultaDto {
       NomeVendedor: this.NomeVendedor || null,
       CodSetorEstoque: this.CodSetorEstoque || null,
       DescricaoSetorEstoque: this.DescricaoSetorEstoque || null,
+      CodLoginApp: this.CodLoginApp || null,
       PermiteSepararForaSequencia: this.PermiteSepararForaSequencia,
       VisualizaTodasSeparacoes: this.VisualizaTodasSeparacoes,
       CodSetorConferencia: this.CodSetorConferencia || null,

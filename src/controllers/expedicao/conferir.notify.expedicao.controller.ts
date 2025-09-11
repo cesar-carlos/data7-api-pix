@@ -21,7 +21,7 @@ export default class ConferirNotifyExpedicaoController {
 
       const basicEventConferirConsulta = new ExpedicaoMutationBasicEvent({
         Session: '',
-        ResposeIn: '',
+        ResponseIn: '',
         Mutation: conferirs.map((item) => item.toJson()),
       });
 

@@ -16,7 +16,7 @@ export default class SequenciaRegistroEvent {
     socket.on(`${client} sequencia.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['session'] ?? '';
-      const resposeIn = json['ResposeIn'] ?? `${client} sequencia.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} sequencia.select`;
       const params = json['Where'] ?? '';
 
       try {
@@ -26,19 +26,19 @@ export default class SequenciaRegistroEvent {
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Data: jsonData,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
-          ResposeIn: resposeIn,
+          ResponseIn: responseIn,
           Error: error.message,
         });
 
-        socket.emit(resposeIn, JSON.stringify(event.toJson()));
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
   }

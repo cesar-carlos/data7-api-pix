@@ -66,7 +66,7 @@ export default class LoginAppService {
     Senha?: string;
     Ativo?: string;
     CodUsuario?: number;
-    FotoUsuario?: string;
+    FotoUsuario?: string | null;
   }): Promise<ExpedicaoLoginAppDto | null> {
     try {
       const repository = this.repository();
@@ -86,7 +86,7 @@ export default class LoginAppService {
       }
 
       if (data.FotoUsuario !== undefined) {
-        updateData.FotoUsuario = data.FotoUsuario ? Buffer.from(data.FotoUsuario, 'base64') : undefined;
+        updateData.FotoUsuario = data.FotoUsuario ? Buffer.from(data.FotoUsuario, 'base64') : null;
       }
 
       const updatedUser = new ExpedicaoLoginAppDto({

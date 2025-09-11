@@ -9,6 +9,13 @@ interface PaginatedResult<T> {
   page: number;
   limit: number;
   totalPages: number;
+  offset: number;
+}
+
+interface PaginationOptions {
+  page?: number;
+  offset?: number;
+  limit: number;
 }
 
 export default class UsuarioConsultaService {
@@ -19,26 +26,52 @@ export default class UsuarioConsultaService {
     });
   }
 
-  public async consultarTodos(page: number = 1, limit: number = 100): Promise<PaginatedResult<UsuarioConsultaDto>> {
-    try {
-      const offset = (page - 1) * limit;
-      const repository = this.repository();
+  public async consultarTodos(page: number, limit: number): Promise<PaginatedResult<UsuarioConsultaDto>>;
+  public async consultarTodos(options: PaginationOptions): Promise<PaginatedResult<UsuarioConsultaDto>>;
 
-      const usuarios = await repository.select({ limit, offset });
+  public async consultarTodos(
+    pageOrOptions: number | PaginationOptions = 1,
+    limit: number = 100,
+  ): Promise<PaginatedResult<UsuarioConsultaDto>> {
+    try {
+      let page: number;
+      let offset: number;
+      let actualLimit: number;
+
+      if (typeof pageOrOptions === 'object') {
+        // Usando options object
+        actualLimit = pageOrOptions.limit;
+        if (pageOrOptions.offset !== undefined) {
+          offset = pageOrOptions.offset;
+          page = Math.floor(offset / actualLimit) + 1;
+        } else {
+          page = pageOrOptions.page || 1;
+          offset = (page - 1) * actualLimit;
+        }
+      } else {
+        // Usando parâmetros separados (backward compatibility)
+        page = pageOrOptions;
+        actualLimit = limit;
+        offset = (page - 1) * actualLimit;
+      }
+
+      const repository = this.repository();
+      const usuarios = await repository.select({ limit: actualLimit, offset });
 
       const startIndex = offset;
-      const endIndex = startIndex + limit;
+      const endIndex = startIndex + actualLimit;
       const paginatedUsers = usuarios.slice(startIndex, endIndex);
 
       const total = usuarios.length;
-      const totalPages = Math.ceil(total / limit);
+      const totalPages = Math.ceil(total / actualLimit);
 
       return {
         data: paginatedUsers,
         total,
         page,
-        limit,
+        limit: actualLimit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuários: ${error.message}`);
@@ -79,6 +112,7 @@ export default class UsuarioConsultaService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuário por nome: ${error.message}`);
@@ -104,6 +138,7 @@ export default class UsuarioConsultaService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuários ativos: ${error.message}`);
@@ -133,6 +168,7 @@ export default class UsuarioConsultaService {
         page,
         limit,
         totalPages,
+        offset,
       };
     } catch (error: any) {
       throw new Error(`Erro ao consultar usuários por empresa: ${error.message}`);
