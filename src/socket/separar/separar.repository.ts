@@ -1,4 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
+import { Pagination } from '../../contracts/local.base.params';
 import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -10,13 +11,16 @@ import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class SepararRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoSepararConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+  ): Promise<ExpedicaoSepararConsultaDto[]> {
     const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
+    const result = await repository.selectWhere(params, pagination);
     return result as ExpedicaoSepararConsultaDto[];
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoSepararDto[]> {
+  public async select(params: params[] | string = [], pagination?: Pagination): Promise<ExpedicaoSepararDto[]> {
     try {
       const repository = this.repository();
       return await repository.selectWhere(params);

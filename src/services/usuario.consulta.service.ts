@@ -56,7 +56,7 @@ export default class UsuarioConsultaService {
       }
 
       const repository = this.repository();
-      const usuarios = await repository.select({ limit: actualLimit, offset });
+      const usuarios = await repository.select({ limit: actualLimit, offset, page });
 
       const startIndex = offset;
       const endIndex = startIndex + actualLimit;

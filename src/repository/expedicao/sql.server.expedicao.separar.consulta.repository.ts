@@ -2,12 +2,13 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { params, Pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
 import ParamsCommonRepository from '../common/params.common';
+import sql from 'mssql';
 
 export default class SqlServerExpedicaoSepararConsultaRepository
   implements LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>
@@ -15,13 +16,14 @@ export default class SqlServerExpedicaoSepararConsultaRepository
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(page: pagination): Promise<ExpedicaoSepararConsultaDto[]> {
+  public async select(pagination: Pagination): Promise<ExpedicaoSepararConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.consulta.sql');
       const sql = fs.readFileSync(patchSQL).toString();
-      const result = await pool.request().query(sql);
+      const sqlWithPagination = `${sql} ORDER BY (SELECT NULL) OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
+      const result = await pool.request().query(sqlWithPagination);
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
@@ -35,7 +37,10 @@ export default class SqlServerExpedicaoSepararConsultaRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoSepararConsultaDto[]> {
+  public async selectWhere(
+    params: params[] | string = [],
+    pagination?: Pagination,
+  ): Promise<ExpedicaoSepararConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
@@ -44,7 +49,8 @@ export default class SqlServerExpedicaoSepararConsultaRepository
 
       const _params = ParamsCommonRepository.build(params);
       const sql = _params ? `${select} WHERE ${_params}` : select;
-      const result = await pool.request().query(sql);
+      const sqlWithPagination = `${sql} ORDER BY (SELECT NULL) OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
+      const result = await pool.request().query(pagination ? sqlWithPagination : sql);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
