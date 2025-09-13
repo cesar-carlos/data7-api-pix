@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { params, Pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -15,7 +15,7 @@ export default class SqlServerExpedicaoItemConferirUnidadeMedidaConsultaReposito
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(page: pagination): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
+  public async select(page: Pagination): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

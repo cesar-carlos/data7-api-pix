@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { params, Pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -92,6 +92,8 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
         .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
+        .input('Origem', sql.VarChar(6), entity.Origem)
+        .input('CodOrigem', sql.Int, entity.CodOrigem)
         .input('CodTipoOperacaoExpedicao', sql.Int, entity.CodTipoOperacaoExpedicao)
         .input('TipoEntidade', sql.VarChar(5), entity.TipoEntidade)
         .input('CodEntidade', sql.Int, entity.CodEntidade)
@@ -112,6 +114,7 @@ export default class SqlServerExpedicaoSepararRepository implements LocalBaseRep
 
       await transaction.commit();
     } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoSepararRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
     } finally {

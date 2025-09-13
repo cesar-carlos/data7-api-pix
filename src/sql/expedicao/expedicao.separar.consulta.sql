@@ -2,6 +2,8 @@ SELECT *
 FROM (
     SELECT se.CodEmpresa,
       se.CodSepararEstoque,
+      se.Origem,
+      se.CodOrigem,
       se.CodTipoOperacaoExpedicao,
       toe.Descricao NomeTipoOperacaoExpedicao,
       se.Situacao,

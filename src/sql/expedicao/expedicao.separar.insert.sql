@@ -1,6 +1,8 @@
 INSERT INTO Expedicao.SepararEstoque(
     CodEmpresa,
     CodSepararEstoque,
+    Origem,
+    CodOrigem,
     CodTipoOperacaoExpedicao,
     TipoEntidade,
     CodEntidade,
@@ -21,6 +23,8 @@ INSERT INTO Expedicao.SepararEstoque(
 VALUES (
     @CodEmpresa,
     @CodSepararEstoque,
+    @Origem,
+    @CodOrigem,
     @CodTipoOperacaoExpedicao,
     @TipoEntidade,
     @CodEntidade,

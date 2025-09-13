@@ -8,7 +8,6 @@ import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
 import ParamsCommonRepository from '../common/params.common';
-import sql from 'mssql';
 
 export default class SqlServerExpedicaoSepararConsultaRepository
   implements LocalBaseConsultaRepositoryContract<ExpedicaoSepararConsultaDto>

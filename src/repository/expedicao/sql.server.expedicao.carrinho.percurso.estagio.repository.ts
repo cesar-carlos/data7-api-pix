@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import sql, { ConnectionPool } from 'mssql';
 
-import { params, pagination } from '../../contracts/local.base.params';
+import { params, Pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';

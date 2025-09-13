@@ -1,5 +1,8 @@
 UPDATE Expedicao.SepararEstoque
-SET CodTipoOperacaoExpedicao = @CodTipoOperacaoExpedicao,
+SET
+  Origem = @Origem,
+  CodOrigem = @CodOrigem,
+  CodTipoOperacaoExpedicao = @CodTipoOperacaoExpedicao,
   TipoEntidade = @TipoEntidade,
   CodEntidade = @CodEntidade,
   NomeEntidade = @NomeEntidade,

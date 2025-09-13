@@ -1,5 +1,7 @@
 SELECT CodEmpresa,
   CodSepararEstoque,
+  Origem,
+  CodOrigem,
   CodTipoOperacaoExpedicao,
   TipoEntidade,
   CodEntidade,
