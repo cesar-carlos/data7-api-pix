@@ -1,6 +1,7 @@
 SELECT *
 FROM (
-    SELECT se.CodEmpresa,
+    SELECT
+      se.CodEmpresa,
       se.CodSepararEstoque,
       se.Origem,
       se.CodOrigem,

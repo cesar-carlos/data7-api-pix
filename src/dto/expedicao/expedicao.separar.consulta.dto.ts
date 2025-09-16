@@ -1,6 +1,8 @@
 export default class ExpedicaoSepararConsultaDto {
   CodEmpresa: number;
   CodSepararEstoque: number;
+  Origem: string;
+  CodOrigem: number;
   CodTipoOperacaoExpedicao: number;
   NomeTipoOperacaoExpedicao: string;
   Situacao: string;
@@ -17,6 +19,8 @@ export default class ExpedicaoSepararConsultaDto {
   constructor(params: {
     CodEmpresa: number;
     CodSepararEstoque: number;
+    Origem: string;
+    CodOrigem: number;
     CodTipoOperacaoExpedicao: number;
     NomeTipoOperacaoExpedicao: string;
     Situacao: string;
@@ -32,6 +36,8 @@ export default class ExpedicaoSepararConsultaDto {
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodSepararEstoque = params.CodSepararEstoque;
+    this.Origem = params.Origem;
+    this.CodOrigem = params.CodOrigem;
     this.CodTipoOperacaoExpedicao = params.CodTipoOperacaoExpedicao;
     this.NomeTipoOperacaoExpedicao = params.NomeTipoOperacaoExpedicao;
     this.Situacao = params.Situacao;
@@ -50,6 +56,8 @@ export default class ExpedicaoSepararConsultaDto {
     return new ExpedicaoSepararConsultaDto({
       CodEmpresa: object.CodEmpresa,
       CodSepararEstoque: object.CodSepararEstoque,
+      Origem: object.Origem,
+      CodOrigem: object.CodOrigem,
       CodTipoOperacaoExpedicao: object.CodTipoOperacaoExpedicao,
       NomeTipoOperacaoExpedicao: object.NomeTipoOperacaoExpedicao,
       Situacao: object.Situacao,
@@ -69,6 +77,8 @@ export default class ExpedicaoSepararConsultaDto {
     return {
       CodEmpresa: this.CodEmpresa,
       CodSepararEstoque: this.CodSepararEstoque,
+      Origem: this.Origem,
+      CodOrigem: this.CodOrigem,
       CodTipoOperacaoExpedicao: this.CodTipoOperacaoExpedicao,
       NomeTipoOperacaoExpedicao: this.NomeTipoOperacaoExpedicao,
       Situacao: this.Situacao,

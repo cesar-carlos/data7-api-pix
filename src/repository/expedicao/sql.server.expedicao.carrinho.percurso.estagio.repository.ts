@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import sql, { ConnectionPool } from 'mssql';
 
-import { params, Pagination } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -37,16 +37,16 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
 
   public async selectWhere(
     params: params[] | string = [],
-    limit?: number,
-    orderBy?: string,
+    pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoCarrinhoPercursoEstagioDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.estagio.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
-      const paramOrderBy = orderBy ? `ORDER BY CodCarrinhoPercurso ${orderBy}` : '';
-      const paramLimit = limit ? `TOP ${limit}` : '';
+      const paramOrderBy = orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : '';
+      const paramLimit = pagination ? `TOP ${pagination.limit}` : '';
 
       const _params = ParamsCommonRepository.build(params);
       const _sql = (_params ? `${select} WHERE ${_params} ${paramOrderBy}` : select).replaceAll('@@TOP@@', paramLimit);

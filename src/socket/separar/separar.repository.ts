@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { Pagination } from '../../contracts/local.base.params';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 import { params } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -14,16 +14,21 @@ export default class SepararRepository {
   public async consulta(
     params: params[] | string = [],
     pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoSepararConsultaDto[]> {
     const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params, pagination);
+    const result = await repository.selectWhere(params, pagination, orderBy);
     return result as ExpedicaoSepararConsultaDto[];
   }
 
-  public async select(params: params[] | string = [], pagination?: Pagination): Promise<ExpedicaoSepararDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoSepararDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

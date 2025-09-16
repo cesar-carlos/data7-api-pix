@@ -34,3 +34,31 @@ export class Pagination {
     return this.page;
   }
 }
+
+export class OrderBy {
+  public orderBy: string;
+  public orderDirection: string;
+
+  constructor(query?: string) {
+    const params = query ? new URLSearchParams(query) : undefined;
+    this.orderBy = params?.get('order_by') ?? '';
+    this.orderDirection = params?.get('order_direction') ?? '';
+  }
+
+  getOrderBy(): string {
+    return this.orderBy;
+  }
+
+  getOrderDirection(): string {
+    return this.orderDirection;
+  }
+
+  getFullOrderBy(): string {
+    if (!this.orderBy) return '';
+    return `${this.orderBy} ${this.orderDirection}`;
+  }
+
+  isValid(): boolean {
+    return this.orderBy !== '' && ['ASC', 'DESC'].includes(this.orderDirection.toUpperCase());
+  }
+}

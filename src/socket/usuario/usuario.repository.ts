@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import UsuarioDto from '../../dto/common.data/usuario';
 import AppDependencys from '../../aplication/app.dependencys';
@@ -10,16 +10,24 @@ import UsuarioConsultaDto from '../../dto/common.data/usuario.consulta.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class UsuarioRepository {
-  public async consulta(params: params[] | string = []): Promise<UsuarioConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<UsuarioConsultaDto[]> {
     const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
+    const result = await repository.selectWhere(params, pagination, orderBy);
     return result as UsuarioConsultaDto[];
   }
 
-  public async select(params: params[] | string = []): Promise<UsuarioDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<UsuarioDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { params, Pagination } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -39,6 +39,7 @@ export default class SqlServerExpedicaoSepararConsultaRepository
   public async selectWhere(
     params: params[] | string = [],
     pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoSepararConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
@@ -47,9 +48,12 @@ export default class SqlServerExpedicaoSepararConsultaRepository
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
+      const paramOrderBy =
+        orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : 'ORDER BY (SELECT NULL)';
       const sql = _params ? `${select} WHERE ${_params}` : select;
-      const sqlWithPagination = `${sql} ORDER BY (SELECT NULL) OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
-      const result = await pool.request().query(pagination ? sqlWithPagination : sql);
+      const sqlWithPagination = `${sql} ${paramOrderBy} OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
+      const sqlWithoutPagination = `${sql} ${paramOrderBy}`;
+      const result = await pool.request().query(pagination ? sqlWithPagination : sqlWithoutPagination);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
