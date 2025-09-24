@@ -45,12 +45,14 @@ export default class SqlServerExpedicaoItemConferenciaRepository
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferencia.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
-      const paramOrderBy = orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : '';
-      const paramLimit = pagination ? `TOP ${pagination.limit}` : '';
 
       const _params = ParamsCommonRepository.build(params);
-      const _sql = (_params ? `${select} WHERE ${_params} ${paramOrderBy}` : select).replaceAll('@@TOP@@', paramLimit);
-      const result = await pool.request().query(_sql);
+      const paramOrderBy =
+        orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : 'ORDER BY (SELECT NULL)';
+      const sql = _params ? `${select} WHERE ${_params}` : select;
+      const sqlWithPagination = `${sql} ${paramOrderBy} OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
+      const sqlWithoutPagination = `${sql} ${paramOrderBy}`;
+      const result = await pool.request().query(pagination ? sqlWithPagination : sqlWithoutPagination);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {

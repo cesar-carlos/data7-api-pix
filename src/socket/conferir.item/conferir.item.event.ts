@@ -21,8 +21,8 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.consulta`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consulta(params, pagination, orderBy);
@@ -51,8 +51,8 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.unidade.medida.consulta`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consultaUnidadeMedida(params, pagination, orderBy);
@@ -81,8 +81,8 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.separacao.item.consulta`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consultaConferirSeparacao(params, pagination, orderBy);
@@ -110,8 +110,8 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.select`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.select(params, pagination, orderBy);

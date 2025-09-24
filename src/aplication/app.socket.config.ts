@@ -21,6 +21,7 @@ import EstoqueProdutoEvent from '../socket/produto/estoque.produto.event';
 import SepararItemEvent from '../socket/separar.item/separar.item.event';
 import ConferirEvent from '../socket/conferir/conferir.event';
 import SepararEvent from '../socket/separar/separar.event';
+import SetorEstoqueEvent from '../socket/setor.estoque/setor.estoque.event';
 
 export default class AppSocket {
   constructor(private readonly io: SocketIOServer) {
@@ -29,7 +30,7 @@ export default class AppSocket {
 
   private initialize() {
     this.io.on('connection', (socket: Socket) => {
-      console.log('Cliente conectado');
+      console.log('Cliente conectado', socket.id);
 
       new UsuarioEvent(this.io, socket);
       new SepararEvent(this.io, socket);
@@ -53,6 +54,7 @@ export default class AppSocket {
       new TipoOperacaoExpedicaoEvent(this.io, socket);
       new ItemArmazenarEvent(this.io, socket);
       new ArmazenarEvent(this.io, socket);
+      new SetorEstoqueEvent(this.io, socket);
 
       socket.on('disconnect', () => {
         console.log('Cliente desconectado');

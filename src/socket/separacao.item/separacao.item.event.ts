@@ -31,8 +31,8 @@ export default class SeparacaoItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separacao.item.resumo.consulta`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consultaResumo(params, pagination, orderBy);
@@ -61,8 +61,8 @@ export default class SeparacaoItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separacao.item.consulta`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consulta(params, pagination, orderBy);
@@ -91,8 +91,8 @@ export default class SeparacaoItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separacao.item.select`;
       const params = json['Where'] ?? '';
-      const pagination = new Pagination(json['Pagination']);
-      const orderBy = new OrderBy(json['OrderBy']);
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.select(params, pagination, orderBy);
