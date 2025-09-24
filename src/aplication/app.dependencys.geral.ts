@@ -1,7 +1,6 @@
 import { eContext } from '../dependency/container.dependency';
 
 import ContainerDependency from '../dependency/container.dependency';
-
 import LocalSqlServerDatabaseOnlineRepository from '../repository/common.data/local.sql.server.database.online.repository';
 import LocalSqlServerUsuarioConsultaRepository from '../repository/common.data/local.sql.server.usuario.consulta.repository';
 import LocalSybaseItemLiberacaoBloqueioRepository from '../repository/common.data/local.sybase.item.liberacao.bloqueio.repository';

@@ -13,7 +13,7 @@ import EstoqueConversaoUnidadeEvent from '../socket/produto.conversao.unidade/es
 import TipoOperacaoExpedicaoEvent from '../socket/tipo.operacao.expedicao/tipo.operacao.expedicao.event';
 import ProcessoExecutavelEvent from '../socket/processo.executavel/processo.executavel.event';
 import CarrinhoPercursoEvent from '../socket/carrinho.percurso/carrinho.percurso.event';
-import PercursoEstagioEvent from '../socket/expedicao.estagio/expedicao.estagio.event';
+import PercursoEstagioEvent from '../socket/expedicao.percurso.estagio/expedicao.percurso.estagio.event';
 import ConferenciaItemEvent from '../socket/conferencia.item/conferencia.item.event';
 import ItemArmazenarEvent from '../socket/item.armazenar/item.armazenar.event';
 import ConferirItemEvent from '../socket/conferir.item/conferir.item.event';

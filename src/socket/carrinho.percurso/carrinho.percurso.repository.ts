@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -10,20 +10,28 @@ import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repo
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
     try {
       const repository = this.repositoryConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoCarrinhoPercursoEstagioConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoCarrinhoPercursoDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

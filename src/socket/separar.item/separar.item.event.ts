@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
@@ -20,9 +21,11 @@ export default class SepararItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separar.item.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -48,9 +51,11 @@ export default class SepararItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separar.item.unidade.medida.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consultaUnidadeMedida(params);
+        const result = await this.repository.consultaUnidadeMedida(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -76,9 +81,11 @@ export default class SepararItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} separar.item.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -130,7 +137,7 @@ export default class SepararItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.item.insert', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.item.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -159,7 +166,7 @@ export default class SepararItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.item.update', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.item.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -188,7 +195,7 @@ export default class SepararItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.item.delete', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.item.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

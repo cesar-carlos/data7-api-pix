@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import SequenciaRegistroRepository from './sequencia.registro.repository';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
@@ -15,12 +16,14 @@ export default class SequenciaRegistroEvent {
 
     socket.on(`${client} sequencia.select`, async (data) => {
       const json = JSON.parse(data);
-      const session = json['session'] ?? '';
+      const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} sequencia.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         if (result === undefined) throw new Error('Sequencia não encontrada');
         const jsonData = result.toJson();
 

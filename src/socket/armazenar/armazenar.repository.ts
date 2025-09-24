@@ -1,4 +1,4 @@
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -8,10 +8,14 @@ import ExpedicaoArmazenarDto from '../../dto/expedicao/expedicao.armazenar.dto';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class ArmazenarRepository {
-  public async select(params: params[] | string = []): Promise<ExpedicaoArmazenarDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoArmazenarDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

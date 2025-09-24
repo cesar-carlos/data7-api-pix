@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import CancelamentoRepository from './cancelamento.repository';
 import ExpedicaoCancelamentoDto from '../../dto/expedicao/expedicao.cancelamento.dto';
@@ -15,14 +16,16 @@ export default class CancelamentoEvent {
   ) {
     const client = socket.id;
 
-    socket.on(`${client} cancelamento.select`, async (data) => {
+    socket.on(`${client} expedicao.cancelamento.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} cancelamento.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.cancelamento.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -43,10 +46,10 @@ export default class CancelamentoEvent {
       }
     });
 
-    socket.on(`${client} cancelamento.insert`, async (data) => {
+    socket.on(`${client} expedicao.cancelamento.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} cancelamento.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.cancelamento.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -64,6 +67,7 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('expedicao.cancelamento.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -75,10 +79,10 @@ export default class CancelamentoEvent {
       }
     });
 
-    socket.on(`${client} cancelamento.update`, async (data) => {
+    socket.on(`${client} expedicao.cancelamento.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} cancelamento.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.cancelamento.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -92,6 +96,7 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('expedicao.cancelamento.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -103,10 +108,10 @@ export default class CancelamentoEvent {
       }
     });
 
-    socket.on(`${client} cancelamento.delete`, async (data) => {
+    socket.on(`${client} expedicao.cancelamento.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} cancelamento.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.cancelamento.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -120,6 +125,7 @@ export default class CancelamentoEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('expedicao.cancelamento.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

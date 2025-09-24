@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -20,9 +21,11 @@ export default class ArmazenarEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} armazenar.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({

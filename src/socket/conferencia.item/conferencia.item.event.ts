@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConferenciaItemRepository from './conferencia.item.repository';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -39,9 +40,11 @@ export default class ConferenciaItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -67,9 +70,11 @@ export default class ConferenciaItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferencia.item.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({

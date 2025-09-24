@@ -1,13 +1,14 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
-import ExpedicaoEstagioDto from '../../dto/expedicao/expedicao.estagio.dto';
+import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
-import CarrinhoRepository from './expedicao.estagio.repository';
+import ExpedicaoPercursoEstagioRepository from './expedicao.percurso.estagio.repository';
 
-export default class ExpedicaoEstagioEvent {
-  private repository = new CarrinhoRepository();
+export default class ExpedicaoPercursoEstagioEvent {
+  private repository = new ExpedicaoPercursoEstagioRepository();
 
   constructor(
     private readonly io: SocketIOServer,
@@ -15,14 +16,16 @@ export default class ExpedicaoEstagioEvent {
   ) {
     const client = socket.id;
 
-    socket.on(`${client} expedicao.estagio.select`, async (data) => {
+    socket.on(`${client} expedicao.percurso.estagio.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} expedicao.estagio.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.percurso.estagio.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -43,10 +46,10 @@ export default class ExpedicaoEstagioEvent {
       }
     });
 
-    socket.on(`${client} expedicao.estagio.insert`, async (data) => {
+    socket.on(`${client} expedicao.percurso.estagio.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} expedicao.estagio.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.percurso.estagio.insert`;
       const mutation = json['Mutation'];
 
       try {
@@ -75,10 +78,10 @@ export default class ExpedicaoEstagioEvent {
       }
     });
 
-    socket.on(`${client} expedicao.estagio.update`, async (data) => {
+    socket.on(`${client} expedicao.percurso.estagio.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} expedicao.estagio.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.percurso.estagio.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -103,10 +106,10 @@ export default class ExpedicaoEstagioEvent {
       }
     });
 
-    socket.on(`${client} expedicao.estagio.delete`, async (data) => {
+    socket.on(`${client} expedicao.percurso.estagio.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} expedicao.estagio.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} expedicao.percurso.estagio.delete`;
       const mutation = json['Mutation'];
 
       try {
@@ -132,11 +135,11 @@ export default class ExpedicaoEstagioEvent {
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoEstagioDto[] {
+  private convert(mutations: any[] | any): ExpedicaoPercursoEstagioDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoEstagioDto.fromObject(mutation);
+        return ExpedicaoPercursoEstagioDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

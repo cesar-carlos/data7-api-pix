@@ -1,4 +1,4 @@
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -10,20 +10,28 @@ import EstoqueConversaoUnidadeDto from '../../dto/common.data/estoque.conversao.
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class EstoqueConversaoUnidadeRepository {
-  public async consulta(params: params[] | string = []): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
     try {
       const repository = this.repositoryConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as EstoqueConversaoUnidadeConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async select(params: params[] | string = []): Promise<EstoqueConversaoUnidadeDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<EstoqueConversaoUnidadeDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

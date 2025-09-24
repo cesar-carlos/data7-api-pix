@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -9,28 +9,38 @@ import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 
 export default class SepararItemRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSepararConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemSepararConsultaDto[]> {
     const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
+    const result = await repository.selectWhere(params, pagination, orderBy);
     return result as ExpedicaoItemSepararConsultaDto[];
   }
 
   public async consultaUnidadeMedida(
     params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
     try {
       const repository = this.repositoryUnidadeMedidaConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoItemSepararDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemSepararDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

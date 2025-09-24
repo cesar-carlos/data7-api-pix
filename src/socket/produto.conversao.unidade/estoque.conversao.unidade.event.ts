@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import EstoqueConversaoUnidadeRepository from './estoque.conversao.unidade.repository';
 import EstoqueConversaoUnidadeDto from '../../dto/common.data/estoque.conversao.unidade.dto';
@@ -20,9 +21,11 @@ export default class EstoqueConversaoUnidadeEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} estoque.produto.conversao.unidade.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -48,9 +51,11 @@ export default class EstoqueConversaoUnidadeEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} estoque.produto.conversao.unidade.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -93,6 +98,7 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('produto.conversao.unidade.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -121,6 +127,7 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('produto.conversao.unidade.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -149,6 +156,7 @@ export default class EstoqueConversaoUnidadeEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('produto.conversao.unidade.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -20,9 +21,11 @@ export default class ProcessoExecutavelEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} processo.executavel.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -64,6 +67,7 @@ export default class ProcessoExecutavelEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('processo.executavel.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -78,7 +82,7 @@ export default class ProcessoExecutavelEvent {
     socket.on(`${client} processo.executavel.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} percurso.estagio.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} processo.executavel.update`;
       const mutation = json['Mutation'];
 
       try {
@@ -92,6 +96,7 @@ export default class ProcessoExecutavelEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('processo.executavel.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -120,6 +125,7 @@ export default class ProcessoExecutavelEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('processo.executavel.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

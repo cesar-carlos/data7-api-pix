@@ -1,7 +1,7 @@
-import express from 'express';
-import logger from 'morgan';
 import cors from 'cors';
 import path from 'path';
+import logger from 'morgan';
+import express from 'express';
 
 import http from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';

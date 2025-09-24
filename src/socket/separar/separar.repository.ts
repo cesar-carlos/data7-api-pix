@@ -1,6 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';

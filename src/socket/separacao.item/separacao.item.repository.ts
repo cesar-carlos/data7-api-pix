@@ -1,4 +1,4 @@
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -9,30 +9,42 @@ import ExpedicaoItemSeparacaoDto from '../../dto/expedicao/expedicao.item.separa
 import AppDependencys from '../../aplication/app.dependencys';
 
 export default class SeparacaoItemRepository {
-  public async consultaResumo(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoResumoConsultaDto[]> {
+  public async consultaResumo(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemSeparacaoResumoConsultaDto[]> {
     try {
       const repository = this.repositoryResumoConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoItemSeparacaoResumoConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {
     try {
       const repository = this.repositoryConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoItemSeparacaoConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoItemSeparacaoDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemSeparacaoDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

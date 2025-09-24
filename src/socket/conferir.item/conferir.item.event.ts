@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConferirItemRepository from './conferir.item.repository';
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
@@ -20,9 +21,11 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -48,9 +51,11 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.unidade.medida.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consultaUnidadeMedida(params);
+        const result = await this.repository.consultaUnidadeMedida(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -76,9 +81,11 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.separacao.item.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consultaConferirSeparacao(params);
+        const result = await this.repository.consultaConferirSeparacao(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
@@ -103,9 +110,11 @@ export default class ConferirItemEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} conferir.item.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -162,6 +171,7 @@ export default class ConferirItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.item.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -190,6 +200,7 @@ export default class ConferirItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.item.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -218,6 +229,7 @@ export default class ConferirItemEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('conferir.item.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ItemArmazenarRepository from './item.armazenar.repository';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -20,9 +21,11 @@ export default class ItemArmazenarEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} armazenar.item.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -48,9 +51,11 @@ export default class ItemArmazenarEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} armazenar.item.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -95,6 +100,7 @@ export default class ItemArmazenarEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.item.insert.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -123,6 +129,7 @@ export default class ItemArmazenarEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.item.update.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -151,6 +158,7 @@ export default class ItemArmazenarEvent {
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
+        io.emit('armazenar.item.delete.listen', JSON.stringify(basicEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

@@ -1,4 +1,4 @@
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -10,18 +10,24 @@ import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
 
 export default class ConferirItemRepository {
-  public async consulta(params: params[] | string = []): Promise<ExpedicaoItemConferirConsultaDto[]> {
+  public async consulta(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemConferirConsultaDto[]> {
     const repository = this.repositoryConsulta();
-    const result = await repository.selectWhere(params);
+    const result = await repository.selectWhere(params, pagination, orderBy);
     return result as ExpedicaoItemConferirConsultaDto[];
   }
 
   public async consultaUnidadeMedida(
     params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
     try {
       const repository = this.repositoryUnidadeMedidaConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoItemConferirUnidadeMedidaConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
@@ -30,20 +36,26 @@ export default class ConferirItemRepository {
 
   public async consultaConferirSeparacao(
     params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSeparacaoConferirConsultaDto[]> {
     try {
       const repository = this.repositoryConferirSeparacaoConsulta();
-      const result = await repository.selectWhere(params);
+      const result = await repository.selectWhere(params, pagination, orderBy);
       return result as ExpedicaoItemSeparacaoConferirConsultaDto[];
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async select(params: params[] | string = []): Promise<ExpedicaoItemConferirDto[]> {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoItemConferirDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }

@@ -1,23 +1,27 @@
-import { params } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
-import ExpedicaoEstagioDto from '../../dto/expedicao/expedicao.estagio.dto';
+import ExpedicaoPercursoEstagioDto from '../../dto/expedicao/expedicao.percurso.estagio.dto';
 import LocalBaseRepositorySequenceContract from '../../contracts/local.base.repository.sequence.contract';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import SequenceDto from '../../dto/common.data/sequence.dto';
 
-export default class ExpedicaoEstagioRepository {
-  public async select(params: params[] | string = []): Promise<ExpedicaoEstagioDto[]> {
+export default class ExpedicaoPercursoEstagioRepository {
+  public async select(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoPercursoEstagioDto[]> {
     try {
       const repository = this.repository();
-      return await repository.selectWhere(params);
+      return await repository.selectWhere(params, pagination, orderBy);
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
-  public async insert(models: ExpedicaoEstagioDto[]): Promise<void> {
+  public async insert(models: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -28,7 +32,7 @@ export default class ExpedicaoEstagioRepository {
     }
   }
 
-  public async update(models: ExpedicaoEstagioDto[]): Promise<void> {
+  public async update(models: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -39,7 +43,7 @@ export default class ExpedicaoEstagioRepository {
     }
   }
 
-  public async delete(models: ExpedicaoEstagioDto[]): Promise<void> {
+  public async delete(models: ExpedicaoPercursoEstagioDto[]): Promise<void> {
     try {
       const repository = this.repository();
       for (const el of models) {
@@ -68,9 +72,9 @@ export default class ExpedicaoEstagioRepository {
   }
 
   private repository() {
-    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoEstagioDto>>({
+    return AppDependencys.resolve<LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>>({
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
+      bind: 'LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>',
     });
   }
 }

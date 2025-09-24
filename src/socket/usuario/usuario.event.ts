@@ -1,4 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import UsuarioDto from '../../dto/common.data/usuario';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -21,9 +22,11 @@ export default class UsuarioEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} usuario.consulta`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.consulta(params);
+        const result = await this.repository.consulta(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -49,9 +52,11 @@ export default class UsuarioEvent {
       const session = json['Session'] ?? '';
       const responseIn = json['ResponseIn'] ?? `${client} usuario.select`;
       const params = json['Where'] ?? '';
+      const pagination = new Pagination(json['Pagination']);
+      const orderBy = new OrderBy(json['OrderBy']);
 
       try {
-        const result = await this.repository.select(params);
+        const result = await this.repository.select(params, pagination, orderBy);
         const jsonData = result.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
@@ -169,7 +174,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(` CodUsuario = ${item.CodUsuario}`);
+          const result = await this.repository.consulta(`CodUsuario = ${item.CodUsuario}`);
           usuarioConsulta.push(...result);
         }
 

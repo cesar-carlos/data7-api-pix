@@ -1,7 +1,7 @@
 import { eContext } from '../dependency/container.dependency';
 import ContainerDependency from '../dependency/container.dependency';
 
-import SqlServerExpedicaoEstagioRepository from '../repository/expedicao/sql.server.expedicao.estagio.repository';
+import SqlServerExpedicaoPercursoEstagioRepository from '../repository/expedicao/sql.server.expedicao.percurso.estagio.repository';
 import SqlServerExpedicaoConferirRepository from '../repository/expedicao/sql.server.expedicao.conferir.repository';
 import SqlServerExpedicaoPrioridadeRepository from '../repository/expedicao/sql.server.expedicao.prioridade.repository';
 import SqlServerExpedicaoMotivoRecusaRepository from '../repository/expedicao/sql.server.expedicao.motivo.recusa.repository';
@@ -69,12 +69,6 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseRepositoryContract<ExpedicaoMotivoRecusaDto>',
       instance: new SqlServerExpedicaoMotivoRecusaRepository(),
-    });
-
-    ContainerDependency.instance.register({
-      context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoTipoDto>',
-      instance: new SqlServerExpedicaoEstagioRepository(),
     });
 
     ContainerDependency.instance.register({
@@ -169,8 +163,8 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
-      bind: 'LocalBaseRepositoryContract<ExpedicaoEstagioDto>',
-      instance: new SqlServerExpedicaoEstagioRepository(),
+      bind: 'LocalBaseRepositoryContract<ExpedicaoPercursoEstagioDto>',
+      instance: new SqlServerExpedicaoPercursoEstagioRepository(),
     });
 
     ContainerDependency.instance.register({
