@@ -1,4 +1,5 @@
-SELECT CodSetorEstoque,
+SELECT
+  CodSetorEstoque,
   Descricao,
   Ativo
 FROM Expedicao.SetorEstoque

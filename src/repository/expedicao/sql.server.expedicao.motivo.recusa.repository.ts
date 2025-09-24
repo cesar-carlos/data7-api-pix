@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, Pagination } from '../../contracts/local.base.params';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ExpedicaoMotivoRecusaDto from '../../dto/expedicao/expedicao.motivo.recusa.dto';
@@ -35,15 +35,22 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoMotivoRecusaDto[]> {
+  public async selectWhere(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoMotivoRecusaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.motivo.recusa.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
+      const paramOrderBy = orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : '';
+      const paramLimit = pagination ? `TOP ${pagination.limit}` : '';
+
       const _params = ParamsCommonRepository.build(params);
-      const sql = _params ? `${select} WHERE ${_params}` : select;
-      const result = await pool.request().query(sql);
+      const _sql = (_params ? `${select} WHERE ${_params} ${paramOrderBy}` : select).replaceAll('@@TOP@@', paramLimit);
+      const result = await pool.request().query(_sql);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
@@ -85,9 +92,9 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
 
   private async actonEntity(entity: ExpedicaoMotivoRecusaDto, sqlCommand: string): Promise<void> {
     const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
 
     try {
-      const transaction = new sql.Transaction(pool);
       await transaction.begin();
       await transaction
         .request()
@@ -98,6 +105,8 @@ export default class SqlServerExpedicaoMotivoRecusaRepository
 
       await transaction.commit();
     } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoMotivoRecusaRepository.actonEntity:', error.message);
+      transaction.rollback();
       throw new Error(error.message);
     } finally {
     }

@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { ConnectionPool } from 'mssql';
 
-import { params, Pagination } from '../../contracts/local.base.params';
+import sql, { ConnectionPool } from 'mssql';
+import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -35,16 +35,22 @@ export default class SqlServerExpedicaoCarrinhoPercursoRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ExpedicaoCarrinhoPercursoDto[]> {
+  public async selectWhere(
+    params: params[] | string = [],
+    pagination?: Pagination,
+    orderBy?: OrderBy,
+  ): Promise<ExpedicaoCarrinhoPercursoDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
+      const paramOrderBy = orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : '';
+      const paramLimit = pagination ? `TOP ${pagination.limit}` : '';
 
       const _params = ParamsCommonRepository.build(params);
-      const sql = _params ? `${select} WHERE ${_params}` : select;
-      const result = await pool.request().query(sql);
+      const _sql = (_params ? `${select} WHERE ${_params} ${paramOrderBy}` : select).replaceAll('@@TOP@@', paramLimit);
+      const result = await pool.request().query(_sql);
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
@@ -105,6 +111,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoRepository
 
       await transaction.commit();
     } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoCarrinhoPercursoRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
     } finally {

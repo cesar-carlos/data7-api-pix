@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import sql, { ConnectionPool } from 'mssql';
 
+import sql, { ConnectionPool } from 'mssql';
 import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -119,6 +119,7 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
 
       await transaction.commit();
     } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoCarrinhoPercursoEstagioRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
     } finally {
