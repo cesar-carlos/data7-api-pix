@@ -56,7 +56,7 @@ export default class SetorEstoqueRepository {
 
   public async sequence(): Promise<SequenceDto | undefined> {
     try {
-      const name = 'SetorEstoque_Sequencia_1';
+      const name = 'Expedicao.SetorEstoque_Sequencia_1';
       const repository = this.sequenceRepository();
       return await repository.select(name);
     } catch (error: any) {

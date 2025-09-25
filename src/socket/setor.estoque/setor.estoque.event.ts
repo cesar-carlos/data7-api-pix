@@ -55,8 +55,10 @@ export default class SetorEstoqueEvent {
       try {
         const itens = this.convert(mutation);
         for (const item of itens) {
-          const sequence = await this.repository.sequence();
-          item.CodSetorEstoque = sequence?.Valor ?? 0;
+          if (item.CodSetorEstoque <= 0) {
+            const sequence = await this.repository.sequence();
+            item.CodSetorEstoque = sequence?.Valor ?? 0;
+          }
           await this.repository.insert([item]);
         }
 
