@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
@@ -36,7 +36,7 @@ export default class SqlServerExpedicaoItemSepararRepository
   }
 
   public async selectWhere(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSepararDto[]> {

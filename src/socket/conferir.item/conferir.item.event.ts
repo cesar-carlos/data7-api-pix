@@ -145,11 +145,12 @@ export default class ConferirItemEvent {
         for (const el of itens) {
           await this.repository.insert([el]);
 
-          const inerted = await this.repository.select(`
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodConferir = ${el.CodConferir}
-              AND CodProduto = '${el.CodProduto}'
-            ORDER BY Item `);
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'CodProduto', value: el.CodProduto },
+          ];
+          const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 
           try {
             el.Item = inerted[inerted.length - 1].Item;

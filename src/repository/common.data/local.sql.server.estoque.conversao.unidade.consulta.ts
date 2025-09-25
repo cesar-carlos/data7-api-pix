@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -35,7 +35,7 @@ export default class LocalSqlServerEstoqueConversaoUnidadeConsulta
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

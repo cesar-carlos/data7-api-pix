@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import CobrancaDigitalPixDto from '../../dto/integracao/cobranca.digital.pix.dto';
 import ParamsCommonRepository from '../common/params.common';
@@ -34,7 +34,7 @@ export default class LocalSybaseCobrancaDigitalPixRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalPixDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<CobrancaDigitalPixDto[]> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.pix.select.sql');

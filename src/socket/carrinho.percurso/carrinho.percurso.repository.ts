@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -11,7 +11,7 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class CarrinhoPercursoRepository {
   public async consulta(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
@@ -25,7 +25,7 @@ export default class CarrinhoPercursoRepository {
   }
 
   public async select(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoCarrinhoPercursoDto[]> {

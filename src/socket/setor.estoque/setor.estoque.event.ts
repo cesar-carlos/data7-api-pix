@@ -64,7 +64,7 @@ export default class SetorEstoqueEvent {
 
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select(`CodSetorEstoque = ${item.CodSetorEstoque}`);
+          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
           setorEstoqueConsulta.push(...result);
         }
 
@@ -105,7 +105,7 @@ export default class SetorEstoqueEvent {
 
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select(`CodSetorEstoque = ${item.CodSetorEstoque}`);
+          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
           setorEstoqueConsulta.push(...result);
         }
 
@@ -144,7 +144,7 @@ export default class SetorEstoqueEvent {
         const itens = this.convert(mutation);
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select(`CodSetorEstoque = ${item.CodSetorEstoque}`);
+          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
           setorEstoqueConsulta.push(...result);
         }
 

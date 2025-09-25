@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import CobrancaDigitalPagamentoDto from '../../dto/integracao/cobranca.digital.pagamento.dto';
@@ -35,7 +35,7 @@ export default class LocalSqlServerCobrancaDigitalPagamentoRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalPagamentoDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<CobrancaDigitalPagamentoDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

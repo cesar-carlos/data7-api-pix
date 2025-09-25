@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import CobrancaDigitalAdicionaisDto from '../../dto/integracao/cobranca.digital.adicionais.dto';
 import { ConnectionSybase } from '../../infra/connection.sybase';
@@ -34,7 +34,7 @@ export default class LocalSybaseCobrancaDigitalAdicionaisRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalAdicionaisDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<CobrancaDigitalAdicionaisDto[]> {
     try {
       const pool = await (await this.connect.getConnection()).connect();
       const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.adicionais.select.sql');

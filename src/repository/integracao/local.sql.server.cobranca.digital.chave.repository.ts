@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ChaveDto from '../../dto/integracao/chave.dto';
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -33,7 +33,7 @@ export default class LocalSqlServerCobrancaDigitalChaveRepository implements Loc
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ChaveDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<ChaveDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

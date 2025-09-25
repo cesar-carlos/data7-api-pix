@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import AppDependencys from '../../aplication/app.dependencys';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -10,7 +10,7 @@ import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.
 
 export default class SepararItemRepository {
   public async consulta(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSepararConsultaDto[]> {
@@ -20,7 +20,7 @@ export default class SepararItemRepository {
   }
 
   public async consultaUnidadeMedida(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSepararUnidadeMedidaConsultaDto[]> {
@@ -34,7 +34,7 @@ export default class SepararItemRepository {
   }
 
   public async select(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSepararDto[]> {

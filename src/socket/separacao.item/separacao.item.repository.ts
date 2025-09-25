@@ -1,4 +1,4 @@
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -10,7 +10,7 @@ import AppDependencys from '../../aplication/app.dependencys';
 
 export default class SeparacaoItemRepository {
   public async consultaResumo(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSeparacaoResumoConsultaDto[]> {
@@ -24,7 +24,7 @@ export default class SeparacaoItemRepository {
   }
 
   public async consulta(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSeparacaoConsultaDto[]> {
@@ -38,7 +38,7 @@ export default class SeparacaoItemRepository {
   }
 
   public async select(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSeparacaoDto[]> {

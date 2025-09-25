@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ItemLiberacaoBloqueioSituacaoDto from '../../dto/common.data/item.liberacao.bloqueio.situacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -30,7 +30,7 @@ export default class LocalSybaseItemLiberacaoBloqueioSituacaoRepository
     return situacoes;
   }
 
-  async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioSituacaoDto[]> {
+  async selectWhere(params: Params[]): Promise<ItemLiberacaoBloqueioSituacaoDto[]> {
     const pool = await (await this.connect.getConnection()).connect();
     const patchSQL = path.resolve(this.basePatchSQL, 'item.liberacao.bloqueio.situacao.select.sql');
     const select = fs.readFileSync(patchSQL).toString();

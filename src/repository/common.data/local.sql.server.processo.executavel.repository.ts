@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ProcessoExecutavelDto from '../../dto/common.data/processo.executavel.dto';
@@ -34,7 +34,7 @@ export default class LocalSqlServerProcessoExecutavelRepository
     }
   }
 
-  async selectWhere(params: params[]): Promise<ProcessoExecutavelDto[]> {
+  async selectWhere(params: Params[]): Promise<ProcessoExecutavelDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

@@ -1,5 +1,5 @@
 import { eContext } from '../../dependency/container.dependency';
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import UsuarioDto from '../../dto/common.data/usuario';
 import AppDependencys from '../../aplication/app.dependencys';
@@ -11,7 +11,7 @@ import SequenceDto from '../../dto/common.data/sequence.dto';
 
 export default class UsuarioRepository {
   public async consulta(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<UsuarioConsultaDto[]> {
@@ -21,7 +21,7 @@ export default class UsuarioRepository {
   }
 
   public async select(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<UsuarioDto[]> {

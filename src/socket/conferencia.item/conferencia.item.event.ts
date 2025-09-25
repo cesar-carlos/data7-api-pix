@@ -108,12 +108,13 @@ export default class ConferenciaItemEvent {
         for (const el of itensMutation) {
           await this.repository.insert([el]);
 
-          const inerted = await this.repository.select(`
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodConferir = ${el.CodConferir}
-              AND SessionId = '${el.SessionId}'
-              AND CodConferente = ${el.CodConferente}
-            ORDER BY Item `);
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'SessionId', value: el.SessionId },
+            { key: 'CodConferente', value: el.CodConferente },
+          ];
+          const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 
           try {
             el.Item = inerted[inerted.length - 1].Item;
@@ -147,11 +148,12 @@ export default class ConferenciaItemEvent {
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
-          const params = `
-              CodEmpresa = ${el.CodEmpresa}
-            AND CodConferir = ${el.CodConferir}
-            AND CodCarrinho = ${el.CodCarrinho}
-            AND CodProduto = '${el.CodProduto}' `;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'CodCarrinho', value: el.CodCarrinho },
+            { key: 'CodProduto', value: el.CodProduto },
+          ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
           const sumQtdConferida = itensConferenciaConsultaProdutoCarrinho.reduce((acc, cur) => {
@@ -176,10 +178,11 @@ export default class ConferenciaItemEvent {
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-          AND CodConferir = ${el.CodConferir}
-          AND Item = '${el.Item}' `;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'Item', value: el.Item },
+          ];
 
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
@@ -256,13 +259,12 @@ export default class ConferenciaItemEvent {
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
-          const params = `
-              CodEmpresa = ${el.CodEmpresa}
-            AND CodConferir = ${el.CodConferir}
-            AND CodCarrinho = ${el.CodCarrinho}
-            AND CodProduto = '${el.CodProduto}'
-
-          `;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'CodCarrinho', value: el.CodCarrinho },
+            { key: 'CodProduto', value: el.CodProduto },
+          ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
           const sumQtdConferida = itensConferenciaConsultaProdutoCarrinho.reduce((acc, cur) => {
@@ -287,12 +289,11 @@ export default class ConferenciaItemEvent {
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-          AND CodConferir = ${el.CodConferir}
-          AND Item = '${el.Item}'
-
-          `;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'Item', value: el.Item },
+          ];
 
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
@@ -342,10 +343,11 @@ export default class ConferenciaItemEvent {
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-          AND CodConferir = ${el.CodConferir}
-          AND Item = '${el.Item}'`;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'Item', value: el.Item },
+          ];
 
           const result = await this.repository.consulta(params);
           itensConferenciaConsulta.push(...result);
@@ -380,13 +382,12 @@ export default class ConferenciaItemEvent {
 
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
-          const params = `
-              CodEmpresa = ${el.CodEmpresa}
-            AND CodConferir = ${el.CodConferir}
-            AND CodCarrinho = ${el.CodCarrinho}
-            AND CodProduto = '${el.CodProduto}'
-
-          `;
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodConferir', value: el.CodConferir },
+            { key: 'CodCarrinho', value: el.CodCarrinho },
+            { key: 'CodProduto', value: el.CodProduto },
+          ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
           const sumQtdConferida = itensConferenciaConsultaProdutoCarrinho.reduce((acc, cur) => {

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import CobrancaDigitalDataBaseDto from '../../dto/integracao/cobranca.digital.data.base.dto';
@@ -35,7 +35,7 @@ export default class LocalSqlServerCobrancaDigitalDataBaseRepository
     }
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<CobrancaDigitalDataBaseDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<CobrancaDigitalDataBaseDto[]> {
     let pool: ConnectionPool | null = null;
 
     try {

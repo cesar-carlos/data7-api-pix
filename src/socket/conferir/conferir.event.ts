@@ -120,12 +120,12 @@ export default class ConferirEvent {
         //PROTEGE CONTRA DUPLICIDADE DE ORIGEM
         let duplicateOrigin = false;
         for (const item of itens) {
-          const result = await this.repository.select(
-            ` CodEmpresa = ${item.CodEmpresa}
-            AND Origem = '${item.Origem}'
-            AND CodOrigem = ${item.CodOrigem}
-            AND Situacao NOT IN ( '${ExpedicaoSituacaoModel.cancelada}' ) `,
-          );
+          const result = await this.repository.select([
+            { key: 'CodEmpresa', value: item.CodEmpresa },
+            { key: 'Origem', value: item.Origem },
+            { key: 'CodOrigem', value: item.CodOrigem },
+            { key: 'Situacao', value: `NOT IN ( '${ExpedicaoSituacaoModel.cancelada}' )`, operator: 'CUSTOM' },
+          ]);
 
           if (result.length > 0) {
             duplicateOrigin = true;
@@ -152,10 +152,10 @@ export default class ConferirEvent {
 
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa}
-            AND CodConferir = ${item.CodConferir} `,
-          );
+          const result = await this.repository.consulta([
+            { key: 'CodEmpresa', value: item.CodEmpresa },
+            { key: 'CodConferir', value: item.CodConferir },
+          ]);
 
           conferirConsulta.push(...result);
         }
@@ -197,10 +197,10 @@ export default class ConferirEvent {
 
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa}
-             AND CodConferir = ${item.CodConferir} `,
-          );
+          const result = await this.repository.consulta([
+            { key: 'CodEmpresa', value: item.CodEmpresa },
+            { key: 'CodConferir', value: item.CodConferir },
+          ]);
 
           conferirConsulta.push(...result);
         }
@@ -241,9 +241,10 @@ export default class ConferirEvent {
 
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa} AND CodConferir = ${item.CodConferir}`,
-          );
+          const result = await this.repository.consulta([
+            { key: 'CodEmpresa', value: item.CodEmpresa },
+            { key: 'CodConferir', value: item.CodConferir },
+          ]);
 
           conferirConsulta.push(...result);
         }

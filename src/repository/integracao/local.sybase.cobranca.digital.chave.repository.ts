@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ChaveDto from '../../dto/integracao/chave.dto';
 import ParamsCommonRepository from '../common/params.common';
@@ -28,7 +28,7 @@ export default class LocalSybaseCobrancaDigitalChaveRepository implements LocalB
     return chaves;
   }
 
-  public async selectWhere(params: params[] | string = []): Promise<ChaveDto[]> {
+  public async selectWhere(params: Params[] = []): Promise<ChaveDto[]> {
     const pool = await (await this.connect.getConnection()).connect();
     const patchSQL = path.resolve(this.basePatchSQL, 'cobranca.digital.chaves.select.sql');
     const select = fs.readFileSync(patchSQL).toString();

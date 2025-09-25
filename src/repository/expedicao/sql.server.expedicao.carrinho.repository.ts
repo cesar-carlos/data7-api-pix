@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
@@ -34,7 +34,7 @@ export default class SqlServerExpedicaoCarrinhoRepository implements LocalBaseRe
   }
 
   public async selectWhere(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoCarrinhoDto[]> {

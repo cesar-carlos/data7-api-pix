@@ -67,7 +67,7 @@ export default class GeralProcessoExecutavelController {
   }
 
   public static buildParams(req: Request): params[] {
-    const _params: params[] = [];
+    const _params: Params[] = [];
     for (const keyName in req.query) {
       const value = req.query[keyName];
       _params.push({ key: keyName, value: value });

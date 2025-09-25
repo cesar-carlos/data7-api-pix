@@ -87,14 +87,16 @@ export default class CarrinhoPercursoEstagioEvent {
         const itens = this.convert(mutation);
         for (const el of itens) {
           await this.repository.insert([el]);
-          const inerted = await this.repository.select(`
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodCarrinhoPercurso = ${el.CodCarrinhoPercurso}
-              AND CodCarrinho = ${el.CodCarrinho}
-            ORDER BY Item `);
+          const params = [
+            { key: 'CodEmpresa', value: el.CodEmpresa },
+            { key: 'CodCarrinhoPercurso', value: el.CodCarrinhoPercurso },
+            { key: 'CodCarrinho', value: el.CodCarrinho },
+          ];
+
+          const inserted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 
           try {
-            el.Item = inerted[inerted.length - 1].Item;
+            el.Item = inserted[inserted.length - 1].Item;
           } catch (error: any) {
             throw new Error('Erro ao inserir ' + error.message);
           }

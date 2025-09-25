@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 import sql, { ConnectionPool } from 'mssql';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ItemLiberacaoBloqueioDto from '../../dto/common.data/item.liberacao.bloqueio.dto';
@@ -35,7 +35,7 @@ export default class LocalSqlServerItemLiberacaoBloqueioRepository
     }
   }
 
-  async selectWhere(params: params[]): Promise<ItemLiberacaoBloqueioDto[]> {
+  async selectWhere(params: Params[]): Promise<ItemLiberacaoBloqueioDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

@@ -1,4 +1,4 @@
-import { params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import AppDependencys from '../../aplication/app.dependencys';
@@ -11,7 +11,7 @@ import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferi
 
 export default class ConferirItemRepository {
   public async consulta(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemConferirConsultaDto[]> {
@@ -21,7 +21,7 @@ export default class ConferirItemRepository {
   }
 
   public async consultaUnidadeMedida(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemConferirUnidadeMedidaConsultaDto[]> {
@@ -35,7 +35,7 @@ export default class ConferirItemRepository {
   }
 
   public async consultaConferirSeparacao(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemSeparacaoConferirConsultaDto[]> {
@@ -49,7 +49,7 @@ export default class ConferirItemRepository {
   }
 
   public async select(
-    params: params[] | string = [],
+    params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
   ): Promise<ExpedicaoItemConferirDto[]> {

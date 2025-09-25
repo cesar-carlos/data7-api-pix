@@ -1,8 +1,8 @@
 import path from 'path';
-import { params, pagination } from '../../contracts/local.base.params';
+import { Params, pagination } from '../../contracts/local.base.params';
 
 export default class ParamsCommonRepository {
-  static build(params: params[] | string | string[] | string[][]) {
+  static build(params: Params[] | string[] | string[][]) {
     if (typeof params === 'string') {
       return params;
     }

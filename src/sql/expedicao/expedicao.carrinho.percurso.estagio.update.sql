@@ -1,5 +1,5 @@
-UPDATE Expedicao.CarrinhoPercursoEstagio
-SET Origem = @Origem,
+UPDATE Expedicao.CarrinhoPercursoEstagio SET
+  Origem = @Origem,
   CodOrigem = @CodOrigem,
   CodPercursoEstagio = @CodPercursoEstagio,
   CodCarrinho = @CodCarrinho,

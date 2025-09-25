@@ -93,7 +93,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodUsuario = ${item.CodUsuario}`);
+          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
           usuarioConsulta.push(...result);
         }
 
@@ -134,7 +134,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodUsuario = ${item.CodUsuario}`);
+          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
           usuarioConsulta.push(...result);
         }
 
@@ -174,7 +174,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodUsuario = ${item.CodUsuario}`);
+          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
           usuarioConsulta.push(...result);
         }
 

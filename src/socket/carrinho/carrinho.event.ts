@@ -93,7 +93,7 @@ export default class CarrinhoEvent {
 
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
           carrinhosConsulta.push(...result);
         }
 
@@ -134,7 +134,7 @@ export default class CarrinhoEvent {
 
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
           carrinhosConsulta.push(...result);
         }
 
@@ -173,7 +173,7 @@ export default class CarrinhoEvent {
         const itens = this.convert(mutation);
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(`CodCarrinho = ${item.CodCarrinho}`);
+          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
           carrinhosConsulta.push(...result);
         }
 
