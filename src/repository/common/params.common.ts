@@ -1,5 +1,5 @@
 import path from 'path';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 export default class ParamsCommonRepository {
   static build(params: Params[] | string[] | string[][]) {
@@ -57,7 +57,7 @@ export default class ParamsCommonRepository {
     }
 
     try {
-      const result = (params as params[])
+      const result = (params as Params[])
         .map((item: any) => {
           if (!item || typeof item !== 'object' || !item.key) {
             throw new Error(

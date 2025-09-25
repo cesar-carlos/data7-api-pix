@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 import sql, { ConnectionPool } from 'mssql';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import ProcessoExecutavelDto from '../../dto/common.data/processo.executavel.dto';

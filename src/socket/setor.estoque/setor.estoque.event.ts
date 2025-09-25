@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoSetorEstoqueDto from '../../dto/expedicao/expedicao.setor.estoque.dto';
@@ -64,7 +64,7 @@ export default class SetorEstoqueEvent {
 
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
+          const result = await this.repository.select([Params.equals('CodSetorEstoque', item.CodSetorEstoque)]);
           setorEstoqueConsulta.push(...result);
         }
 
@@ -105,7 +105,7 @@ export default class SetorEstoqueEvent {
 
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
+          const result = await this.repository.select([Params.equals('CodSetorEstoque', item.CodSetorEstoque)]);
           setorEstoqueConsulta.push(...result);
         }
 
@@ -144,7 +144,7 @@ export default class SetorEstoqueEvent {
         const itens = this.convert(mutation);
         const setorEstoqueConsulta: ExpedicaoSetorEstoqueDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.select([{ key: 'CodSetorEstoque', value: item.CodSetorEstoque }]);
+          const result = await this.repository.select([Params.equals('CodSetorEstoque', item.CodSetorEstoque)]);
           setorEstoqueConsulta.push(...result);
         }
 

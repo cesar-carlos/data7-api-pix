@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import UsuarioDto from '../../dto/common.data/usuario';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -93,7 +93,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
+          const result = await this.repository.consulta([Params.equals('CodUsuario', item.CodUsuario)]);
           usuarioConsulta.push(...result);
         }
 
@@ -134,7 +134,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
+          const result = await this.repository.consulta([Params.equals('CodUsuario', item.CodUsuario)]);
           usuarioConsulta.push(...result);
         }
 
@@ -174,7 +174,7 @@ export default class UsuarioEvent {
 
         const usuarioConsulta: UsuarioConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodUsuario', value: item.CodUsuario }]);
+          const result = await this.repository.consulta([Params.equals('CodUsuario', item.CodUsuario)]);
           usuarioConsulta.push(...result);
         }
 

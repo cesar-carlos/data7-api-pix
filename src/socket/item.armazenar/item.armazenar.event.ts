@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ItemArmazenarRepository from './item.armazenar.repository';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -90,8 +90,8 @@ export default class ItemArmazenarEvent {
         }
 
         const params = [
-          { key: 'CodEmpresa', value: itens?.[0].CodEmpresa },
-          { key: 'CodArmazenar', value: itens?.[0].CodArmazenar },
+          Params.equals('CodEmpresa', itens?.[0].CodEmpresa),
+          Params.equals('CodArmazenar', itens?.[0].CodArmazenar),
         ];
         const newItens = await this.repository.select(params);
 

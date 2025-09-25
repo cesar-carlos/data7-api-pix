@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params, Pagination } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -15,7 +15,7 @@ export default class LocalSqlServerEstoqueConversaoUnidadeConsulta
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('common.data');
 
-  public async select(page: pagination): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
+  public async select(page: Pagination): Promise<EstoqueConversaoUnidadeConsultaDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {

@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ConferirItemRepository from './conferir.item.repository';
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
@@ -146,9 +146,9 @@ export default class ConferirItemEvent {
           await this.repository.insert([el]);
 
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'CodProduto', value: el.CodProduto },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('CodProduto', el.CodProduto),
           ];
           const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 

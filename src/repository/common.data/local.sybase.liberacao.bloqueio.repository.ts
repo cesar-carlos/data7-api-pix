@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import LiberacaoBloqueioDto from '../../dto/common.data/liberacao.bloqueio.dto';
 import LocalSybaseItemLiberacaoBloqueioRepository from './local.sybase.item.liberacao.bloqueio.repository';

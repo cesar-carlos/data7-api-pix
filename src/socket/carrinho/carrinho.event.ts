@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import CarrinhoRepository from './carrinho.repository';
 import ExpedicaoCarrinhoDto from '../../dto/expedicao/expedicao.carrinho.dto';
@@ -93,7 +93,7 @@ export default class CarrinhoEvent {
 
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
+          const result = await this.repository.consulta([Params.equals('CodCarrinho', item.CodCarrinho)]);
           carrinhosConsulta.push(...result);
         }
 
@@ -134,7 +134,7 @@ export default class CarrinhoEvent {
 
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
+          const result = await this.repository.consulta([Params.equals('CodCarrinho', item.CodCarrinho)]);
           carrinhosConsulta.push(...result);
         }
 
@@ -173,7 +173,7 @@ export default class CarrinhoEvent {
         const itens = this.convert(mutation);
         const carrinhosConsulta: ExpedicaoCarrinhoConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta([{ key: 'CodCarrinho', value: item.CodCarrinho }]);
+          const result = await this.repository.consulta([Params.equals('CodCarrinho', item.CodCarrinho)]);
           carrinhosConsulta.push(...result);
         }
 

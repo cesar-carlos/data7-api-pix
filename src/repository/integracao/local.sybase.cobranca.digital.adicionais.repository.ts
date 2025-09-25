@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
 
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import CobrancaDigitalAdicionaisDto from '../../dto/integracao/cobranca.digital.adicionais.dto';
 import { ConnectionSybase } from '../../infra/connection.sybase';

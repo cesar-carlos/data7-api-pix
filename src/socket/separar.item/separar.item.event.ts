@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
@@ -117,11 +117,15 @@ export default class SepararItemEvent {
         for (const el of itens) {
           await this.repository.insert([el]);
 
-          const inerted = await this.repository.select(`
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND CodProduto = '${el.CodProduto}'
-            ORDER BY Item `);
+          const inerted = await this.repository.select(
+            [
+              Params.equals('CodEmpresa', el.CodEmpresa),
+              Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+              Params.equals('CodProduto', el.CodProduto),
+            ],
+            undefined,
+            OrderBy.create('Item', 'ASC'),
+          );
 
           try {
             el.Item = inerted[inerted.length - 1].Item;

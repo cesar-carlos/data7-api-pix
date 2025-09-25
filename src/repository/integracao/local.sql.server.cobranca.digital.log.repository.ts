@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import sql, { ConnectionPool } from 'mssql';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import CobrancaDigitalLogDto from '../../dto/integracao/cobranca.digital.log.dto';

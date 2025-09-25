@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import SepararItemRepository from '../separar.item/separar.item.repository';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -129,12 +129,16 @@ export default class SeparacaoItemEvent {
         for (const el of itensMutation) {
           await this.repository.insert([el]);
 
-          const inerted = await this.repository.select(`
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND SessionId = '${el.SessionId}'
-              AND CodSeparador = ${el.CodSeparador}
-            ORDER BY Item `);
+          const inerted = await this.repository.select(
+            [
+              Params.equals('CodEmpresa', el.CodEmpresa),
+              Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+              Params.equals('SessionId', el.SessionId),
+              Params.equals('CodSeparador', el.CodSeparador),
+            ],
+            undefined,
+            OrderBy.create('Item', 'ASC'),
+          );
 
           try {
             el.Item = inerted[inerted.length - 1].Item;
@@ -160,13 +164,13 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND CodProduto = ${el.CodProduto} `;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('CodProduto', el.CodProduto),
+          ];
 
           const separados = await this.repository.select(params);
-
           const sumQtdSeparada = separados.reduce((acc, cur) => {
             return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
@@ -186,10 +190,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND Item = '${el.Item}' `;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('Item', el.Item),
+          ];
 
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
@@ -258,10 +263,11 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND CodProduto = ${el.CodProduto}`;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('CodProduto', el.CodProduto),
+          ];
 
           const separados = await this.repository.select(params);
 
@@ -284,10 +290,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND Item = '${el.Item}'`;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('Item', el.Item),
+          ];
 
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
@@ -337,10 +344,11 @@ export default class SeparacaoItemEvent {
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
         for (const el of itensMutation) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND Item = '${el.Item}'`;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('Item', el.Item),
+          ];
 
           const result = await this.repository.consulta(params);
           itensSeparacaoConsulta.push(...result);
@@ -367,15 +375,16 @@ export default class SeparacaoItemEvent {
 
         const itensSepararConsulta: ExpedicaoItemSepararConsultaDto[] = [];
         for (const el of produtosSeparado) {
-          const params = `
-            CodEmpresa = ${el.CodEmpresa}
-              AND CodSepararEstoque = ${el.CodSepararEstoque}
-              AND CodProduto = ${el.CodProduto}`;
+          const params = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodSepararEstoque', el.CodSepararEstoque),
+            Params.equals('CodProduto', el.CodProduto),
+          ];
 
           const separados = await this.repository.select(params);
 
           const sumQtdSeparada = separados.reduce((acc, cur) => {
-            return cur.Situacao != 'CA' ? acc + cur.Quantidade : acc;
+            return cur.Situacao != ExpedicaoItemSituacaoModel.cancelado ? acc + cur.Quantidade : acc;
           }, 0);
 
           const separarItemRepository = new SepararItemRepository();

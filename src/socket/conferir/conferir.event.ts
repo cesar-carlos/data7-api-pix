@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -121,10 +121,10 @@ export default class ConferirEvent {
         let duplicateOrigin = false;
         for (const item of itens) {
           const result = await this.repository.select([
-            { key: 'CodEmpresa', value: item.CodEmpresa },
-            { key: 'Origem', value: item.Origem },
-            { key: 'CodOrigem', value: item.CodOrigem },
-            { key: 'Situacao', value: `NOT IN ( '${ExpedicaoSituacaoModel.cancelada}' )`, operator: 'CUSTOM' },
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('Origem', item.Origem),
+            Params.equals('CodOrigem', item.CodOrigem),
+            Params.notIn('Situacao', [ExpedicaoSituacaoModel.cancelada]),
           ]);
 
           if (result.length > 0) {
@@ -153,8 +153,8 @@ export default class ConferirEvent {
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta([
-            { key: 'CodEmpresa', value: item.CodEmpresa },
-            { key: 'CodConferir', value: item.CodConferir },
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodConferir', item.CodConferir),
           ]);
 
           conferirConsulta.push(...result);
@@ -198,8 +198,8 @@ export default class ConferirEvent {
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta([
-            { key: 'CodEmpresa', value: item.CodEmpresa },
-            { key: 'CodConferir', value: item.CodConferir },
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodConferir', item.CodConferir),
           ]);
 
           conferirConsulta.push(...result);
@@ -242,8 +242,8 @@ export default class ConferirEvent {
         const conferirConsulta: ExpedicaoConferirConsultaDto[] = [];
         for (const item of itens) {
           const result = await this.repository.consulta([
-            { key: 'CodEmpresa', value: item.CodEmpresa },
-            { key: 'CodConferir', value: item.CodConferir },
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodConferir', item.CodConferir),
           ]);
 
           conferirConsulta.push(...result);

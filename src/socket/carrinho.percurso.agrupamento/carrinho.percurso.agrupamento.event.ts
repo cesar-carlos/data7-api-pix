@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -88,10 +88,10 @@ export default class CarrinhoPercursoAgrupamentoEvent {
           await this.repository.insert([el]);
 
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodCarrinhoPercurso', value: el.CodCarrinhoPercurso },
-            { key: 'Origem', value: el.Origem },
-            { key: 'CodUsuarioLancamento', value: el.CodUsuarioLancamento },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
+            Params.equals('Origem', el.Origem),
+            Params.equals('CodUsuarioLancamento', el.CodUsuarioLancamento),
           ];
           const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 

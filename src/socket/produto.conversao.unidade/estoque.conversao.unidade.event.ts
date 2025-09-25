@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import EstoqueConversaoUnidadeRepository from './estoque.conversao.unidade.repository';
 import EstoqueConversaoUnidadeDto from '../../dto/common.data/estoque.conversao.unidade.dto';
@@ -181,7 +181,7 @@ export default class EstoqueConversaoUnidadeEvent {
   }
 
   private async lestItem(codProduto: number): Promise<string> {
-    const itens = await this.repository.select([{ key: 'CodProduto', value: codProduto }]);
+    const itens = await this.repository.select([Params.equals('CodProduto', codProduto)]);
     if (itens.length == 0) return '001';
     const list = itens.map((item) => item.Item);
     const max = Math.max(...list.map((item) => Number(item)));

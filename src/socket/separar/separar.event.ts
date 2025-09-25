@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
@@ -93,10 +93,10 @@ export default class SepararEvent {
 
         const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa}
-            AND CodSepararEstoque = ${item.CodSepararEstoque} `,
-          );
+          const result = await this.repository.consulta([
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodSepararEstoque', item.CodSepararEstoque),
+          ]);
 
           separarConsulta.push(...result);
         }
@@ -138,10 +138,10 @@ export default class SepararEvent {
 
         const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa}
-            AND CodSepararEstoque = ${item.CodSepararEstoque} `,
-          );
+          const result = await this.repository.consulta([
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodSepararEstoque', item.CodSepararEstoque),
+          ]);
 
           separarConsulta.push(...result);
         }
@@ -182,10 +182,10 @@ export default class SepararEvent {
 
         const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
         for (const item of itens) {
-          const result = await this.repository.consulta(
-            ` CodEmpresa = ${item.CodEmpresa}
-            AND CodSepararEstoque = ${item.CodSepararEstoque}`,
-          );
+          const result = await this.repository.consulta([
+            Params.equals('CodEmpresa', item.CodEmpresa),
+            Params.equals('CodSepararEstoque', item.CodSepararEstoque),
+          ]);
 
           separarConsulta.push(...result);
         }

@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import CobrancaDigitalSituacaoDto from '../../dto/integracao/cobranca.digital.situacao.dto';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';

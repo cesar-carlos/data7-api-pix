@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import sql from 'mssql';
 
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 import { ConnectionSybase } from '../../infra/connection.sybase';
 
 import ItemLiberacaoBloqueioDto from '../../dto/common.data/item.liberacao.bloqueio.dto';

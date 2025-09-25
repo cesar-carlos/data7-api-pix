@@ -3,7 +3,7 @@ import path from 'path';
 import sql from 'mssql';
 
 import { ConnectionSybase } from '../../infra/connection.sybase';
-import { Params, pagination } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 
 import ChaveDto from '../../dto/integracao/chave.dto';
 import ParamsCommonRepository from '../common/params.common';

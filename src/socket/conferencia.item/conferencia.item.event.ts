@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ConferenciaItemRepository from './conferencia.item.repository';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
@@ -109,10 +109,10 @@ export default class ConferenciaItemEvent {
           await this.repository.insert([el]);
 
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'SessionId', value: el.SessionId },
-            { key: 'CodConferente', value: el.CodConferente },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('SessionId', el.SessionId),
+            Params.equals('CodConferente', el.CodConferente),
           ];
           const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
 
@@ -149,10 +149,10 @@ export default class ConferenciaItemEvent {
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'CodCarrinho', value: el.CodCarrinho },
-            { key: 'CodProduto', value: el.CodProduto },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('CodCarrinho', el.CodCarrinho),
+            Params.equals('CodProduto', el.CodProduto),
           ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
@@ -179,9 +179,9 @@ export default class ConferenciaItemEvent {
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'Item', value: el.Item },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('Item', el.Item),
           ];
 
           const result = await this.repository.consulta(params);
@@ -260,10 +260,10 @@ export default class ConferenciaItemEvent {
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'CodCarrinho', value: el.CodCarrinho },
-            { key: 'CodProduto', value: el.CodProduto },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('CodCarrinho', el.CodCarrinho),
+            Params.equals('CodProduto', el.CodProduto),
           ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
@@ -290,9 +290,9 @@ export default class ConferenciaItemEvent {
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'Item', value: el.Item },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('Item', el.Item),
           ];
 
           const result = await this.repository.consulta(params);
@@ -344,9 +344,9 @@ export default class ConferenciaItemEvent {
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
         for (const el of itensMutation) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'Item', value: el.Item },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('Item', el.Item),
           ];
 
           const result = await this.repository.consulta(params);
@@ -383,10 +383,10 @@ export default class ConferenciaItemEvent {
         const itensConferirConsulta: ExpedicaoItemConferirConsultaDto[] = [];
         for (const el of produtoConferir) {
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodConferir', value: el.CodConferir },
-            { key: 'CodCarrinho', value: el.CodCarrinho },
-            { key: 'CodProduto', value: el.CodProduto },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodConferir', el.CodConferir),
+            Params.equals('CodCarrinho', el.CodCarrinho),
+            Params.equals('CodProduto', el.CodProduto),
           ];
 
           const itensConferenciaConsultaProdutoCarrinho = await this.repository.consulta(params);
@@ -457,9 +457,9 @@ export default class ConferenciaItemEvent {
   private async getCodCarrinho(params: CarrinhoPercursoEstagioParams): Promise<number> {
     const repository = new CarrinhoPercursoEstagioRepository();
     const result = await repository.select([
-      { key: 'CodEmpresa', value: params.CodEmpresa },
-      { key: 'CodCarrinhoPercurso', value: params.CodCarrinhoPercurso },
-      { key: 'Item', value: params.ItemCarrinhoPercurso },
+      Params.equals('CodEmpresa', params.CodEmpresa),
+      Params.equals('CodCarrinhoPercurso', params.CodCarrinhoPercurso),
+      Params.equals('Item', params.ItemCarrinhoPercurso),
     ]);
 
     return result?.shift()?.CodCarrinho ?? 0;

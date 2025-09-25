@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import CarrinhoPercursoEstagioRepository from './carrinho.percurso.estagio.repository';
@@ -88,9 +88,9 @@ export default class CarrinhoPercursoEstagioEvent {
         for (const el of itens) {
           await this.repository.insert([el]);
           const params = [
-            { key: 'CodEmpresa', value: el.CodEmpresa },
-            { key: 'CodCarrinhoPercurso', value: el.CodCarrinhoPercurso },
-            { key: 'CodCarrinho', value: el.CodCarrinho },
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
+            Params.equals('CodCarrinho', el.CodCarrinho),
           ];
 
           const inserted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
@@ -210,9 +210,9 @@ export default class CarrinhoPercursoEstagioEvent {
     for (const el of carrinhoEstagios) {
       const params = [
         { key: 'CodEmpresa', value: el.CodEmpresa },
-        { key: 'CodCarrinhoPercurso', value: el.CodCarrinhoPercurso },
-        { key: 'CodPercursoEstagio', value: el.CodPercursoEstagio },
-        { key: 'CodCarrinho', value: el.CodCarrinho },
+        Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
+        Params.equals('CodPercursoEstagio', el.CodPercursoEstagio),
+        Params.equals('CodCarrinho', el.CodCarrinho),
         { key: 'Item', value: el.Item },
       ];
 
