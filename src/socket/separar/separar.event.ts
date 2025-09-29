@@ -86,8 +86,10 @@ export default class SepararEvent {
       try {
         const itens = this.convert(mutation);
         for (const item of itens) {
-          const sequence = await this.repository.sequence();
-          item.CodSepararEstoque = sequence?.Valor ?? 0;
+          if (item.CodSepararEstoque <= 0) {
+            const sequence = await this.repository.sequence();
+            item.CodSepararEstoque = sequence?.Valor ?? 0;
+          }
           await this.repository.insert([item]);
         }
 

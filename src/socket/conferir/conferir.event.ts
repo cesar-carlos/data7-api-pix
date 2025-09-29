@@ -145,8 +145,10 @@ export default class ConferirEvent {
         }
 
         for (const item of itens) {
-          const sequence = await this.repository.sequence();
-          item.CodConferir = sequence?.Valor ?? 0;
+          if (item.CodConferir <= 0) {
+            const sequence = await this.repository.sequence();
+            item.CodConferir = sequence?.Valor ?? 0;
+          }
           await this.repository.insert([item]);
         }
 
