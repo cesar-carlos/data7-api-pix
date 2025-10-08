@@ -5,8 +5,12 @@ import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import CarrinhoPercursoEstagioRepository from './carrinho.percurso.estagio.repository';
 import ExpedicaoCarrinhoPercursoEstagioDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.dto';
 import ExpedicaoCarrinhoPercursoEstagioConsultaDto from '../../dto/expedicao/expedicao.carrinho.percurso.estagio.consulta.dto';
+import ExpedicaoCarrinhoPercursoDto from '../../dto/expedicao/expedicao.carrinho.percurso.dto';
+import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
+import CarrinhoPercursoRepository from '../carrinho.percurso/carrinho.percurso.repository';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
+import SepararRepository from '../separar/separar.repository';
 
 export default class CarrinhoPercursoEstagioEvent {
   private repository = new CarrinhoPercursoEstagioRepository();
@@ -102,22 +106,46 @@ export default class CarrinhoPercursoEstagioEvent {
           }
         }
 
-        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
+        const percursoConsulta = await this.getCarrinhosPercursoEstagioConsulta(itens);
+        const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
+        const separarRepository = new SepararRepository();
 
+        for (const el of percursoConsulta) {
+          if (el.Origem == 'SE') {
+            const paramsSeparar = [
+              Params.equals('CodEmpresa', el.CodEmpresa),
+              Params.equals('CodSepararEstoque', el.CodOrigem),
+            ];
+
+            const separar = await separarRepository.consulta(paramsSeparar);
+            separarConsulta.push(...separar);
+          }
+        }
+
+        // Criar evento para carrinhos percurso estagio
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
+        // Criar evento para carrinhos percurso estagio consulta
         const basicEventConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
           Mutation: percursoConsulta.map((item) => item.toJson()),
         });
 
+        // Criar evento para separar consulta
+        const basicEventSepararConsulta = new ExpedicaoMutationBasicEvent({
+          Session: session,
+          ResponseIn: responseIn,
+          Mutation: separarConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
         io.emit('carrinho.percurso.estagio.insert.listen', JSON.stringify(basicEventConsulta.toJson()));
+        io.emit('separar.update.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -138,22 +166,68 @@ export default class CarrinhoPercursoEstagioEvent {
       try {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
-        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
+        const carrinhosPercursoEstagioConsulta = await this.getCarrinhosPercursoEstagioConsulta(itens);
 
-        const basicEvent = new ExpedicaoMutationBasicEvent({
+        const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
+        const carrinhosPercurso: ExpedicaoCarrinhoPercursoDto[] = [];
+        const carrinhoPercursoRepository = new CarrinhoPercursoRepository();
+        const separarRepository = new SepararRepository();
+
+        for (const el of carrinhosPercursoEstagioConsulta) {
+          const paramsCarrinhosPercurso = [
+            Params.equals('CodEmpresa', el.CodEmpresa),
+            Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
+          ];
+
+          const result = await carrinhoPercursoRepository.select(paramsCarrinhosPercurso);
+          carrinhosPercurso.push(...result);
+
+          if (el.Origem == 'SE') {
+            const paramsSeparar = [
+              Params.equals('CodEmpresa', el.CodEmpresa),
+              Params.equals('CodSepararEstoque', el.CodOrigem),
+            ];
+
+            const result = await separarRepository.consulta(paramsSeparar);
+            separarConsulta.push(...result);
+          }
+        }
+
+        // Criar evento para separar
+        const basicEventSeparar = new ExpedicaoMutationBasicEvent({
+          Session: session,
+          ResponseIn: responseIn,
+          Mutation: separarConsulta.map((item) => item.toJson()),
+        });
+
+        // Criar evento para carrinhos percurso
+        const basicEventCarrinhoPercurso = new ExpedicaoMutationBasicEvent({
+          Session: session,
+          ResponseIn: responseIn,
+          Mutation: carrinhosPercurso.map((item) => item.toJson()),
+        });
+
+        // Criar evento para carrinhos percurso estagio
+        const basicEventCarrinhoPercursoEstagio = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
           Mutation: itens.map((item) => item.toJson()),
         });
 
-        const basicEventConsulta = new ExpedicaoMutationBasicEvent({
+        // Criar evento para carrinhos percurso estagio consulta
+        const basicEventCarrinhoPercursoEstagioConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: percursoConsulta.map((item) => item.toJson()),
+          Mutation: carrinhosPercursoEstagioConsulta.map((item) => item.toJson()),
         });
 
-        socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('carrinho.percurso.estagio.update.listen', JSON.stringify(basicEventConsulta.toJson()));
+        socket.emit(responseIn, JSON.stringify(basicEventCarrinhoPercursoEstagio.toJson()));
+        io.emit('separar.update.listen', JSON.stringify(basicEventSeparar.toJson()));
+        io.emit('carrinho.percurso.update.listen', JSON.stringify(basicEventCarrinhoPercurso.toJson()));
+        io.emit(
+          'carrinho.percurso.estagio.update.listen',
+          JSON.stringify(basicEventCarrinhoPercursoEstagioConsulta.toJson()),
+        );
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -174,7 +248,7 @@ export default class CarrinhoPercursoEstagioEvent {
       try {
         const itens = this.convert(mutation);
         await this.repository.delete(itens);
-        const percursoConsulta = await this.carrinhoPercursoConsulta(itens);
+        const percursoConsulta = await this.getCarrinhosPercursoEstagioConsulta(itens);
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
@@ -202,7 +276,7 @@ export default class CarrinhoPercursoEstagioEvent {
     });
   }
 
-  private async carrinhoPercursoConsulta(
+  private async getCarrinhosPercursoEstagioConsulta(
     carrinhoEstagios: ExpedicaoCarrinhoPercursoEstagioDto[],
   ): Promise<ExpedicaoCarrinhoPercursoEstagioConsultaDto[]> {
     const carrinhoPercursoConsulta: ExpedicaoCarrinhoPercursoEstagioConsultaDto[] = [];

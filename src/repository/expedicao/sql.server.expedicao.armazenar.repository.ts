@@ -119,7 +119,6 @@ export default class SqlServerExpedicaoArmazenarRepository
       console.error('Erro em SqlServerExpedicaoArmazenarRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
-    } finally {
     }
   }
 }

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
-import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
+import { Params, Param, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
@@ -47,7 +47,15 @@ export default class SqlServerExpedicaoSepararConsultaRepository
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separar.consulta.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
-      const _params = ParamsCommonRepository.build(params);
+      let _params: string;
+      if (typeof params === 'string') {
+        _params = this.buildParamsFromString(params);
+      } else if (Array.isArray(params)) {
+        _params = this.buildParamsWithSpecialHandling(params as unknown as Param[]);
+      } else {
+        _params = ParamsCommonRepository.build(params);
+      }
+
       const paramOrderBy =
         orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : 'ORDER BY (SELECT NULL)';
       const sql = _params ? `${select} WHERE ${_params}` : select;
@@ -65,5 +73,64 @@ export default class SqlServerExpedicaoSepararConsultaRepository
       throw new Error(error.message);
     } finally {
     }
+  }
+
+  private buildParamsFromString(paramsString: string): string {
+    if (!paramsString || paramsString.trim() === '') return '';
+    const codSetorEstoqueRegex = /CodSetorEstoque\s*=\s*'?(\d+)'?/g;
+
+    let result = paramsString;
+    const matches = paramsString.match(codSetorEstoqueRegex);
+
+    if (matches) {
+      matches.forEach((match) => {
+        const valueMatch = match.match(/CodSetorEstoque\s*=\s*'?(\d+)'?/);
+        if (valueMatch) {
+          const value = valueMatch[1];
+          const existsClause = `EXISTS(
+          SELECT *
+          FROM Expedicao.ItemSepararEstoque ise
+          WHERE ise.CodEmpresa = SepararConsulta.CodEmpresa
+            AND ise.CodSepararEstoque = SepararConsulta.CodSepararEstoque
+            AND ise.CodSetorEstoque = '${value}'
+        )`;
+
+          result = result.replace(match, existsClause);
+        }
+      });
+    }
+
+    return result;
+  }
+
+  private buildParamsWithSpecialHandling(params: Param[]): string {
+    if (!params || params.length === 0) return '';
+
+    const processedParams = params
+      .map((param: Param) => {
+        if (!param || !param.key) return '';
+
+        if (param.key === 'CodSetorEstoque') {
+          const value = typeof param.value === 'string' ? `'${param.value}'` : param.value;
+          const existsClause = `EXISTS(
+          SELECT *
+          FROM Expedicao.ItemSepararEstoque ise
+          WHERE ise.CodEmpresa = SepararConsulta.CodEmpresa
+            AND ise.CodSepararEstoque = SepararConsulta.CodSepararEstoque
+            AND ise.CodSetorEstoque = ${value}
+        )`;
+
+          return existsClause;
+        }
+
+        const _value = typeof param.value === 'string' ? `'${param.value}'` : param.value;
+        const _operator = param.operator ? param.operator : '=';
+        const clause = `${param.key} ${_operator} ${_value}`;
+        return clause;
+      })
+      .filter((clause) => clause !== '');
+
+    const result = processedParams.join(' AND ');
+    return result;
   }
 }

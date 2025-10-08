@@ -36,7 +36,7 @@ export default class UsuarioConsultaController {
 
         res.status(200).send({
           message: 'Usuário encontrado',
-          data: resultado,
+          data: resultado.toJson(),
           total: 1,
         });
         return;
@@ -46,7 +46,7 @@ export default class UsuarioConsultaController {
         resultado = await usuarioConsultaService.consultarPorNome(NomeUsuario, currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) encontrado(s) com nome "${NomeUsuario}"`,
-          data: resultado.data,
+          data: resultado.data.map((usuario: any) => usuario.toJson()),
           total: resultado.total,
           page: resultado.page,
           limit: resultado.limit,
@@ -60,7 +60,7 @@ export default class UsuarioConsultaController {
         resultado = await usuarioConsultaService.consultarPorEmpresa(CodEmpresa, currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) encontrado(s) na empresa ${CodEmpresa}`,
-          data: resultado.data,
+          data: resultado.data.map((usuario: any) => usuario.toJson()),
           total: resultado.total,
           page: resultado.page,
           limit: resultado.limit,
@@ -73,7 +73,7 @@ export default class UsuarioConsultaController {
         resultado = await usuarioConsultaService.consultarAtivos(currentPage, currentLimit);
         res.status(200).send({
           message: `${resultado.total} usuário(s) ativo(s) encontrado(s)`,
-          data: resultado.data,
+          data: resultado.data.map((usuario: any) => usuario.toJson()),
           total: resultado.total,
           page: resultado.page,
           limit: resultado.limit,
@@ -85,7 +85,7 @@ export default class UsuarioConsultaController {
       resultado = await usuarioConsultaService.consultarTodos(currentPage, currentLimit);
       res.status(200).send({
         message: `${resultado.total} usuário(s) encontrado(s)`,
-        data: resultado.data,
+        data: resultado.data.map((usuario: any) => usuario.toJson()),
         total: resultado.total,
         page: resultado.page,
         limit: resultado.limit,

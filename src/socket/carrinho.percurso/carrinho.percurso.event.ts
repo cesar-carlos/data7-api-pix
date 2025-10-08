@@ -121,6 +121,7 @@ export default class CarrinhoPercursoEvent {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
+        // Criar evento para carrinhos percurso
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,

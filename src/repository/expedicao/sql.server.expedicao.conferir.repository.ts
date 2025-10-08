@@ -121,8 +121,6 @@ export default class SqlServerExpedicaoConferirRepository implements LocalBaseRe
       console.error('Erro em SqlServerExpedicaoConferirRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
-    } finally {
-      //if (pool) pool.close();
     }
   }
 }

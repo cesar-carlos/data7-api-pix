@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const loginAppSchema = z.object({
   Nome: z.string().min(1, 'Nome é obrigatório').max(30, 'Nome deve ter no máximo 30 caracteres').trim(),
   Senha: z.string().min(4, 'Senha deve ter no mínimo 6 caracteres').max(20, 'Senha deve ter no máximo 50 caracteres'),
-
+  CodUsuario: z.number().optional(),
   FotoUsuario: z
     .union([z.string(), z.null()])
     .optional()

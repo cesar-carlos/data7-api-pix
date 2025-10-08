@@ -116,7 +116,6 @@ export default class SqlServerCancelamentoRepository implements LocalBaseReposit
       console.error('Erro em SqlServerCancelamentoRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
-    } finally {
     }
   }
 }

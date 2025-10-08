@@ -10,13 +10,14 @@ export default class CreateLoginAppController {
 
   public static async post(req: Request, res: Response) {
     try {
-      const { Nome, Senha, FotoUsuario }: LoginAppRequest = (req as any).validatedBody || req.body;
+      const { Nome, Senha, FotoUsuario, CodUsuario }: LoginAppRequest = (req as any).validatedBody || req.body;
       const _createUserLoginAppService = new CreateUserLoginAppService();
 
       const result = await _createUserLoginAppService.execute({
         Nome,
         Senha,
         FotoUsuario: FotoUsuario ? Buffer.from(FotoUsuario, 'base64') : undefined,
+        CodUsuario,
       });
 
       // Preparar resposta (remover senha e converter FotoUsuario para base64)

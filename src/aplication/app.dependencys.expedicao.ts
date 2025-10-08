@@ -38,6 +38,7 @@ import SqlServerExpedicaoSepararRepository from '../repository/expedicao/sql.ser
 import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.cancelamento.repository';
 import SqlServerExpedicaoLoginAppRepository from '../repository/expedicao/sql.server.expedicao.login.app.repository';
 import SqlServerExpedicaoLoginAppConsultaRepository from '../repository/expedicao/sql.server.expedicao.login.app.consulta.repository';
+import SqlServerExpedicaoProgressoSeparacaoConsultaRepository from '../repository/expedicao/sql.server.expedicao.progresso.separacao.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -177,6 +178,12 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoConsultaDto>',
       instance: new SqlServerExpedicaoCarrinhoConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoProgressoSeparacaoConsultaDto>',
+      instance: new SqlServerExpedicaoProgressoSeparacaoConsultaRepository(),
     });
 
     ContainerDependency.instance.register({

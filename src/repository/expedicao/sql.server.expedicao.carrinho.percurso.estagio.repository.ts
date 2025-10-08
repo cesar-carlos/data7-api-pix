@@ -123,7 +123,6 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
       console.error('Erro em SqlServerExpedicaoCarrinhoPercursoEstagioRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
-    } finally {
     }
   }
 }
