@@ -1,4 +1,5 @@
 import { eContext } from '../dependency/container.dependency';
+import { Server as SocketIOServer } from 'socket.io';
 
 import CobrancaPix from '../entities/cobranca.pix';
 import PagamentoPix from '../entities/pagamento.pix';
@@ -10,11 +11,15 @@ import CobrancaDigitalPagamentoDto from '../dto/integracao/cobranca.digital.paga
 import CobrancaPixListenRefleshService from '../services/cobranca.pix.listen.reflesh.service';
 import CobrancaDigitalTituloDto from '../dto/integracao/cobranca.digital.titulo.dto';
 import CobrancaPixListenService from '../services/cobranca.pix.listen.service';
+import SepararPeriodicListenService from '../services/separar.periodic.listen.service';
 
 export default class AppLinstens {
+  constructor(private readonly io: SocketIOServer) {}
+
   execute() {
     this.listenCobrancaPix();
     this.listenRefleshCobrancaPix();
+    this.listenSepararPeriodic();
   }
 
   private async listenCobrancaPix() {
@@ -52,5 +57,11 @@ export default class AppLinstens {
 
   private listenRefleshCobrancaPix() {
     new CobrancaPixListenRefleshService().listen();
+  }
+
+  private listenSepararPeriodic() {
+    const separarPeriodicService = new SepararPeriodicListenService(this.io);
+    separarPeriodicService.start();
+    console.log('Serviço de emissão periódica de Separar iniciado automaticamente');
   }
 }

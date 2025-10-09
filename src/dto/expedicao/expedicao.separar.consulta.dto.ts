@@ -13,6 +13,7 @@ export default class ExpedicaoSepararConsultaDto {
   NomeEntidade: string;
   CodPrioridade: number;
   NomePrioridade: string;
+  SetoresEstoque?: string;
   Historico?: string;
   Observacao?: string;
 
@@ -31,6 +32,7 @@ export default class ExpedicaoSepararConsultaDto {
     NomeEntidade: string;
     CodPrioridade: number;
     NomePrioridade: string;
+    SetoresEstoque?: string;
     Historico?: string;
     Observacao?: string;
   }) {
@@ -48,6 +50,7 @@ export default class ExpedicaoSepararConsultaDto {
     this.NomeEntidade = params.NomeEntidade;
     this.CodPrioridade = params.CodPrioridade;
     this.NomePrioridade = params.NomePrioridade;
+    this.SetoresEstoque = params?.SetoresEstoque;
     this.Historico = params?.Historico;
     this.Observacao = params?.Observacao;
   }
@@ -68,6 +71,7 @@ export default class ExpedicaoSepararConsultaDto {
       NomeEntidade: object.NomeEntidade,
       CodPrioridade: object.CodPrioridade,
       NomePrioridade: object.NomePrioridade,
+      SetoresEstoque: object?.SetoresEstoque,
       Historico: object?.Historico,
       Observacao: object?.Observacao,
     });
@@ -89,6 +93,7 @@ export default class ExpedicaoSepararConsultaDto {
       NomeEntidade: this.NomeEntidade,
       CodPrioridade: this.CodPrioridade,
       NomePrioridade: this.NomePrioridade,
+      SetoresEstoque: this.SetoresEstoque ?? null,
       Historico: this.Historico,
       Observacao: this.Observacao,
     };

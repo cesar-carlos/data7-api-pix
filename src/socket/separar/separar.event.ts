@@ -3,6 +3,7 @@ import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import ExpedicaoSepararDto from '../../dto/expedicao/expedicao.separar.dto';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
+import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
 import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
 import ExpedicaoProgressoSeparacaoConsultaDto from '../../dto/expedicao/expedicao.progresso.separacao.consulta.dto';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
@@ -150,8 +151,13 @@ export default class SepararEvent {
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          ResponseIn: 'separar.insert.listen',
+          Mutation: separarConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.insert.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
+        io.emit('separar.insert.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -195,8 +201,13 @@ export default class SepararEvent {
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          ResponseIn: 'separar.update.listen',
+          Mutation: separarConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.update.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
+        io.emit('separar.update.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -241,8 +252,13 @@ export default class SepararEvent {
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          ResponseIn: 'separar.delete.listen',
+          Mutation: separarConsulta.map((item) => item.toJson()),
+        });
+
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('separar.delete.listen', JSON.stringify(basicEventSepararConsulta.toJson()));
+        io.emit('separar.delete.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,

@@ -40,6 +40,10 @@ export default class AppApi {
     });
   }
 
+  public getIO(): SocketIOServer {
+    return this.io;
+  }
+
   public static getInstance(): AppApi {
     if (!AppApi.instance) AppApi.instance = new AppApi();
     return AppApi.instance;

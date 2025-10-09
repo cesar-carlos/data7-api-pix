@@ -33,7 +33,7 @@ export default class App {
   }
 
   public async execute() {
-    new AppLinstens().execute();
-    AppApi.getInstance();
+    const appApi = AppApi.getInstance();
+    new AppLinstens(appApi.getIO()).execute();
   }
 }
