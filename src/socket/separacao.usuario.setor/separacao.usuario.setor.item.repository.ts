@@ -4,9 +4,9 @@ import { eContext } from '../../dependency/container.dependency';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import ExpedicaoSeparacaoUsuarioSetorConsultaDto from '../../dto/expedicao/expedicao.separacao.usuario.setor.consulta.dto';
+import SqlServerExpedicaoSeparacaoUsuarioSetorRepository from '../../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.repository';
 import ExpedicaoSeparacaoUsuarioSetorDto from '../../dto/expedicao/expedicao.separacao.usuario.setor.dto';
 import AppDependencys from '../../aplication/app.dependencys';
-import SqlServerExpedicaoSeparacaoUsuarioSetorRepository from '../../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.repository';
 
 export default class SeparacaoUsuarioSetorItemRepository {
   public async consulta(

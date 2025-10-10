@@ -16,13 +16,21 @@ FROM (
       se.CodPrioridade,
       pri.Descricao NomePrioridade,
 	 (SELECT STRING_AGG(sub.CodSetorEstoque, ',')
-	  FROM(SELECT CodSetorEstoque
+	  FROM(SELECT seise.CodSetorEstoque
 		   FROM Expedicao.ItemSepararEstoque seise
 		   WHERE seise.CodEmpresa = se.CodEmpresa
 		     AND seise.CodSepararEstoque = se.CodSepararEstoque
-		   GROUP BY CodEmpresa, CodSepararEstoque,CodSetorEstoque
+		   GROUP BY seise.CodEmpresa, seise.CodSepararEstoque, seise.CodSetorEstoque
 		) sub
 	 )CodSetoresEstoque,
+	 (SELECT STRING_AGG(subu.CodUsuario, ',')
+	  FROM(SELECT esus.CodUsuario
+		   FROM Expedicao.SeparacaoUsuarioSetor esus
+		   WHERE esus.CodEmpresa = se.CodEmpresa
+			 AND esus.CodSepararEstoque = se.CodSepararEstoque
+		   GROUP BY esus.CodEmpresa, esus.CodSepararEstoque, esus.CodUsuario
+	   ) subu
+	  )CodUsuariosSeparacao,
       se.Historico,
       se.Observacao
     FROM Expedicao.SepararEstoque se

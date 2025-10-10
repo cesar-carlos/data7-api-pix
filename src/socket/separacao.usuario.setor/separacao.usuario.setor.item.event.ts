@@ -1,12 +1,12 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
+import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import SeparacaoUsuarioSetorItemRepository from './separacao.usuario.setor.item.repository';
 import ExpedicaoSeparacaoUsuarioSetorDto from '../../dto/expedicao/expedicao.separacao.usuario.setor.dto';
 import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
-import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 
 export default class SeparacaoUsuarioSetorItemEvent {
   private repository = new SeparacaoUsuarioSetorItemRepository();
