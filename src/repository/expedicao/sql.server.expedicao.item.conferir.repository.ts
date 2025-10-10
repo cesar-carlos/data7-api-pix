@@ -77,6 +77,17 @@ export default class SqlServerExpedicaoItemConferirRepository
     }
   }
 
+  public async insertWithReturn(entity: ExpedicaoItemConferirDto): Promise<ExpedicaoItemConferirDto> {
+    try {
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.insert.sql');
+      const insert = fs.readFileSync(patchSQL).toString();
+      const result = await this.actonEntityWithReturn(entity, insert);
+      return result;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async update(entity: ExpedicaoItemConferirDto): Promise<void> {
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferir.update.sql');
@@ -118,6 +129,42 @@ export default class SqlServerExpedicaoItemConferirRepository
       transaction.rollback();
       throw new Error(error.message);
     } finally {
+    }
+  }
+
+  private async actonEntityWithReturn(
+    entity: ExpedicaoItemConferirDto,
+    sqlCommand: string,
+  ): Promise<ExpedicaoItemConferirDto> {
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
+
+    try {
+      await transaction.begin();
+      const result = await transaction
+        .request()
+        .input('CodEmpresa', sql.Int, entity.CodEmpresa)
+        .input('CodConferir', sql.Int, entity.CodConferir)
+        .input('Item', sql.VarChar(5), entity.Item)
+        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
+        .input('CodProduto', sql.Int, entity.CodProduto)
+        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
+        .input('Quantidade', sql.Float, entity.Quantidade)
+        .input('QuantidadeConferida', sql.Float, entity.QuantidadeConferida)
+        .query(sqlCommand);
+
+      await transaction.commit();
+
+      if (result.recordset && result.recordset.length > 0) {
+        return ExpedicaoItemConferirDto.fromObject(result.recordset[0]);
+      }
+
+      throw new Error('Nenhum registro foi inserido');
+    } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoItemConferirRepository.actonEntityWithReturn:', error.message);
+      transaction.rollback();
+      throw new Error(error.message);
     }
   }
 }

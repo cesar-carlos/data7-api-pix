@@ -76,6 +76,19 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
     }
   }
 
+  public async insertWithReturn(
+    entity: ExpedicaoCarrinhoPercursoEstagioDto,
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioDto> {
+    try {
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.estagio.insert.sql');
+      const insert = fs.readFileSync(patchSQL).toString();
+      const result = await this.actonEntityWithReturn(entity, insert);
+      return result;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async update(entity: ExpedicaoCarrinhoPercursoEstagioDto): Promise<void> {
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.carrinho.percurso.estagio.update.sql');
@@ -121,6 +134,52 @@ export default class SqlServerExpedicaoCarrinhoPercursoEstagioRepository
       await transaction.commit();
     } catch (error: any) {
       console.error('Erro em SqlServerExpedicaoCarrinhoPercursoEstagioRepository.actonEntity:', error.message);
+      transaction.rollback();
+      throw new Error(error.message);
+    }
+  }
+
+  private async actonEntityWithReturn(
+    entity: ExpedicaoCarrinhoPercursoEstagioDto,
+    sqlCommand: string,
+  ): Promise<ExpedicaoCarrinhoPercursoEstagioDto> {
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
+
+    try {
+      await transaction.begin();
+      const result = await transaction
+        .request()
+        .input('CodEmpresa', sql.Int, entity.CodEmpresa)
+        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('Item', sql.VarChar(5), entity.Item)
+        .input('Origem', sql.VarChar(6), entity.Origem)
+        .input('CodOrigem', sql.Int, entity.CodOrigem)
+        .input('CodPercursoEstagio', sql.Int, entity.CodPercursoEstagio)
+        .input('CodCarrinho', sql.Int, entity.CodCarrinho)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
+        .input('DataInicio', sql.Date, entity.DataInicio)
+        .input('HoraInicio', sql.VarChar(8), entity.HoraInicio)
+        .input('CodUsuarioInicio', sql.Int, entity.CodUsuarioInicio)
+        .input('NomeUsuarioInicio', sql.VarChar(20), entity.NomeUsuarioInicio)
+        .input('DataFinalizacao', sql.Date, entity.DataFinalizacao)
+        .input('HoraFinalizacao', sql.VarChar(8), entity.HoraFinalizacao)
+        .input('CodUsuarioFinalizacao', sql.Int, entity.CodUsuarioFinalizacao)
+        .input('NomeUsuarioFinalizacao', sql.VarChar(20), entity.NomeUsuarioFinalizacao)
+        .query(sqlCommand);
+
+      await transaction.commit();
+
+      if (result.recordset && result.recordset.length > 0) {
+        return ExpedicaoCarrinhoPercursoEstagioDto.fromObject(result.recordset[0]);
+      }
+
+      throw new Error('Nenhum registro foi inserido');
+    } catch (error: any) {
+      console.error(
+        'Erro em SqlServerExpedicaoCarrinhoPercursoEstagioRepository.actonEntityWithReturn:',
+        error.message,
+      );
       transaction.rollback();
       throw new Error(error.message);
     }

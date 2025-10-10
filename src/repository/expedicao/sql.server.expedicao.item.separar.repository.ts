@@ -76,6 +76,17 @@ export default class SqlServerExpedicaoItemSepararRepository
     }
   }
 
+  public async insertWithReturn(entity: ExpedicaoItemSepararDto): Promise<ExpedicaoItemSepararDto> {
+    try {
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.insert.sql');
+      const insert = fs.readFileSync(patchSQL).toString();
+      const result = await this.actonEntityWithReturn(entity, insert);
+      return result;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async update(entity: ExpedicaoItemSepararDto): Promise<void> {
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.separar.update.sql');
@@ -122,6 +133,47 @@ export default class SqlServerExpedicaoItemSepararRepository
       transaction.rollback();
       throw new Error(error.message);
     } finally {
+    }
+  }
+
+  private async actonEntityWithReturn(
+    entity: ExpedicaoItemSepararDto,
+    sqlCommand: string,
+  ): Promise<ExpedicaoItemSepararDto> {
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
+
+    try {
+      await transaction.begin();
+      const result = await transaction
+        .request()
+        .input('CodEmpresa', sql.Int, entity.CodEmpresa)
+        .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
+        .input('Item', sql.VarChar(5), entity.Item)
+        .input('CodSetorEstoque', sql.Int, entity.CodSetorEstoque)
+        .input('Origem', sql.VarChar(6), entity.Origem)
+        .input('CodOrigem', sql.Int, entity.CodOrigem)
+        .input('ItemOrigem', sql.VarChar(5), entity.ItemOrigem)
+        .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
+        .input('CodProduto', sql.Int, entity.CodProduto)
+        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
+        .input('Quantidade', sql.Float, entity.Quantidade)
+        .input('QuantidadeInterna', sql.Float, entity.QuantidadeInterna)
+        .input('QuantidadeExterna', sql.Float, entity.QuantidadeExterna)
+        .input('QuantidadeSeparacao', sql.Float, entity.QuantidadeSeparacao)
+        .query(sqlCommand);
+
+      await transaction.commit();
+
+      if (result.recordset && result.recordset.length > 0) {
+        return ExpedicaoItemSepararDto.fromObject(result.recordset[0]);
+      }
+
+      throw new Error('Nenhum registro foi inserido');
+    } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoItemSepararRepository.actonEntityWithReturn:', error.message);
+      transaction.rollback();
+      throw new Error(error.message);
     }
   }
 }

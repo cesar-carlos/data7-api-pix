@@ -105,23 +105,9 @@ export default class ConferenciaItemEvent {
         const produtoConferir: ProdutoConferir[] = [];
         const itensMutation = this.convert(mutation);
 
-        for (const el of itensMutation) {
-          await this.repository.insert([el]);
+        const inserteds = await this.repository.insert(itensMutation);
 
-          const params = [
-            Params.equals('CodEmpresa', el.CodEmpresa),
-            Params.equals('CodConferir', el.CodConferir),
-            Params.equals('SessionId', el.SessionId),
-            Params.equals('CodConferente', el.CodConferente),
-          ];
-          const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
-
-          try {
-            el.Item = inerted[inerted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
-          }
-
+        for (const el of inserteds) {
           const codCarrinho = await this.getCodCarrinho({
             CodEmpresa: el.CodEmpresa,
             CodCarrinhoPercurso: el.CodCarrinhoPercurso,
@@ -177,7 +163,7 @@ export default class ConferenciaItemEvent {
         }
 
         const itensConferenciaConsulta: ExpedicaoItemConferenciaConsultaDto[] = [];
-        for (const el of itensMutation) {
+        for (const el of inserteds) {
           const params = [
             Params.equals('CodEmpresa', el.CodEmpresa),
             Params.equals('CodConferir', el.CodConferir),
@@ -191,7 +177,7 @@ export default class ConferenciaItemEvent {
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itensMutation.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         const basicEventItensConferenciaConsulta = new ExpedicaoMutationBasicEvent({
@@ -302,7 +288,7 @@ export default class ConferenciaItemEvent {
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itensMutation.map((item) => item.toJson()),
+          Mutation: itensConferenciaConsulta.map((item) => item.toJson()),
         });
 
         const basicEventItensConferenciaConsulta = new ExpedicaoMutationBasicEvent({

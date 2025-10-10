@@ -22,6 +22,7 @@ import SepararItemEvent from '../socket/separar.item/separar.item.event';
 import ConferirEvent from '../socket/conferir/conferir.event';
 import SepararEvent from '../socket/separar/separar.event';
 import SetorEstoqueEvent from '../socket/setor.estoque/setor.estoque.event';
+import SeparacaoUsuarioSetorItemEvent from '../socket/separacao.usuario.setor/separacao.usuario.setor.item.event';
 
 export default class AppSocket {
   constructor(private readonly io: SocketIOServer) {
@@ -41,6 +42,7 @@ export default class AppSocket {
       new CarrinhoPercursoEvent(this.io, socket);
       new SeparacaoItemEvent(this.io, socket);
       new SepararItemEvent(this.io, socket);
+      new SeparacaoUsuarioSetorItemEvent(this.io, socket);
       new CancelamentoEvent(this.io, socket);
       new PercursoEstagioEvent(this.io, socket);
       new EstoqueProdutoEvent(this.io, socket);

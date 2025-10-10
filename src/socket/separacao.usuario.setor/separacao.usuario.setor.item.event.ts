@@ -1,14 +1,15 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
-import ConferirItemRepository from './conferir.item.repository';
-import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
+import SeparacaoUsuarioSetorItemRepository from './separacao.usuario.setor.item.repository';
+import ExpedicaoSeparacaoUsuarioSetorDto from '../../dto/expedicao/expedicao.separacao.usuario.setor.dto';
+import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 
-export default class ConferirItemEvent {
-  private repository = new ConferirItemRepository();
+export default class SeparacaoUsuarioSetorItemEvent {
+  private repository = new SeparacaoUsuarioSetorItemRepository();
 
   constructor(
     private readonly io: SocketIOServer,
@@ -16,17 +17,17 @@ export default class ConferirItemEvent {
   ) {
     const client = socket.id;
 
-    socket.on(`${client} conferir.item.consulta`, async (data) => {
+    socket.on(`${client} separar.usuario.setor.consulta`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.consulta`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.usuario.setor.consulta`;
       const params = json['Where'] ?? '';
       const pagination = Pagination.fromQueryString(json['Pagination']);
       const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.consulta(params, pagination, orderBy);
-        const jsonData = result.map((item) => item.toJson());
+        const jsonData = result.map((item: any) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
@@ -46,82 +47,24 @@ export default class ConferirItemEvent {
       }
     });
 
-    socket.on(`${client} conferir.item.unidade.medida.consulta`, async (data) => {
+    socket.on(`${client} separar.usuario.setor.select`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.unidade.medida.consulta`;
-      const params = json['Where'] ?? '';
-      const pagination = Pagination.fromQueryString(json['Pagination']);
-      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
-
-      try {
-        const result = await this.repository.consultaUnidadeMedida(params, pagination, orderBy);
-        const jsonData = result.map((item) => item.toJson());
-
-        const event = new ExpedicaoBasicSelectEvent({
-          Session: session,
-          ResponseIn: responseIn,
-          Data: jsonData,
-        });
-
-        socket.emit(responseIn, JSON.stringify(event.toJson()));
-      } catch (error: any) {
-        const event = new ExpedicaoBasicErrorEvent({
-          Session: session,
-          ResponseIn: responseIn,
-          Error: error.message,
-        });
-
-        socket.emit(responseIn, JSON.stringify(event.toJson()));
-      }
-    });
-
-    socket.on(`${client} conferir.separacao.item.consulta`, async (data) => {
-      const json = JSON.parse(data);
-      const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.separacao.item.consulta`;
-      const params = json['Where'] ?? '';
-      const pagination = Pagination.fromQueryString(json['Pagination']);
-      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
-
-      try {
-        const result = await this.repository.consultaConferirSeparacao(params, pagination, orderBy);
-        const jsonData = result.map((item) => item.toJson());
-        const event = new ExpedicaoBasicSelectEvent({
-          Session: session,
-          ResponseIn: responseIn,
-          Data: jsonData,
-        });
-
-        socket.emit(responseIn, JSON.stringify(event.toJson()));
-      } catch (error: any) {
-        const event = new ExpedicaoBasicErrorEvent({
-          Session: session,
-          ResponseIn: responseIn,
-          Error: error.message,
-        });
-
-        socket.emit(responseIn, JSON.stringify(event.toJson()));
-      }
-    });
-
-    socket.on(`${client} conferir.item.select`, async (data) => {
-      const json = JSON.parse(data);
-      const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.select`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.usuario.setor.select`;
       const params = json['Where'] ?? '';
       const pagination = Pagination.fromQueryString(json['Pagination']);
       const orderBy = OrderBy.fromQueryString(json['OrderBy']);
 
       try {
         const result = await this.repository.select(params, pagination, orderBy);
-        const jsonData = result.map((item) => item.toJson());
+        const jsonData = result.map((item: any) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
           ResponseIn: responseIn,
           Data: jsonData,
         });
+
         socket.emit(responseIn, JSON.stringify(event.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
@@ -134,24 +77,29 @@ export default class ConferirItemEvent {
       }
     });
 
-    socket.on(`${client} conferir.item.insert`, async (data) => {
+    socket.on(`${client} separar.usuario.setor.insert`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.insert`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.usuario.setor.insert`;
       const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
-        const inserteds = await this.repository.insert(itens);
+        await this.repository.insert(itens);
 
+        const itensJson = itens.map((item: any) => item.toJson());
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: inserteds.map((item) => item.toJson()),
+          Mutation: itensJson,
+        });
+
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          Mutation: itensJson,
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('conferir.item.insert.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.usuario.setor.insert.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -163,24 +111,29 @@ export default class ConferirItemEvent {
       }
     });
 
-    socket.on(`${client} conferir.item.update`, async (data) => {
+    socket.on(`${client} separar.usuario.setor.update`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.update`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.usuario.setor.update`;
       const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.update(itens);
 
+        const itensJson = itens.map((item: any) => item.toJson());
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: itensJson,
+        });
+
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          Mutation: itensJson,
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('conferir.item.update.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.usuario.setor.update.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -192,24 +145,29 @@ export default class ConferirItemEvent {
       }
     });
 
-    socket.on(`${client} conferir.item.delete`, async (data) => {
+    socket.on(`${client} separar.usuario.setor.delete`, async (data) => {
       const json = JSON.parse(data);
       const session = json['Session'] ?? '';
-      const responseIn = json['ResponseIn'] ?? `${client} conferir.item.delete`;
+      const responseIn = json['ResponseIn'] ?? `${client} separar.usuario.setor.delete`;
       const mutation = json['Mutation'];
 
       try {
         const itens = this.convert(mutation);
         await this.repository.delete(itens);
 
+        const itensJson = itens.map((item: any) => item.toJson());
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: itensJson,
+        });
+
+        const listenEvent = new ExpedicaoMutationListenEvent({
+          Mutation: itensJson,
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));
-        io.emit('conferir.item.delete.listen', JSON.stringify(basicEvent.toJson()));
+        io.emit('separar.usuario.setor.delete.listen', JSON.stringify(listenEvent.toJson()));
       } catch (error: any) {
         const event = new ExpedicaoBasicErrorEvent({
           Session: session,
@@ -222,11 +180,11 @@ export default class ConferirItemEvent {
     });
   }
 
-  private convert(mutations: any[] | any): ExpedicaoItemConferirDto[] {
+  private convert(mutations: any[] | any): ExpedicaoSeparacaoUsuarioSetorDto[] {
     try {
       if (!Array.isArray(mutations)) mutations = [mutations];
       return mutations.map((mutation: any) => {
-        return ExpedicaoItemConferirDto.fromObject(mutation);
+        return ExpedicaoSeparacaoUsuarioSetorDto.fromObject(mutation);
       });
     } catch (error) {
       return [];

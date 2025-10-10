@@ -89,24 +89,9 @@ export default class CarrinhoPercursoEstagioEvent {
 
       try {
         const itens = this.convert(mutation);
-        for (const el of itens) {
-          await this.repository.insert([el]);
-          const params = [
-            Params.equals('CodEmpresa', el.CodEmpresa),
-            Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
-            Params.equals('CodCarrinho', el.CodCarrinho),
-          ];
+        const inserteds = await this.repository.insert(itens);
 
-          const inserted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
-
-          try {
-            el.Item = inserted[inserted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
-          }
-        }
-
-        const percursoConsulta = await this.getCarrinhosPercursoEstagioConsulta(itens);
+        const percursoConsulta = await this.getCarrinhosPercursoEstagioConsulta(inserteds);
         const separarConsulta: ExpedicaoSepararConsultaDto[] = [];
         const separarRepository = new SepararRepository();
 
@@ -126,7 +111,7 @@ export default class CarrinhoPercursoEstagioEvent {
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         // Criar evento para carrinhos percurso estagio consulta

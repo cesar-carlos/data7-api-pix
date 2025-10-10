@@ -9,6 +9,7 @@ INSERT INTO Expedicao.ItemConferir(
     Quantidade,
     QuantidadeConferida
   )
+OUTPUT INSERTED.*
 VALUES (
     @CodEmpresa,
     @CodConferir,

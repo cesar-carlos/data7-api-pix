@@ -14,6 +14,7 @@ INSERT INTO Expedicao.ItemSepararEstoque(
     QuantidadeExterna,
     QuantidadeSeparacao
   )
+OUTPUT INSERTED.*
 VALUES (
     @CodEmpresa,
     @CodSepararEstoque,

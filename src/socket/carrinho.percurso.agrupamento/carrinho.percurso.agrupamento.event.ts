@@ -84,34 +84,18 @@ export default class CarrinhoPercursoAgrupamentoEvent {
 
       try {
         const itens = this.convert(mutation);
-        for (const el of itens) {
-          await this.repository.insert([el]);
-
-          const params = [
-            Params.equals('CodEmpresa', el.CodEmpresa),
-            Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
-            Params.equals('Origem', el.Origem),
-            Params.equals('CodUsuarioLancamento', el.CodUsuarioLancamento),
-          ];
-          const inerted = await this.repository.select(params, undefined, OrderBy.create('Item', 'ASC'));
-
-          try {
-            el.Item = inerted[inerted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
-          }
-        }
+        const inserteds = await this.repository.insert(itens);
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         const basicEventCarrinhoPercursoAgrupamentoConsulta = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itens.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));

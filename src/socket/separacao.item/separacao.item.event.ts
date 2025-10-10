@@ -126,26 +126,9 @@ export default class SeparacaoItemEvent {
         const produtosSeparado: ProdutoSeparar[] = [];
         const itensMutation = this.convert(mutation);
 
-        for (const el of itensMutation) {
-          await this.repository.insert([el]);
+        const inserteds = await this.repository.insert(itensMutation);
 
-          const inerted = await this.repository.select(
-            [
-              Params.equals('CodEmpresa', el.CodEmpresa),
-              Params.equals('CodSepararEstoque', el.CodSepararEstoque),
-              Params.equals('SessionId', el.SessionId),
-              Params.equals('CodSeparador', el.CodSeparador),
-            ],
-            undefined,
-            OrderBy.create('Item', 'ASC'),
-          );
-
-          try {
-            el.Item = inerted[inerted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
-          }
-
+        for (const el of inserteds) {
           const isExist = produtosSeparado.findIndex(
             (sel) =>
               sel.CodEmpresa == el.CodEmpresa &&
@@ -189,7 +172,7 @@ export default class SeparacaoItemEvent {
         }
 
         const itensSeparacaoConsulta: ExpedicaoItemSeparacaoConsultaDto[] = [];
-        for (const el of itensMutation) {
+        for (const el of inserteds) {
           const params = [
             Params.equals('CodEmpresa', el.CodEmpresa),
             Params.equals('CodSepararEstoque', el.CodSepararEstoque),
@@ -203,7 +186,7 @@ export default class SeparacaoItemEvent {
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: itensMutation.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         const basicEventItensSeparacaoConsulta = new ExpedicaoMutationBasicEvent({

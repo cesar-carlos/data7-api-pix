@@ -6,6 +6,7 @@ import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.cons
 import ExpedicaoItemArmazenarConsultaDto from '../../dto/expedicao/expedicao.item.armazenar.consulta.dto';
 import ExpedicaoItemArmazenarDto from '../../dto/expedicao/expedicao.item.armazenar.dto';
 import AppDependencys from '../../aplication/app.dependencys';
+import SqlServerExpedicaoItemArmazenarRepository from '../../repository/expedicao/sql.server.expedicao.item.armazenar.repository';
 
 export default class ItemArmazenarRepository {
   public async consulta(
@@ -31,12 +32,17 @@ export default class ItemArmazenarRepository {
     }
   }
 
-  public async insert(models: ExpedicaoItemArmazenarDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemArmazenarDto[]): Promise<ExpedicaoItemArmazenarDto[]> {
     try {
-      const repository = this.repository();
+      const repository = this.repositorySpecific();
+      const inserteds: ExpedicaoItemArmazenarDto[] = [];
+
       for (const el of models) {
-        await repository.insert(el);
+        const inserted = await repository.insertWithReturn(el);
+        inserteds.push(inserted);
       }
+
+      return inserteds;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -76,5 +82,12 @@ export default class ItemArmazenarRepository {
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>',
     });
+  }
+
+  private repositorySpecific(): SqlServerExpedicaoItemArmazenarRepository {
+    return AppDependencys.resolve<SqlServerExpedicaoItemArmazenarRepository>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>',
+    }) as SqlServerExpedicaoItemArmazenarRepository;
   }
 }

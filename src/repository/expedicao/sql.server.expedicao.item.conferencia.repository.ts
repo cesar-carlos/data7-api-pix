@@ -76,6 +76,17 @@ export default class SqlServerExpedicaoItemConferenciaRepository
     }
   }
 
+  public async insertWithReturn(entity: ExpedicaoItemConferenciaDto): Promise<ExpedicaoItemConferenciaDto> {
+    try {
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferencia.insert.sql');
+      const insert = fs.readFileSync(patchSQL).toString();
+      const result = await this.actonEntityWithReturn(entity, insert);
+      return result;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async update(entity: ExpedicaoItemConferenciaDto): Promise<void> {
     try {
       const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.conferencia.update.sql');
@@ -122,6 +133,47 @@ export default class SqlServerExpedicaoItemConferenciaRepository
       transaction.rollback();
       throw new Error(error.message);
     } finally {
+    }
+  }
+
+  private async actonEntityWithReturn(
+    entity: ExpedicaoItemConferenciaDto,
+    sqlCommand: string,
+  ): Promise<ExpedicaoItemConferenciaDto> {
+    const pool: ConnectionPool = await this.connect.getConnection();
+    const transaction = new sql.Transaction(pool);
+
+    try {
+      await transaction.begin();
+      const result = await transaction
+        .request()
+        .input('CodEmpresa', sql.Int, entity.CodEmpresa)
+        .input('CodConferir', sql.Int, entity.CodConferir)
+        .input('Item', sql.VarChar(5), entity.Item)
+        .input('SessionId', sql.VarChar(1000), entity.SessionId)
+        .input('Situacao', sql.VarChar(30), entity.Situacao)
+        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
+        .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
+        .input('CodConferente', sql.Int, entity.CodConferente)
+        .input('NomeConferente', sql.VarChar(30), entity.NomeConferente)
+        .input('DataConferencia', sql.Date, entity.DataConferencia)
+        .input('HoraConferencia', sql.VarChar(8), entity.HoraConferencia)
+        .input('CodProduto', sql.Int, entity.CodProduto)
+        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
+        .input('Quantidade', sql.Float, entity.Quantidade)
+        .query(sqlCommand);
+
+      await transaction.commit();
+
+      if (result.recordset && result.recordset.length > 0) {
+        return ExpedicaoItemConferenciaDto.fromObject(result.recordset[0]);
+      }
+
+      throw new Error('Nenhum registro foi inserido');
+    } catch (error: any) {
+      console.error('Erro em SqlServerExpedicaoItemConferenciaRepository.actonEntityWithReturn:', error.message);
+      transaction.rollback();
+      throw new Error(error.message);
     }
   }
 }

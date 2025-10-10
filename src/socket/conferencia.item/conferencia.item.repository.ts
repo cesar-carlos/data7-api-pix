@@ -6,6 +6,7 @@ import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.cons
 import ExpedicaoItemConferenciaConsultaDto from '../../dto/expedicao/expedicao.item.conferencia.consulta.dto';
 import ExpedicaoItemConferenciaDto from '../../dto/expedicao/expedicao.item.conferencia.dto';
 import AppDependencys from '../../aplication/app.dependencys';
+import SqlServerExpedicaoItemConferenciaRepository from '../../repository/expedicao/sql.server.expedicao.item.conferencia.repository';
 
 export default class ConferenciaItemRepository {
   public async consulta(
@@ -31,12 +32,17 @@ export default class ConferenciaItemRepository {
     }
   }
 
-  public async insert(models: ExpedicaoItemConferenciaDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemConferenciaDto[]): Promise<ExpedicaoItemConferenciaDto[]> {
     try {
-      const repository = this.repository();
+      const repository = this.repositorySpecific();
+      const inserteds: ExpedicaoItemConferenciaDto[] = [];
+
       for (const el of models) {
-        await repository.insert(el);
+        const inserted = await repository.insertWithReturn(el);
+        inserteds.push(inserted);
       }
+
+      return inserteds;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -76,5 +82,12 @@ export default class ConferenciaItemRepository {
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoItemConferenciaDto>',
     });
+  }
+
+  private repositorySpecific(): SqlServerExpedicaoItemConferenciaRepository {
+    return AppDependencys.resolve<SqlServerExpedicaoItemConferenciaRepository>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemConferenciaDto>',
+    }) as SqlServerExpedicaoItemConferenciaRepository;
   }
 }

@@ -8,6 +8,7 @@ import ExpedicaoItemSeparacaoConferirConsultaDto from '../../dto/expedicao/exped
 import ExpedicaoItemConferirUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.conferir.unidade.medida.consulta.dto';
 import ExpedicaoItemConferirConsultaDto from '../../dto/expedicao/expedicao.item.conferir.consulta.dto';
 import ExpedicaoItemConferirDto from '../../dto/expedicao/expedicao.item.conferir.dto';
+import SqlServerExpedicaoItemConferirRepository from '../../repository/expedicao/sql.server.expedicao.item.conferir.repository';
 
 export default class ConferirItemRepository {
   public async consulta(
@@ -61,12 +62,17 @@ export default class ConferirItemRepository {
     }
   }
 
-  public async insert(models: ExpedicaoItemConferirDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemConferirDto[]): Promise<ExpedicaoItemConferirDto[]> {
     try {
-      const repository = this.repository();
+      const repository = this.repositorySpecific();
+      const inserteds: ExpedicaoItemConferirDto[] = [];
+
       for (const el of models) {
-        await repository.insert(el);
+        const inserted = await repository.insertWithReturn(el);
+        inserteds.push(inserted);
       }
+
+      return inserteds;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -120,5 +126,12 @@ export default class ConferirItemRepository {
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoItemConferirDto>',
     });
+  }
+
+  private repositorySpecific(): SqlServerExpedicaoItemConferirRepository {
+    return AppDependencys.resolve<SqlServerExpedicaoItemConferirRepository>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemConferirDto>',
+    }) as SqlServerExpedicaoItemConferirRepository;
   }
 }

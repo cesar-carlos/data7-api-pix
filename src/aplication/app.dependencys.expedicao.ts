@@ -39,6 +39,8 @@ import SqlServerCancelamentoRepository from '../repository/expedicao/sql.server.
 import SqlServerExpedicaoLoginAppRepository from '../repository/expedicao/sql.server.expedicao.login.app.repository';
 import SqlServerExpedicaoLoginAppConsultaRepository from '../repository/expedicao/sql.server.expedicao.login.app.consulta.repository';
 import SqlServerExpedicaoProgressoSeparacaoConsultaRepository from '../repository/expedicao/sql.server.expedicao.progresso.separacao.consulta.repository';
+import SqlServerExpedicaoSeparacaoUsuarioSetorRepository from '../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.repository';
+import SqlServerExpedicaoSeparacaoUsuarioSetorConsultaRepository from '../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -170,6 +172,12 @@ export default class AppDependencysExpedicao {
 
     ContainerDependency.instance.register({
       context: eContext.sql_server,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoSeparacaoUsuarioSetorDto>',
+      instance: new SqlServerExpedicaoSeparacaoUsuarioSetorRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoCarrinhoPercursoEstagioConsultaDto>',
       instance: new SqlServerExpedicaoCarrinhoPercursoEstagioConsultaRepository(),
     });
@@ -184,6 +192,12 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoProgressoSeparacaoConsultaDto>',
       instance: new SqlServerExpedicaoProgressoSeparacaoConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoSeparacaoUsuarioSetorConsultaDto>',
+      instance: new SqlServerExpedicaoSeparacaoUsuarioSetorConsultaRepository(),
     });
 
     ContainerDependency.instance.register({

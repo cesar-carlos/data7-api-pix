@@ -16,6 +16,7 @@ INSERT INTO Expedicao.CarrinhoPercursoEstagio(
     CodUsuarioFinalizacao,
     NomeUsuarioFinalizacao
   )
+OUTPUT INSERTED.*
 VALUES (
     @CodEmpresa,
     @CodCarrinhoPercurso,

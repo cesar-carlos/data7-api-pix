@@ -115,27 +115,9 @@ export default class SepararItemEvent {
 
       try {
         const itens = this.convert(mutation);
-        for (const el of itens) {
-          await this.repository.insert([el]);
+        const inserteds = await this.repository.insert(itens);
 
-          const inerted = await this.repository.select(
-            [
-              Params.equals('CodEmpresa', el.CodEmpresa),
-              Params.equals('CodSepararEstoque', el.CodSepararEstoque),
-              Params.equals('CodProduto', el.CodProduto),
-            ],
-            undefined,
-            OrderBy.create('Item', 'ASC'),
-          );
-
-          try {
-            el.Item = inerted[inerted.length - 1].Item;
-          } catch (error: any) {
-            throw new Error('Erro ao inserir ' + error.message);
-          }
-        }
-
-        const itensJson = itens.map((item) => item.toJson());
+        const itensJson = inserteds.map((item) => item.toJson());
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
@@ -143,7 +125,6 @@ export default class SepararItemEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.item.insert.listen',
           Mutation: itensJson,
         });
 
@@ -178,7 +159,6 @@ export default class SepararItemEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.item.update.listen',
           Mutation: itensJson,
         });
 
@@ -213,7 +193,6 @@ export default class SepararItemEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.item.delete.listen',
           Mutation: itensJson,
         });
 

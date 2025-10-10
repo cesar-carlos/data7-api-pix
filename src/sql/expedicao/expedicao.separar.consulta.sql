@@ -22,7 +22,7 @@ FROM (
 		     AND seise.CodSepararEstoque = se.CodSepararEstoque
 		   GROUP BY CodEmpresa, CodSepararEstoque,CodSetorEstoque
 		) sub
-	 )SetoresEstoque,
+	 )CodSetoresEstoque,
       se.Historico,
       se.Observacao
     FROM Expedicao.SepararEstoque se

@@ -84,21 +84,12 @@ export default class ItemArmazenarEvent {
 
       try {
         const itens = this.convert(mutation);
-
-        for (const el of itens) {
-          await this.repository.insert([el]);
-        }
-
-        const params = [
-          Params.equals('CodEmpresa', itens?.[0].CodEmpresa),
-          Params.equals('CodArmazenar', itens?.[0].CodArmazenar),
-        ];
-        const newItens = await this.repository.select(params);
+        const inserteds = await this.repository.insert(itens);
 
         const basicEvent = new ExpedicaoMutationBasicEvent({
           Session: session,
           ResponseIn: responseIn,
-          Mutation: newItens.map((item) => item.toJson()),
+          Mutation: inserteds.map((item) => item.toJson()),
         });
 
         socket.emit(responseIn, JSON.stringify(basicEvent.toJson()));

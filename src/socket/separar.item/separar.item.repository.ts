@@ -7,6 +7,7 @@ import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.cons
 import ExpedicaoItemSepararUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.separar.unidade.medida.consulta.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
+import SqlServerExpedicaoItemSepararRepository from '../../repository/expedicao/sql.server.expedicao.item.separar.repository';
 
 export default class SepararItemRepository {
   public async consulta(
@@ -46,12 +47,17 @@ export default class SepararItemRepository {
     }
   }
 
-  public async insert(models: ExpedicaoItemSepararDto[]): Promise<void> {
+  public async insert(models: ExpedicaoItemSepararDto[]): Promise<ExpedicaoItemSepararDto[]> {
     try {
-      const repository = this.repository();
+      const repository = this.repositorySpecific();
+      const inserteds: ExpedicaoItemSepararDto[] = [];
+
       for (const el of models) {
-        await repository.insert(el);
+        const inserted = await repository.insertWithReturn(el);
+        inserteds.push(inserted);
       }
+
+      return inserteds;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -98,5 +104,12 @@ export default class SepararItemRepository {
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoItemSepararDto>',
     });
+  }
+
+  private repositorySpecific(): SqlServerExpedicaoItemSepararRepository {
+    return AppDependencys.resolve<SqlServerExpedicaoItemSepararRepository>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoItemSepararDto>',
+    }) as SqlServerExpedicaoItemSepararRepository;
   }
 }

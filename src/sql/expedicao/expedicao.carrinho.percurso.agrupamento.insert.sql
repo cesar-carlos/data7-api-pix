@@ -11,6 +11,7 @@ INSERT INTO Expedicao.CarrinhoPercursoAgrupamento (
     CodUsuarioLancamento,
     NomeUsuarioLancamento
   )
+OUTPUT INSERTED.*
 VALUES (
     @CodEmpresa,
     @CodCarrinhoPercurso,

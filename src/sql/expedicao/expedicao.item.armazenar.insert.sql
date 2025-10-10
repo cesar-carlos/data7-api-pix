@@ -13,6 +13,7 @@ INSERT INTO Expedicao.ItemArmazenar(
 	CodigoBarras,
 	Quantidade
   )
+OUTPUT INSERTED.*
 VALUES (
 	@CodEmpresa,
 	@CodArmazenar,

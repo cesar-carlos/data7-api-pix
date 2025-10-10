@@ -14,6 +14,7 @@ INSERT INTO Expedicao.ItemConferencia(
     CodUnidadeMedida,
     Quantidade
   )
+OUTPUT INSERTED.*
 VALUES (
     @CodEmpresa,
     @CodConferir,

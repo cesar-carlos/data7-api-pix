@@ -8,6 +8,7 @@ import ExpedicaoCarrinhoPercursoAgrupamento from '../../dto/expedicao/expedicao.
 import ExpedicaoCarrinhoPercursoAgrupamentoConsulta from '../../dto/expedicao/expedicao.carrinho.percurso.agrupamento.consulta';
 import LocalBaseConsultaRepositoryContract from '../../contracts/local.base.consulta.repository.contract';
 import SequenceDto from '../../dto/common.data/sequence.dto';
+import SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository from '../../repository/expedicao/sql.server.expedicao.carrinho.percurso.agrupamento.repository';
 
 export default class CarrinhoPercursoAgrupamentoRepository {
   public async consulta(
@@ -37,12 +38,17 @@ export default class CarrinhoPercursoAgrupamentoRepository {
     }
   }
 
-  public async insert(models: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<void> {
+  public async insert(models: ExpedicaoCarrinhoPercursoAgrupamento[]): Promise<ExpedicaoCarrinhoPercursoAgrupamento[]> {
     try {
-      const repository = this.repository();
+      const repository = this.repositorySpecific();
+      const inserteds: ExpedicaoCarrinhoPercursoAgrupamento[] = [];
+
       for (const el of models) {
-        await repository.insert(el);
+        const inserted = await repository.insertWithReturn(el);
+        inserteds.push(inserted);
       }
+
+      return inserteds;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -95,5 +101,12 @@ export default class CarrinhoPercursoAgrupamentoRepository {
       context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
       bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamento>',
     });
+  }
+
+  private repositorySpecific(): SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository {
+    return AppDependencys.resolve<SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository>({
+      context: process.env.LOCAL_DATABASE?.toLocaleLowerCase() as eContext,
+      bind: 'LocalBaseRepositoryContract<ExpedicaoCarrinhoPercursoAgrupamento>',
+    }) as SqlServerExpedicaoCarrinhoPercursoAgrupamentoRepository;
   }
 }

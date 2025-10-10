@@ -6,26 +6,26 @@ import { Params, Pagination, OrderBy } from '../../contracts/local.base.params';
 
 import ConnectionSqlServerMssql from '../../infra/connection.sql.server.mssql';
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
-import ExpedicaoItemArmazenarDto from '../../dto/expedicao/expedicao.item.armazenar.dto';
+import ExpedicaoSeparacaoUsuarioSetorDto from '../../dto/expedicao/expedicao.separacao.usuario.setor.dto';
 import ParamsCommonRepository from '../common/params.common';
 
-export default class SqlServerExpedicaoItemArmazenarRepository
-  implements LocalBaseRepositoryContract<ExpedicaoItemArmazenarDto>
+export default class SqlServerExpedicaoSeparacaoUsuarioSetorRepository
+  implements LocalBaseRepositoryContract<ExpedicaoSeparacaoUsuarioSetorDto>
 {
   private connect = ConnectionSqlServerMssql.getInstance();
   private basePatchSQL = ParamsCommonRepository.basePatchSQL('expedicao');
 
-  public async select(): Promise<ExpedicaoItemArmazenarDto[]> {
+  public async select(): Promise<ExpedicaoSeparacaoUsuarioSetorDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.select.sql');
       const sql = fs.readFileSync(patchSQL).toString();
       const result = await pool.request().query(sql);
 
       if (result.recordset.length === 0) return [];
       const entity = result.recordset.map((item: any) => {
-        return ExpedicaoItemArmazenarDto.fromObject(item);
+        return ExpedicaoSeparacaoUsuarioSetorDto.fromObject(item);
       });
 
       return entity;
@@ -39,11 +39,11 @@ export default class SqlServerExpedicaoItemArmazenarRepository
     params: Params[] = [],
     pagination?: Pagination,
     orderBy?: OrderBy,
-  ): Promise<ExpedicaoItemArmazenarDto[]> {
+  ): Promise<ExpedicaoSeparacaoUsuarioSetorDto[]> {
     const pool: ConnectionPool = await this.connect.getConnection();
 
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.select.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.select.sql');
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
@@ -56,7 +56,7 @@ export default class SqlServerExpedicaoItemArmazenarRepository
 
       if (result.recordset.length === 0) return [];
       const entitys = result.recordset.map((item: any) => {
-        return ExpedicaoItemArmazenarDto.fromObject(item);
+        return ExpedicaoSeparacaoUsuarioSetorDto.fromObject(item);
       });
 
       return entitys;
@@ -66,9 +66,9 @@ export default class SqlServerExpedicaoItemArmazenarRepository
     }
   }
 
-  public async insert(entity: ExpedicaoItemArmazenarDto): Promise<void> {
+  public async insert(entity: ExpedicaoSeparacaoUsuarioSetorDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, insert);
     } catch (error: any) {
@@ -76,9 +76,9 @@ export default class SqlServerExpedicaoItemArmazenarRepository
     }
   }
 
-  public async insertWithReturn(entity: ExpedicaoItemArmazenarDto): Promise<ExpedicaoItemArmazenarDto> {
+  public async insertWithReturn(entity: ExpedicaoSeparacaoUsuarioSetorDto): Promise<ExpedicaoSeparacaoUsuarioSetorDto> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.insert.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.insert.sql');
       const insert = fs.readFileSync(patchSQL).toString();
       const result = await this.actonEntityWithReturn(entity, insert);
       return result;
@@ -87,9 +87,9 @@ export default class SqlServerExpedicaoItemArmazenarRepository
     }
   }
 
-  public async update(entity: ExpedicaoItemArmazenarDto): Promise<void> {
+  public async update(entity: ExpedicaoSeparacaoUsuarioSetorDto): Promise<void> {
     try {
-      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.update.sql');
+      const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.update.sql');
       const update = fs.readFileSync(patchSQL).toString();
       await this.actonEntity(entity, update);
     } catch (error: any) {
@@ -97,13 +97,13 @@ export default class SqlServerExpedicaoItemArmazenarRepository
     }
   }
 
-  public async delete(entity: ExpedicaoItemArmazenarDto): Promise<void> {
-    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.item.armazenar.delete.sql');
+  public async delete(entity: ExpedicaoSeparacaoUsuarioSetorDto): Promise<void> {
+    const patchSQL = path.resolve(this.basePatchSQL, 'expedicao.separacao.usuario.setor.delete.sql');
     const delet = fs.readFileSync(patchSQL).toString();
     await this.actonEntity(entity, delet);
   }
 
-  private async actonEntity(entity: ExpedicaoItemArmazenarDto, sqlCommand: string): Promise<void> {
+  private async actonEntity(entity: ExpedicaoSeparacaoUsuarioSetorDto, sqlCommand: string): Promise<void> {
     const pool: ConnectionPool = await this.connect.getConnection();
     const transaction = new sql.Transaction(pool);
 
@@ -112,33 +112,28 @@ export default class SqlServerExpedicaoItemArmazenarRepository
       await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
-        .input('CodArmazenar', sql.Int, entity.CodArmazenar)
+        .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
         .input('Item', sql.VarChar(5), entity.Item)
-        .input('Situacao', sql.VarChar(30), entity.Situacao)
-        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
-        .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
-        .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
-        .input('CodProduto', sql.Int, entity.CodProduto)
-        .input('NomeProduto', sql.VarChar(120), entity.NomeProduto)
-        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
-        .input('CodProdutoEndereco', sql.VarChar(60), entity.CodProdutoEndereco)
-        .input('CodigoBarras', sql.VarChar(30), entity.CodigoBarras)
-        .input('Quantidade', sql.Float, entity.Quantidade)
+        .input('CodSetorEstoque', sql.Int, entity.CodSetorEstoque)
+        .input('DataLancamento', sql.Date, entity.DataLancamento)
+        .input('HoraLancamento', sql.VarChar(8), entity.HoraLancamento)
+        .input('CodUsuario', sql.Int, entity.CodUsuario)
+        .input('NomeUsuario', sql.VarChar(30), entity.NomeUsuario)
+        .input('EstacaoSeparacao', sql.VarChar(30), entity.EstacaoSeparacao)
         .query(sqlCommand);
 
       await transaction.commit();
     } catch (error: any) {
-      console.error('Erro em SqlServerExpedicaoItemArmazenarRepository.actonEntity:', error.message);
+      console.error('Erro em SqlServerExpedicaoSeparacaoUsuarioSetorRepository.actonEntity:', error.message);
       transaction.rollback();
       throw new Error(error.message);
-    } finally {
     }
   }
 
   private async actonEntityWithReturn(
-    entity: ExpedicaoItemArmazenarDto,
+    entity: ExpedicaoSeparacaoUsuarioSetorDto,
     sqlCommand: string,
-  ): Promise<ExpedicaoItemArmazenarDto> {
+  ): Promise<ExpedicaoSeparacaoUsuarioSetorDto> {
     const pool: ConnectionPool = await this.connect.getConnection();
     const transaction = new sql.Transaction(pool);
 
@@ -147,29 +142,25 @@ export default class SqlServerExpedicaoItemArmazenarRepository
       const result = await transaction
         .request()
         .input('CodEmpresa', sql.Int, entity.CodEmpresa)
-        .input('CodArmazenar', sql.Int, entity.CodArmazenar)
+        .input('CodSepararEstoque', sql.Int, entity.CodSepararEstoque)
         .input('Item', sql.VarChar(5), entity.Item)
-        .input('Situacao', sql.VarChar(30), entity.Situacao)
-        .input('CodCarrinhoPercurso', sql.Int, entity.CodCarrinhoPercurso)
-        .input('ItemCarrinhoPercurso', sql.VarChar(5), entity.ItemCarrinhoPercurso)
-        .input('CodLocalArmazenagem', sql.Int, entity.CodLocalArmazenagem)
-        .input('CodProduto', sql.Int, entity.CodProduto)
-        .input('NomeProduto', sql.VarChar(120), entity.NomeProduto)
-        .input('CodUnidadeMedida', sql.VarChar(6), entity.CodUnidadeMedida)
-        .input('CodProdutoEndereco', sql.VarChar(60), entity.CodProdutoEndereco)
-        .input('CodigoBarras', sql.VarChar(30), entity.CodigoBarras)
-        .input('Quantidade', sql.Float, entity.Quantidade)
+        .input('CodSetorEstoque', sql.Int, entity.CodSetorEstoque)
+        .input('DataLancamento', sql.Date, entity.DataLancamento)
+        .input('HoraLancamento', sql.VarChar(8), entity.HoraLancamento)
+        .input('CodUsuario', sql.Int, entity.CodUsuario)
+        .input('NomeUsuario', sql.VarChar(30), entity.NomeUsuario)
+        .input('EstacaoSeparacao', sql.VarChar(30), entity.EstacaoSeparacao)
         .query(sqlCommand);
 
       await transaction.commit();
 
       if (result.recordset && result.recordset.length > 0) {
-        return ExpedicaoItemArmazenarDto.fromObject(result.recordset[0]);
+        return ExpedicaoSeparacaoUsuarioSetorDto.fromObject(result.recordset[0]);
       }
 
       throw new Error('Nenhum registro foi inserido');
     } catch (error: any) {
-      console.error('Erro em SqlServerExpedicaoItemArmazenarRepository.actonEntityWithReturn:', error.message);
+      console.error('Erro em SqlServerExpedicaoSeparacaoUsuarioSetorRepository.actonEntityWithReturn:', error.message);
       transaction.rollback();
       throw new Error(error.message);
     }

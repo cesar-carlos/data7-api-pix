@@ -32,7 +32,6 @@ export default class SepararPeriodicListenService extends BasePeriodicListenServ
 
       // Criar evento no formato ExpedicaoBasicListenEvent
       const basicEventSepararConsulta = new ExpedicaoBasicListenEvent({
-        ResponseIn: 'separar.consulta.listen',
         Data: separarConsulta.map((item) => item.toJson()),
       });
 
