@@ -52,6 +52,7 @@ export default class SqlServerExpedicaoSeparacaoUsuarioSetorConsultaRepository
       const sql = _params ? `${select} WHERE ${_params}` : select;
       const sqlWithPagination = `${sql} ${paramOrderBy} OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
       const sqlWithoutPagination = `${sql} ${paramOrderBy}`;
+
       const result = await pool.request().query(pagination ? sqlWithPagination : sqlWithoutPagination);
 
       if (result.recordset.length === 0) return [];
