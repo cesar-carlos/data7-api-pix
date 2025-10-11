@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { params } from '../../contracts/local.base.params';
+import { Params } from '../../contracts/local.base.params';
 import { eContext } from '../../dependency/container.dependency';
 
 import LocalBaseRepositoryContract from '../../contracts/local.base.repository.contract';
@@ -66,7 +66,7 @@ export default class GeralProcessoExecutavelController {
     });
   }
 
-  public static buildParams(req: Request): params[] {
+  public static buildParams(req: Request): Params[] {
     const _params: Params[] = [];
     for (const keyName in req.query) {
       const value = req.query[keyName];

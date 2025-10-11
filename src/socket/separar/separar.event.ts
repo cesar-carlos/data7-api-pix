@@ -152,7 +152,6 @@ export default class SepararEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.insert.listen',
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
@@ -202,7 +201,6 @@ export default class SepararEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.update.listen',
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
@@ -253,7 +251,6 @@ export default class SepararEvent {
         });
 
         const listenEvent = new ExpedicaoMutationListenEvent({
-          ResponseIn: 'separar.delete.listen',
           Mutation: separarConsulta.map((item) => item.toJson()),
         });
 
