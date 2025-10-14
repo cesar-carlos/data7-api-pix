@@ -268,11 +268,9 @@ export default class CarrinhoPercursoEstagioEvent {
 
     for (const el of carrinhoEstagios) {
       const params = [
-        { key: 'CodEmpresa', value: el.CodEmpresa },
+        Params.equals('CodEmpresa', el.CodEmpresa),
         Params.equals('CodCarrinhoPercurso', el.CodCarrinhoPercurso),
-        Params.equals('CodPercursoEstagio', el.CodPercursoEstagio),
-        Params.equals('CodCarrinho', el.CodCarrinho),
-        { key: 'Item', value: el.Item },
+        Params.equals('Item', el.Item),
       ];
 
       const cars = await this.repository.consulta(params);

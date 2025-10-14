@@ -19,7 +19,7 @@ GET /api/login-app?page=1&limit=100
 **Parâmetros opcionais**:
 
 - `page`: Número da página (padrão: 1)
-- `limit`: Registros por página (padrão: 100, máximo: 1000)
+- `limit`: Registros por página (padrão: 1000, máximo: 1000)
 
 #### 2. Consultar por Nome de Usuário ✅
 
@@ -166,7 +166,7 @@ curl "http://localhost:3000/api/login-app?page=1&limit=50"
 ### Paginação
 
 - `page`: Deve ser > 0 (padrão: 1)
-- `limit`: Entre 1 e 1000 (padrão: 100)
+- `limit`: Entre 1 e 1000 (padrão: 1000)
 
 ## Estrutura de Resposta
 

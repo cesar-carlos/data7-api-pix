@@ -44,12 +44,12 @@ As validações de tipo e formato foram migradas do controller para o Zod, propo
   - Valor padrão: 1
 - **Mensagem de erro**: "Página deve ser um número maior que 0"
 
-#### `limit` (padrão: 100)
+#### `limit` (padrão: 1000)
 
 - **Tipo**: string|number → transformado para number
 - **Validações**:
   - Deve ser entre 1 e 1000
-  - Valor padrão: 100
+  - Valor padrão: 1000
 - **Mensagem de erro**: "Limit deve ser entre 1 e 1000"
 
 ## Middleware de Validação

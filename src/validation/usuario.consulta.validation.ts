@@ -52,10 +52,10 @@ export const usuarioConsultaQuerySchema = z.object({
   Limit: z
     .string()
     .optional()
-    .default('100')
+    .default('1000')
     .transform((val) => parseInt(val, 10))
-    .refine((val) => !isNaN(val) && val > 0 && val <= 500, {
-      message: 'Limit deve ser um número válido entre 1 e 500',
+    .refine((val) => !isNaN(val) && val > 0 && val <= 1000, {
+      message: 'Limit deve ser um número válido entre 1 e 1000',
     }),
 });
 

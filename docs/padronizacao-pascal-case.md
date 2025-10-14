@@ -49,7 +49,7 @@ export const consultaLoginAppQuerySchema = z.object({
   codLoginApp: z.string().optional(),
   ativo: z.enum(['S', 'N']).optional(),
   page: z.number().default(1),
-  limit: z.number().default(100),
+  limit: z.number().default(1000),
 });
 
 // DEPOIS
@@ -58,7 +58,7 @@ export const consultaLoginAppQuerySchema = z.object({
   CodLoginApp: z.string().optional(),
   Ativo: z.enum(['S', 'N']).optional(),
   Page: z.number().default(1),
-  Limit: z.number().default(100),
+  Limit: z.number().default(1000),
 });
 ```
 
@@ -106,7 +106,7 @@ export const usuarioConsultaQuerySchema = z.object({
   codEmpresa: z.string().optional(),
   ativo: z.enum(['S', 'N']).optional(),
   page: z.number().default(1),
-  limit: z.number().default(100),
+  limit: z.number().default(1000),
 });
 
 // DEPOIS
@@ -116,7 +116,7 @@ export const usuarioConsultaQuerySchema = z.object({
   CodEmpresa: z.string().optional(),
   Ativo: z.enum(['S', 'N']).optional(),
   Page: z.number().default(1),
-  Limit: z.number().default(100),
+  Limit: z.number().default(1000),
 });
 ```
 
@@ -210,7 +210,7 @@ GET /usuarios?CodUsuario=456&CodEmpresa=1
 // ✅ Conversões automáticas
 ?CodLoginApp=123    // string → number
 ?Ativo=s            // lowercase → uppercase
-?Page=1&Limit=100   // defaults aplicados
+?Page=1&Limit=1000  // defaults aplicados
 ```
 
 ### **Casos Inválidos**
@@ -223,7 +223,7 @@ GET /usuarios?CodUsuario=456&CodEmpresa=1
 
 // ❌ Valores inválidos
 ?Page=0             // Deve ser > 0
-?Limit=1000         // Deve ser <= 500/1000
+?Limit=2000         // Deve ser <= 1000
 ?Ativo=X            // Deve ser S ou N
 ```
 

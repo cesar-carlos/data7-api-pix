@@ -15,7 +15,7 @@ Consulta usuários do sistema com suporte a paginação.
 **Query Parameters:**
 
 - `page` (opcional): Número da página (padrão: 1)
-- `limit` (opcional): Número de registros por página (padrão: 100, máximo: 1000)
+- `limit` (opcional): Número de registros por página (padrão: 1000, máximo: 1000)
 - `nome` (opcional): Filtro por nome (busca parcial com LIKE)
 - `codLoginApp` (opcional): Filtro por código específico
 - `ativo` (opcional): Filtro por status ativo ('S' ou 'N')
@@ -23,7 +23,7 @@ Consulta usuários do sistema com suporte a paginação.
 **Exemplos de Uso:**
 
 ```bash
-# Primeira página com 100 registros (padrão)
+# Primeira página com 1000 registros (padrão)
 GET /api/login-app
 
 # Segunda página com 50 registros
@@ -42,9 +42,9 @@ GET /api/login-app?ativo=S&page=3&limit=100
 {
   "message": "X usuário(s) encontrado(s)",
   "data": [...], // Array com os dados dos usuários
-  "total": 250,  // Total de registros encontrados
+  "total": 2500,  // Total de registros encontrados
   "page": 1,     // Página atual
-  "limit": 100,  // Registros por página
+  "limit": 1000,  // Registros por página
   "totalPages": 3 // Total de páginas disponíveis
 }
 ```
@@ -62,19 +62,19 @@ GET /api/login-app?ativo=S&page=3&limit=100
 #### consultarTodos(page?, limit?)
 
 - Retorna todos os usuários com paginação
-- **Parâmetros**: page (padrão: 1), limit (padrão: 100)
+- **Parâmetros**: page (padrão: 1), limit (padrão: 1000)
 - **Retorno**: PaginatedResult
 
 #### consultarPorNome(nome, page?, limit?)
 
 - Busca usuários por nome com paginação
-- **Parâmetros**: nome (obrigatório), page (padrão: 1), limit (padrão: 100)
+- **Parâmetros**: nome (obrigatório), page (padrão: 1), limit (padrão: 1000)
 - **Retorno**: PaginatedResult
 
 #### consultarAtivos(page?, limit?)
 
 - Retorna usuários ativos com paginação
-- **Parâmetros**: page (padrão: 1), limit (padrão: 100)
+- **Parâmetros**: page (padrão: 1), limit (padrão: 1000)
 - **Retorno**: PaginatedResult
 
 #### consultarPorCodigo(codLoginApp)

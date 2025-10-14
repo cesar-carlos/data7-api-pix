@@ -38,7 +38,7 @@ export const consultaLoginAppQuerySchema = z.object({
     .union([z.string(), z.number()])
     .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
     .refine((val) => !isNaN(val) && val > 0 && val <= 1000, 'Limit deve ser entre 1 e 1000')
-    .default(100),
+    .default(1000),
 });
 
 export type ConsultaLoginAppQuery = z.infer<typeof consultaLoginAppQuerySchema>;

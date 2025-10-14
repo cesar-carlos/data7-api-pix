@@ -12,14 +12,14 @@ GET /usuarios
 
 ## 🔧 **Parâmetros de Query**
 
-| Parâmetro     | Tipo   | Obrigatório | Descrição                                 | Exemplo             |
-| ------------- | ------ | ----------- | ----------------------------------------- | ------------------- |
-| `codUsuario`  | number | ❌          | Código específico do usuário              | `?codUsuario=123`   |
-| `nomeUsuario` | string | ❌          | Nome ou parte do nome do usuário          | `?nomeUsuario=João` |
-| `codEmpresa`  | number | ❌          | Código da empresa                         | `?codEmpresa=1`     |
-| `ativo`       | string | ❌          | Status ativo (S/N)                        | `?ativo=S`          |
-| `page`        | number | ❌          | Página (padrão: 1)                        | `?page=2`           |
-| `limit`       | number | ❌          | Limite por página (padrão: 100, max: 500) | `?limit=50`         |
+| Parâmetro     | Tipo   | Obrigatório | Descrição                                   | Exemplo             |
+| ------------- | ------ | ----------- | ------------------------------------------- | ------------------- |
+| `codUsuario`  | number | ❌          | Código específico do usuário                | `?codUsuario=123`   |
+| `nomeUsuario` | string | ❌          | Nome ou parte do nome do usuário            | `?nomeUsuario=João` |
+| `codEmpresa`  | number | ❌          | Código da empresa                           | `?codEmpresa=1`     |
+| `ativo`       | string | ❌          | Status ativo (S/N)                          | `?ativo=S`          |
+| `page`        | number | ❌          | Página (padrão: 1)                          | `?page=2`           |
+| `limit`       | number | ❌          | Limite por página (padrão: 1000, max: 1000) | `?limit=500`        |
 
 ## 🧪 **Exemplos de Uso**
 
