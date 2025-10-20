@@ -1,3 +1,5 @@
+import ExpedicaoItemSepararUnidadeMedidaConsultaDto from './expedicao.item.separar.unidade.medida.consulta.dto';
+
 export default class ExpedicaoItemSepararConsultaDto {
   CodEmpresa: number;
   CodSepararEstoque: number;
@@ -32,6 +34,7 @@ export default class ExpedicaoItemSepararConsultaDto {
   QuantidadeInterna: number;
   QuantidadeExterna: number;
   QuantidadeSeparacao: number;
+  UnidadeMedidas: ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
 
   constructor(params: {
     CodEmpresa: number;
@@ -67,6 +70,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     QuantidadeInterna: number;
     QuantidadeExterna: number;
     QuantidadeSeparacao: number;
+    UnidadeMedidas: ExpedicaoItemSepararUnidadeMedidaConsultaDto[] | [];
   }) {
     this.CodEmpresa = params.CodEmpresa;
     this.CodSepararEstoque = params.CodSepararEstoque;
@@ -101,6 +105,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.QuantidadeInterna = params.QuantidadeInterna;
     this.QuantidadeExterna = params.QuantidadeExterna;
     this.QuantidadeSeparacao = params.QuantidadeSeparacao;
+    this.UnidadeMedidas = params.UnidadeMedidas || [];
   }
 
   public copyWith(params: {
@@ -137,6 +142,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     QuantidadeInterna?: number;
     QuantidadeExterna?: number;
     QuantidadeSeparacao?: number;
+    UnidadeMedidas?: ExpedicaoItemSepararUnidadeMedidaConsultaDto[];
   }) {
     this.CodEmpresa = params.CodEmpresa ?? this.CodEmpresa;
     this.CodSepararEstoque = params.CodSepararEstoque ?? this.CodSepararEstoque;
@@ -171,6 +177,7 @@ export default class ExpedicaoItemSepararConsultaDto {
     this.QuantidadeInterna = params.QuantidadeInterna ?? this.QuantidadeInterna;
     this.QuantidadeExterna = params.QuantidadeExterna ?? this.QuantidadeExterna;
     this.QuantidadeSeparacao = params.QuantidadeSeparacao ?? this.QuantidadeSeparacao;
+    this.UnidadeMedidas = params.UnidadeMedidas ?? this.UnidadeMedidas;
   }
 
   static fromObject(object: any): ExpedicaoItemSepararConsultaDto {
@@ -208,6 +215,7 @@ export default class ExpedicaoItemSepararConsultaDto {
       QuantidadeInterna: object.QuantidadeInterna ?? 0.0,
       QuantidadeExterna: object.QuantidadeExterna ?? 0.0,
       QuantidadeSeparacao: object.QuantidadeSeparacao ?? 0.0,
+      UnidadeMedidas: object.UnidadeMedidas || [],
     });
   }
 
@@ -246,6 +254,7 @@ export default class ExpedicaoItemSepararConsultaDto {
       QuantidadeInterna: Number(this.QuantidadeInterna).toFixed(4),
       QuantidadeExterna: Number(this.QuantidadeExterna).toFixed(4),
       QuantidadeSeparacao: Number(this.QuantidadeSeparacao).toFixed(4),
+      UnidadeMedidas: this.UnidadeMedidas.map((unidadeMedida) => unidadeMedida.toJson()),
     };
   }
 }

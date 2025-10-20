@@ -3,6 +3,8 @@ import { Pagination, OrderBy, Params } from '../../contracts/local.base.params';
 
 import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
+import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
+import ExpedicaoItemSepararUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.separar.unidade.medida.consulta.dto';
 import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
@@ -27,7 +29,17 @@ export default class SepararItemEvent {
 
       try {
         const result = await this.repository.consulta(params, pagination, orderBy);
-        const jsonData = result.map((item) => item.toJson());
+
+        // Obter parâmetros para consulta de unidades de medida
+        const unidadeMedidaParams = this.groupResultsByEmpresaAndSepararEstoque(result);
+
+        // Buscar unidades de medida usando os parâmetros agrupados
+        const unidadesMedida = await this.repository.consultaUnidadeMedida(unidadeMedidaParams);
+
+        // Converter para JSON, incluindo as unidades de medida agrupadas por item
+
+        const itens = this.buildUnidadesMedida(result, unidadesMedida);
+        const jsonData = itens.map((item) => item.toJson());
 
         const event = new ExpedicaoBasicSelectEvent({
           Session: session,
@@ -207,6 +219,49 @@ export default class SepararItemEvent {
 
         socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
+    });
+  }
+
+  private groupResultsByEmpresaAndSepararEstoque(results: ExpedicaoItemSepararConsultaDto[]): Params[] {
+    const uniqueKeys = new Set<string>();
+
+    results.forEach((item) => {
+      const key = `${item.CodEmpresa}_${item.CodSepararEstoque}`;
+      uniqueKeys.add(key);
+    });
+
+    // Converter para array de parâmetros para consulta de unidades de medida
+    const unidadeMedidaParams: Params[] = [];
+
+    uniqueKeys.forEach((key) => {
+      const [codEmpresa, codSepararEstoque] = key.split('_').map(Number);
+      unidadeMedidaParams.push(
+        Params.equals('CodEmpresa', codEmpresa),
+        Params.equals('CodSepararEstoque', codSepararEstoque),
+      );
+    });
+
+    return unidadeMedidaParams;
+  }
+
+  private buildUnidadesMedida(
+    results: ExpedicaoItemSepararConsultaDto[],
+    unidadesMedida: ExpedicaoItemSepararUnidadeMedidaConsultaDto[],
+  ): ExpedicaoItemSepararConsultaDto[] {
+    return results.map((item) => {
+      if (!item.UnidadeMedidas) item.UnidadeMedidas = [];
+
+      // Filtrar unidades de medida que correspondem ao produto deste item
+      const unidadesDoProduto = unidadesMedida.filter(
+        (um) =>
+          um.CodEmpresa === item.CodEmpresa &&
+          um.CodSepararEstoque === item.CodSepararEstoque &&
+          um.CodProduto === item.CodProduto &&
+          um.Item === item.Item,
+      );
+
+      item.UnidadeMedidas.push(...unidadesDoProduto);
+      return item;
     });
   }
 

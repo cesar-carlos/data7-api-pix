@@ -10,8 +10,8 @@ export default class CreateLoginAppController {
 
   public static async post(req: Request, res: Response) {
     try {
-      const { Nome, Senha, FotoUsuario, CodUsuario }: LoginAppRequest = (req as any).validatedBody || req.body;
       const _createUserLoginAppService = new CreateUserLoginAppService();
+      const { Nome, Senha, FotoUsuario, CodUsuario }: LoginAppRequest = (req as any).validatedBody || req.body;
 
       const result = await _createUserLoginAppService.execute({
         Nome,
