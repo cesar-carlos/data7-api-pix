@@ -5,8 +5,8 @@ import SepararItemRepository from './separar.item.repository';
 import ExpedicaoItemSepararDto from '../../dto/expedicao/expedicao.item.separar.dto';
 import ExpedicaoItemSepararConsultaDto from '../../dto/expedicao/expedicao.item.separar.consulta.dto';
 import ExpedicaoItemSepararUnidadeMedidaConsultaDto from '../../dto/expedicao/expedicao.item.separar.unidade.medida.consulta.dto';
-import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
+import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.event';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 
@@ -223,15 +223,13 @@ export default class SepararItemEvent {
   }
 
   private groupResultsByEmpresaAndSepararEstoque(results: ExpedicaoItemSepararConsultaDto[]): Params[] {
+    const unidadeMedidaParams: Params[] = [];
     const uniqueKeys = new Set<string>();
 
     results.forEach((item) => {
       const key = `${item.CodEmpresa}_${item.CodSepararEstoque}`;
       uniqueKeys.add(key);
     });
-
-    // Converter para array de parâmetros para consulta de unidades de medida
-    const unidadeMedidaParams: Params[] = [];
 
     uniqueKeys.forEach((key) => {
       const [codEmpresa, codSepararEstoque] = key.split('_').map(Number);
@@ -251,7 +249,6 @@ export default class SepararItemEvent {
     return results.map((item) => {
       if (!item.UnidadeMedidas) item.UnidadeMedidas = [];
 
-      // Filtrar unidades de medida que correspondem ao produto deste item
       const unidadesDoProduto = unidadesMedida.filter(
         (um) =>
           um.CodEmpresa === item.CodEmpresa &&

@@ -15,6 +15,7 @@ export default class UsuarioConsultaDto {
   readonly NomeSetorEstoque?: string;
   readonly PermiteSepararForaSequencia: string;
   readonly VisualizaTodasSeparacoes: string;
+  readonly ExpedicaoObrigaEscanearPrateleira: string;
   readonly CodSetorConferencia?: number;
   readonly NomeSetorConferencia?: string;
   readonly PermiteConferirForaSequencia: string;
@@ -46,6 +47,7 @@ export default class UsuarioConsultaDto {
     NomeSetorEstoque?: string;
     PermiteSepararForaSequencia: string;
     VisualizaTodasSeparacoes: string;
+    ExpedicaoObrigaEscanearPrateleira: string;
     CodSetorConferencia?: number;
     NomeSetorConferencia?: string;
     PermiteConferirForaSequencia: string;
@@ -76,6 +78,7 @@ export default class UsuarioConsultaDto {
     this.NomeSetorEstoque = params.NomeSetorEstoque;
     this.PermiteSepararForaSequencia = params.PermiteSepararForaSequencia;
     this.VisualizaTodasSeparacoes = params.VisualizaTodasSeparacoes;
+    this.ExpedicaoObrigaEscanearPrateleira = params.ExpedicaoObrigaEscanearPrateleira;
     this.CodSetorConferencia = params.CodSetorConferencia;
     this.NomeSetorConferencia = params.NomeSetorConferencia;
     this.PermiteConferirForaSequencia = params.PermiteConferirForaSequencia;
@@ -109,6 +112,8 @@ export default class UsuarioConsultaDto {
       NomeSetorEstoque: object.NomeSetorEstoque || object.nomeSetorEstoque,
       PermiteSepararForaSequencia: object.PermiteSepararForaSequencia || object.permiteSepararForaSequencia || '',
       VisualizaTodasSeparacoes: object.VisualizaTodasSeparacoes || object.visualizaTodasSeparacoes || '',
+      ExpedicaoObrigaEscanearPrateleira:
+        object.ExpedicaoObrigaEscanearPrateleira || object.expedicaoObrigaEscanearPrateleira || 'N',
       CodSetorConferencia: object.CodSetorConferencia || object.codSetorConferencia,
       NomeSetorConferencia: object.NomeSetorConferencia || object.nomeSetorConferencia,
       PermiteConferirForaSequencia: object.PermiteConferirForaSequencia || object.permiteConferirForaSequencia || '',
@@ -144,6 +149,7 @@ export default class UsuarioConsultaDto {
       NomeSetorEstoque: this.NomeSetorEstoque ?? null,
       PermiteSepararForaSequencia: this.PermiteSepararForaSequencia,
       VisualizaTodasSeparacoes: this.VisualizaTodasSeparacoes,
+      ExpedicaoObrigaEscanearPrateleira: this.ExpedicaoObrigaEscanearPrateleira,
       CodSetorConferencia: this.CodSetorConferencia ?? null,
       NomeSetorConferencia: this.NomeSetorConferencia ?? null,
       PermiteConferirForaSequencia: this.PermiteConferirForaSequencia,

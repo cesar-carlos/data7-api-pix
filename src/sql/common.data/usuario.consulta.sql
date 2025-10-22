@@ -17,6 +17,7 @@ FROM (
       ese.Descricao NomeSetorEstoque,
 	  COALESCE(co.PermiteSepararForaSequencia, 'N') PermiteSepararForaSequencia,
 	  COALESCE(co.VisualizaTodasSeparacoes, 'N') VisualizaTodasSeparacoes,
+	  COALESCE(co.ExpedicaoObrigaEscanearPrateleira, 'N') ExpedicaoObrigaEscanearPrateleira,
       co.CodSetorConferencia,
       esc.Descricao NomeSetorConferencia,
       COALESCE(co.PermiteConferirForaSequencia, 'N') PermiteConferirForaSequencia,

@@ -2,8 +2,7 @@ INSERT INTO Expedicao.SetorEstoque(
     CodSetorEstoque,
     Descricao,
     Ativo
-  )
-VALUES (
+  )VALUES (
     @CodSetorEstoque,
     @Descricao,
     @Ativo

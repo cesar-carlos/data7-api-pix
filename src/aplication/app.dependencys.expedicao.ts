@@ -41,6 +41,7 @@ import SqlServerExpedicaoLoginAppConsultaRepository from '../repository/expedica
 import SqlServerExpedicaoProgressoSeparacaoConsultaRepository from '../repository/expedicao/sql.server.expedicao.progresso.separacao.consulta.repository';
 import SqlServerExpedicaoSeparacaoUsuarioSetorRepository from '../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.repository';
 import SqlServerExpedicaoSeparacaoUsuarioSetorConsultaRepository from '../repository/expedicao/sql.server.expedicao.separacao.usuario.setor.consulta.repository';
+import LocalSqlServerExpedicaoVersaoAppConsultaRepository from '../repository/expedicao/sql.server.expedicao.versaoapp.consulta.repository';
 
 export default class AppDependencysExpedicao {
   public static load() {
@@ -282,6 +283,12 @@ export default class AppDependencysExpedicao {
       context: eContext.sql_server,
       bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoLoginAppConsultaDto>',
       instance: new SqlServerExpedicaoLoginAppConsultaRepository(),
+    });
+
+    ContainerDependency.instance.register({
+      context: eContext.sql_server,
+      bind: 'LocalBaseConsultaRepositoryContract<ExpedicaoVersaoAppConsultaDto>',
+      instance: new LocalSqlServerExpedicaoVersaoAppConsultaRepository(),
     });
   }
 }

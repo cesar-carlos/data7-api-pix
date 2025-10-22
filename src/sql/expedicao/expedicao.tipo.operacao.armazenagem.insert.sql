@@ -11,8 +11,7 @@ INSERT INTO Expedicao.TipoOperacaoArmazenagem(
 	CodTipoMovimentoEstoque,
 	ControlaLote,
 	ControlaSerie
-  )
-VALUES (
+  ) VALUES (
 	@CodEmpresa,
 	@CodTipoOperacaoArmazenagem,
 	@Descricao,

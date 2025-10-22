@@ -1,5 +1,4 @@
-UPDATE Expedicao.SepararEstoque
-SET
+UPDATE Expedicao.SepararEstoque SET
   Origem = @Origem,
   CodOrigem = @CodOrigem,
   CodTipoOperacaoExpedicao = @CodTipoOperacaoExpedicao,

@@ -1,4 +1,5 @@
-SELECT CodEmpresa,
+SELECT
+  CodEmpresa,
   CodSepararEstoque,
   Origem,
   CodOrigem,

@@ -1,5 +1,5 @@
-UPDATE Expedicao.TipoOperacaoArmazenagem
-SET Descricao = @Descricao,
+UPDATE Expedicao.TipoOperacaoArmazenagem SET
+  Descricao = @Descricao,
   Ativo = @Ativo,
   CodPrioridade = @CodPrioridade,
   CodRelatorio = @CodRelatorio,

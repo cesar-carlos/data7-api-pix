@@ -6,6 +6,7 @@ import SeparacaoNotifyExpedicaoController from './separacao.notify.expedicao.con
 import expedicaoCreateLoginAppRoute from '../../route/expedicao.create.login.app.route';
 import SeparacaoExpedicaoController from './separacao.expedicao.controller';
 import loginAppRoute from '../../route/login.app.route';
+import versaoAppRoute from '../../route/versaoapp.route';
 
 export default class RouterExpedicao {
   static router = new RouterExpedicao().getRouter();
@@ -19,6 +20,7 @@ export default class RouterExpedicao {
     this.sepacaoNotifyExpedicaoController();
     this.createLoginAppRouteWithValidation();
     this.loginAppRoute();
+    this.versaoAppRoute();
   }
 
   private getRouter() {
@@ -65,5 +67,9 @@ export default class RouterExpedicao {
 
   private loginAppRoute() {
     this._router.use('/', loginAppRoute);
+  }
+
+  private versaoAppRoute() {
+    this._router.use('/', versaoAppRoute);
   }
 }

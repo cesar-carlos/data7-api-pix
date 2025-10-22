@@ -1,5 +1,5 @@
-UPDATE Expedicao.TipoOperacaoExpedicao
-SET Descricao = @Descricao,
+UPDATE Expedicao.TipoOperacaoExpedicao SET
+  Descricao = @Descricao,
   Ativo = @Ativo,
   Tipo = @Tipo,
   CodSetorConferencia = @CodSetorConferencia,

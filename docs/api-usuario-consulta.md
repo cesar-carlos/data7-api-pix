@@ -79,11 +79,12 @@ curl -X GET "http://localhost:3000/usuarios?codEmpresa=1&ativo=S&page=2&limit=25
     "CodVendedor": 5,
     "NomeVendedor": "Vendedor João",
     "CodSetorEstoque": 2,
-    "DescricaoSetorEstoque": "Setor A",
+    "NomeSetorEstoque": "Setor A",
     "PermiteSepararForaSequencia": "S",
     "VisualizaTodasSeparacoes": "N",
+    "ExpedicaoObrigaEscanearPrateleira": "N",
     "CodSetorConferencia": 3,
-    "DescricaoSetorConferencia": "Conferência B",
+    "NomeSetorConferencia": "Conferência B",
     "PermiteConferirForaSequencia": "S",
     "VisualizaTodasConferencias": "N",
     "SalvaCarrinhoOutroUsuario": "N",
@@ -226,16 +227,23 @@ curl -X GET "http://localhost:3000/usuarios?codEmpresa=1&ativo=S&page=2&limit=25
   CodVendedor?: number;            // Código do vendedor
   NomeVendedor?: string;           // Nome do vendedor
   CodSetorEstoque?: number;        // Código do setor de estoque
-  DescricaoSetorEstoque?: string;  // Descrição do setor de estoque
-  PermiteSepararForaSequencia: string;     // Permissão S/N
-  VisualizaTodasSeparacoes: string;        // Permissão S/N
-  CodSetorConferencia?: number;            // Código setor conferência
-  DescricaoSetorConferencia?: string;      // Descrição setor conferência
-  PermiteConferirForaSequencia: string;    // Permissão S/N
-  VisualizaTodasConferencias: string;      // Permissão S/N
-  SalvaCarrinhoOutroUsuario: string;       // Permissão S/N
-  EditaCarrinhoOutroUsuario: string;       // Permissão S/N
-  ExcluiCarrinhoOutroUsuario: string;      // Permissão S/N
+  NomeSetorEstoque?: string;       // Nome do setor de estoque
+  PermiteSepararForaSequencia: string;           // Permissão S/N
+  VisualizaTodasSeparacoes: string;              // Permissão S/N
+  ExpedicaoObrigaEscanearPrateleira: string;     // Obriga escanear prateleira S/N
+  CodSetorConferencia?: number;                  // Código setor conferência
+  NomeSetorConferencia?: string;                 // Nome do setor conferência
+  PermiteConferirForaSequencia: string;          // Permissão S/N
+  VisualizaTodasConferencias: string;            // Permissão S/N
+  CodSetorArmazenagem?: number;                  // Código setor armazenagem
+  NomeSetorArmazenagem?: string;                 // Nome do setor armazenagem
+  PermiteArmazenarForaSequencia: string;         // Permissão S/N
+  VisualizaTodasArmazenagem: string;             // Permissão S/N
+  EditaCarrinhoOutroUsuario: string;             // Permissão S/N
+  SalvaCarrinhoOutroUsuario: string;             // Permissão S/N
+  ExcluiCarrinhoOutroUsuario: string;            // Permissão S/N
+  ExpedicaoEntregaBalcaoPreVenda: string;        // Permissão S/N
+  CodLoginApp?: number;                          // Código do login app
 }
 ```
 
