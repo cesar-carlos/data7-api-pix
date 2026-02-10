@@ -6,6 +6,7 @@ import ExpedicaoMutationBasicEvent from '../../model/expedicao.basic.mutation.ev
 import ExpedicaoMutationListenEvent from '../../model/expedicao.mutation.listen.event';
 import ExpedicaoSepararConsultaDto from '../../dto/expedicao/expedicao.separar.consulta.dto';
 import ExpedicaoProgressoSeparacaoConsultaDto from '../../dto/expedicao/expedicao.progresso.separacao.consulta.dto';
+import ExpedicaoItemImpressoConsultaDto from '../../dto/expedicao/expedicao.item.impresso.consulta.dto';
 import ExpedicaoBasicSelectEvent from '../../model/expedicao.basic.query.event';
 import ExpedicaoBasicErrorEvent from '../../model/expedicao.basic.error.event';
 import SepararRepository from './separar.repository';
@@ -79,6 +80,37 @@ export default class SepararEvent {
           Error: error.message,
         });
 
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
+      }
+    });
+
+    socket.on(`${client} separar.estoque.item.impresso.consulta`, async (data) => {
+      const json = JSON.parse(data);
+      const session = json['Session'] ?? '';
+      const responseIn = json['ResponseIn'] ?? `${client} separar.estoque.item.impresso.consulta`;
+      const params = json['Where'] ?? [];
+      const pagination = Pagination.fromQueryString(json['Pagination']);
+      const orderBy = OrderBy.fromQueryString(json['OrderBy']);
+
+      try {
+        const result: ExpedicaoItemImpressoConsultaDto[] = await this.repository.consultaSepararEstoqueItemImpresso(
+          params,
+          pagination,
+          orderBy,
+        );
+        const jsonData = result.map((item) => item.toJson());
+        const event = new ExpedicaoBasicSelectEvent({
+          Session: session,
+          ResponseIn: responseIn,
+          Data: jsonData,
+        });
+        socket.emit(responseIn, JSON.stringify(event.toJson()));
+      } catch (error: any) {
+        const event = new ExpedicaoBasicErrorEvent({
+          Session: session,
+          ResponseIn: responseIn,
+          Error: error.message,
+        });
         socket.emit(responseIn, JSON.stringify(event.toJson()));
       }
     });
