@@ -7,6 +7,7 @@ SELECT
 	eise.Origem,
 	eise.CodOrigem,
 	eise.ItemOrigem,
+	ob.CodProdutoVendido,
 	ese.Data DataSepararEstoque,
 	ese.Hora HoraSepararEstoque,
 	ese.Situacao,

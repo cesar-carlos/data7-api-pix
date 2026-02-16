@@ -5,6 +5,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
   Origem: string | null;
   CodOrigem: number | null;
   ItemOrigem: string | null;
+  CodProdutoVendido: number | null;
   DataSepararEstoque: Date;
   HoraSepararEstoque: string;
   Situacao: string;
@@ -58,6 +59,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
     Origem: string | null;
     CodOrigem: number | null;
     ItemOrigem: string | null;
+    CodProdutoVendido: number | null;
     DataSepararEstoque: Date;
     HoraSepararEstoque: string;
     Situacao: string;
@@ -110,6 +112,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
     this.Origem = params.Origem;
     this.CodOrigem = params.CodOrigem;
     this.ItemOrigem = params.ItemOrigem;
+    this.CodProdutoVendido = params.CodProdutoVendido;
     this.DataSepararEstoque = params.DataSepararEstoque;
     this.HoraSepararEstoque = params.HoraSepararEstoque;
     this.Situacao = params.Situacao;
@@ -164,6 +167,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
     Origem?: string | null;
     CodOrigem?: number | null;
     ItemOrigem?: string | null;
+    CodProdutoVendido?: number | null;
     DataSepararEstoque?: Date;
     HoraSepararEstoque?: string;
     Situacao?: string;
@@ -217,6 +221,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
       Origem: params.Origem ?? this.Origem,
       CodOrigem: params.CodOrigem ?? this.CodOrigem,
       ItemOrigem: params.ItemOrigem ?? this.ItemOrigem,
+      CodProdutoVendido: params.CodProdutoVendido ?? this.CodProdutoVendido,
       DataSepararEstoque: params.DataSepararEstoque ?? this.DataSepararEstoque,
       HoraSepararEstoque: params.HoraSepararEstoque ?? this.HoraSepararEstoque,
       Situacao: params.Situacao ?? this.Situacao,
@@ -273,6 +278,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
       Origem: object.Origem ?? null,
       CodOrigem: object.CodOrigem ?? null,
       ItemOrigem: object.ItemOrigem ?? null,
+      CodProdutoVendido: object.CodProdutoVendido ?? null,
       DataSepararEstoque: object.DataSepararEstoque,
       HoraSepararEstoque: object.HoraSepararEstoque,
       Situacao: object.Situacao,
@@ -329,6 +335,7 @@ export default class ExpedicaoItemImpressoConsultaDto {
       Origem: this.Origem,
       CodOrigem: this.CodOrigem,
       ItemOrigem: this.ItemOrigem,
+      CodProdutoVendido: this.CodProdutoVendido,
       DataSepararEstoque: this.DataSepararEstoque,
       HoraSepararEstoque: this.HoraSepararEstoque,
       Situacao: this.Situacao,
