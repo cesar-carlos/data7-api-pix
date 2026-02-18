@@ -30,12 +30,38 @@ export class OrderBy {
     return this.orderDirection;
   }
 
+  // 🔥 AGORA SUPORTA MÚLTIPLOS CAMPOS CORRETAMENTE
   getFullOrderBy(): string {
     if (!this.orderBy) return '';
-    return `${this.orderBy} ${this.orderDirection}`;
+
+    const fields = this.orderBy
+      .split(',')
+      .map((f) => f.trim())
+      .filter(Boolean);
+    const directions = this.orderDirection
+      .split(',')
+      .map((d) => d.trim().toUpperCase())
+      .filter(Boolean);
+
+    if (fields.length === 0) return '';
+
+    const parts = fields.map((field, index) => {
+      const dir = directions[index] || 'ASC';
+      return `${field} ${dir}`;
+    });
+
+    return parts.join(', ');
   }
 
   isValid(): boolean {
-    return this.orderBy !== '' && ['ASC', 'DESC'].includes(this.orderDirection.toUpperCase());
+    if (!this.orderBy) return false;
+
+    const fields = this.orderBy.split(',').filter(Boolean);
+    const directions = this.orderDirection.split(',').filter(Boolean);
+
+    if (fields.length === 0) return false;
+    if (fields.length !== directions.length) return false;
+
+    return directions.every((d) => ['ASC', 'DESC'].includes(d.toUpperCase()));
   }
 }

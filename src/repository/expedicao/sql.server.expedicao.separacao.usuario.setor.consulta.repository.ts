@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs, { cpSync } from 'fs';
 import path from 'path';
 
 import { ConnectionPool } from 'mssql';
@@ -47,8 +47,10 @@ export default class SqlServerExpedicaoSeparacaoUsuarioSetorConsultaRepository
       const select = fs.readFileSync(patchSQL).toString();
 
       const _params = ParamsCommonRepository.build(params);
+
       const paramOrderBy =
         orderBy && orderBy.isValid() ? `ORDER BY ${orderBy.getFullOrderBy()}` : 'ORDER BY (SELECT NULL)';
+
       const sql = _params ? `${select} WHERE ${_params}` : select;
       const sqlWithPagination = `${sql} ${paramOrderBy} OFFSET ${pagination?.offset} ROWS FETCH NEXT ${pagination?.limit} ROWS ONLY`;
       const sqlWithoutPagination = `${sql} ${paramOrderBy}`;

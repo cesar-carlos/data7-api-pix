@@ -3,17 +3,9 @@ import { Params } from '../../contracts/local.base.params';
 
 export default class ParamsCommonRepository {
   static build(params: Params[] | string[] | string[][]) {
-    if (typeof params === 'string') {
-      return params;
-    }
-
-    if (!Array.isArray(params)) {
-      return '';
-    }
-
-    if (params.length === 0) {
-      return '';
-    }
+    if (typeof params === 'string') return params;
+    if (!Array.isArray(params)) return '';
+    if (params.length === 0) return '';
 
     if (Array.isArray(params[0])) {
       try {
